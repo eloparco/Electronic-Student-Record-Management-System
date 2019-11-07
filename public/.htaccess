@@ -1,2 +1,4 @@
-Options -Indexes
-AllowOverride All
+<ifModule mod_rewrite.c>
+    RewriteEngine On
+    DirectoryIndex index.php
+</IfModule>
