@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href=images/icons/favicon.ico">
+    <link rel="icon" href="images/icons/favicon.ico">
     <title>Sign In</title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"><!-- Bootstrap core CSS -->
     <link href="css/signin.css" rel="stylesheet">
