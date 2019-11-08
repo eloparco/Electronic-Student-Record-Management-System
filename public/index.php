@@ -4,11 +4,10 @@
 
 <head>
   <?php include("includes/head.php"); ?>
-
+  <link href="css/main.css" rel="stylesheet">
 </head>
 
 <body>
-
   <?php include("includes/header.php"); ?>
 
   <main role="main" class="container">
@@ -17,14 +16,6 @@
   </main>
 
   <?php include("includes/footer.php"); ?>
-
-
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script>
-    window.jQuery || document.write('<script src="vendor/jquery/jquery-slim.min.js"><\/script>')
-  </script>
-  <script src="vendor/bootstrap/js/popper.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
