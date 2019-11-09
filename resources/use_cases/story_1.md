@@ -23,6 +23,6 @@
 4. System show child's marks
 
 **Extensions**:
-1a. parent enters wrong credentials and authentication fails  
-2a. parent has no child associated  
-3a. parent select filter to show marks for a certain class/time period
+1a. parent enters wrong credentials and authentication fails: the user case terminates in failure 
+2a. parent select the wrong child: the user case terminates in failure
+4a. parent select filter to show marks for a certain class/time period
