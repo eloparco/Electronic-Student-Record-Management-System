@@ -24,6 +24,6 @@ The user case terminates with success
 
 **Extensions**:
 1a. Administrative officer enters wrong credentials and authentication fails: the user case terminates in failure
-3a. Administrative officer selects another option: the user case is not finished
+3a. Administrative officer selects another option: the user case is not finished 
 4a. There are not any parents who want access to the system: the user case terminates in failure
 
