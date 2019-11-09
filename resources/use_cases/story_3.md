@@ -28,3 +28,4 @@ The user case terminates with success
 3a. Administrative officer selects another option: the user case is not finished 
 4a. There are not any parents who want access to the system: the user case terminates in failure
 
+ 
