@@ -31,7 +31,7 @@
     <!-- Subject selection -->
     <!-- Just a placeholder -->
     <div class="form-group-class">
-      <label for="subjectSelection">Select a class</label>
+      <label for="subjectSelection">Select a subject</label>
       <select class="form-control" id="subjectSelection">
         <option>Science</option>
         <option>Algebra</option>>
