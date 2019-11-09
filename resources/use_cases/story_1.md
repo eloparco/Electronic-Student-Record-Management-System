@@ -1,10 +1,10 @@
 # Story 1
 **As a** parent  
-**I want** to know the marks of my child  
+**I want** to know the marks of my child    
 **So that** I can monitor his/her performance  
 
 # Use case for Story 1
-**Use Case**: show marks of parent's child  
+**Use case**: show marks of child  
 **Scope**: student record management  
 **Level**: user-goal  
 **Intention in context**: the parent wants to know the marks of his child  
@@ -16,13 +16,18 @@
 
 **Precondition**: child and parent are registered in the system and associated to each other
 
+**Success Guarantees**: parent can see the marks of the child
+
 **Main success scenario**:
-1. Parent provide authentication information
+1. Parent provides authentication information
 2. System verifies the credentials and shows associated childs
 3. Parent select child
-4. System show child's marks
+4. System show child's marks  
 
-**Extensions**:
-1a. parent enters wrong credentials and authentication fails  
-2a. parent has no child associated  
-3a. parent select filter to show marks for a certain class/time period
+The use case terminates with success
+
+**Extensions**:  
+1a. parent enters wrong credentials and authentication fails: the use case terminates with a failure  
+2a. parent has no child associated: the system shows a warning message  
+3a. parent selects filter to show marks for a certain class/time period
+  
