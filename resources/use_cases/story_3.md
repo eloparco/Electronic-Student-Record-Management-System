@@ -1,5 +1,5 @@
 # Story 3
-**As an** administrative officer
+**As an** administrative officer  
 **I want** to enable access to parents
 
 # Use case for Story 3
