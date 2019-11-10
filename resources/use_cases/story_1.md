@@ -4,7 +4,7 @@
 **So that** I can monitor his/her performance  
 
 # Use case for Story 1
-**Use case**: show marks of parent's child  
+**Use case**: show marks of child  
 **Scope**: student record management  
 **Level**: user-goal  
 **Intention in context**: the parent wants to know the marks of his child  
