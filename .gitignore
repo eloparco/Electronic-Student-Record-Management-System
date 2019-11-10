@@ -1,3 +1,4 @@
+### VIsual Studio Code ###
 .vscode/
 Backups/
 Cache/
@@ -8,3 +9,6 @@ machineid
 rapid_render.json
 storage.json
 
+### Composer ###
+composer.phar
+/vendor/
