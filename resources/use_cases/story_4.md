@@ -15,7 +15,7 @@ I want to enroll the students
 **Precondition**: the student must not exist previously in the system
 
 **Main success scenario**: 
-1. Administrative officer provide authentication information
+1. Administrative officer provides authentication information
 2. System verifies the credentials and shows possible options
 3. Administrative officer selects "enroll student"
 4. System shows a form which has to be fill by the administrative officer with the student's data
