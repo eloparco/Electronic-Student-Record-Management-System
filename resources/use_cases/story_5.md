@@ -19,7 +19,8 @@ I want to enter class composition
 2. System verifies the credentials and shows possible options  
 3. Administrative officer selects "enter class composition"  
 4. Administrative officer selects available students  
-5. Administrative officer selects a class  
+5. Administrative officer selects a class 
+
 The use case terminates with success
 
 **Extensions**:  
