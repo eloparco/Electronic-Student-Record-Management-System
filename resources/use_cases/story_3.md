@@ -15,6 +15,8 @@
 
 **Precondition**: parents must have a child register in the system
 
+**Success Guarantees**: parent has access to the system
+
 **Main success scenario**: 
 1. Administrative officer provides authentication information
 2. System verifies the credentials and shows possible options
