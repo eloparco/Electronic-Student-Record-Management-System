@@ -27,9 +27,9 @@ session_start();
       <h1 class="h3 mb-3 font-weight-normal">Update password</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" id="inputEmail" name="username" class="form-control" placeholder="Email address" required autofocus>
-      <!--<label for="inputOldPassword" class="sr-only">Old password</label>-->
+      <label for="inputOldPassword" class="sr-only">Old password</label>
       <input type="password" name="oldPassword" class="form-control" placeholder="Old password" pattern="(?=.*[a-z])(?=.*[A-Z\d]).+" title="Password must contain at least one lowercase alphabetic character, and at least another uppercase alphabetic character or numeric character." required>
-      <!--<label for="inputNewPassword" class="sr-only">New Password</label>-->
+      <label for="inputNewPassword" class="sr-only">New Password</label>
       <input type="password" name="newPassword" class="form-control" placeholder="New password" pattern="(?=.*[a-z])(?=.*[A-Z\d]).+" title="Password must contain at least one lowercase alphabetic character, and at least another uppercase alphabetic character or numeric character." required>
       <?php 
         if(isset($_SESSION['msg_result'])) {

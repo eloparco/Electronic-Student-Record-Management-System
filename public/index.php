@@ -34,7 +34,16 @@
 
 <body>
   <?php include("includes/header.php"); ?>
-
+  <script>
+    var homeElement = document.getElementById("homeNav");
+    var loginElement = document.getElementById("loginNav");
+    if (homeElement.classList) {
+      homeElement.classList.add("active");
+    }   
+    if (loginElement.classList) {
+      loginElement.classList.remove("active");
+    } 
+  </script>
   <main role="main" class="container">
     <h1 class="mt-5">Electronic Student Record Management System</h1>
     <p class="lead">System to support electronic student records for High Schools.</p>

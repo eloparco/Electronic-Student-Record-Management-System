@@ -21,7 +21,16 @@ session_start();
 
 <body class="text-center">
   <?php include("includes/header.php"); ?>
-
+  <script>
+    var homeElement = document.getElementById("homeNav");
+    var loginElement = document.getElementById("loginNav");
+    if (homeElement.classList) {
+      homeElement.classList.remove("active");
+    }   
+    if (loginElement.classList) {
+      loginElement.classList.add("active");
+    } 
+  </script>
     <form class="form-signin" action="validation.php" method="post">
       <img class="mb-4" src="images/login.svg" alt="" width="102" height="102">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>

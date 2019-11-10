@@ -11,7 +11,7 @@
             </li>
             <li class="nav-item">
             <a class="nav-link" href="../logout.php">
-                <span data-feather="file"></span>
+                <span data-feather="log-out"></span>
                 Logout
             </a>
             </li>
