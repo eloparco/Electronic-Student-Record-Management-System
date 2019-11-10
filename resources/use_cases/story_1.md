@@ -4,7 +4,7 @@
 **So that** I can monitor his/her performance  
 
 # Use case for Story 1
-**Use Case**: show marks of parent's child  
+**Use case**: show marks of parent's child  
 **Scope**: student record management  
 **Level**: user-goal  
 **Intention in context**: the parent wants to know the marks of his child  
@@ -22,8 +22,7 @@
 3. Parent select child
 4. System show child's marks
 
-**Extensions**:
-1a. parent enters wrong credentials and authentication fails: the user case terminates in failure 
-2a. parent select the wrong child: the user case terminates in failure
-4a. parent select filter to show marks for a certain class/time period
- 
+**Extensions**:  
+1a. parent enters wrong credentials and authentication fails: the use case terminates with a failure  
+2a. parent has no child associated: the system shows a warning message  
+3a. parent select filter to show marks for a certain class/time period
