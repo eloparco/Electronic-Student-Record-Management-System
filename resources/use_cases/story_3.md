@@ -25,10 +25,8 @@ The use case terminates with success
 
 **Extensions**:
 
-1a. Administrative officer enters wrong credentials and authentication fails: the use case terminates in failure
-
-3a. Administrative officer selects another option: the use case is not finished
-
+1a. Administrative officer enters wrong credentials and authentication fails: the use case terminates in failure  
+3a. Administrative officer selects another option: the use case is not finished  
 4a. There are not any parents who want access to the system: the use case terminates in failure
 
  
