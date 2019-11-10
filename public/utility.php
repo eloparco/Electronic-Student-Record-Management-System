@@ -4,6 +4,7 @@ define("LOGIN_PARENT_OK", "Login Parent success.");
 define("LOGIN_SECRETARY_OK", "Login Secretary Officer success.");
 define("LOGIN_USER_NOT_DEFINED", "User not defined.");
 define("LOGIN_FAILED", "Login failed.");
+define("CHANGE_PASSWORD", "Password entered needs to be changed");
 define("DB_ERROR", "Error on db connection.");
 define("DB_QUERY_ERROR", "Error on query db.");
 define("PASSWORD_INCORRECT", "Password entered is incorrect.");
@@ -44,6 +45,15 @@ function myRedirectTo($toRedirect, $msg="") {
     exit;
 }
 
+function redirect($msg='', $new_location){
+    if(!empty($msg)){
+        $_SESSION['msg_result'] = $msg;
+    }    
+    header("HTTP/1.1 303 See Other");
+    header('Location: '.$new_location);
+    exit;
+}
+
 function myRedirectToHTTPS($toRedirect) {
     header('HTTP/1.1 301 Moved Permanently');
     header('Location: '.$toRedirect);
@@ -69,13 +79,13 @@ function tryLogin($username, $password) {
     $con = connect_to_db();
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "SELECT password, UserType FROM `user` WHERE email = ?")) 
+            if(!$prep = mysqli_prepare($con, "SELECT password, UserType, AccountActivated FROM `user` WHERE email = ?")) 
                 throw new Exception();
             if(!mysqli_stmt_bind_param($prep, "s", $username)) 
                 throw new Exception();
             if(!mysqli_stmt_execute($prep)) 
                 throw new Exception();
-            if(!mysqli_stmt_bind_result($prep, $dbPass, $dbUserType))
+            if(!mysqli_stmt_bind_result($prep, $dbPass, $dbUserType, $isActive))
                 throw new Exception();  
             if(!mysqli_stmt_store_result($prep))
                 throw new Exception();
@@ -88,7 +98,7 @@ function tryLogin($username, $password) {
             } else {
                 if(!mysqli_stmt_fetch($prep))
                     throw new Exception(); 
-                if($password == $dbPass) { 
+                if($password == $dbPass && $isActive == 1) { 
                     mysqli_stmt_close($prep);
                     mysqli_close($con);
                     if($dbUserType == 'TEACHER')
@@ -99,6 +109,10 @@ function tryLogin($username, $password) {
                         return LOGIN_SECRETARY_OK;
                     else 
                         return LOGIN_USER_NOT_DEFINED;
+                } else if($password == $dbPass && $isActive == 0) {//password needs to be changed
+                    mysqli_stmt_close($prep);
+                    mysqli_close($con);
+                    return CHANGE_PASSWORD;
                 } else { //password not correct 
                     mysqli_stmt_close($prep);
                     mysqli_close($con);

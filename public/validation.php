@@ -32,6 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['time'] = time(); 
                 $_SESSION['mySession'] = $username;
                 header('Location: user_secretary.php');
+            } if($retVal == CHANGE_PASSWORD) {                
+                header('Location: update_password.php');
             } else 
                 $_SESSION['msg_result'] = $retVal;
         }
