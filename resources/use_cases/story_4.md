@@ -14,6 +14,8 @@ I want to enroll the students
 
 **Precondition**: the student must not exist previously in the system
 
+**Success Guarantees**: new student is enroll in the system
+
 **Main success scenario**: 
 1. Administrative officer provides authentication information
 2. System verifies the credentials and shows possible options
