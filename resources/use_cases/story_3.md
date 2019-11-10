@@ -6,7 +6,7 @@
 **Use Case**: enable access to parents  
 **Scope**: student record management  
 **Level**: user-goal  
-**Intention in context**: administrative officer wants to control the parents who can access the system
+**Intention in context**: administrative officer wants to control the parents who can access the system  
 **Primary actor**: administrative actor  
 
 **Stakeholders' interests**:
