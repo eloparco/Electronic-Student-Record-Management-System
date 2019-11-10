@@ -16,7 +16,7 @@
 **Precondition**: parents must have a child register in the system
 
 **Main success scenario**: 
-1. Administrative officer provide authentication information
+1. Administrative officer provides authentication information
 2. System verifies the credentials and shows possible options
 3. Administrative officer selects "enable access to parents"
 4. System shows all parents how want to have access to the system
