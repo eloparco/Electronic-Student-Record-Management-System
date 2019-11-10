@@ -14,6 +14,8 @@ I want to enter class composition
 
 **Precondition**: students must exist in the system
 
+**Success Guarantees**: class composition is done and has between 15 and 30 students
+
 **Main success scenario**: 
 1. Administrative officer provides authentication information  
 2. System verifies the credentials and shows possible options  
