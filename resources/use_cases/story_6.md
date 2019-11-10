@@ -13,7 +13,9 @@
 **Stakeholders' interests**:
 * the teacher assigns grades to students based on their merits so could keep track on their work
 
-**Precondition**:  Student must be present and cannot repeating a score in the same day.
+**Precondition**:  student must be present and cannot repeating a score in the same day
+
+**Success Guarantees**: a grade is assign to a student
 
 **Main success scenario**: 
 1. Teacher provides authentication information
