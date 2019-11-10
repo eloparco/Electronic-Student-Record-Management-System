@@ -1,6 +1,6 @@
 # Story 5
-As an administrative officer  
-I want to enter class composition   
+**As an** administrative officer  
+**I want** to enter class composition   
 
 # Use case for Story 5
 **Use case**: enter class composition  
