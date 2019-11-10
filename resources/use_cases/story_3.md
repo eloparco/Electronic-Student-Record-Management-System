@@ -21,6 +21,7 @@
 3. Administrative officer selects "enable access to parents"
 4. System shows all parents how want to have access to the system
 5. Administrative officer selects a parent and give access to him
+
 The use case terminates with success
 
 **Extensions**:
