@@ -1,6 +1,6 @@
 # Story 2
 **As a** teacher  
-**I want** to record the daily lecture topics 
+**I want** to record the daily lecture topics   
 **So that** I can inform parents and students and have an official recording for institutional purposes 
 
 # Use case for Story 1
