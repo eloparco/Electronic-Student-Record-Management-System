@@ -20,7 +20,7 @@ I want to enroll the students
 3. Administrative officer selects "enroll student"
 4. System shows a form which has to be fill by the administrative officer with the student's data
 5. Administrative officer fills the form
-6. System validates the form and adds the new student to the system
+6. System validates the form and adds the new student to the system  
 The use case terminates with success
 
 **Extensions**:  
