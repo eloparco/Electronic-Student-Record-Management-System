@@ -1,7 +1,7 @@
 # Story 6
-**As a** teacher
-**I want** assign a grade to a student
-**So that** I can keep track of the evaluation
+**As a** teacher  
+**I want** assign a grade to a student  
+**So that** I can keep track of the evaluation  
 
 # Use case for Story 6
 **Use Case**: assign grade
