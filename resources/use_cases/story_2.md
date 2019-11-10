@@ -4,7 +4,7 @@
 **So that** I can inform parents and students and have an official recording for institutional purposes 
 
 # Use case for Story 1
-**Use case**: show the topics of a lesson, which took place in a specific class  
+**Use case**: record the daily lecture topics 
 **Scope**: student record management  
 **Level**: user-goal  
 **Intention in context**: the teacher wants to inform parents, students and school system about the topics covered in class
