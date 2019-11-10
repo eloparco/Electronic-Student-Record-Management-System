@@ -3,10 +3,10 @@ As an administrative officer
 I want to enroll the students 
 
 # Use case for Story 4
-**Use Case**: enroll student 
+**Use Case**: enroll student  
 **Scope**: student record management  
 **Level**: user-goal  
-**Intention in context**: the administrative officer wants to register new students in the system
+**Intention in context**: the administrative officer wants to register new students in the system  
 **Primary actor**: administrative officer  
 
 **Stakeholders' interests**:
