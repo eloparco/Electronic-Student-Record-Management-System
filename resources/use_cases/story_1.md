@@ -1,6 +1,6 @@
 # Story 1
 **As a** parent  
-**I want** to know the marks of my child  
+**I want** to know the marks of my child    
 **So that** I can monitor his/her performance  
 
 # Use case for Story 1
