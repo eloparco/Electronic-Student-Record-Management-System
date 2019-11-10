@@ -40,16 +40,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if($dbUserType == 'TEACHER'){
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;
+                        $_SESSION['myUserType'] = 'TEACHER';
                         redirect ('', 'user_teacher.php');
                     }
                     else if($dbUserType == 'PARENT'){
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;
+                        $_SESSION['myUserType'] = 'PARENT';                        
                         redirect ('', 'user_parent.php');
                     }
                     else if($dbUserType == 'SECRETARY_OFFICER'){
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;
+                        $_SESSION['myUserType'] = 'SECRETARY_OFFICER';
                         redirect ('', 'user_secretary.php');  
                     }   else 
                     redirect(LOGIN_USER_NOT_DEFINED, 'update_password.php');     
