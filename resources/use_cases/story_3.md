@@ -21,11 +21,11 @@
 3. Administrative officer selects "enable access to parents"
 4. System shows all parents how want to have access to the system
 5. Administrative officer selects a parent and give access to him
-The user case terminates with success
+The use case terminates with success
 
 **Extensions**:
-1a. Administrative officer enters wrong credentials and authentication fails: the user case terminates in failure
-3a. Administrative officer selects another option: the user case is not finished 
-4a. There are not any parents who want access to the system: the user case terminates in failure
+1a. Administrative officer enters wrong credentials and authentication fails: the use case terminates in failure
+3a. Administrative officer selects another option: the use case is not finished 
+4a. There are not any parents who want access to the system: the use case terminates in failure
 
  
