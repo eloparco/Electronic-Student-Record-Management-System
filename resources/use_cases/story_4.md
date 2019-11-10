@@ -1,5 +1,5 @@
 # Story 4
-**As an** administrative officer
+**As an** administrative officer  
 **I want** to enroll the students 
 
 # Use case for Story 4
