@@ -13,7 +13,7 @@
 * the administrative officer wants to give access to parents
 * the parent wants to be enable to use the system
 
-**Precondition**: anything
+**Precondition**: parents must have a child register in the system
 
 **Main success scenario**: 
 1. Administrative officer provide authentication information
