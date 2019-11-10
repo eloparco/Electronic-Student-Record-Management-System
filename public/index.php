@@ -1,5 +1,21 @@
-<?php include("includes/config.php"); ?>
-<!doctype html>
+<?php
+  include("includes/config.php");
+  require_once('utility.php');
+  /* HTTPS CHECK */
+  if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+  } else { 
+    $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    myRedirectToHTTPS($redirectHTTPS);
+    exit;
+  }
+  session_start();
+  /* LOGGED IN CHECK */
+  if(userLoggedIn()) {
+    $_SESSION['msg_result'] = "";
+    header('Location: user_teacher.php'); //TODO: differentiate type of user (that means different page redirect)
+  }
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>

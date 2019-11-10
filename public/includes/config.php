@@ -8,4 +8,20 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $CURRENT_PAGE = "login";
     $PAGE_TITLE = "Login";
     break;
+  case "lecture_recording.php":
+    $CURRENT_PAGE = "lecture_recording";
+    $PAGE_TITLE = "Lecture Recording";
+    break;
+  case "user_parent.php":
+    $CURRENT_PAGE = "user_parent";
+    $PAGE_TITLE = "Parent Page";
+    break;
+  case "user_teacher.php":
+    $CURRENT_PAGE = "user_teacher";
+    $PAGE_TITLE = "Teacher Page";
+    break;
+  case "user_secretary.php":
+    $CURRENT_PAGE = "user_secretary";
+    $PAGE_TITLE = "Secretary Officer Page";
+    break;
 }

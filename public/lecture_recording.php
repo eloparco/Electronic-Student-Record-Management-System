@@ -1,11 +1,29 @@
-<?php include("includes/config.php"); ?>
-<!doctype html>
+<?php
+include("includes/config.php"); 
+require_once('utility.php');
+/* HTTPS CHECK */
+if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+} else {
+  $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+  myRedirectToHTTPS($redirectHTTPS);
+  exit;
+}
+check_inactivity();
+if(!isset($_SESSION)) 
+  session_start();
+ 
+/* LOGGED IN CHECK */
+if(!userLoggedIn()) {   
+  myRedirectTo('login.php', 'SessionTimeOut');
+  exit;
+}
+?>
+<!DOCTYPE html>
 <html lang="en">
 
   <head>
     <?php include("includes/head.php"); ?>
     <link href="css/lecture_rec.css" rel="stylesheet">
-
     <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
     <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
     <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
