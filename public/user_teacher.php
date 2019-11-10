@@ -23,17 +23,16 @@ if(!userLoggedIn()) {
 
 <head>
   <?php include("includes/head.php"); ?>
-  <link href="css/main.css" rel="stylesheet">
+  <link href="../css/dashboard.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-  <?php include("includes/header.php"); ?> <!-- TODO: remove login button in header -->
+  <?php include("includes/user_header.php"); ?> 
+  <?php include("includes/dashboard.php"); ?> 
 
-  <main role="main" class="container">
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <h1 class="mt-5">User Teacher Page - TODO</h1>
   </main>
-
-  <?php include("includes/footer.php"); ?>
 </body>
 
 </html>

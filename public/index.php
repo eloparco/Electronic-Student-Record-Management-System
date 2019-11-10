@@ -10,9 +10,19 @@
   }
   session_start();
   /* LOGGED IN CHECK */
-  if(userLoggedIn()) {
+  if(userLoggedIn()) { //stay in 'user page' until you do logout
     $_SESSION['msg_result'] = "";
-    header('Location: user_teacher.php'); //TODO: differentiate type of user (that means different page redirect)
+    switch($_SESSION['myUserType']) {
+      case 'TEACHER':
+        header('Location: user_teacher.php');
+        break;
+      case 'PARENT':
+        header('Location: user_parent.php');
+        break;
+      case 'SECRETARY_OFFICER':
+        header('Location: user_secretary.php');
+        break;
+    }
   }
 ?>
 <!DOCTYPE html>
@@ -20,7 +30,6 @@
 
 <head>
   <?php include("includes/head.php"); ?>
-  <link href="css/main.css" rel="stylesheet">
 </head>
 
 <body>
