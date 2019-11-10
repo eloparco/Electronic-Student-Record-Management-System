@@ -28,4 +28,4 @@ The use case terminates with success
 1a. parent enters wrong credentials and authentication fails: the use case terminates with a failure  
 2a. parent has no child associated: the system shows a warning message  
 3a. parent selects filter to show marks for a certain class/time period
- 
+  
