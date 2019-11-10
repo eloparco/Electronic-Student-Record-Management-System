@@ -21,6 +21,7 @@
 2. System verifies the credentials and shows associated childs
 3. Parent select child
 4. System show child's marks  
+
 The use case terminates with success
 
 **Extensions**:  
