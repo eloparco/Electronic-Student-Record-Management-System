@@ -20,7 +20,8 @@
 1. Parent provide authentication information
 2. System verifies the credentials and shows associated childs
 3. Parent select child
-4. System show child's marks
+4. System show child's marks  
+The use case terminates with success
 
 **Extensions**:  
 1a. parent enters wrong credentials and authentication fails: the use case terminates with a failure  
