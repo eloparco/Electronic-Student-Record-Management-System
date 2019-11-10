@@ -16,6 +16,8 @@
 
 **Precondition**: child and parent are registered in the system and associated to each other
 
+**Success Guarantees**: parent can see the marks of the child
+
 **Main success scenario**:
 1. Parent provides authentication information
 2. System verifies the credentials and shows associated childs
