@@ -15,7 +15,7 @@
 
 **Precondition**: anything
 
-**Main success scenario**:
+**Main success scenario**: 
 1. Administrative officer provide authentication information
 2. System verifies the credentials and shows possible options
 3. Administrative officer selects "enable access to parents"
