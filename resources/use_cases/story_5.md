@@ -3,7 +3,7 @@ As an administrative officer
 I want to enter class composition   
 
 # Use case for Story 5
-**Use case**: enter class composition 
+**Use case**: enter class composition  
 **Scope**: student record management  
 **Level**: user-goal  
 **Intention in context**: the administrative officer wants to assign students to diffent classes  
