@@ -17,7 +17,6 @@ session_start();
   <?php include("includes/head.php"); ?>
   <link rel="stylesheet" type="text/css" href="css/signin.css">
   <link rel="stylesheet" type="text/css" href="css/w3.css">
-  <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 
 <body class="text-center">
