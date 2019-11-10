@@ -26,5 +26,5 @@ The use case terminates with success
 **Extensions**:  
 1a. Administrative officer enters wrong credentials and authentication fails: the use case terminates in failure  
 3a. Administrative officer selects another option: the use case is not finished   
-5a. System validates the number of students in the class and in case there are more than 30 or less than 15 shows an error and the class is not form: the use case terminates in failure 
+5a. System validates the number of students in the class, and in case there are more than 30 students or less than 15, it shows an error and the class is not form: the use case terminates in failure 
   
