@@ -17,6 +17,8 @@
 
 **Precondition**: teacher and parent are registered in the system and the child is connected to the right class
 
+**Success Guarantees**: daily lecture topics are record so parent could see them and there is an official record of them
+
 **Main success scenario**:
 
 1. Teacher provides credentials for authentication
