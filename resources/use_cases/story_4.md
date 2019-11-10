@@ -23,14 +23,9 @@ I want to enroll the students
 6. System validates the form and adds the new student to the system
 The use case terminates with success
 
-**Extensions**:
-
-1a. Administrative officer enters wrong credentials and authentication fails: the use case terminates in failure
-
-3a. Administrative officer selects another option: the use case is not finished 
-
-6a. Validation fails because there are any blank in the form: administrative officer must fill them
-
-6b. Validation fails because student's fiscal code is already in the system: the use case terminates in failure
-
+**Extensions**:  
+1a. Administrative officer enters wrong credentials and authentication fails: the use case terminates in failure  
+3a. Administrative officer selects another option: the use case is not finished  
+6a. Validation fails because there are any blank in the form: administrative officer must fill them  
+6b. Validation fails because student's fiscal code is already in the system: the use case terminates in failure  
   
