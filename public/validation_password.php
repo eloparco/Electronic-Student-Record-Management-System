@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else{                
                     if(!$result = mysqli_query($con,'UPDATE user SET AccountActivated=1, Password="'.$newPassword.'" WHERE Email="'.$username.'" AND Password="'.$oldPassword.'";'))
                         throw new Exception('update error');
-                        mysqli_close($conn);
+                        mysqli_close($con);
                     if($dbUserType == 'TEACHER'){
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;

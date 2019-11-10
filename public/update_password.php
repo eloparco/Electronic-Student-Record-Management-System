@@ -17,7 +17,6 @@ session_start();
   <?php include("includes/head.php"); ?>
   <link rel="stylesheet" type="text/css" href="css/signin.css">
   <link rel="stylesheet" type="text/css" href="css/w3.css">
-  <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 
 <body class="text-center">
@@ -29,9 +28,9 @@ session_start();
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" id="inputEmail" name="username" class="form-control" placeholder="Email address" required autofocus>
       <!--<label for="inputOldPassword" class="sr-only">Old password</label>-->
-      <input type="password" name="oldPassword" class="form-control" placeholder="Old Password" pattern="(?=.*[a-z])(?=.*[A-Z\d]).+" title="Password must contain at least one lowercase alphabetic character, and at least another uppercase alphabetic character or numeric character." required>
+      <input type="password" name="oldPassword" class="form-control" placeholder="Old password" pattern="(?=.*[a-z])(?=.*[A-Z\d]).+" title="Password must contain at least one lowercase alphabetic character, and at least another uppercase alphabetic character or numeric character." required>
       <!--<label for="inputNewPassword" class="sr-only">New Password</label>-->
-      <input type="password" name="newPassword" class="form-control" placeholder="New Password" pattern="(?=.*[a-z])(?=.*[A-Z\d]).+" title="Password must contain at least one lowercase alphabetic character, and at least another uppercase alphabetic character or numeric character." required>
+      <input type="password" name="newPassword" class="form-control" placeholder="New password" pattern="(?=.*[a-z])(?=.*[A-Z\d]).+" title="Password must contain at least one lowercase alphabetic character, and at least another uppercase alphabetic character or numeric character." required>
       <?php 
         if(isset($_SESSION['msg_result'])) {
           if(!empty($_SESSION['msg_result'])) { ?>
