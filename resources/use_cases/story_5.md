@@ -15,7 +15,7 @@ I want to enter class composition
 **Precondition**: students must exist in the system
 
 **Main success scenario**: 
-1. Administrative officer provide authentication information  
+1. Administrative officer provides authentication information  
 2. System verifies the credentials and shows possible options  
 3. Administrative officer selects "enter class composition"  
 4. Administrative officer selects available students  
