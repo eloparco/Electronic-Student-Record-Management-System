@@ -17,7 +17,7 @@
 **Precondition**: child and parent are registered in the system and associated to each other
 
 **Main success scenario**:
-1. Parent provide authentication information
+1. Parent provides authentication information
 2. System verifies the credentials and shows associated childs
 3. Parent select child
 4. System show child's marks  
@@ -27,5 +27,5 @@ The use case terminates with success
 **Extensions**:  
 1a. parent enters wrong credentials and authentication fails: the use case terminates with a failure  
 2a. parent has no child associated: the system shows a warning message  
-3a. parent select filter to show marks for a certain class/time period
+3a. parent selects filter to show marks for a certain class/time period
  
