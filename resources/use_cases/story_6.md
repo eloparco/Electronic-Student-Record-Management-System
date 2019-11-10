@@ -4,10 +4,10 @@
 **So that** I can keep track of the evaluation  
 
 # Use case for Story 6
-**Use Case**: assign grade
+**Use Case**: assign grade  
 **Scope**: student record management  
 **Level**: user-goal  
-**Intention in context**: teacher wants to give grades to students based on exams, homework...
+**Intention in context**: teacher wants to give grades to students based on exams, homework...  
 **Primary actor**: teacher
 
 **Stakeholders' interests**:
