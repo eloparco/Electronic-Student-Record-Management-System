@@ -4,7 +4,7 @@
 **So that** I can inform parents and students and have an official recording for institutional purposes 
 
 # Use case for Story 1
-**Use case**: show the topics of a lesson, which took place in a specific class
+**Use case**: show the topics of a lesson, which took place in a specific class  
 **Scope**: student record management  
 **Level**: user-goal  
 **Intention in context**: the teacher wants to inform parents, students and school system about the topics covered in class
@@ -26,7 +26,9 @@
 5. Teacher inserts a text
 6. System shows the topics of the day
 
+The use case terminates with success
+
 **Extensions**:  
-1a. teacher enters wrong credentials and authentication fails: the use case terminates with a failure  
-2a. teacher selects a wrong class: the system provides a way to be able to cancel the operation and go back
-3a. text entered by the teacher to describe a topic is too long: the systems shows a warning message
+1a. teacher enters wrong credentials and authentication fails: the use case terminates with a failure   
+2a. teacher selects a wrong class: the system provides a way to be able to cancel the operation and go back  
+3a. text entered by the teacher to describe a topic is too long: the systems shows a warning message  
