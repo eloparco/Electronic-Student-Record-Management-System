@@ -26,3 +26,4 @@
 1a. parent enters wrong credentials and authentication fails: the use case terminates with a failure  
 2a. parent has no child associated: the system shows a warning message  
 3a. parent select filter to show marks for a certain class/time period
+ 
