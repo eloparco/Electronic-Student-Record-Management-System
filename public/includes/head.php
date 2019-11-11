@@ -5,6 +5,8 @@
 <link rel="icon" href="../images/icons/favicon.ico">
 <title><?php print $PAGE_TITLE; ?></title>
 
-<link href="../css/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="../css/sticky-footer-navbar.css" rel="stylesheet">
-<link href="../css/main.css" rel="stylesheet" type="text/css">
+<base href="public" />
+
+<link href="css/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/sticky-footer-navbar.css" rel="stylesheet">
+<link href="css/main.css" rel="stylesheet" type="text/css">
