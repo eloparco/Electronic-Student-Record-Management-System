@@ -20,9 +20,9 @@ function sendMail($email, $password){
 
     $mail->SetFrom('no-reply@studmanagementsystem.org', 'Electronic-Student-Record-Management-System');
     $mail->Subject = 'Here your credentials';
-    $msgBody = '<p> Use these credentials to login first time on the platform:<p>
-                <p> Username:'.$email.'<p> <br> 
-                <p> Password:'.$password.'<p>';
+    $msgBody = '<p> Use these credentials to login, for the first time, on the platform: <p>
+                <p> Username: '.$email.' <p> 
+                <p> Password: '.$password.' <p>';
     $mail->Body = $msgBody;
 
     //INSERT receiver's e-mail
