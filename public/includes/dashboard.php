@@ -30,9 +30,9 @@
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="mark_recording.php">
                 <span data-feather="file-text"></span>
-                Add item
+                Record a student's mark
             </a>
         </li>
         </ul>
