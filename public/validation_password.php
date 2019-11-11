@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = mySanitizeString($username);
             $con = connect_to_db();
             try {  
-                if(!$result = mysqli_query($con, 'SELECT UserType, Password FROM user WHERE Email="'.$username.'";'))
+                if(!$result = mysqli_query($con, 'SELECT UserType, Password FROM USER WHERE Email="'.$username.'";'))
                     throw new Exception('select error');
                 
                 $row = mysqli_fetch_array($result);        
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($dbPassword != $oldPassword || empty($dbPassword)){//Password or email not valid
                     redirect("Invalid Username or Password", 'update_password.php'); 
                 } else{                
-                    if(!$result = mysqli_query($con,'UPDATE user SET AccountActivated=1, Password="'.$newPassword.'" WHERE Email="'.$username.'" AND Password="'.$oldPassword.'";'))
+                    if(!$result = mysqli_query($con,'UPDATE USER SET AccountActivated=1, Password="'.$newPassword.'" WHERE Email="'.$username.'" AND Password="'.$oldPassword.'";'))
                         throw new Exception('update error');
                         mysqli_close($con);
                     if($dbUserType == 'TEACHER'){
