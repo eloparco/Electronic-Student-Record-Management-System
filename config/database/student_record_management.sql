@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `student_record_management`
 --
-CREATE DATABASE IF NOT EXISTS `student_record_management` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `student_record_management` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `student_record_management`;
 
 -- --------------------------------------------------------
@@ -28,15 +28,15 @@ USE `student_record_management`;
 -- Add DROP statements to make changes to table definitions effective
 --
 
-DROP TABLE `CHILD`;
-DROP TABLE `CLASS`;
-DROP TABLE `CLASS_TIMETABLE`;
-DROP TABLE `MARK`;
-DROP TABLE `SUBJECT`;
-DROP TABLE `TEACHER_SUBJECT`;
-DROP TABLE `TOPIC`;
-DROP TABLE `TIMETABLE`;
-DROP TABLE `USER`;
+DROP TABLE IF EXISTS `CHILD`;
+DROP TABLE IF EXISTS `MARK`;
+DROP TABLE IF EXISTS `TOPIC`;
+DROP TABLE IF EXISTS `CLASS_TIMETABLE`;
+DROP TABLE IF EXISTS `TEACHER_SUBJECT`;
+DROP TABLE IF EXISTS `TIMETABLE`;
+DROP TABLE IF EXISTS `SUBJECT`;
+DROP TABLE IF EXISTS `CLASS`;
+DROP TABLE IF EXISTS `USER`;
 
 --
 -- Table structure for table `CHILD`
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
   KEY `SSNParent1` (`SSNParent1`),
   KEY `SSNParent2` (`SSNParent2`),
   KEY `Class` (`Class`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 CREATE TABLE IF NOT EXISTS `CLASS` (
   `Name` varchar(50) NOT NULL,
   PRIMARY KEY (`Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `CLASS_TIMETABLE` (
   PRIMARY KEY (`Class`,`DayOfWeek`,`StartHour`),
   KEY `DayOfWeek` (`DayOfWeek`,`StartHour`),
   KEY `TeacherSSN` (`TeacherSSN`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `MARK` (
   `Score` decimal(5,2) NOT NULL,
   PRIMARY KEY (`StudentSSN`,`SubjectID`,`Date`),
   KEY `SubjectID` (`SubjectID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `SUBJECT` (
   `Name` varchar(50) NOT NULL,
   `HoursPerWeek` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `TEACHER_SUBJECT` (
   `Class` varchar(50) NOT NULL,
   PRIMARY KEY (`TeacherSSN`,`SubjectID`,`Class`),
   KEY `SubjectID` (`SubjectID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `TIMETABLE` (
   `StartHour` int(11) NOT NULL,
   `EndHour` int(11) NOT NULL,
   PRIMARY KEY (`DayOfWeek`,`StartHour`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
   PRIMARY KEY (`Class`,`Date`,`StartHour`),
   KEY `SubjectID` (`SubjectID`),
   KEY `TeacherSSN` (`TeacherSSN`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `USER` (
   `UserType` varchar(50) NOT NULL,
   `AccountActivated` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`SSN`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Constraints for dumped tables

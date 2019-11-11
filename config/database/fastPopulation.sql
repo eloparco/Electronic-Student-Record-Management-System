@@ -1,4 +1,3 @@
-//per caricare users
 insert into user values ('01', 'pino', 'topolino', 'pino@pino.it', 'Pino','PARENT', 0);
 insert into user values ('02', 'giulia', 'casale', 'giulia@giulia.it', 'Giulia','TEACHER', 0);
 insert into user values ('03', 'marco', 'canta', 'marco@marco.it', 'Marco','PARENT', 0);
