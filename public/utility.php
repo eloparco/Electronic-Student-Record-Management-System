@@ -160,7 +160,7 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
         mysqli_autocommit($con, FALSE);
         try {
             /* Check if user already exists */
-            if(!$prep = mysqli_prepare($con, "SELECT * FROM `user` WHERE SSN = ? FOR UPDATE"))
+            if(!$prep = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE"))
                 throw new Exception();
             if(!mysqli_stmt_bind_param($prep, "s", $ssn)) 
                 throw new Exception();
@@ -179,7 +179,7 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
             } 
             else {
                 /* Insert parent data into db */
-                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `user` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?, ?)"))
+                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?, ?)"))
                     throw new Exception();
                 if(!mysqli_stmt_bind_param($prep2, "ssssssi", $ssn, $name, $surname, $username, $password, $usertype, $accountactivated)) 
                     throw new Exception();
@@ -241,5 +241,4 @@ function check_inactivity () {
         $_SESSION['time'] = time(); //Update time
 	}
 }
-
 ?>

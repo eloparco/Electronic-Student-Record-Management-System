@@ -37,29 +37,46 @@ if(!userLoggedIn()) {
   <body>
     <?php include("includes/header.php"); ?>
     
-    <main role="main" class="container-fluid">
+    <script>
+      var user = "<?PHP echo $_SESSION["mySession"]; ?>";
+      $( document ).ready(function() {
+        $.ajax({
+				url: "subject_info.php",
+				data: {
+					"user_mail": user,
+				},
 
+				type: "POST",
+				success: function(data, state) {
+					//var resJSON = $.parseJSON(data);
+          alert(data);
+        },
+				error: function(request, state, error) {
+					alert("State error " + state);
+					alert("Value error " + error);
+				}
+			});
+    });
+    </script>
+
+    <main role="main" class="container-fluid">
     <div class="bootstrap-iso">
       <h1 class="h3 mb-3 font-weight-normal">Lesson recording</h1>
         <form method="post">
+
           <!-- Class selection -->
-          <!-- Just a placeholder -->
           <div class="form-group-class">
               <label for="classSelection">Select a class</label>
               <select class="form-control" id="classSelection">
-                <option>1A</option>
-                <option>2A</option>
-                <option>3B</option>
+                <!-- <option>1A</option> -->
               </select>
             </div>
 
           <!-- Subject selection -->
-          <!-- Just a placeholder -->
           <div class="form-group-class">
             <label for="subjectSelection">Select a subject</label>
             <select class="form-control" id="subjectSelection">
-              <option>Science</option>
-              <option>Algebra</option>>
+              <!-- <option>Science</option> -->
             </select>
           </div>
 
@@ -103,12 +120,19 @@ if(!userLoggedIn()) {
                 <option>6</option>
               </select>
             </div>
+            
+            <!-- Text area for lecture's topic recording -->
+            <div class="form-group-text">
+              <label for="topicTitleTextArea">Insert the lecture title</label>
+              <textarea class="form-control" id="topicTitleTextArea" rows="1"></textarea>
+            </div>
 
             <!-- Text area for lecture's topic recording -->
             <div class="form-group-text">
               <label for="lectureTextArea">Insert the lecture topics</label>
               <textarea class="form-control" id="lectureTextArea" rows="3"></textarea>
             </div>
+
           </form>
           
           <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
