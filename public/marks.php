@@ -1,33 +1,67 @@
 <?php
 include('includes/config.php');
 require_once('utility.php');
-function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
-    $marks_query = "SELECT Name, Date, Score\n" +
-                    "FROM mark m, subject s\n" +
-                    "WHERE m.SubjectID=s.ID AND StudentSSN=? AND Date>=str_to_date('?','%Y-%m-%d') AND Date<=str_to_date('?','%y-%m-%d')\n" +
-                    "ORDER BY Date";
-    $db_con = connect_to_db();
-    if(!$db_con){
-        die('Error in connection to database. [Marks retrieving]\n');
-    }
-    $marks_prep = mysqli_prepare($db_con, $marks_query);
-    if(!$marks_prep){
-        print('Error in preparing query: '.$marks_query);
-        die('Check database error:<br>'.mysqli_error($db_con));
-    }
-    if(!mysqli_stmt_bind_param($marks_prep, "sss", $childSSN, $startDate, $endDate)){
-        die('Error in binding paramters to marks_prep.\n');
-    }
-    if(!mysqli_stmt_execute($marks_prep)){
-        die('Error in executing marks query. Database error:<br>'.mysqli_error($db_con));
-    }
-    $marks_res = mysqli_stmt_get_result($marks_prep);
-    $scores = array();
-    while($row = mysqli_fetch_array($marks_res, MYSQLI_ASSOC)){
-        $fields = array("Subject" => $row['Name'], "Date" => $row['Date'], "Score" => $row['Date']);
-        $scores[] = $fields;
-    }
-    mysqli_stmt_close($marks_prep);
-    return $scores;
+/* HTTPS CHECK */
+if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+} else {
+  $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+  myRedirectToHTTPS($redirectHTTPS);
+  exit;
+}
+check_inactivity();
+if(!isset($_SESSION)) 
+  session_start();
+ 
+/* LOGGED IN CHECK */
+if(!userLoggedIn()) {   
+  myRedirectTo('login.php', 'SessionTimeOut');
+  exit;
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <?php include("includes/head.php"); ?>
+  <link href="css/dashboard.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <?php include("includes/user_header.php"); ?> 
+  <?php include("includes/dashboard_parent.php"); ?> 
+
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <h1 class="mt-5">Marks</h1>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <td>Subject</td>
+            <td>Date</td>
+            <td>Score</td>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+            if(isset($_SESSION['child'])){
+                $scores = get_scores_per_child_and_date($_SESSION['child'], date('Y-m-d', time()-7*24*60*60), date('Y-m-d'));
+                foreach($scores as $score){
+                    echo "<tr>\n";
+                    echo "<td>" . $score['Subject'] . "</td>\n";
+                    echo "<td>" . $score['Date'] . "</td>\n";
+                    echo "<td>" . $score['Score'] . "</td>\n";
+                    echo "</tr>\n";
+                }
+            }
+        ?>
+        </tbody>
+    </table>
+  </main>
+</body>
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
+
+</html>

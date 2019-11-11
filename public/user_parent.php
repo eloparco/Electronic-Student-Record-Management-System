@@ -17,6 +17,10 @@ if(!userLoggedIn()) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
+$children = get_children_of_parent($_SESSION['mySession']);
+if(!empty($children)){
+  $_SESSION['child'] = $children[0]['SSN'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +32,7 @@ if(!userLoggedIn()) {
 
 <body>
   <?php include("includes/user_header.php"); ?> 
-  <?php include("includes/dashboard.php"); ?> 
+  <?php include("includes/dashboard_parent.php"); ?> 
 
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <h1 class="mt-5">User Parent Page - TODO</h1>

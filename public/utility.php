@@ -21,7 +21,11 @@ define("SESSION_EXPIRED", "session-expired");
 define("MAX_INACTIVITY", 120);
 
 function connect_to_db() {
-    return mysqli_connect("localhost", "root", "", "student_record_management"); //returns FALSE on error
+    $conn = mysqli_connect("localhost", "root", "", "student_record_management"); //returns FALSE on error
+    if($conn){
+        $conn->set_charset("utf8");
+    }
+    return $conn;
 }
 
 function myDestroySession() {
@@ -241,4 +245,72 @@ function check_inactivity () {
         $_SESSION['time'] = time(); //Update time
 	}
 }
+
+# get children given the parent
+function get_children_of_parent($parentUsername){
+    $children_query = "SELECT C.SSN, C.Name, C.Surname\n" .
+                      "FROM CHILD C, USER P\n" .
+                      "WHERE (SSNParent1=P.SSN OR SSNParent2=P.SSN) AND P.Email=?";
+    if(!($db_con = connect_to_db())){
+        die('Error in connection to database. [Children query]'."\n");
+    }
+    $children_prep = mysqli_prepare($db_con, $children_query);
+    if(!$children_prep){
+        print('Error in preparing query: '.$children_query);
+        die('Check database error:<br>'.mysqli_error($db_con));
+    }
+    if(!mysqli_stmt_bind_param($children_prep, "s", $parentUsername)){
+        die('Error in binding parameters to children_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($children_prep)){
+        die('Error in executing children query. Database error:<br>'.mysqli_error($db_con));
+    }
+    $children_res = mysqli_stmt_get_result($children_prep);
+    $children_data = array();
+    while($row = mysqli_fetch_array($children_res, MYSQLI_ASSOC)){
+        $fields = array("SSN" => $row['SSN'], "Name" => $row['Name'], "Surname" => $row['Surname']);
+        $children_data[] = $fields;
+    }
+    mysqli_stmt_close($children_prep);
+    return $children_data;
+}
+# end children of a parent
+
+# functions to manage Marks from Parent side
+function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
+    $marks_query = "SELECT Name, Date, Score\n" .
+                    "FROM mark m, subject s\n" .
+                    "WHERE m.SubjectID=s.ID AND StudentSSN=? AND Date>=str_to_date(?,'%Y-%m-%d') AND Date<=str_to_date(?,'%y-%m-%d')\n" .
+                    "ORDER BY Date";
+    $db_con = connect_to_db();
+    if(!$db_con){
+        die('Error in connection to database. [Marks retrieving]'."\n");
+    }
+    $marks_prep = mysqli_prepare($db_con, $marks_query);
+    if(!$marks_prep){
+        print('Error in preparing query: '.$marks_query);
+        die('Check database error:<br>'.mysqli_error($db_con));
+    }
+    if(!mysqli_stmt_bind_param($marks_prep, "sss", $childSSN, $startDate, $endDate)){
+        die('Error in binding paramters to marks_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($marks_prep)){
+        die('Error in executing marks query. Database error:<br>'.mysqli_error($db_con));
+    }
+    $marks_res = mysqli_stmt_get_result($marks_prep);
+    $scores = array();
+    while($row = mysqli_fetch_array($marks_res, MYSQLI_ASSOC)){
+        $fields = array("Subject" => $row['Name'], "Date" => $row['Date'], "Score" => $row['Date']);
+        $scores[] = $fields;
+    }
+    mysqli_stmt_close($marks_prep);
+    return $scores;
+}
+
+function get_score_visualization($decimalScore){
+    # TODO: conversion from decimal to human-known score
+}
+
+# end Marks Parent
+
 ?>
