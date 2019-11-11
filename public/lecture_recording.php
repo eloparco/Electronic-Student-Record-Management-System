@@ -64,31 +64,32 @@ if(!userLoggedIn()) {
           </div>
 
           <!-- Date picker -->
-          <div class="form-group-class" data-provide="datepicker">
-            <label for="datadainserire" class="col-form-label">Select a date</label>
-            <input type="text" class="form-control" id="date">
-              <div class="input-group-append">
-                 <span class="input-group-text" id="basic-addon2"><span class="fa fa-calendar"></span></span>
-              </div>
+          <div class="form-group-class">
+            <label for="dataSelection" class="col-form-label">Select a date</label>
+            <input type="text" class="form-control" id="dataSelection">
           </div>
 
+          <!-- Setup datepicler -->
           <script>
-            var data=new Date();
-            var currDay=data.getDay();
+            var minDate=new Date();
+            var minDay=minDate.getDay();
 
-            currDay = currDay -1;
+            minDate.setDate( minDate.getDate() - (minDay - 1) );
 
-            //alert("Debug" + currDay.toString());
+            var maxDate=new Date();
 
-            $('#date').datepicker({
-                format: 'mm/dd/yyyy',
-                startDate: -currDay,
-                endDate: "+7d",
+            maxDate.setDate( maxDate.getDate() + (5 - minDay) );
+
+            $('#dataSelection').datepicker({
+                format: 'dd/mm/yyyy',
+                startDate: minDate,
+                endDate: maxDate,
                 todayBtn: true,
-                daysOfWeekDisabled: "5,6",
+                daysOfWeekDisabled: "0,6",
                 autoclose: true
             });
-           </script>
+            
+          </script>
 
             <!-- Hour selection -->
             <div class="form-group-hour">
