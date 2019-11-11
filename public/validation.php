@@ -5,7 +5,7 @@ header('Location: login.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['username']) && isset($_POST['password']) && 
-        !empty($_POST['username'] && !empty($_POST['password']))) {
+        !empty($_POST['username']) && !empty($_POST['password'])) {
 
         $username = $_POST['username'];
         $password = $_POST['password'];

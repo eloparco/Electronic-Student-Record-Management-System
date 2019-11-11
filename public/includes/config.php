@@ -24,4 +24,8 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $CURRENT_PAGE = "user_secretary";
     $PAGE_TITLE = "Secretary Officer Page";
     break;
+  case "parent_form.php":
+    $CURRENT_PAGE = "parent_form";
+    $PAGE_TITLE = "Parent Form Page";
+    break;
 }

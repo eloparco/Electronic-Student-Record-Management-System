@@ -5,7 +5,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['username']) && isset($_POST['oldPassword']) && isset($_POST['newPassword'])  && 
-        !empty($_POST['username'] && !empty($_POST['oldPassword']) && !empty($_POST['newPassword']))) {
+        !empty($_POST['username']) && !empty($_POST['oldPassword']) && !empty($_POST['newPassword'])) {
 
         $username = $_POST['username'];
         $oldPassword = $_POST['oldPassword'];
