@@ -105,7 +105,7 @@ function tryLogin($username, $password) {
     $con = connect_to_db();
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "SELECT password, UserType, AccountActivated FROM `user` WHERE email = ?")) 
+            if(!$prep = mysqli_prepare($con, "SELECT Password, UserType, AccountActivated FROM `USER` WHERE Email = ?")) 
                 throw new Exception();
             if(!mysqli_stmt_bind_param($prep, "s", $username)) 
                 throw new Exception();
