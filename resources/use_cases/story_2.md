@@ -15,18 +15,16 @@
 * the teacher wants to record the lecture topics to be available to parents and school system
 * the parent wants to know the topics covered daily by a teacher
 
-**Precondition**: teacher and parent are registered in the system and the child is connected to the right class
+**Precondition**: teacher is registered in the system and the child is connected to the right class
 
-**Success Guarantees**: daily lecture topics are record so parent could see them and there is an official record of them
+**Success Guarantees**: daily lecture topics are record and visible to child's parents
 
 **Main success scenario**:
 
 1. Teacher provides credentials for authentication
-2. System verifies the credentials and shows the professor's classes
-3. Teacher selects a class
-4. Teacher checks the date
-5. Teacher inserts a text
-6. System shows the topics of the day
+2. System verifies the credentials and shows teacher's classes
+3. Teacher selects class and date and enters lecture title and description
+4. System shows the topics of the day
 
 The use case terminates with success
 

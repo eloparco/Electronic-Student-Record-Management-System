@@ -11,9 +11,9 @@
 
 **Stakeholders' interests**:
 * the administrative officer wants to give access to parents
-* the parent wants to be enable to use the system
+* the parent wants to be enabled to use the system
 
-**Precondition**: parents must have a child register in the system
+**Precondition**: parents must have a child registered in the system
 
 **Success Guarantees**: parent has access to the system
 
@@ -21,7 +21,7 @@
 1. Administrative officer provides authentication information
 2. System verifies the credentials and shows possible options
 3. Administrative officer selects "enable access to parents"
-4. System shows all parents how want to have access to the system
+4. System shows all parents registered into the system
 5. Administrative officer selects a parent and give access to him
 
 The use case terminates with success
@@ -30,6 +30,6 @@ The use case terminates with success
 
 1a. Administrative officer enters wrong credentials and authentication fails: the use case terminates in failure  
 3a. Administrative officer selects another option: the use case is not finished  
-4a. There are not any parents who want access to the system: the use case terminates in failure
+4a. Administrative officer wants to enable a parent not registered into the system: the use case terminates in failure
 
  

@@ -11,8 +11,10 @@
 
 **Stakeholders' interests**:
 * the administrative officer wants to distribute students in classes to make balance classes
+* the student wants to be placed in a class
+* the parent wants his child to be placed in a good class
 
-**Precondition**: students must exist in the system
+**Precondition**: students must exist in the system, the maximum number of students per class is not already reached
 
 **Success Guarantees**: class composition is done and has between 15 and 30 students
 
@@ -20,13 +22,13 @@
 1. Administrative officer provides authentication information  
 2. System verifies the credentials and shows possible options  
 3. Administrative officer selects "enter class composition"  
-4. Administrative officer selects available students  
-5. Administrative officer selects a class 
+4. System shows the list of students not already assigned to a class  
+5. Administrative officer selects the students and assigns a class  
 
 The use case terminates with success
 
 **Extensions**:  
 1a. Administrative officer enters wrong credentials and authentication fails: the use case terminates in failure  
 3a. Administrative officer selects another option: the use case is not finished   
-5a. System validates the number of students in the class, and in case there are more than 30 students or less than 15, it shows an error and the class is not form: the use case terminates in failure 
+5a. The class is already full: an error message is showed and the use case terminates in failure 
   
