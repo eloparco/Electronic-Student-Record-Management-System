@@ -1,7 +1,7 @@
 # Installing composer and php mailer
 
 ## Steps
-1. Download composer from https://getcomposer.org/download/`
+1. Download composer from https://getcomposer.org/download
 2. Install composer, default options
 2. Git clone https://github.com/PHPMailer/PHPMailer.git in the git project (Electronic-Student-Record-Management-System) directory
 3. run cmd in the same directory
