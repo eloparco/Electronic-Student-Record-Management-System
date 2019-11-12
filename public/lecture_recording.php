@@ -37,48 +37,54 @@ if(!userLoggedIn()) {
   <body>
     <?php include("includes/header.php"); ?>
     
-    <script>
-      var user = "<?PHP echo $_SESSION["mySession"]; ?>";
-      $( document ).ready(function() {
-        $.ajax({
-				url: "subject_info.php",
-				data: {
-					"user_mail": user,
-				},
-
-				type: "POST",
-				success: function(data, state) {
-					//var resJSON = $.parseJSON(data);
-          alert(data);
-        },
-				error: function(request, state, error) {
-					alert("State error " + state);
-					alert("Value error " + error);
-				}
-			});
-    });
-    </script>
-
     <main role="main" class="container-fluid">
     <div class="bootstrap-iso">
       <h1 class="h3 mb-3 font-weight-normal">Lesson recording</h1>
         <form method="post">
 
-          <!-- Class selection -->
+          <!-- Class and subject selection -->
           <div class="form-group-class">
-              <label for="classSelection">Select a class</label>
-              <select class="form-control" id="classSelection">
-                <!-- <option>1A</option> -->
-              </select>
-            </div>
-
-          <!-- Subject selection -->
-          <div class="form-group-class">
-            <label for="subjectSelection">Select a subject</label>
-            <select class="form-control" id="subjectSelection">
-              <!-- <option>Science</option> -->
+            <label for="classSelection">Select a class and a subject</label>
+            <br>
+            <select class="form-class" id="classSelection">
+              <!-- <option>1A</option> -->
             </select>
           </div>
+
+          <!-- Setup class selection with AJAX query -->
+          <script>
+            var user = "<?PHP echo $_SESSION["mySession"]; ?>";
+            $( document ).ready(function() {
+              $.ajax({
+                url: "subject_info.php",
+                data: {
+                  "user_mail": user,
+                },
+
+                type: "POST",
+                success: function(data, state) {
+                  var JSONdata = $.parseJSON(data);
+
+                  if(JSONdata['state'] != "ok"){
+                    console.log("Error: "+state);
+                    return;
+                  }
+
+                  var resJSON = JSONdata['result'];
+
+                  for(var i=0; i<resJSON.length; i++){
+                    var item = resJSON[i];
+                    // alert("Class " + item['Class'] + " Name " + item['Name'] + " ID " + item['ID'] + " SSN " + item['SSN'] );
+                    $("#classSelection").append('<option value= '+item["Class"]+'_'+ item["ID"]+'_'+item["SSN"]+'>'+ item["Class"]+ ' '+ item["Name"]+'</option>');
+                  }
+                },
+                error: function(request, state, error) {
+                  console.log("State error " + state);
+                  console.log("Value error " + error);
+                }
+              });
+            });
+          </script>
 
           <!-- Date picker -->
           <div class="form-group-class">
