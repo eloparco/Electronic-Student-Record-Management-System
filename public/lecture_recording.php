@@ -23,7 +23,8 @@ if(!userLoggedIn()) {
 
   <head>
     <?php include("includes/head.php");?>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" 
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
     <link rel="stylesheet" type="text/css" href="css/w3.css"> 
     <link href="css/lecture_rec.css" rel="stylesheet">
@@ -32,6 +33,13 @@ if(!userLoggedIn()) {
     <!-- Bootstrap Date-Picker Plugin -->
     <script type="text/javascript" src="./css/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
+    <?php  
+      if(isset($_GET['msg_result'])) {
+        if(!empty($_GET['msg_result'])) {
+          $_GET['msg_result'] = "";
+        }
+      }
+    ?>
  </head>
 
   <body>
@@ -40,13 +48,13 @@ if(!userLoggedIn()) {
     <main role="main" class="container-fluid">
     <div class="bootstrap-iso">
       <h1 class="h3 mb-3 font-weight-normal">Lesson recording</h1>
-        <form method="post">
+        <form action="record_topic.php" method="post" name="post_recording"> 
 
           <!-- Class and subject selection -->
           <div class="form-group-class">
             <label for="classSelection">Select a class and a subject</label>
             <br>
-            <select class="form-class" id="classSelection">
+            <select class="form-class" id="classSelection" name="class_sID_ssn">
               <!-- <option>1A</option> -->
             </select>
           </div>
@@ -89,7 +97,7 @@ if(!userLoggedIn()) {
           <!-- Date picker -->
           <div class="form-group-class">
             <label for="dataSelection" class="col-form-label">Select a date</label>
-            <input type="text" class="form-control" id="dataSelection">
+            <input type="text" class="form-control" id="dataSelection" name="date">
           </div>
 
           <!-- Setup datepicler -->
@@ -117,7 +125,7 @@ if(!userLoggedIn()) {
             <!-- Hour selection -->
             <div class="form-group-hour">
               <label for="hourSelection">Select an hour</label>
-              <select class="form-control" id="hourSelection">
+              <select class="form-control" id="hourSelection" name="hour">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -130,19 +138,29 @@ if(!userLoggedIn()) {
             <!-- Text area for lecture's topic recording -->
             <div class="form-group-text">
               <label for="topicTitleTextArea">Insert the lecture title</label>
-              <textarea class="form-control" id="topicTitleTextArea" rows="1"></textarea>
+              <textarea class="form-control" id="topicTitleTextArea" rows="1" name="title"></textarea>
             </div>
 
             <!-- Text area for lecture's topic recording -->
             <div class="form-group-text">
               <label for="lectureTextArea">Insert the lecture topics</label>
-              <textarea class="form-control" id="lectureTextArea" rows="3"></textarea>
-            </div>
-
-          </form>
-          
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
-          </form>
+              <textarea class="form-control" id="lectureTextArea" rows="3" name="subtitle"></textarea>
+            </div>        
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
+            
+            <!-- POST Method response -->
+            <?php 
+        if(isset($_SESSION['msg_result'])) {
+          if(!empty($_SESSION['msg_result'])) {
+            if($_SESSION['msg_result'] != TOPIC_RECORDING_OK){ ?>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+          <?php } else { ?>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+          <?php
+          }}
+          $_SESSION['msg_result'] = "";} ?>
+         
+        </form>
       </div>
     </main>
 
