@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 12, 2019 at 01:13 AM
+-- Generation Time: Nov 13, 2019 at 12:39 AM
 -- Server version: 5.7.27-0ubuntu0.19.04.1
 -- PHP Version: 7.2.24-0ubuntu0.19.04.1
 
@@ -175,8 +175,9 @@ CREATE TABLE IF NOT EXISTS `USER` (
 --
 
 INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `AccountActivated`) VALUES
+('aaa111', 'aaa', 'bbb', 'johnny@doe.it', 'a1a1a1a1', 'TEACHER', 1),
 ('ABC123', 'John', 'Doe', 'john@doe.it', 'pass123', 'PARENT', 1),
-('ABC456', 'Jane', 'Doe', 'jane@doe.it', 'pass456', 'PARENT', NULL);
+('ABC456', 'Jane', 'Doe', 'jane@doe.it', 'pass456', 'PARENT', 0);
 
 --
 -- Constraints for dumped tables

@@ -12,3 +12,7 @@ storage.json
 ### Composer ###
 composer.phar
 /vendor/
+
+### Emacs ###
+*~
+

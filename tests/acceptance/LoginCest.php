@@ -10,13 +10,7 @@ class LoginCest
     // tests
     public function testLoginSuccess(AcceptanceTester $I)
     {
-        $I->amOnPage('/login.php');
-        // doestn' work even modifying the form
-        // $I->submitForm('#login_form', array('user' => array(
-        //     'username' => 'enrico@gmail.com',
-        //     'password' => 'prova123'
-        // )));
-        
+        $I->amOnPage('/login.php');        
         $I->fillField('username', 'john@doe.it');
         $I->fillField('password', 'pass123');
         $I->click('Sign in');

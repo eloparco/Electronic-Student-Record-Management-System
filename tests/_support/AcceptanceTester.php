@@ -23,4 +23,21 @@ class AcceptanceTester extends \Codeception\Actor
    /**
     * Define custom actions here
     */
+    public function teacherLogin() {
+        $I = this;
+        $I->amOnPage('/login.php');
+        $I->submitForm('#login_form', [
+            'username' => 'johnny@doe.it',
+            'password' => 'a1a1a1a1'
+        ]);
+    }
+
+    public function parentLogin() {
+        $I = this;
+        $I->amOnPage('/login.php');
+        $I->submitForm('#login_form', [
+            'username' => 'john@doe.it',
+            'password' => 'pass123'
+        ]);
+    }
 }

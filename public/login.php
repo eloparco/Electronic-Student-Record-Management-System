@@ -31,7 +31,7 @@ session_start();
       loginElement.classList.add("active");
     } 
   </script>
-    <form class="form-signin" action="validation.php" method="post">
+    <form class="form-signin" action="validation.php" method="post" id="login_form">
       <img class="mb-4" src="images/login.svg" alt="" width="102" height="102">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
