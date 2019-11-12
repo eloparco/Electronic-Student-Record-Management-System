@@ -21,7 +21,13 @@ define("SESSION_EXPIRED", "session-expired");
 define("MAX_INACTIVITY", 120);
 
 function connect_to_db() {
-    $conn = mysqli_connect("localhost", "root", "", "student_record_management"); //returns FALSE on error
+    $db = parse_ini_file("../config/database/database.ini");
+    $user = $db['user'];
+    $pass = $db['pass'];
+    $name = $db['name'];
+    $host = $db['host'];
+
+    $conn = mysqli_connect($host, $user, $pass, $name); //returns FALSE on error
     if($conn){
         $conn->set_charset("utf8");
     }
@@ -312,5 +318,4 @@ function get_score_visualization($decimalScore){
 }
 
 # end Marks Parent
-
 ?>
