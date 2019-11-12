@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $rows = array();
     $students = array();
+    
     while (mysqli_stmt_fetch($prep_query)) {
         //echo $Class.$Name.$ID.$SSN;
         $fields = array("SSN" => $SSN, "Name" => $Name, "Surname" => $Surname);
