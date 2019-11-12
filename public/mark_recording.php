@@ -37,55 +37,97 @@ if(!userLoggedIn()) {
   <body>
     <?php include("includes/header.php"); ?>
     
-    <!--
-    <script>
-      var user = "<?PHP echo $_SESSION["mySession"]; ?>";
-      $( document ).ready(function() {
-        $.ajax({
-				url: "subject_info.php",
-				data: {
-					"user_mail": user,
-				},
-
-				type: "POST",
-				success: function(data, state) {
-					//var resJSON = $.parseJSON(data);
-          alert(data);
-        },
-				error: function(request, state, error) {
-					alert("State error " + state);
-					alert("Value error " + error);
-				}
-			});
-    });
-    </script>
-    -->
-
     <main role="main" class="container-fluid">
     <div class="bootstrap-iso">
       <h1 class="h3 mb-3 font-weight-normal">Mark recording</h1>
-        <form method="post">
+        <form action="record_mark.php" method="post" name="post_mark_recording">
 
           <!-- Class selection -->
           <div class="form-group-class">
-              <label for="classSelection">Select a class</label>
+              <label for="classSelection">Select a class and a subject</label>
               <select class="form-control" id="classSelection">
                 <!-- <option>1A</option> -->
               </select>
-            </div>
+          </div>
+
+          <!-- Show student of the selected class with AJAX query -->
+          <script>
+            $(document).ready(function() {
+              $('#classSelection').change(function(){
+                $.ajax({
+                url: "class_students.php",
+                data: {
+                  "class": this.value.split("_")[0],
+                },
+
+                type: "POST",
+                success: function(data, state) {
+
+                  //alert(data);
+                  var JSONdata = $.parseJSON(data);
+
+                  if(JSONdata['state'] != "ok"){
+                    console.log("Error: "+state);
+                    return;
+                  }
+                  var resJSON = JSONdata['result'];
+                  $("#studentSelection").empty();
+
+                  for(var i=0; i<resJSON.length; i++){
+                    var item = resJSON[i];
+
+                    $("#studentSelection").append('<option value= '+item["SSN"]+'>'+ item["Name"]+ ' '+ item["Surname"]+'</option>');
+                  }
+                },
+                error: function(request, state, error) {
+                  console.log("State error " + state);
+                  console.log("Value error " + error);
+                }
+              });
+            });
+          });
+          
+          </script>
+
+           <!-- Setup class selection with AJAX query -->
+           <script>
+            var user = "<?PHP echo $_SESSION["mySession"]; ?>";
+            $( document ).ready(function() {
+              $.ajax({
+                url: "subject_info.php",
+                data: {
+                  "user_mail": user,
+                },
+
+                type: "POST",
+                success: function(data, state) {
+                  var JSONdata = $.parseJSON(data);
+
+                  if(JSONdata['state'] != "ok"){
+                    console.log("Error: "+state);
+                    return;
+                  }
+
+                  var resJSON = JSONdata['result'];
+
+                  for(var i=0; i<resJSON.length; i++){
+                    var item = resJSON[i];
+                    // alert("Class " + item['Class'] + " Name " + item['Name'] + " ID " + item['ID'] + " SSN " + item['SSN'] );
+                    $("#classSelection").append('<option value= '+item["Class"]+'_'+ item["ID"]+'_'+item["SSN"]+'>'+ item["Class"]+ ' '+ item["Name"]+'</option>');
+                  }
+                },
+                error: function(request, state, error) {
+                  console.log("State error " + state);
+                  console.log("Value error " + error);
+                }
+              });
+            });
+          </script>
 
           <!-- Student selection -->
           <div class="form-group-class">
             <label for="studentSelection">Select a student</label>
             <select class="form-control" id="studentSelection">
-              <!-- <option>Science</option> -->
-            </select>
-          </div>
-
-           <!-- Subject selection -->
-           <div class="form-group-class">
-            <label for="subjectSelection">Select a subject</label>
-            <select class="form-control" id="subjectSelection">
               <!-- <option>Science</option> -->
             </select>
           </div>
