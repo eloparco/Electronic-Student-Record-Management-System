@@ -18,6 +18,11 @@ define("SURNAME_INCORRECT", "Surname entered is incorrect.");
 define("USERTYPE_INCORRECT", "User type not recognized.");
 define("LOGIN_NOT_MATCH", "Invalid username or password.");
 define("SESSION_EXPIRED", "session-expired");
+define("TOPIC_RECORDING_FAILED", "Topic recording failed.");
+define("TOPIC_RECORDING_OK", "Topics correctly recorded.");
+define("TOPIC_RECORDING_INCORRECT", "Please fill all the fields.");
+define("MARK_RECORDING_OK", "Mark correctly recorded.");
+define("MARK_RECORDING_FAILED", "Mark recording failed.");
 define("MAX_INACTIVITY", 120);
 
 function connect_to_db() {
@@ -316,6 +321,28 @@ function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
 function get_score_visualization($decimalScore){
     # TODO: conversion from decimal to human-known score
 }
-
 # end Marks Parent
+
+function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description) {
+    $con = connect_to_db();
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            if(!$prep = mysqli_prepare($con, "INSERT INTO TOPIC VALUES(?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?, ?);")) 
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "ssiisss", $class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return TOPIC_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            //return TOPIC_RECORDING_FAILED." ".$e;
+            return TOPIC_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
 ?>
