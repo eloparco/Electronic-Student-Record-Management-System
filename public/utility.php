@@ -23,6 +23,8 @@ define("TOPIC_RECORDING_OK", "Topics correctly recorded.");
 define("TOPIC_RECORDING_INCORRECT", "Please fill all the fields.");
 define("MARK_RECORDING_OK", "Mark correctly recorded.");
 define("MARK_RECORDING_FAILED", "Mark recording failed.");
+define("STUDENT_RECORDING_OK", "Student correctly recorded.");
+define("STUDENT_RECORDING_FAILED", "Student recording failed.");
 define("MAX_INACTIVITY", 120);
 
 function connect_to_db() {
@@ -392,6 +394,29 @@ function recordMark($student, $subject, $date, $class, $score) {
             mysqli_close($con);
             //return MARK_RECORDING_FAILED." ".$e;
             return MARK_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
+
+function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class){
+    $con = connect_to_db();
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) 
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "ssssss", $SSN, $Name, $Surname, $Parent1, $Parent2, $Class)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return STUDENT_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            return STUDENT_RECORDING_FAILED." ".$e;
+            //return STUDENT_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;
