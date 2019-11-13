@@ -106,9 +106,18 @@ if(!userLoggedIn()) {
                 $("#student_list li div").live("click",function() {
                     var index = $(this).parent('li').index();
                     var id = $(this).parent('li').attr("studentID");
-                    
-                    alert(id);
-                    $("#new_student_list").append('<li studentID='+id+' class="list-group-item list-group-item-action">'+$(this).parent('li').html()+'</li>');
+                    var exist = false;
+
+                    $("#new_student_list").find('li').each(function(j, li){
+                            if(li.getAttribute("studentID") == id){
+                                exist = true;
+                            }
+                    });
+
+                    if(!exist)
+                        $("#new_student_list").append('<li studentID='+id+' class="list-group-item list-group-item-action">'+$(this).parent('li').html()+'</li>');
+                    else
+                        alert("Student already selected.")
                 });
             });
           </script>
@@ -140,8 +149,37 @@ if(!userLoggedIn()) {
                     $("#confirm").click(function(){
                         var newClass = $("textarea#letterArea").val();
                         var year = $("#yearSelection").children("option:selected").val();
+                        var students = [];
+                        var classYear = ""+year+newClass;
+
+                        $("#new_student_list").find('li').each(function(j, li){
+                            students.push(li.getAttribute("studentID"));
+                        });
+
                         
-                        alert("Selected class: "+newClass+" year: "+year);
+                        $.ajax({
+                            url: "update_class.php",
+                            data: { "class": classYear,
+                                    "students": JSON.stringify(students)
+                            },
+
+                            type: "POST",
+                            success: function(data, state) {
+                                var JSONdata = $.parseJSON(data);
+
+                                if(JSONdata['state'] != "ok"){
+                                    console.log("Error: "+state);
+                                    return;
+                                }
+                                var resJSON = JSONdata['result'];
+                                alert(resJSON);
+                                
+                            },
+                            error: function(request, state, error) {
+                            console.log("State error " + state);
+                            console.log("Value error " + error);
+                            }
+                        });
                     }); 
                 });
             </script>
