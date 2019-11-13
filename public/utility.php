@@ -390,8 +390,8 @@ function recordMark($student, $subject, $date, $class, $score) {
             }
         } catch (Exception $e) {
             mysqli_close($con);
-            return MARK_RECORDING_FAILED." ".$e;
-            //return MARK_RECORDING_FAILED;
+            //return MARK_RECORDING_FAILED." ".$e;
+            return MARK_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;

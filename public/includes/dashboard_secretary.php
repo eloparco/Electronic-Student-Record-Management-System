@@ -27,6 +27,12 @@
                 Record parent
             </a>
             </li>
+            <li class="nav-item">
+            <a id="recordParentDash" class="nav-link" href="student_form.php">
+                <span data-feather="file-text"></span>
+                Record student
+            </a>
+            </li>
         </ul>
         </div>
     </nav>
