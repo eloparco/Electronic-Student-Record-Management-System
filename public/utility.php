@@ -23,7 +23,10 @@ define("TOPIC_RECORDING_OK", "Topics correctly recorded.");
 define("TOPIC_RECORDING_INCORRECT", "Please fill all the fields.");
 define("MARK_RECORDING_OK", "Mark correctly recorded.");
 define("MARK_RECORDING_FAILED", "Mark recording failed.");
-define("MAX_INACTIVITY", 120);
+define("STUDENT_RECORDING_OK", "Student correctly recorded.");
+define("STUDENT_RECORDING_FAILED", "Student recording failed.");
+//define("MAX_INACTIVITY", 120);
+define("MAX_INACTIVITY", 99999999);
 
 function connect_to_db() {
     $db = parse_ini_file("../config/database/database.ini");
@@ -291,7 +294,7 @@ function get_children_of_parent($parentUsername){
 function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
     $marks_query = "SELECT Name, Date, Score\n" .
                     "FROM MARK M, SUBJECT S\n" .
-                    "WHERE M.SubjectID=S.ID AND StudentSSN=? AND Date>=str_to_date(?,'%Y-%m-%d') AND Date<=str_to_date(?,'%y-%m-%d')\n" .
+                    "WHERE M.SubjectID=S.ID AND StudentSSN=? AND Date>=str_to_date(?,'%Y-%m-%d') AND Date<=str_to_date(?,'%Y-%m-%d')\n" .
                     "ORDER BY Date";
     $db_con = connect_to_db();
     if(!$db_con){
@@ -311,11 +314,40 @@ function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
     $marks_res = mysqli_stmt_get_result($marks_prep);
     $scores = array();
     while($row = mysqli_fetch_array($marks_res, MYSQLI_ASSOC)){
-        $fields = array("Subject" => $row['Name'], "Date" => $row['Date'], "Score" => $row['Date']);
+        $fields = array("Subject" => $row['Name'], "Date" => $row['Date'], "Score" => $row['Score']);
         $scores[] = $fields;
     }
     mysqli_stmt_close($marks_prep);
     return $scores;
+}
+
+function get_list_of_subjects($childSSN){
+    $subjects_query = "SELECT DISTINCT(Name)\n" . 
+                      "FROM MARK M, SUBJECT S\n" . 
+                      "WHERE M.SubjectID=S.ID AND StudentSSN=?\n" . 
+                      "ORDER BY Name";
+    $db_con = connect_to_db();
+    if(!$db_con){
+        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+    }
+    $subjects_prep = mysqli_prepare($db_con, $subjects_query);
+    if(!$subjects_prep){
+        print('Error in preparing query: '.$subjects_query);
+        die('Check database error:<br>'.mysqli_error($db_con));
+    }
+    if(!mysqli_stmt_bind_param($subjects_prep, "s", $childSSN)){
+        die('Error in binding paramters to marks_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($subjects_prep)){
+        die('Error in executing marks query. Database error:<br>'.mysqli_error($db_con));
+    }
+    $subjects_res = mysqli_stmt_get_result($subjects_prep);
+    $subjects = array();
+    while($row = mysqli_fetch_array($subjects_res, MYSQLI_ASSOC)){
+        $subjects[] = $row['Name'];
+    }
+    mysqli_stmt_close($subjects_prep);
+    return $subjects;
 }
 
 function get_score_visualization($decimalScore){
@@ -340,6 +372,52 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
             mysqli_close($con);
             //return TOPIC_RECORDING_FAILED." ".$e;
             return TOPIC_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
+
+function recordMark($student, $subject, $date, $class, $score) {
+    $con = connect_to_db();
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            if(!$prep = mysqli_prepare($con, "INSERT INTO MARK VALUES(?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?);")) 
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "sissd", $student, $subject, $date, $class, $score)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return MARK_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            //return MARK_RECORDING_FAILED." ".$e;
+            return MARK_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
+
+function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class){
+    $con = connect_to_db();
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) 
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "ssssss", $SSN, $Name, $Surname, $Parent1, $Parent2, $Class)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return STUDENT_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            return STUDENT_RECORDING_FAILED." ".$e;
+            //return STUDENT_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;

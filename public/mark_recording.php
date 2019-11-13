@@ -32,7 +32,14 @@ if(!userLoggedIn()) {
     <!-- Bootstrap Date-Picker Plugin -->
     <script type="text/javascript" src="./css/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
- </head>
+    <?php  
+      if(isset($_GET['msg_result'])) {
+        if(!empty($_GET['msg_result'])) {
+          $_GET['msg_result'] = "";
+        }
+      }
+    ?>
+</head>
 
   <body>
     <?php include("includes/header.php"); ?>
@@ -45,7 +52,7 @@ if(!userLoggedIn()) {
           <!-- Class selection -->
           <div class="form-group-class">
               <label for="classSelection">Select a class and a subject</label>
-              <select class="form-control" id="classSelection">
+              <select class="form-control" id="classSelection" name="class_sID_ssn">
                 <!-- <option>1A</option> -->
               </select>
           </div>
@@ -76,7 +83,7 @@ if(!userLoggedIn()) {
                   for(var i=0; i<resJSON.length; i++){
                     var item = resJSON[i];
 
-                    $("#studentSelection").append('<option value= '+item["SSN"]+'>'+ item["Name"]+ ' '+ item["Surname"]+'</option>');
+                    $("#studentSelection").append('<option value='+item["SSN"]+'>'+ item["Name"]+ ' '+ item["Surname"]+'</option>');
                   }
                 },
                 error: function(request, state, error) {
@@ -113,7 +120,7 @@ if(!userLoggedIn()) {
                   for(var i=0; i<resJSON.length; i++){
                     var item = resJSON[i];
                     // alert("Class " + item['Class'] + " Name " + item['Name'] + " ID " + item['ID'] + " SSN " + item['SSN'] );
-                    $("#classSelection").append('<option value= '+item["Class"]+'_'+ item["ID"]+'_'+item["SSN"]+'>'+ item["Class"]+ ' '+ item["Name"]+'</option>');
+                    $("#classSelection").append('<option value='+item["Class"]+'_'+ item["ID"]+'_'+item["SSN"]+'>'+ item["Class"]+ ' '+ item["Name"]+'</option>');
                   }
                 },
                 error: function(request, state, error) {
@@ -127,7 +134,7 @@ if(!userLoggedIn()) {
           <!-- Student selection -->
           <div class="form-group-class">
             <label for="studentSelection">Select a student</label>
-            <select class="form-control" id="studentSelection">
+            <select class="form-control" id="studentSelection" name="student">
               <!-- <option>Science</option> -->
             </select>
           </div>
@@ -135,7 +142,7 @@ if(!userLoggedIn()) {
           <!-- Date picker -->
           <div class="form-group-class">
             <label for="dataSelection" class="col-form-label">Select a date</label>
-            <input type="text" class="form-control" id="dataSelection">
+            <input type="text" class="form-control" id="dataSelection" name="date">
           </div>
 
           <!-- Setup datepicler -->
@@ -163,7 +170,7 @@ if(!userLoggedIn()) {
             <!-- Hour selection -->
             <div class="form-group-hour">
               <label for="hourSelection">Select an hour</label>
-              <select class="form-control" id="hourSelection">
+              <select class="form-control" id="hourSelection" name ="hour">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -176,39 +183,43 @@ if(!userLoggedIn()) {
             <!-- Mark selection -->
             <div class="form-group-hour">
               <label for="hourSelection">Select the score</label>
-              <select class="form-control" id="hourSelection">
+              <select class="form-control" id="hourSelection" name="score">
                 <option>1</option>
+                <option>1.5</option>
                 <option>2</option>
+                <option>2.5</option>
                 <option>3</option>
+                <option>3.5</option>
                 <option>4</option>
+                <option>4.5</option>
                 <option>5</option>
+                <option>5.5</option>
                 <option>6</option>
+                <option>6.5</option>
                 <option>7</option>
+                <option>7.5</option>
                 <option>8</option>
+                <option>8.5</option>
                 <option>9</option>
+                <option>9.5</option>
                 <option>10</option>
                 <option>10L</option>
               </select>
-            </div>
-
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkHalf">
-                <label class="form-check-label" for="checkHalf">
-                    Half point
-                </label>
-            </div>
-
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkPlus">
-                <label class="form-check-label" for="checkPlus">
-                    Plus (+)
-                </label>
-            </div>
-
+            </div>      
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
           </form>
-          
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
-          </form>
+
+           <!-- POST Method response -->
+           <?php 
+        if(isset($_SESSION['msg_result'])) {
+          if(!empty($_SESSION['msg_result'])) {
+            if($_SESSION['msg_result'] != MARK_RECORDING_OK){ ?>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+          <?php } else { ?>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+          <?php
+          }}
+          $_SESSION['msg_result'] = "";} ?>
       </div>
     </main>
 
