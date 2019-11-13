@@ -290,8 +290,8 @@ function get_children_of_parent($parentUsername){
 # functions to manage Marks from Parent side
 function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
     $marks_query = "SELECT Name, Date, Score\n" .
-                    "FROM mark m, subject s\n" .
-                    "WHERE m.SubjectID=s.ID AND StudentSSN=? AND Date>=str_to_date(?,'%Y-%m-%d') AND Date<=str_to_date(?,'%y-%m-%d')\n" .
+                    "FROM MARK M, SUBJECT S\n" .
+                    "WHERE M.SubjectID=S.ID AND StudentSSN=? AND Date>=str_to_date(?,'%Y-%m-%d') AND Date<=str_to_date(?,'%y-%m-%d')\n" .
                     "ORDER BY Date";
     $db_con = connect_to_db();
     if(!$db_con){
