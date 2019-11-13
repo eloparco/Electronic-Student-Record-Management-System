@@ -290,8 +290,8 @@ function get_children_of_parent($parentUsername){
 # functions to manage Marks from Parent side
 function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
     $marks_query = "SELECT Name, Date, Score\n" .
-                    "FROM mark m, subject s\n" .
-                    "WHERE m.SubjectID=s.ID AND StudentSSN=? AND Date>=str_to_date(?,'%Y-%m-%d') AND Date<=str_to_date(?,'%y-%m-%d')\n" .
+                    "FROM MARK M, SUBJECT S\n" .
+                    "WHERE M.SubjectID=S.ID AND StudentSSN=? AND Date>=str_to_date(?,'%Y-%m-%d') AND Date<=str_to_date(?,'%Y-%m-%d')\n" .
                     "ORDER BY Date";
     $db_con = connect_to_db();
     if(!$db_con){
@@ -311,11 +311,40 @@ function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
     $marks_res = mysqli_stmt_get_result($marks_prep);
     $scores = array();
     while($row = mysqli_fetch_array($marks_res, MYSQLI_ASSOC)){
-        $fields = array("Subject" => $row['Name'], "Date" => $row['Date'], "Score" => $row['Date']);
+        $fields = array("Subject" => $row['Name'], "Date" => $row['Date'], "Score" => $row['Score']);
         $scores[] = $fields;
     }
     mysqli_stmt_close($marks_prep);
     return $scores;
+}
+
+function get_list_of_subjects($childSSN){
+    $subjects_query = "SELECT DISTINCT(Name)\n" . 
+                      "FROM MARK M, SUBJECT S\n" . 
+                      "WHERE M.SubjectID=S.ID AND StudentSSN=?\n" . 
+                      "ORDER BY Name";
+    $db_con = connect_to_db();
+    if(!$db_con){
+        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+    }
+    $subjects_prep = mysqli_prepare($db_con, $subjects_query);
+    if(!$subjects_prep){
+        print('Error in preparing query: '.$subjects_query);
+        die('Check database error:<br>'.mysqli_error($db_con));
+    }
+    if(!mysqli_stmt_bind_param($subjects_prep, "s", $childSSN)){
+        die('Error in binding paramters to marks_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($subjects_prep)){
+        die('Error in executing marks query. Database error:<br>'.mysqli_error($db_con));
+    }
+    $subjects_res = mysqli_stmt_get_result($subjects_prep);
+    $subjects = array();
+    while($row = mysqli_fetch_array($subjects_res, MYSQLI_ASSOC)){
+        $subjects[] = $row['Name'];
+    }
+    mysqli_stmt_close($subjects_prep);
+    return $subjects;
 }
 
 function get_score_visualization($decimalScore){

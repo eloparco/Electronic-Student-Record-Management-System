@@ -28,4 +28,8 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $CURRENT_PAGE = "parent_form";
     $PAGE_TITLE = "Parent Form Page";
     break;
+  case "marks.php":
+    $CURRENT_PAGE = "listing_marks";
+    $PAGE_TITLE = "Student marks";
+    break;
 }
