@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 require '../vendor/autoload.php';
 
 //DEBUG //inser destinatio email here
-sendMail('', '09127312');
+//sendMail('', '09127312');
 
 function sendMail($email, $password){    
 

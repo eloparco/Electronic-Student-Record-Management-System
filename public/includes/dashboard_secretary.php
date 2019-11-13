@@ -10,7 +10,7 @@
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="../logout.php">
+            <a class="nav-link" href="logout.php">
                 <span data-feather="log-out"></span>
                 Logout
             </a>
