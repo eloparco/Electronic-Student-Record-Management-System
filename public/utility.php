@@ -374,4 +374,27 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
         return DB_ERROR;
     }
 }
+
+function recordMark($student, $subject, $date, $class, $score) {
+    $con = connect_to_db();
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            if(!$prep = mysqli_prepare($con, "INSERT INTO MARK VALUES(?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?);")) 
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "sissd", $student, $subject, $date, $class, $score)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return MARK_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            return MARK_RECORDING_FAILED." ".$e;
+            //return MARK_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
 ?>
