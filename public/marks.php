@@ -44,6 +44,7 @@ if(!userLoggedIn()) {
         <div class="form-group mb-2">
             <label for="subjectSelection">Subject</label>
             <select class="form-control" id="subjectSelection">
+            <option></option>
             <?php
                 $subjects = get_list_of_subjects($_SESSION['child']);
                 foreach($subjects as $subject){
