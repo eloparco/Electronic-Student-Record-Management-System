@@ -56,4 +56,20 @@ class Story1Cest
         $I->see('Old Password');
         $I->see('New Password');
     }
+
+    public function testMarkVisualization(AcceptanceTester $I)
+    {
+        $I->amOnPage('/login.php');
+        $I->fillField('username', 'r.filicaro@parent.esrmsystem.com');
+        $I->fillField('password', 'Roberta77');
+        $I->click('Sign in');
+
+        $I->seeInCurrentUrl('/user_parent.php');
+        $I->see('Marks');
+        
+        $I->wait(1);
+        $first_row = array('Geography', '4th Nov 2019', '8.75');
+        foreach ($first_row as $item)
+            $I->see($item);
+    }
 }
