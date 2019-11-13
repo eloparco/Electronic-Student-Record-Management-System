@@ -57,7 +57,7 @@ if(isset($_SESSION['msg_result'])) {
       <img class="mb-4" src="images/icons/parent.png" alt="" width="102" height="102">
       <h1 class="h3 mb-3 font-weight-normal">Enter student data</h1>
       <label for="inputSSN" class="sr-only">SSN</label>
-      <input type="text" id="inputSSN" name="ssn" class="form-control" placeholder="SSN" pattern=".{16}" title="Please insert 16 alphanumeric characters." required autofocus>
+      <input type="text" id="inputSSN" name="SSN" class="form-control" placeholder="SSN" pattern=".{16}" title="Please insert 16 alphanumeric characters." required autofocus>
       <label for="inputName" class="sr-only">Name</label>
       <input type="text" id="inputName" name="name" class="form-control" placeholder="Name" pattern=".{2,20}" title="Please insert a name with length between 2 and 20." required>
       <label for="inputSurname" class="sr-only">Surname</label>
@@ -157,24 +157,18 @@ if(isset($_SESSION['msg_result'])) {
               });
             });
           </script>
-
-      <?php 
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+       <!-- POST Method response -->
+    <?php 
         if(isset($_SESSION['msg_result'])) {
           if(!empty($_SESSION['msg_result'])) {
-            if($_SESSION['msg_result'] == INSERT_PARENT_OK) { ?>
-                <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
+            if($_SESSION['msg_result'] != STUDENT_RECORDING_OK){ ?>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
           <?php } else { ?>
-                <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
-            <?php } }
-          else {
-          $_SESSION['msg_result'] = "";} } ?>
-      <?php 
-        if(isset($_GET['msg'])) {
-          if(!empty($_GET['msg'])) { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo 'Session expired: try to login again.';?></b></span></div></b>
-          <?php }
-          $_GET['msg'] = "";} ?>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+          <?php
+          }}
+          $_SESSION['msg_result'] = "";} ?>
     </form>
   <div>
 </body>
