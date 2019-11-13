@@ -33,6 +33,12 @@
                 Record student
             </a>
             </li>
+            <li class="nav-item">
+            <a id="recordParentDash" class="nav-link" href="class_composition.php">
+                <span data-feather="file-text"></span>
+                Setup class composition
+            </a>
+            </li>
         </ul>
         </div>
     </nav>
