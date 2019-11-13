@@ -1,4 +1,6 @@
 <?php
+require 'send_mail.php';
+
 define("LOGIN_TEACHER_OK", "Login Teacher success.");
 define("LOGIN_PARENT_OK", "Login Parent success.");
 define("LOGIN_SECRETARY_OK", "Login Secretary Officer success.");
@@ -207,6 +209,7 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
                     mysqli_stmt_close($prep2);
                     if(!mysqli_commit($con)) // do the final commit
                         throw new Exception();
+                    //sendMail($username, $password);//to send real e-mail
                     mysqli_autocommit($con, TRUE);
                     mysqli_close($con);
                     return INSERT_PARENT_OK;
