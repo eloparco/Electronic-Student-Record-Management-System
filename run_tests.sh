@@ -8,6 +8,7 @@ EOF
 
 java -jar -Dwebdriver.chrome.driver=./chromedriver selenium-server-standalone-3.141.59.jar &
 php vendor/bin/codecept run 
+kill $!
 
 # use production database
 cat << 'EOF' > config/database/database.ini

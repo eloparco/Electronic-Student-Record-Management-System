@@ -47,7 +47,7 @@ if(!userLoggedIn()) {
     
     <main role="main" class="container-fluid">
     <div class="bootstrap-iso">
-      <h1 class="h3 mb-3 font-weight-normal">Lesson recording</h1>
+      <h1 class="h3 mb-3 font-weight-normal" id='lessonRecordingTitle'>Lesson recording</h1>
         <form action="record_topic.php" method="post" name="post_recording"> 
 
           <!-- Class and subject selection -->
@@ -146,7 +146,7 @@ if(!userLoggedIn()) {
               <label for="lectureTextArea">Insert the lecture topics</label>
               <textarea class="form-control" id="lectureTextArea" rows="3" name="subtitle"></textarea>
             </div>        
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
+            <button class="btn btn-lg btn-primary btn-block" id="confirm" type="submit">Confirm</button>
             
             <!-- POST Method response -->
             <?php 
