@@ -32,6 +32,8 @@ if(isset($_SESSION['msg_result'])) {
   <?php include("includes/head.php"); ?>
   <link href="../css/dashboard.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/customForm.css">
+  <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
+  <link rel="stylesheet" type="text/css" href="css/student_form.css">
   <link rel="stylesheet" type="text/css" href="css/w3.css">
   <script src="https://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
 </head>
@@ -43,19 +45,22 @@ if(isset($_SESSION['msg_result'])) {
   <script>
     var homeElement = document.getElementById("homeDash");
     var recordParentElement = document.getElementById("recordParentDash");
+    var recordStudentElement = document.getElementById("recordStudentDash");
+    var setupClassElement = document.getElementById("setupClassDash");
     if (homeElement.classList) {
       homeElement.classList.remove("active");
+      recordParentElement.classList.remove("active");
+      setupClassElement.classList.remove("active");
     }   
-    if (recordParentElement.classList) {
-        recordParentElement.classList.add("active");
-    } 
+    if (recordStudentElement.classList)
+        recordStudentElement.classList.add("active");
   </script>
 
   <div class="formContainer text-center">
-    <form class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="insert_student.php" method="post">
+    <form id="myStudentForm" class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="insert_student.php" method="post">
 
-      <img class="mb-4" src="images/icons/parent.png" alt="" width="102" height="102">
-      <h1 class="h3 mb-3 font-weight-normal">Enter student data</h1>
+      <img class="mb-4" src="images/icons/student.png" alt="" width="102" height="102">
+      <h1 id="myFormTitle" class="h3 mb-3 font-weight-normal">Enter student data</h1>
       <label for="inputSSN" class="sr-only">SSN</label>
       <input type="text" id="inputSSN" name="SSN" class="form-control" placeholder="SSN" pattern=".{16}" title="Please insert 16 alphanumeric characters." required autofocus>
       <label for="inputName" class="sr-only">Name</label>
@@ -64,17 +69,16 @@ if(isset($_SESSION['msg_result'])) {
       <input type="text" id="inputSurname" name="surname" class="form-control" placeholder="Surname" pattern=".{2,20}" title="Please insert a name with length between 2 and 20." required>
       
        <!-- Parent 1 selection -->
-       <div class="form-group">
-            <label for="parent1Selection">Select parent #1</label>
+       <div id="parent1Div" class="form-group-class">
+            <label for="parent1Selection">Parent #1</label>
             <select class="form-control" id="parent1Selection" name="parent1">
               <!-- <option>Parent 1</option> -->
            </select>
         </div>
-
          
        <!-- Parent 2 selection -->
-       <div class="form-group">
-            <label for="parent2Selection">Select parent #2</label>
+       <div class="form-group-class">
+            <label for="parent2Selection">Parent #2</label>
             <select class="form-control" id="parent2Selection" name="parent2">
               <!-- <option>Parent 2</option> -->
            </select>
@@ -118,7 +122,7 @@ if(isset($_SESSION['msg_result'])) {
 
          <!-- Class selection -->
          <div class="form-group-class">
-              <label for="classSelection">Select a class</label>
+              <label for="classSelection">Class</label>
               <select class="form-control" id="classSelection" name="class">
                 <!-- <option>1A</option> -->
               </select>
@@ -157,18 +161,18 @@ if(isset($_SESSION['msg_result'])) {
               });
             });
           </script>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-       <!-- POST Method response -->
-    <?php 
+          <!-- POST Method response -->
+        <?php 
         if(isset($_SESSION['msg_result'])) {
           if(!empty($_SESSION['msg_result'])) {
             if($_SESSION['msg_result'] != STUDENT_RECORDING_OK){ ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
           <?php } else { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
           <?php
           }}
           $_SESSION['msg_result'] = "";} ?>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form>
   <div>
 </body>

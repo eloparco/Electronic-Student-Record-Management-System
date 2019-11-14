@@ -1,0 +1,20 @@
+#compositionDiv {
+    margin-left: 15rem!important;
+    padding-top: 0rem!important;
+}
+
+#compositionContainer li{
+    cursor: pointer;
+}
+
+.form-group-hour select {
+    width: 40%;
+}
+
+#yearSelection {
+    margin-right: 5px;
+}
+
+#compositionTitle {
+    margin-bottom: 1rem!important;
+}

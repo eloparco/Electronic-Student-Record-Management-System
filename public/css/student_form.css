@@ -1,0 +1,24 @@
+#parent1Div {
+    margin-top: 10px;
+}
+
+.form-group-class label {
+    margin-right: 0px;
+    width: 44%;
+}
+
+#myFormTitle {
+    margin-bottom: 1rem!important;
+}
+
+.mb-4 {
+    margin-bottom: 0.5rem!important;
+}
+
+.form-signin {
+    padding-top: 0px;
+}
+
+.pt-3 {
+    padding-top: 0rem!important;
+}

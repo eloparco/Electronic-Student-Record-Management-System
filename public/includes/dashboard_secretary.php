@@ -23,19 +23,19 @@
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
             <a id="recordParentDash" class="nav-link" href="parent_form.php">
-                <span data-feather="file-text"></span>
+                <span data-feather="user-plus"></span>
                 Record parent
             </a>
             </li>
             <li class="nav-item">
-            <a id="recordParentDash" class="nav-link" href="student_form.php">
-                <span data-feather="file-text"></span>
+            <a id="recordStudentDash" class="nav-link" href="student_form.php">
+                <span data-feather="user-plus"></span>
                 Record student
             </a>
             </li>
             <li class="nav-item">
-            <a id="recordParentDash" class="nav-link" href="class_composition.php">
-                <span data-feather="file-text"></span>
+            <a id="setupClassDash" class="nav-link" href="class_composition.php">
+                <span data-feather="tool"></span>
                 Setup class composition
             </a>
             </li>

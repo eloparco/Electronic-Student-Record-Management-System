@@ -42,8 +42,12 @@ if(isset($_SESSION['msg_result'])) {
   <script>
     var homeElement = document.getElementById("homeDash");
     var recordParentElement = document.getElementById("recordParentDash");
+    var recordStudentElement = document.getElementById("recordStudentDash");
+    var setupClassElement = document.getElementById("setupClassDash");
     if (homeElement.classList) {
       homeElement.classList.remove("active");
+      recordStudentElement.classList.remove("active");
+      setupClassElement.classList.remove("active");
     }   
     if (recordParentElement.classList) {
         recordParentElement.classList.add("active");
@@ -51,8 +55,8 @@ if(isset($_SESSION['msg_result'])) {
   </script>
 
   <div class="formContainer text-center">
-    <form class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="validation_parent.php" method="post">
-      <img class="mb-4" src="images/icons/parent.png" alt="" width="102" height="102">
+    <form id="myParentForm" class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="validation_parent.php" method="post">
+      <img id="parentImg" class="mb-4" src="images/icons/parent.png" alt="" width="102" height="102">
       <h1 class="h3 mb-3 font-weight-normal">Enter parent data</h1>
       <label for="inputSSN" class="sr-only">SSN</label>
       <input type="text" id="inputSSN" name="ssn" class="form-control" placeholder="SSN" pattern=".{16}" title="Please insert 16 alphanumeric characters." required autofocus>

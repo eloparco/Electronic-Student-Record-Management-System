@@ -29,7 +29,7 @@
             </li>
             <li class="nav-item">
             <a id="recordMark" class="nav-link" href="mark_recording.php">
-                <span data-feather="file-text"></span>
+                <span data-feather="edit"></span>
                 Record a student's mark
             </a>
         </li>

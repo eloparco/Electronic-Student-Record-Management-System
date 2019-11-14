@@ -26,7 +26,7 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     break;
   case "parent_form.php":
     $CURRENT_PAGE = "parent_form";
-    $PAGE_TITLE = "Parent Form Page";
+    $PAGE_TITLE = "Record Parent";
     break;
   case "marks.php":
     $CURRENT_PAGE = "listing_marks";
@@ -39,5 +39,9 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
   case "class_composition.php";
     $CURRENT_PAGE = "class_composition";
     $PAGE_TITLE = "Class composition";
+    break;
+  case "student_form.php";
+    $CURRENT_PAGE = "student_form";
+    $PAGE_TITLE = "Record Student";
     break;
 }
