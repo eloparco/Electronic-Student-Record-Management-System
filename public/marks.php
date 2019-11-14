@@ -56,7 +56,7 @@ if(!userLoggedIn()) {
         <!-- Start date seletion -->
         <div class="form-group mb-2">
             <label for="startDateSelection">From</label>
-            <input type="text" class="form-control date-selection" id='startDateSelection'>
+            <input type="text" class="form-control date-selection" id='startDateSelection' name='startDateSelection'>
         </div>
         <!-- End date seletion -->
         <div class="form-group mb-2">

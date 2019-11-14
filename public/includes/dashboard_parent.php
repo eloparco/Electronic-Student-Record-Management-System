@@ -29,9 +29,9 @@
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="marks.php">
+            <a class="nav-link" href="marks.php" id="marks_dashboard">
                 <span data-feather="file-text"></span>
-                Marks 
+                Marks
             </a>
             </li>
         </ul>

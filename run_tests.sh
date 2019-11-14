@@ -6,7 +6,8 @@ user = root
 pass = 
 EOF
 
-php vendor/bin/codecept run
+java -jar -Dwebdriver.chrome.driver=./chromedriver selenium-server-standalone-3.141.59.jar &
+php vendor/bin/codecept run 
 
 # use production database
 cat << 'EOF' > config/database/database.ini
