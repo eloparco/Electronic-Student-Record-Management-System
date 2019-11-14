@@ -42,7 +42,7 @@ if(!userLoggedIn()) {
   </script>
 
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <h1 class="mt-5">User Parent Main Page</h1>
+    <h1 class="mt-5">User Secretary Officer Main Page</h1>
   </main>
 
 </body>

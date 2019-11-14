@@ -1,9 +1,8 @@
-html,
-body {
-  height: 100%;
+html {
+  background-color: #f5f5f5;
 }
 
-body {
+.formContainer {
   display: -ms-flexbox;
   display: -webkit-box;
   display: flex;
@@ -34,4 +33,96 @@ body {
 }
 .form_record .form-control:focus {
   z-index: 2;
+}
+
+.form-group-class {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  clear: both;
+}
+
+.form-group-hour {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  clear: both;
+}
+
+.form-group-text {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  clear: both;
+}
+
+.form-group-class label {
+  justify-content: start;
+  white-space:nowrap;
+  margin-right: 40px;
+  width: 70%;
+  text-align: left;
+}
+
+.form-group-hour label {
+  justify-content: start;
+  white-space:nowrap;
+  margin-right: 40px;
+  width: 70%;
+  text-align: left;
+}
+
+.form-group-text label {
+  justify-content: start;
+  white-space:nowrap;
+  margin-right: 40px;
+  width: 70%;
+  text-align: left;
+}
+
+.form-group-class select {
+  width: 100%;
+  clear: both;
+}
+
+.form-group-hour select {
+  width: 100%;
+  clear: both;
+}
+
+.form-group-class input {
+  width: 100%;
+  clear: both;
+}
+
+.form-group-text textarea {
+  width: 100%;
+  clear: both;
+}
+
+.mb-3 {
+  margin-bottom: 1.9rem!important;
+  justify-content: center;
+}
+
+th .today { 
+  display: none; 
+}
+
+#incdec {
+  display: contents;
+  width: 40%;
+  clear: both;
+}
+
+#decimalScore {
+  width: 45%;
+}
+
+#decrement {
+  margin-left: 15px;
+}
+
+#selection {
+  width: 105%;
 }

@@ -23,7 +23,7 @@ define("TOPIC_RECORDING_OK", "Topics correctly recorded.");
 define("TOPIC_RECORDING_INCORRECT", "Please fill all the fields.");
 define("MARK_RECORDING_OK", "Mark correctly recorded.");
 define("MARK_RECORDING_FAILED", "Mark recording failed.");
-define("MAX_INACTIVITY", 120);
+define("MAX_INACTIVITY", 600);
 
 function connect_to_db() {
     $db = parse_ini_file("../config/database/database.ini");

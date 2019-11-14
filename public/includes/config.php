@@ -32,4 +32,8 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $CURRENT_PAGE = "listing_marks";
     $PAGE_TITLE = "Student marks";
     break;
+  case "mark_recording.php":
+    $CURRENT_PAGE = "mark_recording";
+    $PAGE_TITLE = "Mark recording";
+    break;
 }
