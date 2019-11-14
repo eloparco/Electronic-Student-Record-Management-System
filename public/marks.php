@@ -43,7 +43,7 @@ if(!userLoggedIn()) {
         <!-- Subject selection -->
         <div class="form-group mb-2">
             <label for="subjectSelection">Subject</label>
-            <select class="form-control" id="subjectSelection">
+            <select class="form-control" id="subjectSelection" name="subjectSelection">
             <option></option>
             <?php
                 $subjects = get_list_of_subjects($_SESSION['child']);

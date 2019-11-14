@@ -59,6 +59,7 @@ class Story1Cest
 
     public function testMarkVisualization(AcceptanceTester $I)
     {
+        // login
         $I->amOnPage('/login.php');
         $I->fillField('username', 'r.filicaro@parent.esrmsystem.com');
         $I->fillField('password', 'Roberta77');
@@ -67,9 +68,46 @@ class Story1Cest
         $I->seeInCurrentUrl('/user_parent.php');
         $I->see('Marks');
         
-        $I->wait(1);
-        $first_row = array('Geography', '4th Nov 2019', '8.75');
-        foreach ($first_row as $item)
-            $I->see($item);
+        // check marks
+        $I->click('Marks');        
+        $table = array(
+            array('Geography', '4th Nov 2019', '8.75'),
+            array('History', '7th Nov 2019', '6.50'),
+            array('Italian', '7th Nov 2019', '7.25'),
+            array('Physics', '8th Nov 2019', '6.75'),
+            array('Mathematics', '11th Nov 2019', '8.00')
+        );
+
+        // check entries in table
+        foreach ($table as $row) {
+            foreach ($row as $item) {
+                $I->see($item);
+            }
+        }
     }
+
+    // javascript code cannot be tested
+    // public function testMarkSingleSubject(AcceptanceTester $I)
+    // {
+    //     // login
+    //     $I->amOnPage('/login.php');
+    //     $I->fillField('username', 'r.filicaro@parent.esrmsystem.com');
+    //     $I->fillField('password', 'Roberta77');
+    //     $I->click('Sign in');
+
+    //     $I->seeInCurrentUrl('/user_parent.php');
+    //     $I->see('Marks');
+    //     $I->click('Marks');
+
+    //     // select subject
+    //     $I->selectOption("form select[name='subjectSelection']", 'Geography');
+    //     $mark = array('Geography', '4th Nov 2019', '8.75');
+    //     foreach ($mark as $item) {
+    //         $I->see($item);
+    //     }
+
+    //     $subjects = array('History', 'Italian', 'Physics', 'Mathematics');
+    //     foreach ($subjects as $subject)
+    //         $I->dontSee($subject);
+    // }
 }
