@@ -27,7 +27,6 @@ define("MARK_RECORDING_OK", "Mark correctly recorded.");
 define("MARK_RECORDING_FAILED", "Mark recording failed.");
 define("STUDENT_RECORDING_OK", "Student correctly recorded.");
 define("STUDENT_RECORDING_FAILED", "Student recording failed.");
-//define("MAX_INACTIVITY", 120);
 define("MAX_INACTIVITY", 99999999);
 
 function connect_to_db() {

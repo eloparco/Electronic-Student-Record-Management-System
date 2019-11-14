@@ -17,16 +17,21 @@ if(!userLoggedIn()) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
+if(isset($_SESSION['msg_result'])) {
+  if(!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_TEACHER_OK)) { 
+      $_SESSION['msg_result'] = '';
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
     <?php include("includes/head.php");?>
+    <link href="../css/dashboard.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
     <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
     <link rel="stylesheet" type="text/css" href="css/w3.css"> 
-    <link href="css/lecture_rec.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
     
     <!-- Bootstrap Date-Picker Plugin -->
@@ -42,13 +47,25 @@ if(!userLoggedIn()) {
 </head>
 
   <body>
-    <?php include("includes/header.php"); ?>
-    
-    <main role="main" class="container-fluid">
-    <div class="bootstrap-iso">
-      <h1 class="h3 mb-3 font-weight-normal">Mark recording</h1>
-        <form action="record_mark.php" method="post" name="post_mark_recording">
+    <?php include("includes/user_header.php"); ?>
+    <?php include("includes/dashboard_teacher.php"); ?> 
 
+    <script>
+    var homeElement = document.getElementById("homeDash");
+    var recordMark = document.getElementById("recordMark");
+    var recordLecture = document.getElementById("recordLecture");
+    if (homeElement.classList)
+      homeElement.classList.remove("active");
+    if(recordLecture.classList) 
+      recordLecture.classList.remove("active");
+    if (recordMark.classList)
+      recordMark.classList.add("active");
+    </script>
+
+    <div class="formContainer text-center">
+        <form id="markRecForm" class="form-record col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-4 pt-3 px-4" onsubmit="calcMark()" action="record_mark.php" method="post" name="post_mark_recording">
+          <img class="mb-4" src="images/icons/mark_recording.png" alt="" width="102" height="102">
+          <h1 class="h3 mb-3 font-weight-normal">Mark recording</h1>
           <!-- Class selection -->
           <div class="form-group-class">
               <label for="classSelection">Select a class and a subject</label>
@@ -183,46 +200,85 @@ if(!userLoggedIn()) {
             <!-- Mark selection -->
             <div class="form-group-hour">
               <label for="hourSelection">Select the score</label>
-              <select class="form-control" id="hourSelection" name="score">
-                <option>1</option>
-                <option>1.5</option>
-                <option>2</option>
-                <option>2.5</option>
-                <option>3</option>
-                <option>3.5</option>
-                <option>4</option>
-                <option>4.5</option>
-                <option>5</option>
-                <option>5.5</option>
-                <option>6</option>
-                <option>6.5</option>
-                <option>7</option>
-                <option>7.5</option>
-                <option>8</option>
-                <option>8.5</option>
-                <option>9</option>
-                <option>9.5</option>
-                <option>10</option>
-                <option>10L</option>
-              </select>
-            </div>      
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
-          </form>
-
-           <!-- POST Method response -->
-           <?php 
-        if(isset($_SESSION['msg_result'])) {
+              <div id="selection" class="form-group-hour">
+                <select class="form-control" id="scoreSelection" name="score">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>10L</option>
+                </select>
+                <div id="incdec">
+                  <input id="decrement" type="button" class="btn btn-number btn-danger" data-type="minus" value="-">
+                  <input type="text" name="phone" style="display:none;" value="add_some_phone_number"/>
+                  <span id="decimalScore" class="form-control input-number"></span>
+                  <input type="hidden" name="decimalMarkValue" id="decimalMarkValue" value="">
+                  <input id="increment" type="button" class="btn btn-number btn-success" data-type="plus" value="+">
+                </div>
+              </div>  
+            </div>  
+            <!-- POST Method response -->
+            <?php 
+          if(isset($_SESSION['msg_result'])) {
           if(!empty($_SESSION['msg_result'])) {
             if($_SESSION['msg_result'] != MARK_RECORDING_OK){ ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
           <?php } else { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
           <?php
           }}
-          $_SESSION['msg_result'] = "";} ?>
+          $_SESSION['msg_result'] = "";} ?>    
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
+          </form>
       </div>
-    </main>
-
-    <?php include("includes/footer.php"); ?>
   </body>
+  <!-- Icons -->
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <script>
+    feather.replace() //for the icons
+
+    var sel = document.getElementById("scoreSelection");
+    var increment = document.getElementById('increment'); 
+    var decrement = document.getElementById('decrement'); 
+    var decimal = document.getElementById("decimalScore");
+    var y = 0;
+
+    increment.addEventListener('click', function () {
+      var text = sel.options[sel.selectedIndex].text;
+      if(text != "10" && text != "10L") {
+        if(y < 0.75) {
+          y += 0.25;
+          if(y == 0) 
+            decimal.innerHTML = "";
+          else 
+            decimal.innerHTML = y;
+        }
+      }
+    });
+
+    decrement.addEventListener('click', function () {
+      var text = sel.options[sel.selectedIndex].text;
+      if(text != "10" && text != "10L") {
+        if(y >= 0.25) {
+          y -= 0.25;
+          if(y == 0) 
+            decimal.innerHTML = "";
+          else 
+            decimal.innerHTML = y;
+        }
+      }
+    });
+
+    function calcMark() {
+      markValue = $('#decimalScore').html(); //get the value from the span
+      $("#decimalMarkValue").val(markValue); //store the extracted value in a hidden form field
+      $("#markRecForm").submit(); //submit the form using it's ID "my-form"
+    }
+  </script>
 </html>

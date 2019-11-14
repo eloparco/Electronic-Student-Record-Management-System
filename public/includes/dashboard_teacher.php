@@ -4,7 +4,7 @@
         <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a id="homeDash" class="nav-link active" href="user_teacher.php">
                 <span data-feather="home"></span>
                 Home <span class="sr-only">(current)</span>
             </a>
@@ -18,24 +18,21 @@
         </ul>
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Options</span>
-            <a class="d-flex align-items-center text-muted" href="#">
-            </a>
+            <span>Operations</span>
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-            <a class="nav-link" name="recordTopic" href="lecture_recording.php">
+            <a id="recordLecture" class="nav-link" href="lecture_recording.php">
                 <span data-feather="file-text"></span>
-                Option1
+                Record lecture's topics  
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="mark_recording.php" id="markRecording">
+            <a id="recordMark" class="nav-link" href="mark_recording.php">
                 <span data-feather="file-text"></span>
-                Option2
+                Record a student's mark
             </a>
         </li>
-        
         </ul>
         </div>
     </nav>

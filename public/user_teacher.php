@@ -28,10 +28,10 @@ if(!userLoggedIn()) {
 
 <body>
   <?php include("includes/user_header.php"); ?> 
-  <?php include("includes/dashboard.php"); ?> 
+  <?php include("includes/dashboard_teacher.php"); ?> 
 
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <h1 class="mt-5">User Teacher Page - TODO</h1>
+    <h1 class="mt-5">User Teacher Main Page</h1>
   </main>
 </body>
 

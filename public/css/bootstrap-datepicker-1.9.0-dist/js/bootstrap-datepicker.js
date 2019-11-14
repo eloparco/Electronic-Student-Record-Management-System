@@ -1675,7 +1675,7 @@
 
 	var defaults = $.fn.datepicker.defaults = {
 		assumeNearbyYear: false,
-		autoclose: false,
+		autoclose: true,
 		beforeShowDay: $.noop,
 		beforeShowMonth: $.noop,
 		beforeShowYear: $.noop,
@@ -1701,8 +1701,8 @@
 		rtl: false,
 		startDate: -Infinity,
 		startView: 0,
-		todayBtn: false,
-		todayHighlight: false,
+		todayBtn: "linked",
+		todayHighlight: true,
 		updateViewDate: true,
 		weekStart: 0,
 		disableTouchKeyboard: false,
@@ -1948,9 +1948,6 @@
 						'</thead>',
 		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
 		footTemplate: '<tfoot>'+
-							'<tr>'+
-								'<th colspan="7" class="today"></th>'+
-							'</tr>'+
 							'<tr>'+
 								'<th colspan="7" class="clear"></th>'+
 							'</tr>'+
