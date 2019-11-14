@@ -10,7 +10,7 @@
             </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="../logout.php">
+            <a class="nav-link" href="logout.php">
                 <span data-feather="log-out"></span>
                 Logout
             </a>
@@ -25,6 +25,18 @@
             <a id="recordParentDash" class="nav-link" href="parent_form.php">
                 <span data-feather="file-text"></span>
                 Record parent
+            </a>
+            </li>
+            <li class="nav-item">
+            <a id="recordParentDash" class="nav-link" href="student_form.php">
+                <span data-feather="file-text"></span>
+                Record student
+            </a>
+            </li>
+            <li class="nav-item">
+            <a id="recordParentDash" class="nav-link" href="class_composition.php">
+                <span data-feather="file-text"></span>
+                Setup class composition
             </a>
             </li>
         </ul>

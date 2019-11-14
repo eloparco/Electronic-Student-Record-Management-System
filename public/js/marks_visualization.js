@@ -17,32 +17,46 @@ $(document).ready(function(){
         autoclose: true
     });
 
-    /**
-     * TODO: merge subjects and data filters
-     */
-    // listener on subjects
-    $("#subjectSelection").change(function(){
-        var selectedSubject = $(this).children("option:selected").val();
-        console.log("Showing subject: " + selectedSubject + "\n");
-        var rows = $("table#marks_table tr");
-        rows.each(function(){
-            if($(this).data('subject') === selectedSubject){
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        })
-    });
+    function get_date_from_format(dateString){
+        var pattern = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+        var arrayDate = dateString.match(pattern);
+        return new Date(arrayDate[3], arrayDate[2]-1, arrayDate[1]);
+    }
 
-    // date filters
-    function updateWithDataFilter(){
-        let sDate = $("#startDateSelection").val();
-        let eDate = $("#endDateSelection").val();
-        console.log("Start period: " + sDate + "\nEnd period: " + eDate + "\n");
-        var rows = $("table#marks_table tr");
+    /**
+     * function to select the filters and pass them to the filtering function [updateWithDataFilters]
+     */
+    function updateVisualization(){
+        let selectedSubject = $("#subjectSelection").children("option:selected").val();
+        selectedSubject = selectedSubject === "" ? null : selectedSubject;
+        let startDate = $("#startDateSelection").val();
+        let endDate = $("#endDateSelection").val();
+        let sDate = null;
+        let eDate = null;
+        let pattern = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+        if(startDate !== ""){
+            if(pattern.test(startDate)){
+                sDate = get_date_from_format(startDate);
+            } else {
+                alert("Please insert a valid date, which has the format of dd/mm/yyyy");
+            }
+        }
+        if(endDate !== ""){
+            if(pattern.test(endDate)){
+                eDate = get_date_from_format(endDate);
+            } else {
+                alert("Please insert a valid date, which has the format of dd/mm/yyyy");
+            }
+        }
+        updateWithDataFilter(selectedSubject, sDate, eDate);
+    }
+
+    function updateWithDataFilter(subject, sDate, eDate){
+        var rows = $("table#marks_table > tbody > tr");
         rows.each(function(){
-            let actualDate = $(this).data('date');
-            if((sDate === "" && eDate === "") || (sDate === "" && actualDate <= eDate) || (actualDate >= sDate && eDate === "") || (actualDate >= sDate && actualDate <= eDate)){
+            let actualDate = get_date_from_format($(this).data('date'));
+            let actualSubject = $(this).data('subject');
+            if(((sDate === null && eDate === null) || (sDate === null && actualDate <= eDate) || (actualDate >= sDate && eDate === null) || (actualDate >= sDate && actualDate <= eDate)) && (subject === null || actualSubject === subject)){
                 $(this).show();
             } else {
                 $(this).hide();
@@ -50,5 +64,6 @@ $(document).ready(function(){
         });
     }
 
-    $(".date-selection").change(updateWithDataFilter);
+    $("#subjectSelection").change(updateVisualization);
+    $(".date-selection").change(updateVisualization);
 })

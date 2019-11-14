@@ -43,7 +43,8 @@ if(!userLoggedIn()) {
         <!-- Subject selection -->
         <div class="form-group mb-2">
             <label for="subjectSelection">Subject</label>
-            <select class="form-control" id="subjectSelection">
+            <select class="form-control" id="subjectSelection" name="subjectSelection">
+            <option></option>
             <?php
                 $subjects = get_list_of_subjects($_SESSION['child']);
                 foreach($subjects as $subject){
@@ -55,7 +56,7 @@ if(!userLoggedIn()) {
         <!-- Start date seletion -->
         <div class="form-group mb-2">
             <label for="startDateSelection">From</label>
-            <input type="text" class="form-control date-selection" id='startDateSelection'>
+            <input type="text" class="form-control date-selection" id='startDateSelection' name='startDateSelection'>
         </div>
         <!-- End date seletion -->
         <div class="form-group mb-2">

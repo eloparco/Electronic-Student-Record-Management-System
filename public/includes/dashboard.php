@@ -24,7 +24,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-            <a class="nav-link" href="lecture_recording.php">
+            <a class="nav-link" name="recordTopic" href="lecture_recording.php">
                 <span data-feather="file-text"></span>
                 Option1
             </a>
@@ -35,6 +35,7 @@
                 Option2
             </a>
         </li>
+        
         </ul>
         </div>
     </nav>
