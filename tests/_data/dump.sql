@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 14, 2019 at 11:37 AM
+-- Generation Time: Nov 14, 2019 at 08:01 PM
 -- Server version: 5.7.27-0ubuntu0.19.04.1
 -- PHP Version: 7.2.24-0ubuntu0.19.04.1
 
@@ -198,6 +198,13 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
   KEY `TeacherSSN` (`TeacherSSN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `TOPIC`
+--
+
+INSERT INTO `TOPIC` (`Class`, `Date`, `StartHour`, `SubjectID`, `TeacherSSN`, `Title`, `Description`) VALUES
+('1A', '2019-11-13', 1, 1, 'aaa111', 'Test title', 'Test description');
+
 -- --------------------------------------------------------
 
 --
@@ -221,11 +228,12 @@ CREATE TABLE IF NOT EXISTS `USER` (
 --
 
 INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `AccountActivated`) VALUES
-('aaa111', 'aaa', 'bbb', 'johnny@doe.it', 'a1a1a1a1', 'TEACHER', 1),
+('aaa111bbb', 'aaa', 'bbb', 'johnny@doe.it', 'a1a1a1a1', 'TEACHER', 1),
 ('ABC123', 'John', 'Doe', 'john@doe.it', 'pass123', 'PARENT', 1),
 ('ABC456', 'Jane', 'Doe', 'jane@doe.it', 'pass456', 'PARENT', 0),
 ('123aaa', 'aaa', 'bbb', 'enrico@gmail.com', '1111eeee?', 'PARENT', NULL),
 ('123q', 'ggg', 'ggg', 'enrico@gmail.it', 'a1a1a1a1', 'PARENT', 1),
+('aaa111', 'aaa', 'bbb', 'aaa@bbb.com', 'a1a1a1a1', 'TEACHER', 1),
 ('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'r.filicaro@parent.esrmsystem.com', 'Roberta77', 'PARENT', 1),
 ('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrmsystem.com', 'Teresa72', 'TEACHER', 1),
 ('LNGMRN58M51L219R', 'Marina', 'Longobardi', 'm.longobardi@esrmsystem.com', 'Marina58', 'TEACHER', 1),
@@ -238,14 +246,6 @@ INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `CHILD`
---
-ALTER TABLE `CHILD`
-  ADD CONSTRAINT `CHILD_ibfk_1` FOREIGN KEY (`SSNParent1`) REFERENCES `USER` (`SSN`),
-  ADD CONSTRAINT `CHILD_ibfk_2` FOREIGN KEY (`SSNParent2`) REFERENCES `USER` (`SSN`),
-  ADD CONSTRAINT `CHILD_ibfk_3` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`);
 
 --
 -- Constraints for table `CLASS_TIMETABLE`
