@@ -123,4 +123,14 @@ class InputValidationTest extends \Codeception\Test\Unit
     {
         $this->assertEquals('outside', mySanitizeString('<?php aaa ?>outside'));
     }
+
+    // PASSWORD GENERATION
+    public function testRandomPassGenerationLength() {
+        $this->assertEquals(DEFAULT_PASSWORD_LENGTH, strlen(generatePass()));
+    }
+    public function testRandomPassGenerationNoDuplicates() {
+        $pass1 = generatePass();
+        $pass2 = generatePass();
+        $this->assertNotEquals($pass1, $pass2);
+    }
 }

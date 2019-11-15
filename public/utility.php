@@ -28,6 +28,7 @@ define("MARK_RECORDING_FAILED", "Mark recording failed.");
 define("STUDENT_RECORDING_OK", "Student correctly recorded.");
 define("STUDENT_RECORDING_FAILED", "Student recording failed.");
 define("MAX_INACTIVITY", 99999999);
+define("DEFAULT_PASSWORD_LENGTH", 8);
 
 function connect_to_db() {
     $db = parse_ini_file("../config/database/database.ini");
@@ -108,8 +109,16 @@ function checkUserType($type) {
     return $type === 'TEACHER' || $type === 'SECRETARY_OFFICER' || $type === 'PARENT';
 }
 
-function generatePass($name) {
-    return $name.'5';
+function generatePass() {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+    $randomString = ''; 
+  
+    for ($i = 0; $i < DEFAULT_PASSWORD_LENGTH; $i++) { 
+        $index = rand(0, strlen($characters) - 1); 
+        $randomString .= $characters[$index]; 
+    } 
+  
+    return $randomString; 
 }
 
 function mySanitizeString($var) {
