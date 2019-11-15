@@ -5,7 +5,7 @@ class Story2Cest
     public function _before(AcceptanceTester $I)
     {
     }
-
+    
     // tests
     public function testInsertTopicSuccess(AcceptanceTester $I)
     {
@@ -95,7 +95,7 @@ class Story2Cest
         $I->waitForElementClickable('#confirm', 10);
         $I->click('Confirm');
 
-        // error shoud be displayed
+        // error should be displayed
         $I->see('Please fill all the fields.');
     }
 }

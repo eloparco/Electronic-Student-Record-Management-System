@@ -241,7 +241,9 @@ INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `
 ('PLLMRT70E68L219Q', 'Marta', 'Pellegrino', 'm.pellegrino@parent.esrmsystem.com', 'Marta70', 'PARENT', 1),
 ('PNCMSM75D20L219X', 'Massimiliano', 'Ponci', 'm.ponci@parent.esrmsystem.com', 'Massi75', 'PARENT', 1),
 ('RSSMRA70A01F205V', 'Mario', 'Rossi', 'mario.rossi@email.com', 'Mariorossi2', 'PARENT', 1),
-('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@parent.esrmsystem.com', 'Roberto66', 'PARENT', 1);
+('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@parent.esrmsystem.com', 'Roberto66', 'PARENT', 1),
+('QFFFZL52M61I472B', 'Milo', 'Contini', 'milo@milo.it', 'Milo1','SECRETARY_OFFICER', 1);
+
 
 --
 -- Constraints for dumped tables
