@@ -105,7 +105,7 @@ function checkNormalText($input) {
 }
 
 function checkUserType($type) {
-    return $type == 'TEACHER' || $type == 'SECRETARY_OFFICER' || $type == 'PARENT';
+    return $type === 'TEACHER' || $type === 'SECRETARY_OFFICER' || $type === 'PARENT';
 }
 
 function generatePass($name) {
