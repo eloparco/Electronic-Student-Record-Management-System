@@ -23,12 +23,6 @@
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-            <a class="nav-link" href="user_parent.php">
-                <span data-feather="file-text"></span>
-                Home 
-            </a>
-            </li>
-            <li class="nav-item">
             <a class="nav-link" href="marks.php" id="marks_dashboard">
                 <span data-feather="file-text"></span>
                 Marks
