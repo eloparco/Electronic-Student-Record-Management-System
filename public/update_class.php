@@ -2,7 +2,7 @@
 define("JSON", "JSON");
 include('utility.php');
 
-$db_con = mysqli_connect("localhost", "root", "", "student_record_management");
+$db_con = connect_to_db();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(!isset($_POST['class']) && !isset($_POST['students'])) {

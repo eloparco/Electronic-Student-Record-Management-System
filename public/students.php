@@ -1,7 +1,7 @@
 <?php
 define("JSON", "JSON");
-
-$db_con = mysqli_connect("localhost", "root", "", "student_record_management");
+require_once('utility.php');
+$db_con = connect_to_db();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     

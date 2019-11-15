@@ -5,9 +5,9 @@ class Story3Cest
     public function _before(AcceptanceTester $I)
     {
     }
-
+    
     // tests
-    public function testLoginSecretory(AcceptanceTester $I)
+    public function testLoginSecretary(AcceptanceTester $I)
     {
         $I->amOnPage('/login.php');        
         $I->fillField('username', 'milo@milo.it');

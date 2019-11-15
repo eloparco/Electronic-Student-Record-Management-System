@@ -418,7 +418,7 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class){
             }
         } catch (Exception $e) {
             mysqli_close($con);
-            return STUDENT_RECORDING_FAILED." ".$e;
+            return "Student already exists.";
             //return STUDENT_RECORDING_FAILED;
         }
     } else {
