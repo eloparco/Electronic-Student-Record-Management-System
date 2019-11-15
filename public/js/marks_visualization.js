@@ -38,14 +38,14 @@ $(document).ready(function(){
             if(pattern.test(startDate)){
                 sDate = get_date_from_format(startDate);
             } else {
-                alert("Please insert a valid date, which has the format of dd/mm/yyyy");
+                return;
             }
         }
         if(endDate !== ""){
             if(pattern.test(endDate)){
                 eDate = get_date_from_format(endDate);
             } else {
-                alert("Please insert a valid date, which has the format of dd/mm/yyyy");
+                return;
             }
         }
         updateWithDataFilter(selectedSubject, sDate, eDate);
