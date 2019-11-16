@@ -44,7 +44,7 @@ class Story3Cest
              
         $I->click('Record parent');        
         
-        $I->wait(1);
+        $I->wait(3);
         // insert new parent    
         $I->fillField('ssn', 'DKDVHF36L48G407J');
         $I->fillField('name', 'Giorgio');

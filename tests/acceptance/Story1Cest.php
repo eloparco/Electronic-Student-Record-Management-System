@@ -5,7 +5,7 @@ class Story1Cest
     public function _before(AcceptanceTester $I)
     {
     }
-
+    
     // tests
     public function testLoginSuccess(AcceptanceTester $I)
     {
