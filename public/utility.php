@@ -191,8 +191,11 @@ function tryLogin($username, $password, $ini_path='') {
     }
 }
 
-function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype, $accountactivated) {
-    $con = connect_to_db();
+function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype, $accountactivated, $ini_path='') {
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
     if($con && mysqli_connect_error() == NULL) {
         mysqli_autocommit($con, FALSE);
         try {
@@ -429,8 +432,11 @@ function recordMark($student, $subject, $date, $class, $score) {
     }
 }
 
-function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class){
-    $con = connect_to_db();
+function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_path=''){
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) 
