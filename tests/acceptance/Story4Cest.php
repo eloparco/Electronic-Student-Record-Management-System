@@ -5,7 +5,7 @@ class Story4Cest
     public function _before(AcceptanceTester $I)
     {
     }
-
+    
     // tests
     public function testInsertStudentSuccess(AcceptanceTester $I)
     {
@@ -16,9 +16,9 @@ class Story4Cest
         $I->fillField('password', 'Milo1');
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_secretary.php');
-        
+        $I->wait(3);
         $I->click('Record student');   
-        $I->wait(2);
+        $I->wait(3);
 
         // insert new child    
         $I->fillField('SSN', 'CNVZPR41L20G324K');
@@ -56,7 +56,8 @@ class Story4Cest
         $I->fillField('password', 'Milo1');
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_secretary.php');
-        
+
+        $I->wait(2);
         $I->click('Record student');   
         $I->wait(2);
 
