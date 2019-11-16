@@ -30,8 +30,14 @@ define("STUDENT_RECORDING_FAILED", "Student recording failed.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
 
-function connect_to_db() {
-    $db = parse_ini_file("../config/database/database.ini");
+function connect_to_db($ini_path_test='') {
+    // $ini_path = $_SERVER['DOCUMENT_ROOT'] . '/Electronic-Student-Record-Management-System/config/database/database.ini';
+    $ini_path = '../config/database/database.ini';
+
+    if ($ini_path_test !== '')
+        $ini_path = $ini_path_test;
+    $db = parse_ini_file($ini_path);
+
     $user = $db['user'];
     $pass = $db['pass'];
     $name = $db['name'];
@@ -129,8 +135,11 @@ function mySanitizeString($var) {
     return $var;
 }
 
-function tryLogin($username, $password) {
-    $con = connect_to_db();
+function tryLogin($username, $password, $ini_path='') {
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "SELECT Password, UserType, AccountActivated FROM `USER` WHERE Email = ?")) 
@@ -272,7 +281,11 @@ function check_inactivity () {
 }
 
 # get children given the parent
-function get_children_of_parent($parentUsername){
+function get_children_of_parent($parentUsername, $ini_path=''){
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
     $children_query = "SELECT C.SSN, C.Name, C.Surname\n" .
                       "FROM CHILD C, USER P\n" .
                       "WHERE (SSNParent1=P.SSN OR SSNParent2=P.SSN) AND P.Email=?";
@@ -366,8 +379,12 @@ function get_score_visualization($decimalScore){
 }
 # end Marks Parent
 
-function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description) {
-    $con = connect_to_db();
+function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
+    
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO TOPIC VALUES(?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?, ?);")) 
