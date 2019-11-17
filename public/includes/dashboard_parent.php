@@ -17,8 +17,11 @@
             </li>
         </ul>
 
+<?php
+if(isset($_SESSION['child'])){
+?>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Another section title</span>
+            <span>Visualize</span>
             
         </h6>
         <ul class="nav flex-column mb-2">
@@ -29,6 +32,9 @@
             </a>
             </li>
         </ul>
+<?php
+}
+?>
         </div>
     </nav>
     </div>
