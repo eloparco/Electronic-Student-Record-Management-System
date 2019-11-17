@@ -286,16 +286,17 @@ function get_children_of_parent($parentUsername, $ini_path=''){
         $con = connect_to_db($ini_path);
     else
         $con = connect_to_db();
+
     $children_query = "SELECT C.SSN, C.Name, C.Surname\n" .
                       "FROM CHILD C, USER P\n" .
                       "WHERE (SSNParent1=P.SSN OR SSNParent2=P.SSN) AND P.Email=?";
-    if(!($db_con = connect_to_db())){
+    if(!$con){
         die('Error in connection to database. [Children query]'."\n");
     }
-    $children_prep = mysqli_prepare($db_con, $children_query);
+    $children_prep = mysqli_prepare($con, $children_query);
     if(!$children_prep){
         print('Error in preparing query: '.$children_query);
-        die('Check database error:<br>'.mysqli_error($db_con));
+        die('Check database error:<br>'.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($children_prep, "s", $parentUsername)){
         die('Error in binding parameters to children_prep.'."\n");
@@ -315,25 +316,29 @@ function get_children_of_parent($parentUsername, $ini_path=''){
 # end children of a parent
 
 # functions to manage Marks from Parent side
-function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
+function get_scores_per_child_and_date($childSSN, $startDate, $endDate, $ini_path=''){
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
+
     $marks_query = "SELECT Name, Date, Score\n" .
                     "FROM MARK M, SUBJECT S\n" .
                     "WHERE M.SubjectID=S.ID AND StudentSSN=? AND Date>=str_to_date(?,'%Y-%m-%d') AND Date<=str_to_date(?,'%Y-%m-%d')\n" .
                     "ORDER BY Date";
-    $db_con = connect_to_db();
-    if(!$db_con){
+    if(!$con){
         die('Error in connection to database. [Marks retrieving]'."\n");
     }
-    $marks_prep = mysqli_prepare($db_con, $marks_query);
+    $marks_prep = mysqli_prepare($con, $marks_query);
     if(!$marks_prep){
         print('Error in preparing query: '.$marks_query);
-        die('Check database error:<br>'.mysqli_error($db_con));
+        die('Check database error:<br>'.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($marks_prep, "sss", $childSSN, $startDate, $endDate)){
         die('Error in binding paramters to marks_prep.'."\n");
     }
     if(!mysqli_stmt_execute($marks_prep)){
-        die('Error in executing marks query. Database error:<br>'.mysqli_error($db_con));
+        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
     }
     $marks_res = mysqli_stmt_get_result($marks_prep);
     $scores = array();
@@ -345,19 +350,23 @@ function get_scores_per_child_and_date($childSSN, $startDate, $endDate){
     return $scores;
 }
 
-function get_list_of_subjects($childSSN){
+function get_list_of_subjects($childSSN, $ini_path=''){
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
+
     $subjects_query = "SELECT DISTINCT(Name)\n" . 
                       "FROM MARK M, SUBJECT S\n" . 
                       "WHERE M.SubjectID=S.ID AND StudentSSN=?\n" . 
                       "ORDER BY Name";
-    $db_con = connect_to_db();
-    if(!$db_con){
+    if(!$con){
         die('Error in connection to database. [Retrieving subjects of student]'."\n");
     }
-    $subjects_prep = mysqli_prepare($db_con, $subjects_query);
+    $subjects_prep = mysqli_prepare($con, $subjects_query);
     if(!$subjects_prep){
         print('Error in preparing query: '.$subjects_query);
-        die('Check database error:<br>'.mysqli_error($db_con));
+        die('Check database error:<br>'.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($subjects_prep, "s", $childSSN)){
         die('Error in binding paramters to marks_prep.'."\n");

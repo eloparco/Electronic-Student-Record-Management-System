@@ -50,10 +50,98 @@ class UtilityTest extends \Codeception\Test\Unit
     }
 
     // GET CHILDREN OF PARENT
+    public function testGetChild()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $children = get_children_of_parent('r.filicaro@parent.esrmsystem.com', $ini_path);
+        $this->assertEquals(1, count($children));
+
+        $child = $children[0];
+        $this->assertEquals(3, count($child));
+
+        $this->assertEquals('PNCRCR02C13L219K', $child['SSN']);
+        $this->assertEquals('Riccardo', $child['Name']);
+        $this->assertEquals('Ponci', $child['Surname']);
+    }
+    public function testGetNoChild()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $children = get_children_of_parent('john@doe.it', $ini_path);
+        $this->assertEquals(0, count($children));
+    }
+    public function testGetTwoChildren()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $children = get_children_of_parent('f.mandini@parent.esrmsystem.com', $ini_path);
+        $this->assertEquals(2, count($children));
+
+        $child1 = $children[0];
+        $this->assertEquals(3, count($child1));
+        $child2 = $children[1];
+        $this->assertEquals(3, count($child2));
+        
+        // don't know the order of the results
+        $this->assertTrue('AABBCC00C13L111A' === $child1['SSN'] || 'AABBCC00C13L111A' === $child2['SSN']);
+        $this->assertTrue('Massimo' === $child1['Name'] || 'Massimo' === $child2['Name']);
+        $this->assertTrue('Mandini' === $child1['Surname'] || 'Mandini' === $child2['Surname']);
+
+        $this->assertTrue('MNDGPP04E14L219U' === $child1['SSN'] || 'MNDGPP04E14L219U' === $child2['SSN']);
+        $this->assertTrue('Giuseppe' === $child1['Name'] || 'Giuseppe' === $child2['Name']);
+        $this->assertTrue('Mandini' === $child1['Surname'] || 'Mandini' === $child2['Surname']);
+    }
+    public function testGetChildrenWrongParent()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $children = get_children_of_parent('TEST', $ini_path);
+        $this->assertEquals(0, count($children));
+    }
 
     // GET SCORES PER CHILD AND DATE
+    public function testGetScoresSuccess() {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $scores = get_scores_per_child_and_date('PNCRCR02C13L219K', '2019-11-08', '2019-11-12', $ini_path);
+        $this->assertEquals(2, count($scores));
+
+        $this->assertTrue(in_array('6.75', $scores[0]));
+        $this->assertTrue(in_array('8.00', $scores[1]));
+        $this->assertFalse(in_array('7.25', $scores[0]));
+        $this->assertFalse(in_array('7.25', $scores[1]));
+    }
+    public function testGetScoresWrongChild() {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $scores = get_scores_per_child_and_date('TEST', '2019-11-08', '2019-11-12', $ini_path);
+        $this->assertEquals(0, count($scores));
+    }
+    public function testGetScoresFromChildWithoutScores() {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $scores = get_scores_per_child_and_date('MNDGPP04E14L219U', '2019-11-08', '2019-11-12', $ini_path);
+        $this->assertEquals(0, count($scores));
+    }
+    public function testGetScoresWrongDate() {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $scores = get_scores_per_child_and_date('MNDGPP04E14L219U', 'TEST', 'TEST', $ini_path);
+        $this->assertEquals(0, count($scores));
+    }
 
     // GET LIST OF SUBJECTS
+    public function testGetListSubjects()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $subjects = get_list_of_subjects('PNCRCR02C13L219K', $ini_path);
+        $this->assertEquals(5, count($subjects));
+
+        $this->assertTrue(in_array('Geography', $subjects));
+        $this->assertTrue(in_array('History', $subjects));
+        $this->assertTrue(in_array('Italian', $subjects));
+        $this->assertTrue(in_array('Mathematics', $subjects));
+        $this->assertTrue(in_array('Physics', $subjects));
+    }
+    public function testGetListSubjectsWrongStudent()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $subjects = get_list_of_subjects('TEST', $ini_path);
+        $this->assertEquals(0, count($subjects));
+    }
 
     // RECORD TOPIC
     public function testRecordTopicSuccess()
