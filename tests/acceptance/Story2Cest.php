@@ -17,19 +17,33 @@ class Story2Cest
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_teacher.php');
         $I->see('Record lecture\'s topics');
-        $I->waitForElementClickable('#markRecording', 10);
+        $I->waitForElementClickable('#recordMark', 10);
         $I->click('Record lecture\'s topics');
         
         // insert new topic
         // $I->waitForElement('#lessonRecordingTitle', 10);
-        $I->selectOption("form select[name='class_sID_ssn']", "1A Geography");  
         $I->fillField('date', date('d/m/Y'));         
+
+        $I->selectOption("form select[name='class_sID_ssn']", "1B");  
+        // $I->fillField('date', date('d/m/Y'));         
         $I->selectOption("form select[name='hour']", 3); 
+
+        // $I->pressKey('#dataSelection',WebDriverKeys::ENTER);
+        // $I->click('Select an hour');
+        $I->executeJS("$('#dataSelection').val('1969-01-02');");
+
+        // $I->click();
+        $I->wait(2);
+
+        
         $I->fillField('title', 'Mock topic');
         $I->fillField('subtitle', 'Mock description');
         $I->waitForElementClickable('#confirm', 10);
+        
+        $I->wait(2);
         $I->click('Confirm');
 
+        $I->wait(3);
         // check if database updated
         $I->seeInDatabase('TOPIC', [
             'Class' => '1A',
@@ -52,7 +66,7 @@ class Story2Cest
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_teacher.php');
         $I->see('Record lecture\'s topics');
-        $I->waitForElementClickable('#markRecording', 10);
+        $I->waitForElementClickable('#recordMark', 10);
         $I->click('Record lecture\'s topics');
 
         // insert new topic leaving empty fields
@@ -82,7 +96,7 @@ class Story2Cest
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_teacher.php');
         $I->see('Record lecture\'s topics');
-        $I->waitForElementClickable('#markRecording', 10);
+        $I->waitForElementClickable('#recordMark', 10);
         $I->click('Record lecture\'s topics');
 
         // insert new topic with wrong data (too)

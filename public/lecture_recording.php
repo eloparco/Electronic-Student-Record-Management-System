@@ -173,7 +173,7 @@ if(isset($_SESSION['msg_result'])) {
           <?php
           }}
           $_SESSION['msg_result'] = "";} ?>    
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" id="confirm">Confirm</button>
     </form>
   </div>
   </body>

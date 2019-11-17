@@ -12,6 +12,7 @@ service mysql status &> /dev/null || sudo service mysql start
 
 # run tests
 java -jar -Dwebdriver.chrome.driver=./chromedriver selenium-server-standalone-3.141.59.jar &
+sleep 1 # wait for selenium server to start
 php vendor/bin/codecept run $1 $2 $3
 kill $!
 
