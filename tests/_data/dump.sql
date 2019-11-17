@@ -163,7 +163,9 @@ CREATE TABLE IF NOT EXISTS `TEACHER_SUBJECT` (
 
 INSERT INTO `TEACHER_SUBJECT` (`TeacherSSN`, `SubjectID`, `Class`) VALUES
 ('aaa111', 1, '1A'),
-('aaa111', 2, '1B');
+('aaa111', 2, '1B'),
+('FNLTRS72H50L219Z', 4, '1A'),
+('FNLTRS72H50L219Z', 5, '1A');
 
 -- --------------------------------------------------------
 

@@ -29,6 +29,7 @@ class Story5Cest{
         $I->wait(1);
         // to dismiss alert or other popups
         $I->cancelPopup(); // /*NOT*/ $I->click('OK');
+        // /*eventually*/ $I->tryToClick('OK', '.alert');
         // check correct data after reloading
         $I->amOnPage('/class_composition.php');
         $I->wait(1);
@@ -40,6 +41,8 @@ class Story5Cest{
             'SSNParent2' => 'PLLMRT70E68L219Q',
             'Class' => '1B'
         ]);
+        $I->wait(5);
+        $I->click('Logout');
     }
 
     public function testClearButton(AcceptanceTester $I){
@@ -63,6 +66,8 @@ class Story5Cest{
         $I->selectOption("div select[name='letter']", "A");
         $I->click('Clear');
         $I->seeNumberOfElements(['css' => '#new_student_list > li'], 0);
+        $I->wait(5);
+        $I->click('Logout');
     }
 
     public function testCorrectListing(AcceptanceTester $I){
@@ -79,6 +84,9 @@ class Story5Cest{
         $I->wait(1);
         $I->seeNumberOfElements(['css' => '#student_list > li'], 3);
         // control the numbers of elements in each list of students to match the correct number of related students
+        // finally
+        $I->wait(5);
+        $I->click('Logout');
     }
 }
 
