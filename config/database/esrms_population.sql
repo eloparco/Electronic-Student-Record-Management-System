@@ -1,3 +1,4 @@
+USE `student_record_management`;
 INSERT INTO `SUBJECT`(`Name`, `HoursPerWeek`) VALUES ('Geography',3);
 INSERT INTO `SUBJECT`(`Name`, `HoursPerWeek`) VALUES ('History',3);
 INSERT INTO `SUBJECT`(`Name`, `HoursPerWeek`) VALUES ('Italian',6);

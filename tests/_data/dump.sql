@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
 ('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A'),
-('AABBCC00C13L111A', 'Massimo', 'Mandini', 'MNDFPP68C16L219N', NULL, '1A');
+('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', NULL);
 
 -- --------------------------------------------------------
 
@@ -115,8 +115,7 @@ INSERT INTO `MARK` (`StudentSSN`, `SubjectID`, `Date`, `Class`, `Score`) VALUES
 ('PNCRCR02C13L219K', 2, '2019-11-07', '1A', '6.50'),
 ('PNCRCR02C13L219K', 3, '2019-11-07', '1A', '7.25'),
 ('PNCRCR02C13L219K', 4, '2019-11-11', '1A', '8.00'),
-('PNCRCR02C13L219K', 5, '2019-11-08', '1A', '6.75'),
-('AABBCC00C13L111A', 1, '2019-01-01', '1B', '9.00');
+('PNCRCR02C13L219K', 5, '2019-11-08', '1A', '6.75');
 -- --------------------------------------------------------
 
 --
@@ -163,7 +162,9 @@ CREATE TABLE IF NOT EXISTS `TEACHER_SUBJECT` (
 
 INSERT INTO `TEACHER_SUBJECT` (`TeacherSSN`, `SubjectID`, `Class`) VALUES
 ('aaa111', 1, '1A'),
-('aaa111', 2, '1B');
+('aaa111', 2, '1B'),
+('FNLTRS72H50L219Z', 4, '1A'),
+('FNLTRS72H50L219Z', 5, '1A');
 
 -- --------------------------------------------------------
 

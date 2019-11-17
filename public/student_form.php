@@ -30,7 +30,7 @@ if(isset($_SESSION['msg_result'])) {
 
 <head>
   <?php include("includes/head.php"); ?>
-  <link href="../css/dashboard.css" rel="stylesheet" type="text/css">
+  <link href="css/dashboard.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/customForm.css">
   <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
   <link rel="stylesheet" type="text/css" href="css/student_form.css">

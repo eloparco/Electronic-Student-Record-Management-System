@@ -81,8 +81,8 @@ class UtilityTest extends \Codeception\Test\Unit
         $this->assertEquals(3, count($child2));
         
         // don't know the order of the results
-        $this->assertTrue('AABBCC00C13L111A' === $child1['SSN'] || 'AABBCC00C13L111A' === $child2['SSN']);
-        $this->assertTrue('Massimo' === $child1['Name'] || 'Massimo' === $child2['Name']);
+        $this->assertTrue('MNDLRT04E14L219I' === $child1['SSN'] || 'MNDLRT04E14L219I' === $child2['SSN']);
+        $this->assertTrue('Alberto' === $child1['Name'] || 'Alberto' === $child2['Name']);
         $this->assertTrue('Mandini' === $child1['Surname'] || 'Mandini' === $child2['Surname']);
 
         $this->assertTrue('MNDGPP04E14L219U' === $child1['SSN'] || 'MNDGPP04E14L219U' === $child2['SSN']);
