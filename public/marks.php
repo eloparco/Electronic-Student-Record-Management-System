@@ -12,6 +12,11 @@ check_inactivity();
 if(!isset($_SESSION)) 
   session_start();
  
+$children = get_children_of_parent($_SESSION['mySession']);
+if(!empty($children)){
+  $_SESSION['child'] = $children[0]['SSN'];
+  $_SESSION['childFullName'] = $children[0]['Name'].' '.$children[0]['Surname'].' - '.$children[0]['SSN'];
+}
 /* LOGGED IN CHECK */
 if(!userLoggedIn()) {   
   myRedirectTo('login.php', 'SessionTimeOut');
@@ -30,19 +35,60 @@ if(!userLoggedIn()) {
   <link rel='stylesheet' type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script type="text/javascript" src="js/marks_visualization.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
+  <link rel="stylesheet" type="text/css" href="css/w3.css">
 </head>
 
 <body>
   <?php include("includes/user_header.php"); ?> 
   <?php include("includes/dashboard_parent.php"); ?> 
 
-  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <h1 class="mt-5">Marks</h1>
+  <script>
+    var homeElement = document.getElementById("homeNavig");
+    var visualizeMarkElement = document.getElementById("marks_dashboard");
+    if (homeElement.classList) {
+      homeElement.classList.remove("active");
+    }   
+    if (visualizeMarkElement.classList) {
+        visualizeMarkElement.classList.add("active");
+    } 
+  </script>
+
+  <div class="formContainer text-center">
+  <main role="main" >
     <div>
+    <!-- Child selection -->
+    <form class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <img class="mb-4" src="images/icons/mark_visual.png" alt="" width="102" height="102">    
+        <div class="form-group-class">
+            <label id="selectChildLbl"><br>Select child: </label>
+            <select id="selectMarkChild" class="form-control" name="childSelection" onchange="this.form.submit()">
+            <option value=""></option>
+                <?php
+                    foreach($children as $child) {
+                        $ssn = $child['SSN'];
+                        $fullName = $child['Name'].' '.$child['Surname'].' - '.$child['SSN'];
+                        $value = $ssn.'|'.$fullName;
+                        echo "<option value=\"$value\">" . $child['Name'].' '.$child['Surname'].' - '.$child['SSN'] . "</option>\n";
+                    }
+                ?>
+            </select>
+        </div>
+    </form>
+    <?php
+    ### Get form results ###
+    if(isset($_GET["childSelection"])) {
+        $result = $_GET['childSelection'];
+        $result_explode = explode('|', $result);
+        $_SESSION['child'] = $result_explode[0]; //set ssn
+        $_SESSION['childFullName'] = $result_explode[1]; //set full name
+    } 
+    ?>
+    <h3 class="alignLeft customBackColor mt-4"><?php echo $_SESSION['childFullName'];?></h3>
     <form action="return false;" id="filters" class="form-inline">
         <!-- Subject selection -->
         <div class="form-group mb-2">
-            <label for="subjectSelection">Subject</label>
+            <label id="subjectSelection" for="subjectSelection">Subject</label>
             <select class="form-control" id="subjectSelection" name="subjectSelection">
             <option></option>
             <?php
@@ -55,12 +101,12 @@ if(!userLoggedIn()) {
         </div>
         <!-- Start date seletion -->
         <div class="form-group mb-2">
-            <label for="startDateSelection">From</label>
+            <label id="startDateSelection" for="startDateSelection">From</label>
             <input type="text" class="form-control date-selection" id='startDateSelection' name='startDateSelection'>
         </div>
         <!-- End date seletion -->
         <div class="form-group mb-2">
-            <label for="endDateSelection">To</label>
+            <label id="endDateSelection" for="endDateSelection">To</label>
             <input type="text" class="form-control date-selection" id='endDateSelection'>
         </div>
     </div>
@@ -68,9 +114,9 @@ if(!userLoggedIn()) {
     <table class="table table-bordered" id="marks_table">
         <thead class="thead-dark">
         <tr>
-            <td>Subject</td>
-            <td>Date</td>
-            <td>Score</td>
+            <td><b>Subject</b></td>
+            <td><b>Date</b></td>
+            <td><b>Score</b></td>
         </tr>
         </thead>
         <tbody>
@@ -92,12 +138,13 @@ if(!userLoggedIn()) {
     </table>
     </div>
   </main>
+</div>
 </body>
 
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
-    feather.replace()
+    feather.replace();
 </script>
 
 </html>

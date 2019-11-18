@@ -126,3 +126,28 @@ th .today {
 #selection {
   width: 105%;
 }
+
+#selectChildLbl {
+  width: 20%;
+  margin-right: 13px;
+}
+
+.alignLeft {
+  text-align: left;
+}
+
+.customBackColor {
+  background-color: rgba(127, 255, 212, .8);
+}
+
+#subjectSelection {
+  margin-right: 4px;
+}
+
+#startDateSelection {
+  margin-right: 4px;
+}
+
+#endDateSelection {
+  margin-right: 4px;
+}

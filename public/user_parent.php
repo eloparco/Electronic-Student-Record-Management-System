@@ -20,6 +20,7 @@ if(!userLoggedIn()) {
 $children = get_children_of_parent($_SESSION['mySession']);
 if(!empty($children)){
   $_SESSION['child'] = $children[0]['SSN'];
+  $_SESSION['childFullName'] = $children[0]['Name'].$children[0]['Surname'].' - '.$children[0]['SSN'];
 }
 ?>
 <!DOCTYPE html>
@@ -37,6 +38,7 @@ if(!empty($children)){
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
     <h1 class="mt-5">User Parent Main Page</h1>
   </main>
+  
 </body>
 
 <!-- Icons -->
