@@ -398,7 +398,17 @@ function get_score_visualization($decimalScore){
 }
 # end Marks Parent
 
+function isInThisWeek($date) {
+    ## Check if date is in this week
+    $FirstDay = date("d/m/Y", strtotime('sunday last week'));  
+    $LastDay = date("d/m/Y", strtotime('sunday this week'));  
+    return $date > $FirstDay && $date < $LastDay;
+}
+
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
+    if(!isInThisWeek($date))
+        return MARK_RECORDING_FAILED;
+        
     if ($ini_path !== '')
         $con = connect_to_db($ini_path);
     else
@@ -426,6 +436,9 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
 }
 
 function recordMark($student, $subject, $date, $class, $score) {
+    if(!isInThisWeek($date))
+        return MARK_RECORDING_FAILED;
+
     $con = connect_to_db();
     if($con && mysqli_connect_error() == NULL) {
         try {

@@ -11,9 +11,9 @@ if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 check_inactivity();
 if(!isset($_SESSION)) 
   session_start();
- 
+
 /* LOGGED IN CHECK */
-if(!userLoggedIn()) {   
+if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {   
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }

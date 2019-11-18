@@ -1,6 +1,11 @@
 <?php
 require_once('utility.php');
 session_start();
+/* TYPE LOGGED IN CHECK */
+if(!userTypeLoggedIn('TEACHER')) {   
+    myRedirectTo('login.php', 'SessionTimeOut');
+    exit;
+}
 header('Location: lecture_recording.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -17,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $subtitle = $_POST['subtitle'];
 
         $retval = recordTopic($class, $date, $hour, $subjectID, $teacher, $title, $subtitle);
-        // $_SESSION['msg_result'] = $class." ".$date." ".$hour." ".$subjectID." ".$teacher." ".$title." ".$subtitle;
         $_SESSION['msg_result'] = $retval;
 
     } else {

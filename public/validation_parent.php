@@ -1,6 +1,11 @@
 <?php
 require_once('utility.php');
 session_start();
+/* TYPE LOGGED IN CHECK */
+if(!userTypeLoggedIn('SECRETARY_OFFICER')) {   
+    myRedirectTo('login.php', 'SessionTimeOut');
+    exit;
+}
 header('Location: parent_form.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
