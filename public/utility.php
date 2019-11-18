@@ -66,6 +66,13 @@ function userLoggedIn() {
         return false;
 }
 
+function userTypeLoggedIn($type) {
+    if(isset($_SESSION['myUserType']) && $_SESSION['myUserType'] == $type) 
+        return $_SESSION['myUserType'];
+    else 
+        return false;
+}
+
 function myRedirectHome($msg="") {
     header('HTTP/1.1 307 temporary redirect');
     header("Location: index.php?msg=".urlencode($msg));
