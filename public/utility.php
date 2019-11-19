@@ -435,11 +435,11 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
     }
 }
 
-function recordMark($student, $subject, $date, $class, $score) {
+function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
     if(!isInThisWeek($date))
         return MARK_RECORDING_FAILED;
 
-    $con = connect_to_db();
+    $con = connect_to_db($ini_path);
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO MARK VALUES(?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?);")) 
