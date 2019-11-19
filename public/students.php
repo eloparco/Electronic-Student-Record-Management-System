@@ -1,10 +1,6 @@
 <?php
 define("JSON", "JSON");
 require_once('utility.php');
-if(!userTypeLoggedIn('SECRETARY_OFFICER')) {   
-    myRedirectTo('login.php', 'SessionTimeOut');
-    exit;
-}
 $db_con = connect_to_db();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
