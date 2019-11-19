@@ -17,11 +17,7 @@ if(!empty($children)){
   $_SESSION['child'] = $children[0]['SSN'];
   $_SESSION['childFullName'] = $children[0]['Name'].' '.$children[0]['Surname'].' - '.$children[0]['SSN'];
 }
-/* LOGGED IN CHECK */
-if(!userLoggedIn() || !userTypeLoggedIn('PARENT')) {   
-  myRedirectTo('login.php', 'SessionTimeOut');
-  exit;
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

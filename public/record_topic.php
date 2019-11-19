@@ -1,11 +1,6 @@
 <?php
 require_once('utility.php');
 session_start();
-/* TYPE LOGGED IN CHECK */
-if(!userTypeLoggedIn('TEACHER')) {   
-    myRedirectTo('login.php', 'SessionTimeOut');
-    exit;
-}
 header('Location: lecture_recording.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -1,6 +1,16 @@
 <?php
 define("JSON", "JSON");
 require_once('utility.php');
+<<<<<<< HEAD
+=======
+/* TYPE LOGGED IN CHECK */
+/*
+if(!userTypeLoggedIn('TEACHER')) {   
+    myRedirectTo('login.php', 'SessionTimeOut');
+    exit;
+}
+*/
+>>>>>>> d4714ada0d8d686c60c19215ac7458ba3a0ca573
 $db_con = connect_to_db();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

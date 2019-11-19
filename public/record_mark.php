@@ -1,13 +1,6 @@
 <?php
 require_once('utility.php');
 session_start();
-/*
-// LOGGED IN CHECK 
-if(!userTypeLoggedIn('TEACHER')) {   
-    myRedirectTo('login.php', 'SessionTimeOut');
-    exit;
-}
-*/
 header('Location: mark_recording.php');
 
 
