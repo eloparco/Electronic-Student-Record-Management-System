@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = mySanitizeString($username);
 
             /* Start query and get a result value */
-            $retVal = tryInsertParent($ssn, $name, $surname, $username, $password, 'PARENT', 1);
+            $retVal = tryInsertParent($ssn, $name, $surname, $username, $password, 'PARENT', 0);
             if($retVal == INSERT_PARENT_OK) {
                 $_SESSION['time'] = time(); 
                 $_SESSION['msg_result'] = $retVal;
