@@ -88,7 +88,7 @@ if(!userLoggedIn() || !userTypeLoggedIn('PARENT')) {
     <form action="return false;" id="filters" class="form-inline">
         <!-- Subject selection -->
         <div class="form-group mb-2">
-            <label id="subjectSelection" for="subjectSelection">Subject</label>
+            <label for="subjectSelection">Subject</label>
             <select class="form-control" id="subjectSelection" name="subjectSelection">
             <option></option>
             <?php
@@ -101,12 +101,12 @@ if(!userLoggedIn() || !userTypeLoggedIn('PARENT')) {
         </div>
         <!-- Start date seletion -->
         <div class="form-group mb-2">
-            <label id="startDateSelection" for="startDateSelection">From</label>
+            <label for="startDateSelection">From</label>
             <input type="text" class="form-control date-selection" id='startDateSelection' name='startDateSelection'>
         </div>
         <!-- End date seletion -->
         <div class="form-group mb-2">
-            <label id="endDateSelection" for="endDateSelection">To</label>
+            <label for="endDateSelection">To</label>
             <input type="text" class="form-control date-selection" id='endDateSelection'>
         </div>
     </div>
