@@ -166,7 +166,7 @@ if(isset($_SESSION['msg_result'])) {
           <!-- Setup datepicler -->
           <script>
             var minDate=new Date();
-            var minDay=minDate.getDay();
+            var minDay=minDate.getDay() ? minDate.getDay() : 7;
 
             minDate.setDate( minDate.getDate() - (minDay - 1) );
 
