@@ -54,8 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['mySession'] = $username;
                         $_SESSION['myUserType'] = 'SECRETARY_OFFICER';
                         redirect ('', 'user_secretary.php');  
-                    }   else 
-                    redirect(LOGIN_USER_NOT_DEFINED, 'update_password.php');     
+                    } else if($dbUserType == 'PRINCIPAL'){
+                        $_SESSION['time'] = time(); 
+                        $_SESSION['mySession'] = $username;
+                        $_SESSION['myUserType'] = 'PRINCIPAL';
+                        redirect ('', 'user_principal.php');  
+                    } else 
+                        redirect(LOGIN_USER_NOT_DEFINED, 'update_password.php');     
             } 
                 
             }catch (Exception $e) {                

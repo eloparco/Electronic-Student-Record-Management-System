@@ -202,7 +202,7 @@ if(isset($_SESSION['msg_result'])) {
             <div class="form-group-hour">
               <label for="hourSelection">Select the score</label>
               <div id="selection" class="form-group-hour">
-                <select class="form-control" id="scoreSelection" name="score">
+                <select class="form-control" id="scoreSelection" name="score" onchange="valueChanged()">
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
@@ -249,6 +249,14 @@ if(isset($_SESSION['msg_result'])) {
     var decrement = document.getElementById('decrement'); 
     var decimal = document.getElementById("decimalScore");
     var y = 0;
+
+    function valueChanged() {
+      var opt = document.getElementById("scoreSelection");
+      var decimal = document.getElementById("decimalScore");
+      var text = opt.options[opt.selectedIndex].text;
+      if(text == "10" || text == "10L")
+        decimal.innerHTML = "";
+    }
 
     increment.addEventListener('click', function () {
       var text = sel.options[sel.selectedIndex].text;

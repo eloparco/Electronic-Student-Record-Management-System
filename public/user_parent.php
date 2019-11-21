@@ -29,10 +29,12 @@ if(!empty($children)){
 <head>
   <?php include("includes/head.php"); ?>
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
+  <script src="https://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>    
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-  <?php include("includes/user_header.php"); ?> 
+  <?php include("includes/parent_header.php"); ?> 
   <?php include("includes/dashboard_parent.php"); ?> 
 
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">

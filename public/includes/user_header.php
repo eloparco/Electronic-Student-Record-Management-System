@@ -13,10 +13,12 @@
                 echo 'user_secretary.php';
             else if($_SESSION['myUserType'] == 'TEACHER')
                 echo 'user_teacher.php';
+            else if($_SESSION['myUserType'] == 'PRINCIPAL')
+                echo 'user_principal.php';
         }?>>
             <?php 
                 echo $_SESSION['myUserType']; 
             ?>
-        </a>
+        </a>     
     </nav>
 </header>
