@@ -30,6 +30,12 @@ if(isset($_SESSION['child'])){
                 Visualize marks
             </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="topic_visualization.php" id="topic_dashboard">
+                    <span data-feather="activity"></span>
+                    Visualize assignments
+                </a>
+            </li>
         </ul>
 <?php
 }
