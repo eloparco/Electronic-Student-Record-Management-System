@@ -42,6 +42,12 @@ if (isset($_SESSION['msg_result'])) {
   <main role="main" class="container">
     <div id="calendar"></div>
   </main>
+
+  <?php 
+    $message = get_attendance("MDUHPG46H50I748J");
+    print_r($message);
+  ?>
+  
 </body>
 
 <script>

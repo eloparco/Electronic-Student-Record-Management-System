@@ -385,7 +385,7 @@ function get_list_of_subjects($childSSN, $ini_path=''){
         die('Error in binding paramters to marks_prep.'."\n");
     }
     if(!mysqli_stmt_execute($subjects_prep)){
-        die('Error in executing marks query. Database error:<br>'.mysqli_error($db_con));
+        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
     }
     $subjects_res = mysqli_stmt_get_result($subjects_prep);
     $subjects = array();
@@ -488,5 +488,37 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_p
     } else {
         return DB_ERROR;
     }
+}
+
+function get_attendance($childSSN, $ini_path=''){
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
+
+    $attendance_query = "SELECT StudentSSN, Date, Presence, Exit_Hour\n" . 
+                      "FROM ATTENDANCE\n" . 
+                      "WHERE StudentSSN=?\n";             
+    if(!$con){
+        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+    }
+    $attendance_prep = mysqli_prepare($con, $attendance_query);
+    if(!$attendance_prep){
+        print('Error in preparing query: '.$attendance_query);
+        die('Check database error:<br>'.mysqli_error($con));
+    }
+    if(!mysqli_stmt_bind_param($attendance_prep, "s", $childSSN)){
+        die('Error in binding paramters to marks_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($attendance_prep)){
+        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
+    }
+    $attendance_res = mysqli_stmt_get_result($attendance_prep);
+    $attendance = array();
+    while($row = mysqli_fetch_array($attendance_res, MYSQLI_ASSOC)){
+        $attendance[] = $row;
+    }
+    mysqli_stmt_close($attendance_prep);
+    return $attendance;
 }
 ?>
