@@ -83,6 +83,12 @@ if(isset($_SESSION['child'])){
                     Visualize assignments
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student_attendance.php" id="attendance_dashboard">
+                    <span data-feather="activity"></span>
+                    Show lesson attendance
+                </a>
+            </li>
         </ul>
         </div>   
         <div class="form-inline my-2 my-lg-0">
