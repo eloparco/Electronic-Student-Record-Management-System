@@ -13,7 +13,7 @@ if(!isset($_SESSION))
   session_start();
  
 $children = get_children_of_parent($_SESSION['mySession']);
-if(!empty($children)){
+if(!empty($children) && !isset($_SESSION['child'])){
   $_SESSION['child'] = $children[0]['SSN'];
   $_SESSION['childFullName'] = $children[0]['Name'].' '.$children[0]['Surname'].' - '.$children[0]['SSN'];
 }
@@ -32,7 +32,11 @@ if(!empty($children)){
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script type="text/javascript" src="js/marks_visualization.js"></script>
   <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
-  <link rel="stylesheet" type="text/css" href="css/w3.css">
+  <link rel="stylesheet" type="text/css" href="css/w3.css"> 
+  <!-- For the dropdown sidebar -->
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -56,35 +60,11 @@ if(!empty($children)){
     <!-- Child selection -->
     <form class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <img class="mb-4" src="images/icons/mark_visual.png" alt="" width="102" height="102">    
-        <div class="form-group-class">
-            <label id="selectChildLbl"><br>Select child: </label>
-            <select id="selectMarkChild" class="form-control" name="childSelection" onchange="this.form.submit()">
-            <option value=""></option>
-                <?php
-                    foreach($children as $child) {
-                        $ssn = $child['SSN'];
-                        $fullName = $child['Name'].' '.$child['Surname'].' - '.$child['SSN'];
-                        $value = $ssn.'|'.$fullName;
-                        echo "<option value=\"$value\">" . $child['Name'].' '.$child['Surname'].' - '.$child['SSN'] . "</option>\n";
-                    }
-                ?>
-            </select>
-        </div>
     </form>
-    <?php
-    ### Get form results ###
-    if(isset($_GET["childSelection"])) {
-        $result = $_GET['childSelection'];
-        $result_explode = explode('|', $result);
-        $_SESSION['child'] = $result_explode[0]; //set ssn
-        $_SESSION['childFullName'] = $result_explode[1]; //set full name
-    } 
-    ?>
-    <h3 class="alignLeft customBackColor mt-4"><?php echo $_SESSION['childFullName'];?></h3>
     <form action="return false;" id="filters" class="form-inline">
         <!-- Subject selection -->
         <div class="form-group mb-2">
-            <label for="subjectSelection">Subject</label>
+            <label class="filterLabel" for="subjectSelection">Subject</label>
             <select class="form-control" id="subjectSelection" name="subjectSelection">
             <option></option>
             <?php
@@ -97,12 +77,12 @@ if(!empty($children)){
         </div>
         <!-- Start date seletion -->
         <div class="form-group mb-2">
-            <label for="startDateSelection">From</label>
+            <label class="filterLabel" for="startDateSelection">From</label>
             <input type="text" class="form-control date-selection" id='startDateSelection' name='startDateSelection'>
         </div>
         <!-- End date seletion -->
         <div class="form-group mb-2">
-            <label for="endDateSelection">To</label>
+            <label class="filterLabel" for="endDateSelection">To</label>
             <input type="text" class="form-control date-selection" id='endDateSelection'>
         </div>
     </div>

@@ -24,3 +24,31 @@
     -webkit-box-shadow: inset 0 0 0px white;
     box-shadow:         inset 0 0 0px white;
 }
+
+#pageSubmenu {
+    margin-left: 22px;
+}
+
+.sideDropdown .feather-chevron-up {
+    display: none;
+}
+
+.liDropdown::after {
+    display: none;
+}
+
+#spanSSN {
+    display: none;
+}
+
+#selectedChild {
+    width: 100%;
+}
+
+.filterLabel {
+    margin-right: 2px;
+}
+
+.sidebar .ajaxLink {
+    color: #dc3545;
+}

@@ -18,7 +18,7 @@ if(!userLoggedIn() || !userTypeLoggedIn('PARENT')) {
   exit;
 }
 $children = get_children_of_parent($_SESSION['mySession']);
-if(!empty($children)){
+if(!empty($children) && !isset($_SESSION['child'])){
   $_SESSION['child'] = $children[0]['SSN'];
   $_SESSION['childFullName'] = $children[0]['Name'].$children[0]['Surname'].' - '.$children[0]['SSN'];
 }
@@ -29,12 +29,14 @@ if(!empty($children)){
 <head>
   <?php include("includes/head.php"); ?>
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
-  <script src="https://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>    
+  <!-- For the dropdown sidebar -->
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-  <?php include("includes/parent_header.php"); ?> 
+  <?php include("includes/user_header.php"); ?> 
   <?php include("includes/dashboard_parent.php"); ?> 
 
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
