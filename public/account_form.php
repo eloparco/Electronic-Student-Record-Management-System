@@ -57,7 +57,7 @@ if(isset($_SESSION['msg_result'])) {
       <img id="accountImg" class="mb-4" src="images/icons/account.png" alt="" width="102" height="102">
       <h1 class="h3 mb-3 font-weight-normal">Enter account data</h1>
       <label for="inputSSN" class="sr-only">SSN</label>
-      <input type="text" id="inputSSN" name="ssn" class="form-control" placeholder="SSN" pattern=".{16}" title="Please insert 16 alphanumeric characters." required autofocus>
+      <input type="text" id="inputSSN" onblur="tryAutocomplete(this)" name="ssn" class="form-control" placeholder="SSN" pattern=".{16}" title="Please insert 16 alphanumeric characters." required autofocus>
       <label for="inputName" class="sr-only">Name</label>
       <input type="text" id="inputName" name="name" class="form-control" placeholder="Name" pattern=".{2,20}" title="Please insert a name with length between 2 and 20." required>
       <label for="inputSurname" class="sr-only">Surname</label>
@@ -112,6 +112,32 @@ if(isset($_SESSION['msg_result'])) {
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
     feather.replace()
+
+    function tryAutocomplete(inputSSN) {
+      var ssn = inputSSN.value;
+      $.ajax({
+        url: "autocomplete_form.php",
+        data: {
+          "ssn": ssn,
+        },
+        type: "POST",
+        success: function(data, state) {
+          var JSONdata = $.parseJSON(data);
+          if(JSONdata['state'] != "ok") {
+            console.log("Error: " + state);
+            return;
+          }
+          var resJSON = JSONdata['result'];
+          $("#inputName").val(resJSON['Name']);
+          $("#inputSurname").val(resJSON['Surname']);
+          $("#inputEmail").val(resJSON['Email']);
+        },
+        error: function(request, state, error) {
+          console.log("State error " + state);
+          console.log("Value error " + error);
+        }
+      });
+    }
 </script>
 
 </html>
