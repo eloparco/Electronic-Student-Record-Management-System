@@ -41,21 +41,47 @@ if (isset($_SESSION['msg_result'])) {
 
   <main role="main" class="container">
     <div id="calendar"></div>
-  </main>
-
-  <?php 
-    $message = get_attendance("MDUHPG46H50I748J");
-    print_r($message);
-  ?>
-  
+  </main> 
 </body>
 
 <script>
   $('#calendar').fullCalendar({
     weekends: false,
-    eventClick: function(calEvent, jsEvent, view) {
+    events:
+     <?php 
+      $colors = array(
+        'ABSENT' => 'lightCoral',
+        '15_MIN_LATE' => 'lemonChiffon',
+        '1_HOUR_LATE' => 'lightGreen',
+        'EARLY_EXIT' => 'lightSalmon '
+      );
+      $titles = array(
+        'ABSENT' => 'ABSENT',
+        '15_MIN_LATE' => '15 MINUTES LATE',
+        '1_HOUR_LATE' => '1 HOUR LATE',
+        'EARLY_EXIT' => 'EARLY EXIT: HOUR '
+      );
 
-    }
+      $curr_child = $_SESSION['child'];
+      // $attendances = get_attendance("MDUHPG46H50I748J");
+      $attendances = get_attendance($curr_child);
+      $events = array();
+      foreach ($attendances as $attendance) {
+        $att_code = $attendance['Presence'];
+        $title = $titles[$att_code];
+        $color = $colors[$att_code];
+        $start = $attendance['Date'];
+        $events[] = array('title' => $title, 'color' => $color, 'start' => $start);
+
+        if ($attendance['Exit_Hour']) {
+          $title = $titles['EARLY_EXIT'] . $attendance['Exit_Hour'];
+          $color = $colors[$att_code];
+          $color = $colors['EARLY_EXIT'];
+          $events[] = array('title' => $title, 'color' => $color, 'start' => $start);
+        }
+      }
+      echo(json_encode($events));
+    ?>
   });
 </script>
 
