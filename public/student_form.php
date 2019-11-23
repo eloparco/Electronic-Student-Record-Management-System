@@ -20,7 +20,8 @@ if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
 
 if(isset($_SESSION['msg_result'])) {
     if(!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_PARENT_OK ||
-        $_SESSION['msg_result'] == LOGIN_SECRETARY_OK || $_SESSION['msg_result'] == LOGIN_TEACHER_OK)) { 
+        $_SESSION['msg_result'] == LOGIN_SECRETARY_OK || $_SESSION['msg_result'] == LOGIN_TEACHER_OK ||
+        $_SESSION['msg_result'] == LOGIN_PRINCIPAL_OK || $_SESSION['msg_result'] == LOGIN_ADMIN_OK)) { 
         $_SESSION['msg_result'] = '';
     }
 }

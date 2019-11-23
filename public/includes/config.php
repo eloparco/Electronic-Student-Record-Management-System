@@ -28,6 +28,10 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
       $CURRENT_PAGE = "user_principal";
       $PAGE_TITLE = "Principal Page";
       break;
+  case "user_admin.php":
+    $CURRENT_PAGE = "user_admin";
+    $PAGE_TITLE = "Admin Page";
+    break;
   case "parent_form.php":
     $CURRENT_PAGE = "parent_form";
     $PAGE_TITLE = "Record Parent";
@@ -47,5 +51,9 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
   case "student_form.php";
     $CURRENT_PAGE = "student_form";
     $PAGE_TITLE = "Record Student";
+    break;
+  case "account_form.php";
+    $CURRENT_PAGE = "account_form";
+    $PAGE_TITLE = "Setup accounts";
     break;
 }

@@ -40,6 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['mySession'] = $username;
                 $_SESSION['myUserType'] = 'PRINCIPAL';
                 header('Location: user_principal.php');
+            } else if($retVal == LOGIN_ADMIN_OK) {
+                $_SESSION['time'] = time(); 
+                $_SESSION['mySession'] = $username;
+                $_SESSION['myUserType'] = 'ADMIN';
+                header('Location: user_admin.php');
             } else if($retVal == CHANGE_PASSWORD) {                
                 header('Location: update_password.php');
             } else 

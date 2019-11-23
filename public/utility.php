@@ -5,11 +5,14 @@ define("LOGIN_TEACHER_OK", "Login Teacher success.");
 define("LOGIN_PARENT_OK", "Login Parent success.");
 define("LOGIN_SECRETARY_OK", "Login Secretary Officer success.");
 define("LOGIN_PRINCIPAL_OK", "Login Principal success.");
+define("LOGIN_ADMIN_OK", "Login Admin success.");
 define("LOGIN_USER_NOT_DEFINED", "User not defined.");
 define("LOGIN_FAILED", "Login failed.");
 define("USER_ALREADY_EXIST", "SSN already exists.");
 define("INSERT_PARENT_OK", "Parent inserted successfully.");
 define("INSERT_PARENT_FAILED", "Insert Parent failed.");
+define("INSERT_ACCOUNT_OK", "Account inserted successfully.");
+define("INSERT_ACCOUNT_FAILED", "Insert Account failed.");
 define("CHANGE_PASSWORD", "Password entered needs to be changed");
 define("DB_ERROR", "Error on db connection.");
 define("DB_QUERY_ERROR", "Error on query db.");
@@ -120,7 +123,8 @@ function checkNormalText($input) {
 }
 
 function checkUserType($type) {
-    return $type === 'TEACHER' || $type === 'SECRETARY_OFFICER' || $type === 'PARENT'|| $type === 'PRINCIPAL';
+    return $type === 'TEACHER' || $type === 'SECRETARY_OFFICER' || $type === 'PARENT' 
+        || $type === 'PRINCIPAL' || $type === 'ADMIN';
 }
 
 function generatePass() {
@@ -180,6 +184,8 @@ function tryLogin($username, $password, $ini_path='') {
                         return LOGIN_SECRETARY_OK;
                     else if($dbUserType == 'PRINCIPAL')
                         return LOGIN_PRINCIPAL_OK;
+                    else if($dbUserType == 'ADMIN')
+                        return LOGIN_ADMIN_OK;
                     else 
                         return LOGIN_USER_NOT_DEFINED;
                 } else if($password == $dbPass && $isActive == 0) { //password needs to be changed
@@ -250,6 +256,61 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
             mysqli_autocommit($con, TRUE);
             mysqli_close($con);
             return INSERT_PARENT_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
+
+function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype, $accountactivated, $ini_path='') {
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
+    if($con && mysqli_connect_error() == NULL) {
+        mysqli_autocommit($con, FALSE);
+        try {
+            /* Check if user already exists */
+            if(!$prep = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE"))
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "s", $ssn)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep))
+                throw new Exception();
+            if(!mysqli_stmt_store_result($prep))
+                throw new Exception();
+            $count = mysqli_stmt_num_rows($prep);
+            mysqli_stmt_free_result($prep);
+            mysqli_stmt_close($prep);
+            if($count == 1) {
+                mysqli_rollback($con);
+                mysqli_autocommit($con, TRUE);
+                mysqli_close($con);
+                return USER_ALREADY_EXIST;
+            } 
+            else {
+                /* Insert parent data into db */
+                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?, ?)"))
+                    throw new Exception();
+                if(!mysqli_stmt_bind_param($prep2, "ssssssi", $ssn, $name, $surname, $username, $password, $usertype, $accountactivated)) 
+                    throw new Exception();
+                if(!mysqli_stmt_execute($prep2)) 
+                    throw new Exception();
+                else { 
+                    mysqli_stmt_close($prep2);
+                    if(!mysqli_commit($con)) // do the final commit
+                        throw new Exception();
+                    sendMail($username, $password);//to send real e-mail
+                    mysqli_autocommit($con, TRUE);
+                    mysqli_close($con);
+                    return INSERT_ACCOUNT_OK;
+                }
+            }
+        } catch (Exception $e) {
+            mysqli_rollback($con);
+            mysqli_autocommit($con, TRUE);
+            mysqli_close($con);
+            return INSERT_ACCOUNT_FAILED;
         }
     } else {
         return DB_ERROR;

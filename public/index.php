@@ -22,6 +22,12 @@
       case 'SECRETARY_OFFICER':
         header('Location: user_secretary.php');
         break;
+      case 'PRINCIPAL':
+        header('Location: user_principal.php');
+        break;
+      case 'ADMIN':
+        header('Location: user_admin.php');
+        break;
     }
   }
 ?>

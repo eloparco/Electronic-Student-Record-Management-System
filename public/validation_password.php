@@ -59,6 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['mySession'] = $username;
                         $_SESSION['myUserType'] = 'PRINCIPAL';
                         redirect ('', 'user_principal.php');  
+                    } else if($dbUserType == 'ADMIN'){
+                        $_SESSION['time'] = time(); 
+                        $_SESSION['mySession'] = $username;
+                        $_SESSION['myUserType'] = 'ADMIN';
+                        redirect ('', 'user_admin.php');  
                     } else 
                         redirect(LOGIN_USER_NOT_DEFINED, 'update_password.php');     
             } 

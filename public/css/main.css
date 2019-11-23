@@ -52,3 +52,7 @@
 .sidebar .ajaxLink {
     color: #dc3545;
 }
+
+.radio-inline {
+    cursor: pointer;
+}
