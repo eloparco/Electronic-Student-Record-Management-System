@@ -9,10 +9,11 @@ class Story1Cest
     // tests
     public function testLoginSuccess(AcceptanceTester $I)
     {
-        $I->amOnPage('/login.php');        
-        $I->fillField('username', 'john@doe.it');
-        $I->fillField('password', 'pass123');
-        $I->click('Sign in');
+        // $I->amOnPage('/login.php');        
+        // $I->fillField('username', 'john@doe.it');
+        // $I->fillField('password', 'pass123');
+        // $I->click('Sign in');
+        $I->login('john@doe.it', 'pass123');
 
         // redirect to parent page
         $I->seeInCurrentUrl('/user_parent.php');

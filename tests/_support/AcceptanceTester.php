@@ -24,7 +24,7 @@ class AcceptanceTester extends \Codeception\Actor
     * Define custom actions here
     */
     public function login($username, $password) {
-        $I = this;
+        $I = $this;
         $I->amOnPage('/login.php');
         $I->submitForm('#login_form', [
             'username' => $username,
