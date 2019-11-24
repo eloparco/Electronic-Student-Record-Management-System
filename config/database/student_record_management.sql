@@ -30,6 +30,7 @@ USE `student_record_management`;
 
 DROP TABLE IF EXISTS `ATTENDANCE`;
 DROP TABLE IF EXISTS `MARK`;
+DROP TABLE IF EXISTS `ASSIGNMENT`;
 DROP TABLE IF EXISTS `TOPIC`;
 DROP TABLE IF EXISTS `CLASS_TIMETABLE`;
 DROP TABLE IF EXISTS `TEACHER_SUBJECT`;
@@ -154,6 +155,19 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
 
 -- --------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `ASSIGNMENT` (
+  `Class` char(2) NOT NULL,
+  `SubjectID` int(11) NOT NULL,
+  `DateOfAssignment` date NOT NULL,
+  `DeadlineDate` date NOT NULL,
+  `Title` varchar(50) NOT NULL,
+  `Description` varchar(400) DEFAULT NULL,
+  PRIMARY KEY (`Class`,`SubjectID`,`DeadlineDate`),
+  KEY `SubjectID` (`SubjectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `MARK`
 --
@@ -202,6 +216,13 @@ CREATE TABLE IF NOT EXISTS `ATTENDANCE` (
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `assignment`
+--
+ALTER TABLE `ASSIGNMENT`
+  ADD CONSTRAINT `ASSIGNMENT_ibfk_1` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`),
+  ADD CONSTRAINT `ASSIGNMENT_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`);
 
 --
 -- Constraints for table `attendance`
