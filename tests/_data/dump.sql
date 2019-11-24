@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 14, 2019 at 08:01 PM
--- Server version: 5.7.27-0ubuntu0.19.04.1
+-- Generation Time: Nov 24, 2019 at 10:05 PM
+-- Server version: 5.7.28-0ubuntu0.19.04.2
 -- PHP Version: 7.2.24-0ubuntu0.19.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -17,10 +17,33 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `student_record_management`
+-- Database: `student_record_management_test`
 --
 CREATE DATABASE IF NOT EXISTS `student_record_management_test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `student_record_management_test`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ATTENDANCE`
+--
+
+DROP TABLE IF EXISTS `ATTENDANCE`;
+CREATE TABLE IF NOT EXISTS `ATTENDANCE` (
+  `StudentSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
+  `Date` date NOT NULL,
+  `Presence` enum('PRESENT','10_MIN_LATE','1_HOUR_LATE','ABSENT') COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ExitHour` int(11) NOT NULL DEFAULT '6'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `ATTENDANCE`
+--
+
+INSERT INTO `ATTENDANCE` (`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES
+('PNCRCR02C13L219K', '2019-11-07', '1_HOUR_LATE', 3),
+('PNCRCR02C13L219K', '2019-11-13', 'ABSENT', 6),
+('PNCRCR02C13L219K', '2019-11-18', '10_MIN_LATE', 6);
 
 -- --------------------------------------------------------
 
@@ -48,8 +71,8 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
-('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A'),
-('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', NULL);
+('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', ''),
+('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A');
 
 -- --------------------------------------------------------
 
@@ -116,6 +139,7 @@ INSERT INTO `MARK` (`StudentSSN`, `SubjectID`, `Date`, `Class`, `Score`) VALUES
 ('PNCRCR02C13L219K', 3, '2019-11-07', '1A', '7.25'),
 ('PNCRCR02C13L219K', 4, '2019-11-11', '1A', '8.00'),
 ('PNCRCR02C13L219K', 5, '2019-11-08', '1A', '6.75');
+
 -- --------------------------------------------------------
 
 --
@@ -230,23 +254,22 @@ CREATE TABLE IF NOT EXISTS `USER` (
 --
 
 INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `AccountActivated`) VALUES
-('aaa111bbb', 'aaa', 'bbb', 'johnny@doe.it', 'a1a1a1a1', 'TEACHER', 1),
-('ABC123', 'John', 'Doe', 'john@doe.it', 'pass123', 'PARENT', 1),
-('ABC456', 'Jane', 'Doe', 'jane@doe.it', 'pass456', 'PARENT', 0),
 ('123aaa', 'aaa', 'bbb', 'enrico@gmail.com', '1111eeee?', 'PARENT', NULL),
 ('123q', 'ggg', 'ggg', 'enrico@gmail.it', 'a1a1a1a1', 'PARENT', 1),
 ('aaa111', 'aaa', 'bbb', 'aaa@bbb.com', 'a1a1a1a1', 'TEACHER', 1),
+('aaa111bbb', 'aaa', 'bbb', 'johnny@doe.it', 'a1a1a1a1', 'TEACHER', 1),
+('ABC123', 'John', 'Doe', 'john@doe.it', 'pass123', 'PARENT', 1),
+('ABC456', 'Jane', 'Doe', 'jane@doe.it', 'pass456', 'PARENT', 0),
 ('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'r.filicaro@parent.esrmsystem.com', 'Roberta77', 'PARENT', 1),
 ('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrmsystem.com', 'Teresa72', 'TEACHER', 1),
 ('LNGMRN58M51L219R', 'Marina', 'Longobardi', 'm.longobardi@esrmsystem.com', 'Marina58', 'TEACHER', 1),
 ('MNDFPP68C16L219N', 'Filippo', 'Mandini', 'f.mandini@parent.esrmsystem.com', 'Filippo68', 'PARENT', 1),
 ('PLLMRT70E68L219Q', 'Marta', 'Pellegrino', 'm.pellegrino@parent.esrmsystem.com', 'Marta70', 'PARENT', 1),
 ('PNCMSM75D20L219X', 'Massimiliano', 'Ponci', 'm.ponci@parent.esrmsystem.com', 'Massi75', 'PARENT', 1),
+('QFFFZL52M61I472B', 'Milo', 'Contini', 'milo@milo.it', 'Milo1', 'SECRETARY_OFFICER', 1),
 ('RSSMRA70A01F205V', 'Mario', 'Rossi', 'mario.rossi@email.com', 'Mariorossi2', 'PARENT', 1),
 ('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@parent.esrmsystem.com', 'Roberto66', 'PARENT', 1),
-('QFFFZL52M61I472B', 'Milo', 'Contini', 'milo@milo.it', 'Milo1','SECRETARY_OFFICER', 1),
-('testSSN123', 'Mario', 'Rossi', 'mario@rossi.it', 'Mario12','STUDENT', 1);
-
+('testSSN123', 'Mario', 'Rossi', 'mario@rossi.it', 'Mario12', 'STUDENT', 1);
 
 --
 -- Constraints for dumped tables

@@ -590,7 +590,7 @@ function get_attendance($childSSN, $ini_path=''){
     else
         $con = connect_to_db();
 
-    $attendance_query = "SELECT StudentSSN, Date, Presence, Exit_Hour\n" . 
+    $attendance_query = "SELECT StudentSSN, Date, Presence, ExitHour\n" . 
                       "FROM ATTENDANCE\n" . 
                       "WHERE StudentSSN=?\n";             
     if(!$con){

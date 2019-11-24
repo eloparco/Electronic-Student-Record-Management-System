@@ -38,15 +38,19 @@ if (isset($_SESSION['msg_result'])) {
 <body>
   <?php include("includes/user_header.php"); ?>
   <?php include("includes/dashboard_parent.php"); ?>
+  <div class="formContainer text-center">
 
-  <main role="main" class="container">
+  <main role="main" class="container" style="margin-top:5%; width:60%;">
     <div id="calendar"></div>
   </main> 
+  </div>
 </body>
 
 <script>
   $('#calendar').fullCalendar({
     weekends: false,
+    // height: 500,
+    aspectRatio: 2,
     events:
      <?php 
       $colors = array(
@@ -57,7 +61,7 @@ if (isset($_SESSION['msg_result'])) {
       );
       $titles = array(
         'ABSENT' => 'ABSENT',
-        '15_MIN_LATE' => '15 MINUTES LATE',
+        '10_MIN_LATE' => '15 MINUTES LATE',
         '1_HOUR_LATE' => '1 HOUR LATE',
         'EARLY_EXIT' => 'EARLY EXIT: HOUR '
       );
@@ -73,8 +77,8 @@ if (isset($_SESSION['msg_result'])) {
         $start = $attendance['Date'];
         $events[] = array('title' => $title, 'color' => $color, 'start' => $start);
 
-        if ($attendance['Exit_Hour']) {
-          $title = $titles['EARLY_EXIT'] . $attendance['Exit_Hour'];
+        if ($attendance['ExitHour'] !== 6) {
+          $title = $titles['EARLY_EXIT'] . $attendance['ExitHour'];
           $color = $colors[$att_code];
           $color = $colors['EARLY_EXIT'];
           $events[] = array('title' => $title, 'color' => $color, 'start' => $start);

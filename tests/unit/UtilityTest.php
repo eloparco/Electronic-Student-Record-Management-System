@@ -149,4 +149,39 @@ class UtilityTest extends \Codeception\Test\Unit
     {
         $this->assertEquals(TOPIC_RECORDING_FAILED, recordTopic('1A', '01/01/1996', 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
     }
+
+    // GET ATTENDANCE
+    public function testGetAttendance() {
+        $attendances = get_attendance('PNCRCR02C13L219K', $this->ini_path);
+
+        $expected = array();
+        $expected[] = array(
+            'StudentSSN' => 'PNCRCR02C13L219K',
+            'Date' => '2019-11-07',
+            'Presence' => '1_HOUR_LATE',
+            'ExitHour' => 3
+        );
+        $expected[] = array(
+            'StudentSSN' => 'PNCRCR02C13L219K',
+            'Date' => '2019-11-13',
+            'Presence' => 'ABSENT',
+            'ExitHour' => 6
+        );
+        $expected[] = array(
+            'StudentSSN' => 'PNCRCR02C13L219K',
+            'Date' => '2019-11-18',
+            'Presence' => '10_MIN_LATE',
+            'ExitHour' => 6
+        );
+
+        // check if the entries are the expected ones
+        $this->assertEquals(3, count($attendances));
+        $this->assertTrue(in_array($attendances[0], $expected));
+        $this->assertTrue(in_array($attendances[1], $expected));
+        $this->assertTrue(in_array($attendances[2], $expected));
+    }
+    public function testGetAttendanceFakeSSN() {
+        $attendances = get_attendance('FAKE_SSN', $this->ini_path);
+        $this->assertEquals(0, count($attendances));
+    }
 }
