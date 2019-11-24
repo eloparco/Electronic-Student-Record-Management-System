@@ -10,7 +10,7 @@ INSERT INTO `CLASS`(`Name`) VALUES ('1B');
 INSERT INTO `USER`(`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES ('PNCMSM75D20L219X', 'Massimiliano', 'Ponci', 'm.ponci@parent.esrmsystem.com', 'Massi75', 1);
 INSERT INTO `USER`(`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES ('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@parent.esrmsystem.com', 'Roberto66', 1);
 INSERT INTO `USER`(`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES ('MNDFPP68C16L219N', 'Filippo', 'Mandini', 'f.mandini@parent.esrmsystem.com', 'Filippo68', 1);
-INSERT INTO `USER`(`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES ('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'r.filicaro@parent.esrmsystem.com', 'Roberta77', 1);
+INSERT INTO `USER`(`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES ('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'parent@parent.it', 'parent1', 1);
 INSERT INTO `USER`(`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES ('PLLMRT70E68L219Q', 'Marta', 'Pellegrino', 'm.pellegrino@parent.esrmsystem.com', 'Marta70', 1);
 INSERT INTO `USER`(`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES ('LNGMRN58M51L219R', 'Marina', 'Longobardi', 'm.longobardi@esrmsystem.com', 'Marina58', 1);
 INSERT INTO `USER`(`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES ('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrmsystem.com', 'Teresa72', 1);
@@ -42,11 +42,10 @@ INSERT INTO `MARK`(`StudentSSN`, `SUBJECTID`, `Date`, `Class`, `Score`) VALUES (
 INSERT INTO `MARK`(`StudentSSN`, `SUBJECTID`, `Date`, `Class`, `Score`) VALUES ('PNCRCR02C13L219K', 3, '2019-11-07', '1A', 7.25);
 INSERT INTO `MARK`(`StudentSSN`, `SUBJECTID`, `Date`, `Class`, `Score`) VALUES ('PNCRCR02C13L219K', 5, '2019-11-08', '1A', 6.75);
 INSERT INTO `MARK`(`StudentSSN`, `SUBJECTID`, `Date`, `Class`, `Score`) VALUES ('PNCRCR02C13L219K', 4, '2019-11-11', '1A', 8);
-INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ('PNCRCR02C13L219K', '2019-11-19', '1A', 'ABSENT');
-INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ('PNCRCR02C13L219K', '2019-11-21', '1A', '10_MIN_LATE');
-INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ('PNCRCR02C13L219K', '2019-11-22', '1A', '1_HOUR_LATE');
-INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ('MNDGPP04E14L219U', '2019-11-20', '1A', 'ABSENT');
-INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ('MNDGPP04E14L219U', '2019-11-22', '1A', '1_HOUR_LATE');
+INSERT INTO `ATTENDANCE` (`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES
+('PNCRCR02C13L219K', '2019-11-07', '1_HOUR_LATE', 3),
+('PNCRCR02C13L219K', '2019-11-13', 'ABSENT', 6),
+('PNCRCR02C13L219K', '2019-11-18', '10_MIN_LATE', 6);
 INSERT INTO `ASSIGNMENT`(`Class`, `SubjectID`, `DateOfAssignment`, `DeadlineDate`, `Title`, `Description`) VALUES ('1A', 4 , '2019-11-19', '2019-11-20', 'Daily Homeworks', 'Very funny description 1');
 INSERT INTO `ASSIGNMENT`(`Class`, `SubjectID`, `DateOfAssignment`, `DeadlineDate`, `Title`, `Description`) VALUES ('1A', 4 , '2019-11-19', '2019-11-26', 'Short project', 'Very funny description 2');
 INSERT INTO `ASSIGNMENT`(`Class`, `SubjectID`, `DateOfAssignment`, `DeadlineDate`, `Title`, `Description`) VALUES ('1A', 5 , '2019-11-25', '2019-11-26', 'Daily Homeworks', 'Very funny description 1000');
