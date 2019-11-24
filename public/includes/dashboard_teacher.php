@@ -32,6 +32,11 @@
                 <span data-feather="edit"></span>
                 Record a student's mark
             </a>
+            <li class="nav-item">
+            <a id="recordAttendance" class="nav-link" href="attendance_recording.php">
+                <span data-feather="edit"></span>
+                Record attendance
+            </a>
         </li>
         </ul>
         </div>
