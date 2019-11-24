@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "db48ec6fc93cbd948efd2b60e1d40c20",
@@ -227,16 +227,16 @@
         },
         {
             "name": "codeception/phpunit-wrapper",
-            "version": "8.0.4",
+            "version": "8.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/phpunit-wrapper.git",
-                "reference": "7090736f36b4398cae6ef838b9a2bdfe8d8d104b"
+                "reference": "be94d9c2c05e6320a8046de8621c9d26507e5821"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/7090736f36b4398cae6ef838b9a2bdfe8d8d104b",
-                "reference": "7090736f36b4398cae6ef838b9a2bdfe8d8d104b",
+                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/be94d9c2c05e6320a8046de8621c9d26507e5821",
+                "reference": "be94d9c2c05e6320a8046de8621c9d26507e5821",
                 "shasum": ""
             },
             "require": {
@@ -267,24 +267,23 @@
                 }
             ],
             "description": "PHPUnit classes used by Codeception",
-            "time": "2019-02-27T12:58:57+00:00"
+            "time": "2019-11-23T17:57:45+00:00"
         },
         {
             "name": "codeception/stub",
-            "version": "3.5.0",
+            "version": "3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Stub.git",
-                "reference": "016a035c287c898745504f7f2916f4dae14265e0"
+                "reference": "94874f511ab1025b1f4cb927884cdda5004ece64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Stub/zipball/016a035c287c898745504f7f2916f4dae14265e0",
-                "reference": "016a035c287c898745504f7f2916f4dae14265e0",
+                "url": "https://api.github.com/repos/Codeception/Stub/zipball/94874f511ab1025b1f4cb927884cdda5004ece64",
+                "reference": "94874f511ab1025b1f4cb927884cdda5004ece64",
                 "shasum": ""
             },
             "require": {
-                "codeception/phpunit-wrapper": "^8.0.4",
                 "phpunit/phpunit": "^8.4"
             },
             "type": "library",
@@ -298,7 +297,7 @@
                 "MIT"
             ],
             "description": "Flexible Stub wrapper for PHPUnit's Mock Builder",
-            "time": "2019-10-05T09:56:36+00:00"
+            "time": "2019-11-23T20:11:30+00:00"
         },
         {
             "name": "doctrine/instantiator",

@@ -11,7 +11,7 @@ modules:
             dsn: 'mysql:host=localhost;dbname=student_record_management_test'
             user: 'root'
             password: ''
-            #cleanup: true # run populator before each test
-            #populate: true # run populator before all test
-            #populator: 'mysql -u root < tests/_data/dump.sql' 
+            cleanup: true # run populator before each test
+            populate: true # run populator before all test
+            populator: 'mysql -u root < tests/_data/dump.sql' 
     step_decorators: ~        
