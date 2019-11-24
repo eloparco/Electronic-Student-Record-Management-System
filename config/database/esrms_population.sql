@@ -42,10 +42,14 @@ INSERT INTO `MARK`(`StudentSSN`, `SUBJECTID`, `Date`, `Class`, `Score`) VALUES (
 INSERT INTO `MARK`(`StudentSSN`, `SUBJECTID`, `Date`, `Class`, `Score`) VALUES ('PNCRCR02C13L219K', 3, '2019-11-07', '1A', 7.25);
 INSERT INTO `MARK`(`StudentSSN`, `SUBJECTID`, `Date`, `Class`, `Score`) VALUES ('PNCRCR02C13L219K', 5, '2019-11-08', '1A', 6.75);
 INSERT INTO `MARK`(`StudentSSN`, `SUBJECTID`, `Date`, `Class`, `Score`) VALUES ('PNCRCR02C13L219K', 4, '2019-11-11', '1A', 8);
-INSERT INTO `ATTENDANCE` (`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES
-('PNCRCR02C13L219K', '2019-11-07', '1_HOUR_LATE', 3),
-('PNCRCR02C13L219K', '2019-11-13', 'ABSENT', 6),
-('PNCRCR02C13L219K', '2019-11-18', '10_MIN_LATE', 6);
+INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`) VALUES ('PNCRCR02C13L219K', '2019-11-19', 'ABSENT');
+INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`) VALUES ('PNCRCR02C13L219K', '2019-11-21', '10_MIN_LATE');
+INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`) VALUES ('PNCRCR02C13L219K', '2019-11-22', '1_HOUR_LATE');
+INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`) VALUES ('MNDGPP04E14L219U', '2019-11-20', 'ABSENT');
+INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`) VALUES ('MNDGPP04E14L219U', '2019-11-22', '1_HOUR_LATE');
+INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ('PNCRCR02C13L219K', '2019-11-07', '1_HOUR_LATE', 3);
+INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ('PNCRCR02C13L219K', '2019-11-13', 'ABSENT', 6);
+INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ('PNCRCR02C13L219K', '2019-11-18', '10_MIN_LATE', 6);
 INSERT INTO `ASSIGNMENT`(`Class`, `SubjectID`, `DateOfAssignment`, `DeadlineDate`, `Title`, `Description`) VALUES ('1A', 4 , '2019-11-19', '2019-11-20', 'Daily Homeworks', 'Very funny description 1');
 INSERT INTO `ASSIGNMENT`(`Class`, `SubjectID`, `DateOfAssignment`, `DeadlineDate`, `Title`, `Description`) VALUES ('1A', 4 , '2019-11-19', '2019-11-26', 'Short project', 'Very funny description 2');
 INSERT INTO `ASSIGNMENT`(`Class`, `SubjectID`, `DateOfAssignment`, `DeadlineDate`, `Title`, `Description`) VALUES ('1A', 5 , '2019-11-25', '2019-11-26', 'Daily Homeworks', 'Very funny description 1000');

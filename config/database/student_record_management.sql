@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `USER` (
   `SSN` char(16) NOT NULL,
   `Name` varchar(50) NOT NULL,
   `Surname` varchar(50) NOT NULL,
-  `Email` varchar(50) NOT NULL,
+  `Email` varchar(50) UNIQUE NOT NULL,
   `Password` varchar(50) NOT NULL,
   `AccountActivated` tinyint(1) NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`SSN`)

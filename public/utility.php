@@ -147,6 +147,37 @@ function mySanitizeString($var) {
     return $var;
 }
 
+### functions to login and retrieve roles
+# retrieve roles of a single user
+function get_roles_per_user($username, $ini_path=''){
+    $roles_query = "SELECT UserType\n" .
+                   "FROM USER_TYPE UT, USER U\n" .
+                   "WHERE UT.SSN=U.SSN AND U.Email=?";
+    $db_con = connect_to_db($ini_path);
+    if(!$db_con){
+        die('Error in connecting to database. [Roles query]'."\n");
+    }
+    $roles_prep = mysqli_prepare($db_con, $roles_query);
+    if(!$roles_prep){
+        print('Error in preparing query: '.$roles_query);
+        die("Check database error:<br>".mysqi_error($db_con));
+    }
+    if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
+        die('Error in binding parameters for roles_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($roles_prep)){
+        die('Error in executing roles query. Check database error:<br>'.mysqli_error($db_con));
+    }
+    $roles_res = mysqli_stmt_get_result($roles_prep);
+    $roles = array();
+    while($row = mysqli_fetch_array($roles_res, MYSQLI_ASSOC)){
+        $roles[] = $row['UserType'];
+    }
+    mysqli_stmt_close($roles_prep);
+    return $roles;
+}
+
+# login -> only credentials check
 function tryLogin($username, $password, $ini_path='') {
     if ($ini_path !== '')
         $con = connect_to_db($ini_path);
@@ -154,13 +185,13 @@ function tryLogin($username, $password, $ini_path='') {
         $con = connect_to_db();
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "SELECT Password, UserType, AccountActivated FROM `USER` WHERE Email = ?")) 
+            if(!$prep = mysqli_prepare($con, "SELECT Password, AccountActivated FROM `USER` WHERE Email = ?")) 
                 throw new Exception();
             if(!mysqli_stmt_bind_param($prep, "s", $username)) 
                 throw new Exception();
             if(!mysqli_stmt_execute($prep)) 
                 throw new Exception();
-            if(!mysqli_stmt_bind_result($prep, $dbPass, $dbUserType, $isActive))
+            if(!mysqli_stmt_bind_result($prep, $dbPass, $isActive))
                 throw new Exception();  
             if(!mysqli_stmt_store_result($prep))
                 throw new Exception();
@@ -176,6 +207,7 @@ function tryLogin($username, $password, $ini_path='') {
                 if($password == $dbPass && $isActive == 1) { 
                     mysqli_stmt_close($prep);
                     mysqli_close($con);
+                    $dbUserType = get_roles_per_user($username)[0];
                     if($dbUserType == 'TEACHER')
                         return LOGIN_TEACHER_OK;
                     else if($dbUserType == 'PARENT')
@@ -184,7 +216,7 @@ function tryLogin($username, $password, $ini_path='') {
                         return LOGIN_SECRETARY_OK;
                     else if($dbUserType == 'PRINCIPAL')
                         return LOGIN_PRINCIPAL_OK;
-                    else if($dbUserType == 'ADMIN')
+                    else if($dbUserType == 'SYS_ADMIN')
                         return LOGIN_ADMIN_OK;
                     else 
                         return LOGIN_USER_NOT_DEFINED;
@@ -206,6 +238,7 @@ function tryLogin($username, $password, $ini_path='') {
         return DB_ERROR;
     }
 }
+### END functions to login and retrieve roles
 
 function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype, $accountactivated, $ini_path='') {
     if ($ini_path !== '')
@@ -582,4 +615,99 @@ function get_attendance($childSSN, $ini_path=''){
     mysqli_stmt_close($attendance_prep);
     return $attendance;
 }
+
+### Presence report by a teacher
+# retrieve classes of a teacher
+function get_classes_of_teacher($teacherUsername, $ini_path=''){
+    $class_query = "SELECT DISTINCT Class\n" .
+                   "FROM TEACHER_SUBJECT T, USER U\n" .
+                   "WHERE T.TeacherSSN=U.SSN AND U.Email=?";
+
+    $db_con = connect_to_db($ini_path);
+    if(!$db_con){
+        die('Error in connecting to database. [Classes of teacher]'."\n");
+    }
+    $classes_prep = mysqli_prepare($db_con, $class_query);
+    if(!$classes_prep){
+        print('Error in preparing query: '.$class_query);
+        die('Check database error:<br>'.mysqli_error($db_con));
+    }
+    if(!mysqli_stmt_bind_param($classes_prep, "s", $teacherUsername)){
+        die('Error in binding paramters to classes_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($subjects_prep)){
+        die('Error in executing classes query. Database error:<br>'.mysqli_error($db_con));
+    }
+    $classes_res = mysqli_stmt_get_result($classes_prep);
+    $classes = array();
+    while($row = mysqli_fetch_array($classes_res, MYSQLI_ASSOC)){
+        $classes[] = array("Class" => $row['Class']);
+    }
+    mysqli_stmt_close($classes_prep);
+    return $classes;
+}
+
+# retrieve student of a class
+function get_students_of_class($class, $ini_path=''){
+    $student_class_query = "SELECT SSN, Name, Surname\n" .
+                           "FROM CHILD\n" .
+                           "WHERE Class=?";
+
+    $db_con = connect_to_db($ini_path);
+    if(!$db_con){
+        die('Error in connecting to database. [Students in class]'."\n");
+    }
+    $student_class_prep = mysqli_prepare($db_con, $student_class_query);
+    if(!$student_class_prep){
+        print('Error in preparing query: '.$student_class_query);
+        die('Check database error:<br>'.mysqli_error($db_con));
+    }
+    if(!mysqli_stmt_bind_param($student_class_prep, "s", $class)){
+        die('Error in binding parameters to student_class_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($student_class_prep)){
+        die('Error in executing students per class query. Database error:<br>'.mysqli_error($db_con));
+    }
+    $student_class_res = mysqli_stmt_get_result($student_class_prep);
+    $students = array();
+    while($row = mysqli_fetch_array($student_class_res, MYSQLI_ASSOC)){
+        $fields = array("SSN" => $row['SSN'], "Name" => $row['Name'], "Surname" => $row['Surname']);
+        $students[] = $fields;
+    }
+    mysqli_stmt_close($student_class_prep);
+    return $students;
+}
+
+# retrieve presence and early exit of students of a class per date
+function get_list_presences_class_per_date($class, $date, $ini_path=''){
+    $query_presences = "SELECT A.StudentSSN, Presence, ExitHour\n" .
+                       "FROM ATTENDANCE A, CHILD C\n" .
+                       "WHERE A.StudentSSN=C.SSN AND C.Class=? AND A.Date=STR_TO_DATE(?,'%d/%m/%Y')";
+
+    $db_con = connect_to_db($ini_path);
+    if(!$db_con){
+        die('Error in connecting to database. [Presences of students in class].'."\n");
+    }
+    $presences_class_prep = mysqli_prepare($db_con, $query_presences);
+    if(!$presences_class_prep){
+        print('Error in preparing query: '.$query_presences);
+        die('Check database error:<br>'.mysqli_error($db_con));
+    }
+    if(!mysqli_stmt_bind_param($presences_class_prep, "ss", $class, $date)){
+        die('Error in binding parameters to presences_class_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($presences_class_prep)){
+        die('Error in executing presences per class query. Database error:<br>'.mysqli_error($db_con));
+    }
+    $presences_class_res = mysqli_stmt_get_result($presences_class_prep);
+    $presences = array();
+    while($row = mysqli_fetch_array($presences_class_res, MYSQLI_ASSOC)){
+        $fields = array("SSN" => $row['StudentSSN'], "Presence" => $row['Presence'], "ExitHour" => $row['ExitHour']);
+        $presences[] = $fields;
+    }
+    mysqli_stmt_close($presences_class_prep);
+    return $presences;
+}
+### END Presence report by a teacher
+
 ?>
