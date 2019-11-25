@@ -37,7 +37,7 @@
                 <span data-feather="edit"></span>
                 Record attendance
             </a>
-        </li>
+            </li>
         </ul>
         </div>
     </nav>

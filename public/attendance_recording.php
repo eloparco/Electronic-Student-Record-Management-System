@@ -55,6 +55,7 @@ if (isset($_GET['msg_result'])) {
         var recordMark = document.getElementById("recordMark");
         var recordLecture = document.getElementById("recordLecture");
         var recordAttendance = document.getElementById("recordAttendance");
+
         if (homeElement.classList)
             homeElement.classList.remove("active");
         if (recordLecture.classList)
@@ -153,22 +154,39 @@ if (isset($_GET['msg_result'])) {
                   }
                   var resJSON = JSONdata['result'];
                   $("#studentSelection").empty();
+                  $('#classTable > tbody:last-child').empty();
+
+
+                  /*
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                        Default radio
+                    </label>
+                    </div>
+                    <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Second default radio
+                    </label>
+                    </div>
+                  */
 
                   for(var i=0; i<resJSON.length; i++){
                     var item = resJSON[i];
-
                     //$("#studentSelection").append('<option value='+item["SSN"]+'>'+ item["Name"]+ ' '+ item["Surname"]+'</option>');
                     $('#classTable > tbody:last-child').append(
-                                '<tr>'
+                                '<tr id='+item["SSN"]+'><div class="form-check">'
+                                
                                 +'<td>'+(i+1)+'</td>'
                                 +'<td>'+item["Name"]+' '+item["Surname"]+'</td>'
                                 +'<td>'+item["SSN"]+'</td>'
-                                +'<td>TODO</td>'
-                                +'<td>TODO</td>'
-                                +'<td>TODO</td>'
-                                +'<td>TODO</td>'
-                                +'<td>TODO</td>'
-                                +'</tr>');
+                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="presentRadio" value="option1" checked></td>'
+                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="absentRadio" value="option1"></td>'
+                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="late15Radio" value="option1"></td>'
+                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="late60Radio" value="option1"></td>'
+                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="leavingRadio" value="option1"></td>'
+                                +'</div></tr>');
 
                   }
                 },
