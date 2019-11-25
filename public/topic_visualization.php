@@ -149,16 +149,26 @@ if(isset($_SESSION['msg_result'])) {
                 </div>
             </div>
 
-           <!-- Get students with an AJAX query -->
-           <!-- Setup class selection with AJAX query -->
-           <!--
+           <!-- Populate lists with an AJAX query -->
            <script>
-            var user = "<?PHP echo $_SESSION["mySession"]; ?>";
+            var child = "<?PHP echo $_SESSION['child']; ?>";
+            // alert(child);
+
+            
             $( document ).ready(function() {
+
+              var minDate=new Date();
+              var minDay=minDate.getDay();
+
+              minDate.setDate( minDate.getDate() - (minDay - 1) );
+              var maxDate=new Date();
+
+              maxDate.setDate( maxDate.getDate() + (5 - minDay) );
+
               $.ajax({
-                url: "subject_info.php",
+                url: "get_assignments.php",
                 data: {
-                  "user_mail": user,
+                  "child": child,
                 },
 
                 type: "POST",
@@ -171,11 +181,33 @@ if(isset($_SESSION['msg_result'])) {
                   }
 
                   var resJSON = JSONdata['result'];
+                  $("#mon_list").empty();
 
                   for(var i=0; i<resJSON.length; i++){
                     var item = resJSON[i];
-                    // alert("Class " + item['Class'] + " Name " + item['Name'] + " ID " + item['ID'] + " SSN " + item['SSN'] );
-                    $("#classSelection").append('<option value='+item["Class"]+'_'+ item["ID"]+'_'+item["SSN"]+'>'+ item["Class"]+ ' '+ item["Name"]+'</option>');
+                    var itemDate = new Date(item['Deadline']);
+
+                    if(itemDate.getTime()>= minDate.getTime() && itemDate.getTime() <= maxDate.getTime()){
+                      
+                      switch(itemDate.getDay()){
+                        case 1:
+                          $("#mon_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                        case 2:
+                          $("#tue_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                        case 3:
+                          $("#wed_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                        case 4:
+                          $("#thu_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                        case 5:
+                          $("#fri_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                      }
+                    }
+                    //$fields = array("Subject" => $Subject, "Date" => $Date, "Deadline" => $Deadline, "Title" => $Title, "Description" => $Description);
                   }
                 },
                 error: function(request, state, error) {
@@ -184,8 +216,9 @@ if(isset($_SESSION['msg_result'])) {
                 }
               });
             });
+
           </script>
-          -->
+        
           <button class="btn btn-lg btn-primary btn-block">Refresh</button>
           </form>
       </div>
