@@ -253,7 +253,7 @@ if (isset($_GET['msg_result'])) {
 
                             type: "POST",
                             success: function(data, state) {
-                                alert(data);
+                                // alert(data);
                                 var JSONdata = $.parseJSON(data);
 
                                 if(JSONdata['state'] != "ok"){
