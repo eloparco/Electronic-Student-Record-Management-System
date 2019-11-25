@@ -86,7 +86,7 @@ if (isset($_GET['msg_result'])) {
                         <th>SSN</th>
                         <th>Present</th>
                         <th>Absent</th>
-                        <th>15 min late</th>
+                        <th>10 min late</th>
                         <th>1 hour late</th>
                         <th>Early leaving</th>
                         <th>Leaving hour</th>
@@ -166,13 +166,13 @@ if (isset($_GET['msg_result'])) {
                                 +'<td>'+(i+1)+'</td>'
                                 +'<td>'+item["Name"]+' '+item["Surname"]+'</td>'
                                 +'<td>'+item["SSN"]+'</td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio" value="present" checked></div></td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio" value="absent"></div></td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio" value="late15m"></div></td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio" value="late1h"></div></td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio" value="leave"></td>'
-                                    +'<td><div class="input-group date" id="'+item["SSN"]+'tp">'
-                                        +'<input type="text" class="form-control"/>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)"class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio" value="present" checked></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio" value="absent"></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio" value="late15m"></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio" value="late1h"></div></td>'
+                                +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio" value="leave"></td>'
+                                    +'<td><div class="input-group date">'
+                                        +'<input type="text" class="form-control" id="'+item["SSN"]+'tp" disabled="disabled"/>'
                                         +'<span class="input-group-addon">'
                                             +'<span class="glyphicon glyphicon-time"></span>'
                                         +'</span>'
@@ -192,13 +192,111 @@ if (isset($_GET['msg_result'])) {
     </div>
     <button class="btn btn-lg btn-primary btn-block" id="confirm" onClick="registerAttendance()">Confirm</button>
     <script>
+        
+        function enableHour(id, radioButton){
+
+            var inputId = id+"tp";
+            
+            if(radioButton.checked){
+                $('#'+inputId).attr("disabled", false);
+            } else {
+                $('#'+inputId).attr("disabled", true);
+            }
+        }
+
+        function disableHour(id, radioButton){
+
+            var inputId = id+"tp";
+
+            if(radioButton.checked){
+                $('#'+inputId).attr("disabled", true);
+            } 
+        }
+
         function registerAttendance(){
             $('#classTable > tbody:last-child > tr').each(function(index, tr) {
-                var SSN;
-                var date;
+                var SSN = tr.cells[2].innerText;
+                var date = new Date();
                 var value;
-                var exitHour;
-                alert("Index: "+index+" tr"+tr);
+                var exitHour = 0;
+                var updateDB = true;
+                var recordLeaving = false;
+                
+                // Present
+                if(tr.getElementsByTagName("input")[0].checked){ 
+                    value = "PRESENT";
+                    updateDB = false;
+                } else if(tr.getElementsByTagName("input")[1].checked) { // Absent
+                    value = "ABSENT";
+                    exitHour = 0;
+                } else if(tr.getElementsByTagName("input")[2].checked){  // Late 10 min
+                    value = "10_MIN_LATE";
+                    exitHour = 0;
+                } else if(tr.getElementsByTagName("input")[3].checked){  // Late 1 hour
+                    value = "1_HOUR_LATE";
+                    exitHour = 0;
+                } else if(tr.getElementsByTagName("input")[4].checked){  // Leaving eary
+                    recordLeaving = true;
+                    exitHour = tr.getElementsByTagName("input")[5].value;
+                }
+
+                // alert("INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ("+SSN+", "+date.toISOString().substr(0, 10)+", "+value+", "+exitHour+");");
+
+                if(updateDB){
+                    if(!recordLeaving){
+                        $.ajax({
+                            url: "register_attendance.php",
+                            data: { "SSN": SSN,
+                                    "Date":  date.toISOString().substr(0, 10),
+                                    "Presence": value
+                            },
+
+                            type: "POST",
+                            success: function(data, state) {
+                                alert(data);
+                                var JSONdata = $.parseJSON(data);
+
+                                if(JSONdata['state'] != "ok"){
+                                    console.log("Error: "+state);
+                                    return;
+                                }   else {
+                                    alert("Action sucessfully executed.");
+                                }
+                                
+                            },
+                            error: function(request, state, error) {
+                            console.log("State error " + state);
+                            console.log("Value error " + error);
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            url: "register_leaving.php",
+                            data: { "SSN": SSN,
+                                    "Date":  date.toISOString().substr(0, 10),
+                                    "ExitHour": exitHour
+                            },
+
+                            type: "POST",
+                            success: function(data, state) {
+                                var JSONdata = $.parseJSON(data);
+
+                                if(JSONdata['state'] != "ok"){
+                                    console.log("Error: "+state);
+                                    return;
+                                }   else {
+                                    alert("Action sucessfully executed.");
+                                }
+                                
+                            },
+                            error: function(request, state, error) {
+                            console.log("State error " + state);
+                            console.log("Value error " + error);
+                            }
+                        });
+
+                    }
+                } 
             });
         }
     </script>
