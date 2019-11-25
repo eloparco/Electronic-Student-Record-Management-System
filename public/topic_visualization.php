@@ -219,7 +219,7 @@ if(isset($_SESSION['msg_result'])) {
 
           </script>
         
-          <button class="btn btn-lg btn-primary btn-block">Refresh</button>
+          <button class="btn btn-lg btn-primary btn-block" onClick="window.location.reload()">Refresh</button>
           </form>
       </div>
   </body>
