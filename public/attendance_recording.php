@@ -176,17 +176,17 @@ if (isset($_GET['msg_result'])) {
                     var item = resJSON[i];
                     //$("#studentSelection").append('<option value='+item["SSN"]+'>'+ item["Name"]+ ' '+ item["Surname"]+'</option>');
                     $('#classTable > tbody:last-child').append(
-                                '<tr id='+item["SSN"]+'><div class="form-check">'
+                                '<tr><form id='+item['SSN']+'>'
                                 
                                 +'<td>'+(i+1)+'</td>'
                                 +'<td>'+item["Name"]+' '+item["Surname"]+'</td>'
                                 +'<td>'+item["SSN"]+'</td>'
-                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="presentRadio" value="option1" checked></td>'
-                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="absentRadio" value="option1"></td>'
-                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="late15Radio" value="option1"></td>'
-                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="late60Radio" value="option1"></td>'
-                                +'<td><input class="form-check-input" type="radio" name="exampleRadios" id="leavingRadio" value="option1"></td>'
-                                +'</div></tr>');
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio" value="option1" checked></div></td>'
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio" value="option1"></div></td>'
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio" value="option1"></div></td>'
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio" value="option1"></div></td>'
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio" value="option1"></div></td>'
+                                +'</form></tr>');
 
                   }
                 },
@@ -197,7 +197,6 @@ if (isset($_GET['msg_result'])) {
               });
             });
           });
-          
           </script>
 
     </div>
