@@ -89,6 +89,7 @@ if (isset($_GET['msg_result'])) {
                         <th>15 min late</th>
                         <th>1 hour late</th>
                         <th>Early leaving</th>
+                        <th>Leaving hour</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -156,22 +157,6 @@ if (isset($_GET['msg_result'])) {
                   $("#studentSelection").empty();
                   $('#classTable > tbody:last-child').empty();
 
-
-                  /*
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    <label class="form-check-label" for="exampleRadios1">
-                        Default radio
-                    </label>
-                    </div>
-                    <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                    <label class="form-check-label" for="exampleRadios2">
-                        Second default radio
-                    </label>
-                    </div>
-                  */
-
                   for(var i=0; i<resJSON.length; i++){
                     var item = resJSON[i];
                     //$("#studentSelection").append('<option value='+item["SSN"]+'>'+ item["Name"]+ ' '+ item["Surname"]+'</option>');
@@ -181,13 +166,19 @@ if (isset($_GET['msg_result'])) {
                                 +'<td>'+(i+1)+'</td>'
                                 +'<td>'+item["Name"]+' '+item["Surname"]+'</td>'
                                 +'<td>'+item["SSN"]+'</td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio" value="option1" checked></div></td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio" value="option1"></div></td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio" value="option1"></div></td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio" value="option1"></div></td>'
-                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio" value="option1"></div></td>'
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio" value="present" checked></div></td>'
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio" value="absent"></div></td>'
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio" value="late15m"></div></td>'
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio" value="late1h"></div></td>'
+                                +'<td><div class="form-check"><input class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio" value="leave"></td>'
+                                    +'<td><div class="input-group date" id="'+item["SSN"]+'tp">'
+                                        +'<input type="text" class="form-control"/>'
+                                        +'<span class="input-group-addon">'
+                                            +'<span class="glyphicon glyphicon-time"></span>'
+                                        +'</span>'
+                                    +'</div>'
+                                +'</div></td>'
                                 +'</form></tr>');
-
                   }
                 },
                 error: function(request, state, error) {
@@ -198,8 +189,19 @@ if (isset($_GET['msg_result'])) {
             });
           });
           </script>
-
     </div>
+    <button class="btn btn-lg btn-primary btn-block" id="confirm" onClick="registerAttendance()">Confirm</button>
+    <script>
+        function registerAttendance(){
+            $('#classTable > tbody:last-child > tr').each(function(index, tr) {
+                var SSN;
+                var date;
+                var value;
+                var exitHour;
+                alert("Index: "+index+" tr"+tr);
+            });
+        }
+    </script>
 </body>
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
