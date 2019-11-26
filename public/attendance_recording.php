@@ -190,7 +190,10 @@ if (isset($_GET['msg_result'])) {
           });
           </script>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" id="confirm" onClick="registerAttendance()">Confirm</button>
+    <div class="formContainer text-center">
+        <button class="btn btn-lg btn-primary btn-block col-md-1 ml-lg-1 ml-md-2 ml-sm-2 col-lg-4 pt-1 px-4" id="confirm" onClick="registerAttendance()">Confirm</button>
+    </div>
+
     <script>
         
         function enableHour(id, radioButton){
