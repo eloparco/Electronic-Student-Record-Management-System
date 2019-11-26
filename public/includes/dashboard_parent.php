@@ -79,13 +79,13 @@ if(isset($_SESSION['child'])){
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="topic_visualization.php" id="topic_dashboard">
-                    <span data-feather="activity"></span>
+                    <span data-feather="book-open"></span>
                     Visualize assignments
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="student_attendance.php" id="attendance_dashboard">
-                    <span data-feather="activity"></span>
+                    <span data-feather="clock"></span>
                     Show lesson attendance
                 </a>
             </li>

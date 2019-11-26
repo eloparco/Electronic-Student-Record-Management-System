@@ -78,7 +78,7 @@ if(isset($_SESSION['msg_result'])) {
                 <div class="row">
                     <div class="col">
                         <h3 id="compositionTitle" class="h3 mb-3 font-weight-normal">Weekly assignments</h3>
-                        <img class="mb-4" src="images/icons/mark_recording.png" alt="" width="102" height="102">    
+                        <img class="mb-4" src="images/icons/assignments.png" alt="" width="102" height="102">    
                     </div>
                 </div>
                 

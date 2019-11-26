@@ -68,7 +68,7 @@ if (isset($_GET['msg_result'])) {
 
     <div class="formContainer text-center">
         <div class="table-responsive col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-8 pt-3 px-8">
-            <img class="mb-4" src="images/icons/mark_recording.png" alt="" width="102" height="102">
+            <img class="mb-4" src="images/icons/attendance_recording.png" alt="" width="102" height="102">
             <h1 class="h3 mb-3 font-weight-normal">Attendance recording</h1>
             <!-- Class selection -->
             <div class="form-group-class">

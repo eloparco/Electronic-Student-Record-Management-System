@@ -56,4 +56,16 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $CURRENT_PAGE = "account_form";
     $PAGE_TITLE = "Setup accounts";
     break;
+  case "attendance_recording.php";
+    $CURRENT_PAGE = "attendance_recording";
+    $PAGE_TITLE = "Attendance recording";
+    break;
+  case "topic_visualization.php";
+    $CURRENT_PAGE = "topic_visualization";
+    $PAGE_TITLE = "Students assignments";
+    break;
+  case "student_attendance.php";
+    $CURRENT_PAGE = "student_attendance";
+    $PAGE_TITLE = "Student attendance";
+    break;  
 }
