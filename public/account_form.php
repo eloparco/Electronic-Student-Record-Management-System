@@ -71,17 +71,17 @@ if(isset($_SESSION['msg_result'])) {
         <div id="input-type" class="row">
             <div class="col-sm-4">
                 <label class="radio-inline">
-                    <input name="account_type" id="input-type-student" value="Student" type="radio" />Teacher
+                    <input name="account_type" id="input-type-teacher" value="TEACHER" type="radio" />Teacher
                 </label>
             </div>
             <div class="col-sm-4">
                 <label class="radio-inline">
-                    <input name="account_type" id="input-type-tutor" value="Tutor" type="radio" />Secretary
+                    <input name="account_type" id="input-type-secretary" value="SECRETARY_OFFICER" type="radio" />Secretary
                 </label>
             </div>
             <div class="col-sm-4">
                 <label class="radio-inline">
-                    <input name="account_type" id="input-type-tutor" value="Tutor" type="radio" />Principal
+                    <input name="account_type" id="input-type-principal" value="PRINCIPAL" type="radio" />Principal
                 </label>
             </div>
         </div>
@@ -91,7 +91,7 @@ if(isset($_SESSION['msg_result'])) {
       <?php 
         if(isset($_SESSION['msg_result'])) {
           if(!empty($_SESSION['msg_result'])) {
-            if($_SESSION['msg_result'] == INSERT_ACCOUNT_OK) { ?>
+            if($_SESSION['msg_result'] == INSERT_ACCOUNT_OK || $_SESSION['msg_result'] == UPDATE_ACCOUNT_OK) { ?>
                 <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
           <?php } else { ?>
                 <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>

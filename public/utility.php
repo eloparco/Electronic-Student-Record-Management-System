@@ -12,6 +12,7 @@ define("USER_ALREADY_EXIST", "SSN already exists.");
 define("INSERT_PARENT_OK", "Parent inserted successfully.");
 define("INSERT_PARENT_FAILED", "Insert Parent failed.");
 define("INSERT_ACCOUNT_OK", "Account inserted successfully.");
+define("UPDATE_ACCOUNT_OK", "Account updated successfully.");
 define("INSERT_ACCOUNT_FAILED", "Insert Account failed.");
 define("CHANGE_PASSWORD", "Password entered needs to be changed");
 define("DB_ERROR", "Error on db connection.");
@@ -31,6 +32,9 @@ define("MARK_RECORDING_OK", "Mark correctly recorded.");
 define("MARK_RECORDING_FAILED", "Mark recording failed.");
 define("STUDENT_RECORDING_OK", "Student correctly recorded.");
 define("STUDENT_RECORDING_FAILED", "Student recording failed.");
+define("MAX_ROLES_ALLOWED", "The account cannot take other roles.");
+define("ROLE_ALREADY_TAKEN", "The account has already this role.");
+define("ROLE_NOT_ALLOWED", "The account cannot take this role.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
 
@@ -304,7 +308,7 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
         mysqli_autocommit($con, FALSE);
         try {
             /* Check if user already exists */
-            if(!$prep = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE"))
+            if(!$prep = mysqli_prepare($con, "SELECT UserType FROM USER, USER_TYPE WHERE USER.SSN = USER_TYPE.SSN AND USER.SSN = ? FOR UPDATE"))
                 throw new Exception();
             if(!mysqli_stmt_bind_param($prep, "s", $ssn)) 
                 throw new Exception();
@@ -313,30 +317,114 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
             if(!mysqli_stmt_store_result($prep))
                 throw new Exception();
             $count = mysqli_stmt_num_rows($prep);
-            mysqli_stmt_free_result($prep);
-            mysqli_stmt_close($prep);
-            if($count == 1) {
-                mysqli_rollback($con);
-                mysqli_autocommit($con, TRUE);
-                mysqli_close($con);
-                return USER_ALREADY_EXIST;
-            } 
-            else {
-                /* Insert parent data into db */
-                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?, ?)"))
+            if($count == 0) { //new account!
+                mysqli_stmt_free_result($prep);
+                mysqli_stmt_close($prep);
+                //$validUserTypes = array("TEACHER", "PARENT", "SECRETARY_OFFICER", "PRINCIPAL", "SYS_ADMIN");
+
+                /* Insert account data into user table */
+                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)"))
                     throw new Exception();
-                if(!mysqli_stmt_bind_param($prep2, "ssssssi", $ssn, $name, $surname, $username, $password, $usertype, $accountactivated)) 
+                if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) 
                     throw new Exception();
                 if(!mysqli_stmt_execute($prep2)) 
                     throw new Exception();
                 else { 
+                    /* Insert account type into user_type table */
                     mysqli_stmt_close($prep2);
-                    if(!mysqli_commit($con)) // do the final commit
+                    if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)"))
                         throw new Exception();
-                    sendMail($username, $password);//to send real e-mail
+                    if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) 
+                        throw new Exception();
+                    if(!mysqli_stmt_execute($prep3)) 
+                        throw new Exception();
+                    else { 
+                        mysqli_stmt_close($prep3);
+                        if(!mysqli_commit($con)) //do the final commit
+                            throw new Exception();
+                        //sendMail($username, $password); //to send real e-mail
+                        mysqli_autocommit($con, TRUE);
+                        mysqli_close($con);
+                        return INSERT_ACCOUNT_OK;
+                    } 
+                }
+            } 
+            else { //update role for that account
+                /* Get user types from user_type table and save result into local array */
+                $types = array();
+                mysqli_stmt_bind_result($prep, $dbUserType);
+                while (mysqli_stmt_fetch($prep)) 
+                    $types[] = $dbUserType;
+                mysqli_stmt_free_result($prep);
+                mysqli_stmt_close($prep);
+
+                /* Controls to set what are the valid userTypes for this account */
+                if(count($types) == 3) {
+                    mysqli_rollback($con);
                     mysqli_autocommit($con, TRUE);
                     mysqli_close($con);
-                    return INSERT_ACCOUNT_OK;
+                    return MAX_ROLES_ALLOWED;
+                }
+                else if(in_array($usertype, $types)) {
+                    mysqli_rollback($con);
+                    mysqli_autocommit($con, TRUE);
+                    mysqli_close($con);
+                    return ROLE_ALREADY_TAKEN;
+                }
+                else if(count($types) == 2) //this account has already two roles.
+                    if(in_array("SECRETARY_OFFICER", $types))
+                        if(in_array("PARENT", $types)) {
+                            mysqli_rollback($con);
+                            mysqli_autocommit($con, TRUE);
+                            mysqli_close($con);
+                            return MAX_ROLES_ALLOWED;
+                        } else
+                            $validUserTypes = array("PARENT"); //we can add a parent only in this case.
+                    else if(in_array("TEACHER", $types))
+                        if(in_array("PRINCIPAL", $types))
+                            $validUserTypes = array("PARENT"); 
+                        else
+                            $validUserTypes = array("PRINCIPAL");
+                    else if(in_array("SYS_ADMIN", $types))
+                        $validUserTypes = array("SECRETARY_OFFICER");
+                    else
+                        $validUserTypes = array("TEACHER");
+                else if(count($types) == 1)
+                    if($types[0] == "SYS_ADMIN")
+                        $validUserTypes = array("SECRETARY_OFFICER", "PARENT"); 
+                    else if($types[0] == "SECRETARY_OFFICER")
+                        $validUserTypes = array("SYS_ADMIN", "PARENT");   
+                    else if($types[0] == "PARENT")
+                        $validUserTypes = array("SYS_ADMIN", "PRINCIPAL", "SECRETARY_OFFICER", "TEACHER"); 
+                    else if($types[0] == "TEACHER")
+                        $validUserTypes = array("PRINCIPAL", "PARENT");  
+                    else if($types[0] == "PRINCIPAL")
+                        $validUserTypes = array("TEACHER", "PARENT"); 
+            }
+            
+            /* Update role of this account */
+            if(!in_array($usertype, $validUserTypes)) { 
+                mysqli_rollback($con);
+                mysqli_autocommit($con, TRUE);
+                mysqli_close($con);
+                return ROLE_NOT_ALLOWED;
+            } 
+            else {
+                /* Insert account type into user_type table */
+                if(!$prep4 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)"))
+                    throw new Exception();
+                if(!mysqli_stmt_bind_param($prep4, "ss", $ssn, $usertype)) 
+                    throw new Exception();
+                if(!mysqli_stmt_execute($prep4)) 
+                    throw new Exception();
+                else { 
+                    mysqli_stmt_close($prep4);
+                    if(!mysqli_commit($con)) //do the final commit
+                        throw new Exception();
+                    //sendMail($username, $password); //to send real e-mail
+                    mysqli_autocommit($con, TRUE);
+                    mysqli_close($con);
+                    return UPDATE_ACCOUNT_OK;
                 }
             }
         } catch (Exception $e) {
