@@ -272,20 +272,30 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
             } 
             else {
                 /* Insert parent data into db */
-                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?, ?)"))
+                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)"))
                     throw new Exception();
-                if(!mysqli_stmt_bind_param($prep2, "ssssssi", $ssn, $name, $surname, $username, $password, $usertype, $accountactivated)) 
+                if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) 
                     throw new Exception();
                 if(!mysqli_stmt_execute($prep2)) 
                     throw new Exception();
                 else { 
                     mysqli_stmt_close($prep2);
-                    if(!mysqli_commit($con)) // do the final commit
+                    /* Insert parent data into db */
+                    if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)"))
                         throw new Exception();
-                    // sendMail($username, $password);//to send real e-mail
-                    mysqli_autocommit($con, TRUE);
-                    mysqli_close($con);
-                    return INSERT_PARENT_OK;
+                    if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) 
+                        throw new Exception();
+                    if(!mysqli_stmt_execute($prep3)) 
+                        throw new Exception();
+                    else {
+                        mysqli_stmt_close($prep3);
+                        if(!mysqli_commit($con)) // do the final commit
+                            throw new Exception();
+                        sendMail($username, $password);//to send real e-mail
+                        mysqli_autocommit($con, TRUE);
+                        mysqli_close($con);
+                        return INSERT_PARENT_OK;
+                    }
                 }
             }
         } catch (Exception $e) {
@@ -418,10 +428,10 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                 if(!mysqli_stmt_execute($prep4)) 
                     throw new Exception();
                 else { 
-                    mysqli_stmt_close($prep4);
                     if(!mysqli_commit($con)) //do the final commit
                         throw new Exception();
                     //sendMail($username, $password); //to send real e-mail
+                    mysqli_stmt_close($prep4);
                     mysqli_autocommit($con, TRUE);
                     mysqli_close($con);
                     return UPDATE_ACCOUNT_OK;
