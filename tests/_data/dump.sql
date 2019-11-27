@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `ATTENDANCE` (
   `Date` date NOT NULL,
   `Presence` enum('PRESENT','10_MIN_LATE','1_HOUR_LATE','ABSENT') COLLATE utf8_unicode_ci DEFAULT NULL,
   `ExitHour` int(11) NOT NULL DEFAULT '6'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `ATTENDANCE`
@@ -239,38 +239,62 @@ INSERT INTO `TOPIC` (`Class`, `Date`, `StartHour`, `SubjectID`, `TeacherSSN`, `T
 
 DROP TABLE IF EXISTS `USER`;
 CREATE TABLE IF NOT EXISTS `USER` (
-  `SSN` varchar(50) NOT NULL,
+  `SSN` char(16) NOT NULL,
   `Name` varchar(50) NOT NULL,
   `Surname` varchar(50) NOT NULL,
-  `Email` varchar(50) NOT NULL,
+  `Email` varchar(50) UNIQUE NOT NULL,
   `Password` varchar(50) NOT NULL,
-  `UserType` varchar(50) NOT NULL,
-  `AccountActivated` tinyint(1) DEFAULT NULL,
+  `AccountActivated` tinyint(1) NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`SSN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `USER_TYPE`;
+CREATE TABLE IF NOT EXISTS `USER_TYPE` (
+  `SSN` char(16) NOT NULL,
+  `UserType` varchar(30) NOT NULL,
+  PRIMARY KEY (`SSN`,`UserType`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
 -- Dumping data for table `USER`
 --
 
-INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `UserType`, `AccountActivated`) VALUES
-('123aaa', 'aaa', 'bbb', 'enrico@gmail.com', '1111eeee?', 'PARENT', NULL),
-('123q', 'ggg', 'ggg', 'enrico@gmail.it', 'a1a1a1a1', 'PARENT', 1),
-('aaa111', 'aaa', 'bbb', 'aaa@bbb.com', 'a1a1a1a1', 'TEACHER', 1),
-('aaa111bbb', 'aaa', 'bbb', 'johnny@doe.it', 'a1a1a1a1', 'TEACHER', 1),
-('ABC123', 'John', 'Doe', 'john@doe.it', 'pass123', 'PARENT', 1),
-('ABC456', 'Jane', 'Doe', 'jane@doe.it', 'pass456', 'PARENT', 0),
-('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'r.filicaro@parent.esrmsystem.com', 'Roberta77', 'PARENT', 1),
-('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrmsystem.com', 'Teresa72', 'TEACHER', 1),
-('LNGMRN58M51L219R', 'Marina', 'Longobardi', 'm.longobardi@esrmsystem.com', 'Marina58', 'TEACHER', 1),
-('MNDFPP68C16L219N', 'Filippo', 'Mandini', 'f.mandini@parent.esrmsystem.com', 'Filippo68', 'PARENT', 1),
-('PLLMRT70E68L219Q', 'Marta', 'Pellegrino', 'm.pellegrino@parent.esrmsystem.com', 'Marta70', 'PARENT', 1),
-('PNCMSM75D20L219X', 'Massimiliano', 'Ponci', 'm.ponci@parent.esrmsystem.com', 'Massi75', 'PARENT', 1),
-('QFFFZL52M61I472B', 'Milo', 'Contini', 'milo@milo.it', 'Milo1', 'SECRETARY_OFFICER', 1),
-('RSSMRA70A01F205V', 'Mario', 'Rossi', 'mario.rossi@email.com', 'Mariorossi2', 'PARENT', 1),
-('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@parent.esrmsystem.com', 'Roberto66', 'PARENT', 1),
-('testSSN123', 'Mario', 'Rossi', 'mario@rossi.it', 'Mario12', 'STUDENT', 1);
+INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES
+('123aaa', 'aaa', 'bbb', 'enrico@gmail.com', '1111eeee?', NULL),
+('123q', 'ggg', 'ggg', 'enrico@gmail.it', 'a1a1a1a1', 1),
+('aaa111', 'aaa', 'bbb', 'aaa@bbb.com', 'a1a1a1a1', 1),
+('aaa111bbb', 'aaa', 'bbb', 'johnny@doe.it', 'a1a1a1a1', 1),
+('ABC123', 'John', 'Doe', 'john@doe.it', 'pass123', 1),
+('ABC456', 'Jane', 'Doe', 'jane@doe.it', 'pass456', 0),
+('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'r.filicaro@parent.esrmsystem.com', 'Roberta77', 1),
+('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrmsystem.com', 'Teresa72', 1),
+('LNGMRN58M51L219R', 'Marina', 'Longobardi', 'm.longobardi@esrmsystem.com', 'Marina58', 1),
+('MNDFPP68C16L219N', 'Filippo', 'Mandini', 'f.mandini@parent.esrmsystem.com', 'Filippo68', 1),
+('PLLMRT70E68L219Q', 'Marta', 'Pellegrino', 'm.pellegrino@parent.esrmsystem.com', 'Marta70', 1),
+('PNCMSM75D20L219X', 'Massimiliano', 'Ponci', 'm.ponci@parent.esrmsystem.com', 'Massi75', 1),
+('QFFFZL52M61I472B', 'Milo', 'Contini', 'milo@milo.it', 'Milo1', 1),
+('RSSMRA70A01F205V', 'Mario', 'Rossi', 'mario.rossi@email.com', 'Mariorossi2', 1),
+('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@parent.esrmsystem.com', 'Roberto66', 1),
+('testSSN123', 'Mario', 'Rossi', 'mario@rossi.it', 'Mario12', 1);
 
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('123aaa', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('123q', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('aaa111', 'TEACHER');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('aaa111bbb', 'TEACHER');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('ABC123', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('ABC456', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('FLCRRT77B43L219Q', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('FNLTRS72H50L219Z', 'TEACHER');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('LNGMRN58M51L219R', 'TEACHER');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('MNDFPP68C16L219N', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('PLLMRT70E68L219Q', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('PNCMSM75D20L219X', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('QFFFZL52M61I472B', 'SECRETARY_OFFICER');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('RSSMRA70A01F205V', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('STLRRT66T06L219L', 'PARENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('testSSN123', 'STUDENT');
+
+ALTER TABLE `USER_TYPE`
+  ADD CONSTRAINT `USER_TYPE_ibfk_1` FOREIGN KEY (`SSN`) REFERENCES `USER` (`SSN`);
 --
 -- Constraints for dumped tables
 --
