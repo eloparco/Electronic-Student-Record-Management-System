@@ -184,4 +184,29 @@ class UtilityTest extends \Codeception\Test\Unit
         $attendances = get_attendance('FAKE_SSN', $this->ini_path);
         $this->assertEquals(0, count($attendances));
     }
+
+    public function testTryInsertAccount() {
+        $this->assertEquals(INSERT_ACCOUNT_OK, 
+            tryInsertAccount('LNGMRNKKK51L219R', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'TEACHER', 1, $this->ini_path));            
+    }
+    public function testTryInsertAccountRoleTaken() {
+        $this->assertEquals(ROLE_ALREADY_TAKEN, 
+        tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'PARENT', 1, $this->ini_path));
+    }
+    public function testTryInsertAccountOk() {
+        $this->assertEquals(UPDATE_ACCOUNT_OK, 
+        tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'TEACHER', 1, $this->ini_path));
+    }
+    public function testTryInsertAccountRoleNotAllowed() {
+        $this->assertEquals(ROLE_NOT_ALLOWED, 
+        tryInsertAccount('LNGMRN58M51L219R', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'SECRETARY_OFFICER', 1, $this->ini_path));
+    }
+    public function testTryInsertAccountOk2() {
+        $this->assertEquals(UPDATE_ACCOUNT_OK, 
+        tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'PRINCIPAL', 1, $this->ini_path));
+    }
+    public function testTryInsertAccountMaxRoles() {
+        $this->assertEquals(MAX_ROLES_ALLOWED, 
+        tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'SECRETARY_OFFICER', 1, $this->ini_path));
+    }
 }

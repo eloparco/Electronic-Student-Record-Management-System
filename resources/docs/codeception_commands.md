@@ -8,8 +8,12 @@ php vendor/bin/codecept run unit
 php vendor/bin/codecept run acceptance
 
 ## run specific test class
-php vendor/bin/codecept run unit UtilityTest    
+php vendor/bin/codecept run unit UtilityTest  
 php vendor/bin/codecept run acceptance Story8Cest
+
+## run specific function
+php vendor/bin/codecept run unit UtilityTest:functionName  
+php vendor/bin/codecept run acceptance Story8Cest Story8Cest:functionName  
 
 ## generate unit test class
 php vendor/bin/codecept generate:test unit Example  

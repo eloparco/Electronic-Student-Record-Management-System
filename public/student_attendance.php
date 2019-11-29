@@ -55,13 +55,13 @@ if (isset($_SESSION['msg_result'])) {
      <?php 
       $colors = array(
         'ABSENT' => 'lightCoral',
-        '15_MIN_LATE' => 'lemonChiffon',
+        '10_MIN_LATE' => 'lemonChiffon',
         '1_HOUR_LATE' => 'lightGreen',
         'EARLY_EXIT' => 'lightSalmon '
       );
       $titles = array(
         'ABSENT' => 'ABSENT',
-        '10_MIN_LATE' => '15 MINUTES LATE',
+        '10_MIN_LATE' => '10 MINUTES LATE',
         '1_HOUR_LATE' => '1 HOUR LATE',
         'EARLY_EXIT' => 'EARLY EXIT: HOUR '
       );
