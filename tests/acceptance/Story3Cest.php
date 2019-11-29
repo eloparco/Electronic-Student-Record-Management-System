@@ -57,11 +57,13 @@ class Story3Cest
             'SSN' => 'DKDVHF36L48G407J',
             'Name' => 'Giorgio',
             'Surname' => 'Padovani',
-            'Email' => 'giorgio@giorgio.it',
-            'Password' => 'Giorgio5',
-            'UserType' => 'PARENT',
-            'AccountActivated' => 1
-        ]);      
+            'Email' => 'giorgio@giorgio.it',                    
+            'AccountActivated' => 0
+        ]);    
+        $I->seeInDatabase('USER_TYPE', [
+            'SSN' => 'DKDVHF36L48G407J',
+            'USERTYPE' => 'PARENT'
+        ]);     
         $I->click('Logout');  
     }
  

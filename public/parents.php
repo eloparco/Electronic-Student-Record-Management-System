@@ -5,7 +5,7 @@ $db_con = connect_to_db();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    $query = "SELECT SSN FROM USER WHERE UserType = 'PARENT'";
+    $query = "SELECT USER.SSN FROM USER, USER_TYPE  WHERE USER.SSN = USER_TYPE.SSN AND  UserType = 'PARENT'";
 
     if(!$db_con){
         echo '{"state" : "error",
