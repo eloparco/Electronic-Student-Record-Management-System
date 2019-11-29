@@ -20,12 +20,12 @@ class insertParentStudentTest extends \Codeception\Test\Unit
     public function testTryInsertParent()
     {
         $ini_path = __DIR__ . '/../../config/database/database.ini';
-        $this->assertEquals("Parent inserted successfully.", tryInsertParent( 'FPNHNQ42A28A508A','Sebastian', 'Regio','sebastian@sebastian.it', 'Sebastian1', 'PARENT', 1, $ini_path) );
+        $this->assertEquals("Parent inserted successfully.", tryInsertParent( 'FPNHNQ42A28A508A','Sebastian', 'Regio','sebastian@sebastian.it', 'Sebastian1', 'PARENT', 0, $ini_path) );
     }
     public function testTryInsertParentDuplicate()
     {
         $ini_path = __DIR__ . '/../../config/database/database.ini';
-        $this->assertEquals("SSN already exists.", tryInsertParent( 'FPNHNQ42A28A508A','Sebastian', 'Regio','sebastian@sebastian.it', 'Sebastian1', 'PARENT', 1, $ini_path) );
+        $this->assertEquals("SSN already exists.", tryInsertParent( 'FPNHNQ42A28A508A','Sebastian', 'Regio','sebastian@sebastian.it', 'Sebastian1', 'PARENT', 0, $ini_path) );
 
     }
     public function testInsertStudent()

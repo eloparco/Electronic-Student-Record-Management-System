@@ -6,7 +6,7 @@
 -- Generation Time: Nov 24, 2019 at 10:05 PM
 -- Server version: 5.7.28-0ubuntu0.19.04.2
 -- PHP Version: 7.2.24-0ubuntu0.19.04.1
-
+DROP DATABASE  student_record_management_test;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
