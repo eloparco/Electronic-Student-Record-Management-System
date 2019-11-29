@@ -11,7 +11,7 @@ storage.json
 
 ### Composer ###
 composer.phar
-/vendor/
+/vendor
 chromedriver*
 
 ### Emacs ###
