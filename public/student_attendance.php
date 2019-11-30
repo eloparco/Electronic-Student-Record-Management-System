@@ -33,16 +33,27 @@ if (isset($_SESSION['msg_result'])) {
   <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.js"></script>
+
 </head>
 
 <body>
   <?php include("includes/user_header.php"); ?>
   <?php include("includes/dashboard_parent.php"); ?>
-  <div class="formContainer text-center">
 
-  <main role="main" class="container" style="margin-top:5%; width:60%;">
-    <div id="calendar"></div>
-  </main> 
+  <script>
+    var homeElement = document.getElementById("homeNavig");
+    var visualizeMarkElement = document.getElementById("attendance_dashboard");
+    if (homeElement.classList) {
+      homeElement.classList.remove("active");
+    }   
+    if (visualizeMarkElement.classList) {
+        visualizeMarkElement.classList.add("active");
+    } 
+  </script>
+
+  <div class="formContainer text-center">
+    <img class="mb-4 mt-5" src="images/icons/calendar.png" alt="" width="102" height="102">
+    <div id="calendar" class="mx-auto" style="width: 900px;"></div>
   </div>
 </body>
 
@@ -87,6 +98,13 @@ if (isset($_SESSION['msg_result'])) {
       echo(json_encode($events));
     ?>
   });
+  $(':button').removeClass();
+  $(':button').addClass('btn btn-lg btn-primary ml-1');
 </script>
 
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace();
+</script>
 </html>
