@@ -278,6 +278,7 @@ INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActiv
 ('KKKFZL52M61I4KKK', 'Mamma', 'Mia', 'mamma@mia.it', 'Mamma', 1);
 
 
+
 INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('123aaa', 'PARENT');
 INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('123q', 'PARENT');
 INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('aaa111', 'TEACHER');

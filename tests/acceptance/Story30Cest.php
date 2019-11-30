@@ -10,7 +10,6 @@ class Story30Cest
     public function testInsertAccountAutocompletion(AcceptanceTester $I)
     {
         $I->wait(1);
-
         // login as sys_admin
         $I->amOnPage('/login.php');
         $I->fillField('username', 'mamma@mia.it');
@@ -22,7 +21,6 @@ class Story30Cest
         $I->click('Setup accounts');
         
         // insert new account
-        // $I->waitForElement('#lessonRecordingTitle', 10);
         $I->fillField('ssn', 'PNCMSM75D20L219X');
 
         $I->wait(3);
@@ -56,7 +54,6 @@ class Story30Cest
         $I->click('Setup accounts');
         
         // insert new account
-        // $I->waitForElement('#lessonRecordingTitle', 10);
         $I->fillField('ssn', 'FLCRRT77B43L219Q');
         $I->fillField('name', 'Roberta');
         $I->fillField('surname', 'Filicaro');
