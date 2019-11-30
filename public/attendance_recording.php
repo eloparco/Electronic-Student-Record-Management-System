@@ -138,7 +138,7 @@ if (isset($_GET['msg_result'])) {
             $(document).ready(function() {
               $('#classSelection').change(function(){
                 $.ajax({
-                url: "class_students.php",
+                url: "students_attendance.php",
                 data: {
                   "class": this.value.split("_")[0],
                 },
@@ -159,8 +159,86 @@ if (isset($_GET['msg_result'])) {
 
                   for(var i=0; i<resJSON.length; i++){
                     var item = resJSON[i];
-                    //$("#studentSelection").append('<option value='+item["SSN"]+'>'+ item["Name"]+ ' '+ item["Surname"]+'</option>');
-                    $('#classTable > tbody:last-child').append(
+                    if(item['Presence'] == "ABSENT"){ // Absent
+                        $('#classTable > tbody:last-child').append(
+                                '<tr><form id='+item['SSN']+'>'
+                            
+                                +'<td>'+(i+1)+'</td>'
+                                +'<td>'+item["Name"]+' '+item["Surname"]+'</td>'
+                                +'<td>'+item["SSN"]+'</td>'
+                                //new attribute for="" needed to identify globally radio buttons during tests
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)"class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio" for="'+item["SSN"]+'presentRadio" value="present"></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio" for="'+item["SSN"]+'absentRadio" value="absent" checked></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio" for="'+item["SSN"]+'late15Radio" value="late15m"></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio" for="'+item["SSN"]+'late60Radio" value="late1h"></div></td>'
+                                +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio" for="'+item["SSN"]+'leavingRadio" value="leave"></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)"class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio"  value="present"></div></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio"  value="absent" checked></div></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio"  value="late15m"></div></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio"  value="late1h"></div></td>'
+                                // +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio"  value="leave"></td>'
+                                    +'<td><div class="input-group date">'
+                                        +'<input type="text" class="form-control" id="'+item["SSN"]+'tp" disabled="disabled"/>'
+                                        +'<span class="input-group-addon">'
+                                            +'<span class="glyphicon glyphicon-time"></span>'
+                                        +'</span>'
+                                    +'</div>'
+                                +'</div></td>'
+                                +'</form></tr>');
+                    } else if(item['Presence'] == "10_MIN_LATE"){ // 10 minutes late
+                        $('#classTable > tbody:last-child').append(
+                                '<tr><form id='+item['SSN']+'>'
+                                
+                                +'<td>'+(i+1)+'</td>'
+                                +'<td>'+item["Name"]+' '+item["Surname"]+'</td>'
+                                +'<td>'+item["SSN"]+'</td>'
+                                //new attribute for="" needed to identify globally radio buttons during tests
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)"class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio" for="'+item["SSN"]+'presentRadio" value="present"></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio" for="'+item["SSN"]+'absentRadio" value="absent"></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio" for="'+item["SSN"]+'late15Radio" value="late15m" checked></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio" for="'+item["SSN"]+'late60Radio" value="late1h"></div></td>'
+                                +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio" for="'+item["SSN"]+'leavingRadio" value="leave"></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)"class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio"  value="present"></div></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio"  value="absent"></div></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio"  value="late15m" checked></div></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio"  value="late1h"></div></td>'
+                                // +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio"  value="leave"></td>'
+                                    +'<td><div class="input-group date">'
+                                        +'<input type="text" class="form-control" id="'+item["SSN"]+'tp" disabled="disabled"/>'
+                                        +'<span class="input-group-addon">'
+                                            +'<span class="glyphicon glyphicon-time"></span>'
+                                        +'</span>'
+                                    +'</div>'
+                                +'</div></td>'
+                                +'</form></tr>');
+                    } else if(item['Presence'] == "1_HOUR_LATE"){ // 1 hour late
+                        $('#classTable > tbody:last-child').append(
+                                '<tr><form id='+item['SSN']+'>'
+                                
+                                +'<td>'+(i+1)+'</td>'
+                                +'<td>'+item["Name"]+' '+item["Surname"]+'</td>'
+                                +'<td>'+item["SSN"]+'</td>'
+                                //new attribute for="" needed to identify globally radio buttons during tests
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)"class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio" for="'+item["SSN"]+'presentRadio" value="present"></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio" for="'+item["SSN"]+'absentRadio" value="absent"></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio" for="'+item["SSN"]+'late15Radio" value="late15m"></div></td>'
+                                +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio" for="'+item["SSN"]+'late60Radio" value="late1h" checked></div></td>'
+                                +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio" for="'+item["SSN"]+'leavingRadio" value="leave"></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)"class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="presentRadio"  value="present"></div></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="absentRadio"  value="absent"></div></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late15Radio"  value="late15m"></div></td>'
+                                // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio"  value="late1h" checked></div></td>'
+                                // +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio"  value="leave"></td>'
+                                    +'<td><div class="input-group date">'
+                                        +'<input type="text" class="form-control" id="'+item["SSN"]+'tp" disabled="disabled"/>'
+                                        +'<span class="input-group-addon">'
+                                            +'<span class="glyphicon glyphicon-time"></span>'
+                                        +'</span>'
+                                    +'</div>'
+                                +'</div></td>'
+                                +'</form></tr>');
+                    } else { // Student present
+                        $('#classTable > tbody:last-child').append(
                                 '<tr><form id='+item['SSN']+'>'
                                 
                                 +'<td>'+(i+1)+'</td>'
@@ -185,6 +263,7 @@ if (isset($_GET['msg_result'])) {
                                     +'</div>'
                                 +'</div></td>'
                                 +'</form></tr>');
+                    }
                   }
                 },
                 error: function(request, state, error) {

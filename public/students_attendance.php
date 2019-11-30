@@ -1,0 +1,57 @@
+<?php
+define("JSON", "JSON");
+require_once('utility.php');
+
+$db_con = connect_to_db();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(!isset($_POST['class'])) {
+        echo '{"state" : "error",
+        "result" : "Incomplete request."}';
+
+        mysqli_close($db_con);
+        exit();
+    }
+
+    $class = $_POST['class'];
+
+    $query = "SELECT CHILD.Name, CHILD.Surname, CHILD.SSN, A.Presence FROM CHILD LEFT JOIN (SELECT * FROM ATTENDANCE WHERE ATTENDANCE.Date = CURRENT_DATE) A ON A.StudentSSN = CHILD.SSN WHERE CHILD.Class = ?;";
+
+    if(!$db_con){
+        echo '{"state" : "error",
+        "result" : "Error in connection to database." }';
+    }
+
+    $prep_query = mysqli_prepare($db_con, $query);
+    if(!$prep_query){
+        print('Error in preparing query: '.$prep_query);
+        echo '{"state" : "error",
+        "result" : "Database error." }';
+    }
+    if(!mysqli_stmt_bind_param($prep_query, "s", $class)){
+        echo '{"state" : "error",
+        "result" : "Param binding error." }';
+    }
+    if(!mysqli_stmt_execute($prep_query)){
+        echo '{"state" : "error",
+        "result" : "Database error (Query execution)." }';
+    }
+
+    mysqli_stmt_bind_result($prep_query, $Name, $Surname, $SSN, $Presence);
+
+    $rows = array();
+    $students = array();
+    
+    while (mysqli_stmt_fetch($prep_query)) {
+        $fields = array("SSN" => $SSN, "Name" => $Name, "Surname" => $Surname, "Presence" => $Presence);
+        $students[] = $fields;
+    }
+
+    mysqli_stmt_close($prep_query);
+
+    $json_res = json_encode($students);
+    echo '{"state" : "ok",
+            "result" : '.$json_res.'}';
+
+}
+?>
