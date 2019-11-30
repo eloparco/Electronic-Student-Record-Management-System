@@ -274,7 +274,9 @@ INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActiv
 ('QFFFZL52M61I472B', 'Milo', 'Contini', 'milo@milo.it', 'Milo1', 1),
 ('RSSMRA70A01F205V', 'Mario', 'Rossi', 'mario.rossi@email.com', 'Mariorossi2', 1),
 ('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@parent.esrmsystem.com', 'Roberto66', 1),
-('testSSN123', 'Mario', 'Rossi', 'mario@rossi.it', 'Mario12', 1);
+('testSSN123', 'Mario', 'Rossi', 'mario@rossi.it', 'Mario12', 1),
+('KKKFZL52M61I4KKK', 'Mamma', 'Mia', 'mamma@mia.it', 'Mamma', 1);
+
 
 INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('123aaa', 'PARENT');
 INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('123q', 'PARENT');
@@ -292,6 +294,7 @@ INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('QFFFZL52M61I472B', 'SECRETARY
 INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('RSSMRA70A01F205V', 'PARENT');
 INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('STLRRT66T06L219L', 'PARENT');
 INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('testSSN123', 'STUDENT');
+INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('KKKFZL52M61I4KKK', 'SYS_ADMIN');
 
 ALTER TABLE `USER_TYPE`
   ADD CONSTRAINT `USER_TYPE_ibfk_1` FOREIGN KEY (`SSN`) REFERENCES `USER` (`SSN`);

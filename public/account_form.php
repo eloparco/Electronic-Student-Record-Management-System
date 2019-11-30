@@ -104,7 +104,7 @@ if(isset($_SESSION['msg_result'])) {
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo 'Session expired: try to login again.';?></b></span></div></b>
           <?php }
           $_GET['msg'] = "";} ?>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" id="confirmInsertAccount">Submit</button>
     </form>
   <div>
 </body>
