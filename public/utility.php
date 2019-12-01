@@ -35,6 +35,7 @@ define("STUDENT_RECORDING_FAILED", "Student recording failed.");
 define("MAX_ROLES_ALLOWED", "The account cannot take other roles.");
 define("ROLE_ALREADY_TAKEN", "The account has already this role.");
 define("ROLE_NOT_ALLOWED", "The account cannot take this role.");
+define("SSN_OF_CHILD", "The SSN inserted is that of a child.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
 
@@ -347,6 +348,25 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
     if($con && mysqli_connect_error() == NULL) {
         mysqli_autocommit($con, FALSE);
         try {
+            /* Check if is an SSN of one child -> error */
+            if(!$prep5 = mysqli_prepare($con, "SELECT * FROM CHILD WHERE SSN = ? LIMIT 1"))
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep5, "s", $ssn)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep5))
+                throw new Exception();
+            if(!mysqli_stmt_store_result($prep5))
+                throw new Exception();
+            $count = mysqli_stmt_num_rows($prep5);
+            if($count == 1) { //it is an SSN of a child!
+                mysqli_stmt_free_result($prep5);
+                mysqli_stmt_close($prep5);
+                mysqli_rollback($con);
+                mysqli_autocommit($con, TRUE);
+                mysqli_close($con);
+                return SSN_OF_CHILD;
+            } 
+            else {
             /* Check if user already exists */
             if(!$prep = mysqli_prepare($con, "SELECT UserType FROM USER, USER_TYPE WHERE USER.SSN = USER_TYPE.SSN AND USER.SSN = ? FOR UPDATE"))
                 throw new Exception();
@@ -467,6 +487,7 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                     return UPDATE_ACCOUNT_OK;
                 }
             }
+        }
         } catch (Exception $e) {
             mysqli_rollback($con);
             mysqli_autocommit($con, TRUE);
