@@ -21,8 +21,8 @@
             ?>
         </a>
         <div class="dropdown ml-auto">
-			<a class="dropdown-toggle" id="dRoles" role="button" data-toggle="dropdown" href="#">
-			<button id="username" value="<?php echo $_SESSION['mySession']; ?>">
+			<a id="dRoles" role="button" data-toggle="dropdown" href="#">
+			<button type="button" class="btn btn-warning" id="username" value="<?php echo $_SESSION['mySession']; ?>">
             <?php echo $_SESSION['mySession']; ?>
             </button>
 			<b class="caret"></b>
