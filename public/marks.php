@@ -32,11 +32,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script type="text/javascript" src="js/marks_visualization.js"></script>
   <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
-  <link rel="stylesheet" type="text/css" href="css/w3.css"> 
-  <!-- For the dropdown sidebar -->
-  <script src="https://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>    
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/w3.css">
 </head>
 
 <body>

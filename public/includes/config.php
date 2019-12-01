@@ -69,3 +69,4 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $PAGE_TITLE = "Student attendance";
     break;  
 }
+?>

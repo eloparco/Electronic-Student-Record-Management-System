@@ -92,7 +92,7 @@ if(isset($_SESSION['child'])){
         </ul>
         </div>   
         <div class="form-inline my-2 my-lg-0">
-            <div id="selectedChild" class="btn btn-static"><?php echo $_SESSION['childNameSurname']; ?></div>
+            <div id="selectedChild" class="btn btn-static"><?php echo $nameAndsurname; ?></div>
         </div>
 <?php
 }

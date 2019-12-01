@@ -242,6 +242,36 @@ function tryLogin($username, $password, $ini_path='') {
         return DB_ERROR;
     }
 }
+
+function check_change_role($username, $role, $ini_path=''){
+    $roles_query = "SELECT UserType\n" .
+                   "FROM USER_TYPE UT, USER U\n" .
+                   "WHERE UT.SSN=U.SSN AND U.Email=?";
+    $db_con = connect_to_db($ini_path);
+    if(!$db_con){
+        die('Error in connecting to database. [Roles query]'."\n");
+    }
+    $roles_prep = mysqli_prepare($db_con, $roles_query);
+    if(!$roles_prep){
+        print('Error in preparing query: '.$roles_query);
+        die("Check database error:<br>".mysqi_error($db_con));
+    }
+    if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
+        die('Error in binding parameters for roles_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($roles_prep)){
+        die('Error in executing roles query. Check database error:<br>'.mysqli_error($db_con));
+    }
+    $roles_res = mysqli_stmt_get_result($roles_prep);
+    $role_ok = false;
+    while($row = mysqli_fetch_array($roles_res, MYSQLI_ASSOC)){
+        if($row['UserType'] === $role){
+            $role_ok = true;
+        }
+    }
+    mysqli_stmt_close($roles_prep);
+    return $role_ok;
+}
 ### END functions to login and retrieve roles
 
 function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype, $accountactivated, $ini_path='') {
@@ -449,8 +479,9 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
 }
 
 function check_inactivity () {
-    if(!isset($_SESSION))
+    if(session_status() === PHP_SESSION_NONE) {
         session_start();
+    }
 	$t = time();
 	$diff = 0;
     $new = false;
