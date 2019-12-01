@@ -1,7 +1,5 @@
-<?php 
-    if(session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
+<?php
+    include('role_pages.php');
 ?>
 <header>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
@@ -21,6 +19,24 @@
             <?php 
                 echo $_SESSION['myUserType']; 
             ?>
-        </a>     
+        </a>
+        <div class="dropdown ml-auto">
+			<a class="dropdown-toggle" id="dRoles" role="button" data-toggle="dropdown" href="#">
+			<button id="username" value="<?php echo $_SESSION['mySession']; ?>">
+            <?php echo $_SESSION['mySession']; ?>
+            </button>
+			<b class="caret"></b>
+			</a>
+            <ul class="dropdown-menu ml-auto" role="menu" aria-labelledby="dRoles" id="rolesList">
+            <?php
+                $roles = get_roles_per_user($_SESSION['mySession']);
+                foreach($roles as $role){
+                    echo '<li class="nav-item"><a class="role" href="' . name_page($role) . '">' . $role . '</a></li>'."\n";
+                }
+            ?>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item"><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
     </nav>
 </header>

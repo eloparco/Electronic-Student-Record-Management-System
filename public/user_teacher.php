@@ -1,6 +1,7 @@
 <?php
 include("includes/config.php"); 
-require_once('utility.php');
+require_once('utility.php'); 
+
 /* HTTPS CHECK */
 if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 } else {
@@ -8,10 +9,10 @@ if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
   myRedirectToHTTPS($redirectHTTPS);
   exit;
 }
-check_inactivity();
-if(!isset($_SESSION)) 
+if(session_status() === PHP_SESSION_NONE) {
   session_start();
- 
+}
+check_inactivity();
 /* LOGGED IN CHECK */
 if(!userLoggedIn() || !userTypeLoggedIn('TEACHER')) {   
   myRedirectTo('login.php', 'SessionTimeOut');

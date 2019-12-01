@@ -1,6 +1,9 @@
 <?php
 include("includes/config.php"); 
-require_once('utility.php');
+require_once('utility.php'); 
+if(session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 /* HTTPS CHECK */
 if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 } else {
@@ -9,9 +12,6 @@ if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
   exit;
 }
 check_inactivity();
-if(!isset($_SESSION)) 
-  session_start();
- 
 /* LOGGED IN CHECK */
 if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {   
   myRedirectTo('login.php', 'SessionTimeOut');

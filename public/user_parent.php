@@ -1,6 +1,9 @@
 <?php
 include("includes/config.php"); 
-require_once('utility.php');
+require_once('utility.php'); 
+if(session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 /* HTTPS CHECK */
 if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 } else {
@@ -9,9 +12,6 @@ if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
   exit;
 }
 check_inactivity();
-if(!isset($_SESSION)) 
-  session_start();
- 
 /* LOGGED IN CHECK */
 if(!userLoggedIn() || !userTypeLoggedIn('PARENT')) {   
   myRedirectTo('login.php', 'SessionTimeOut');
@@ -29,10 +29,6 @@ if(!empty($children) && !isset($_SESSION['child'])){
 <head>
   <?php include("includes/head.php"); ?>
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
-  <!-- For the dropdown sidebar -->
-  <script src="https://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>    
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>

@@ -33,7 +33,6 @@ if(isset($_SESSION['msg_result'])) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
     <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
     <link rel="stylesheet" type="text/css" href="css/w3.css"> 
-    <script src="https://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
     
     <!-- Bootstrap Date-Picker Plugin -->
     <script type="text/javascript" src="./css/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
@@ -223,4 +222,11 @@ if(isset($_SESSION['msg_result'])) {
           </form>
       </div>
   </body>
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace();
+</script>
+
 </html>
