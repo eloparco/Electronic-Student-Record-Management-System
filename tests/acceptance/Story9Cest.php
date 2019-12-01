@@ -36,7 +36,9 @@ class Story9Cest
             'Presence' => 'ABSENT',
             'ExitHour' => '6'
         ]);
-
+        $I->acceptPopup();          
+        $I->acceptPopup();
+        
         $I->click('Logout');
         
     }
@@ -49,7 +51,8 @@ class Story9Cest
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_teacher.php');
         $I->see('Record attendance');
-        $I->waitForElementClickable('#recordAttendance', 10);
+        $I->wait(1);
+        //$I->waitForElementClickable('#recordAttendance', 10);
         $I->click('Record attendance');        
         
         // Select the class
@@ -77,9 +80,11 @@ class Story9Cest
             'Presence' => '10_MIN_LATE',
             'ExitHour' => '6'
         ]);
-        $I->acceptPopup();     
+        $I->acceptPopup();            
         $I->acceptPopup();
+                 
         $I->click('Logout');
     }
+    
 
 }
