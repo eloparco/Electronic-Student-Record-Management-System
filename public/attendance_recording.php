@@ -328,8 +328,6 @@ if (isset($_GET['msg_result'])) {
                     exitHour = tr.getElementsByTagName("input")[5].value;
                 }
 
-                // alert("INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES ("+SSN+", "+date.toISOString().substr(0, 10)+", "+value+", "+exitHour+");");
-
                 if(updateDB){
                     if(!recordLeaving){
                         $.ajax({
@@ -384,6 +382,32 @@ if (isset($_GET['msg_result'])) {
                         });
 
                     }
+                } else {
+                    $.ajax({
+                            url: "student_to_present.php",
+                            data: { "SSN": SSN,
+                                    "Date":  date.toISOString().substr(0, 10)
+                            },
+
+                            type: "POST",
+                            success: function(data, state) {
+                                // alert(data);
+                                var JSONdata = $.parseJSON(data);
+
+                                if(JSONdata['state'] != "ok"){
+                                    console.log("Error: "+state);
+                                    return;
+                                }   else {
+                                    alert("Action sucessfully executed.");
+                                }
+                                
+                            },
+                            error: function(request, state, error) {
+                            console.log("State error " + state);
+                            console.log("Value error " + error);
+                            }
+                        });
+
                 } 
             });
         }
