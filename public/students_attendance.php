@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $class = $_POST['class'];
 
     $query = "SELECT CHILD.Name, CHILD.Surname, CHILD.SSN, A.Presence FROM CHILD LEFT JOIN (SELECT * FROM ATTENDANCE WHERE ATTENDANCE.Date = CURRENT_DATE) A ON A.StudentSSN = CHILD.SSN WHERE CHILD.Class = ?;";
-
+    
     if(!$db_con){
         echo '{"state" : "error",
         "result" : "Error in connection to database." }';
