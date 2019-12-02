@@ -50,19 +50,18 @@ if(isset($_SESSION['msg_result'])) {
     <?php include("includes/user_header.php"); ?>
     <?php include("includes/dashboard_parent.php"); ?> 
 
-    <!-- TODO: To be adapted to parent dashboard
+     
     <script>
-    var homeElement = document.getElementById("homeDash");
-    var recordMark = document.getElementById("recordMark");
-    var recordLecture = document.getElementById("recordLecture");
-    if (homeElement.classList)
+    var homeElement = document.getElementById("homeNavig");
+    var topicDashboardElement = document.getElementById("topic_dashboard");
+    if (homeElement.classList) {
       homeElement.classList.remove("active");
-    if(recordLecture.classList) 
-      recordLecture.classList.remove("active");
-    if (recordMark.classList)
-      recordMark.classList.add("active");
+    }   
+    if (topicDashboardElement.classList) {
+      topicDashboardElement.classList.add("active");
+    } 
     </script>
-      -->
+    
 
     <div class="formContainer text-center">
         
@@ -79,23 +78,23 @@ if(isset($_SESSION['msg_result'])) {
                         <img class="mb-4" src="images/icons/assignments.png" alt="" width="102" height="102">    
                     </div>
                 </div>
-                
+                <!-- It's not necessary, the student is selected in the dashboard.
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group-class">
                             <label for="studentSelection">Select a student</label>
                             <select class="form-control" id="studentSelection" name="student_SSN">
-                                <?php
+                                php
                                     $children = get_children_of_parent($_SESSION['mySession']);
                                     foreach($children as $child){
                                       echo '<option value="' . $child['SSN'] . '">' . $child['Name'] . ' ' . $child['Surname'] . "</option>\n";
                                     }
-                                ?>
+                                
                             </select>
                         </div>
                     </div>
                 </div>
-
+                -->                
                 <div class="row" style="height: 30%;">
                         
                     <!-- Monday's assignments -->
