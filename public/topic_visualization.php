@@ -66,7 +66,7 @@ if(isset($_SESSION['msg_result'])) {
 
     <div class="formContainer text-center">
         
-        <div id="assignments_div" class="form-record">  
+        <div id="assignments_div" class="table-responsive col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-8 pt-3 px-8">  
             <div id="compositionContainer" class="container">
                 <!-- Child selection -->
                 <div class="row">
