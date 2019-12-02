@@ -223,7 +223,7 @@ if(isset($_SESSION['msg_result'])) {
                         case 5:
                           if(!c5){
                             $("#fri_list").empty();
-                            c4=true;
+                            c5=true;
                           }
                           $("#fri_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
                           break;
