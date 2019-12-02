@@ -182,29 +182,50 @@ if(isset($_SESSION['msg_result'])) {
                   }
 
                   var resJSON = JSONdata['result'];
-                  $("#mon_list").empty();
+                  //$("#mon_list").empty();
 
                   for(var i=0; i<resJSON.length; i++){
                     var item = resJSON[i];
                     var itemDate = new Date(item['Deadline']);
 
-                    if(itemDate.getTime()>= minDate.getTime() && itemDate.getTime() <= maxDate.getTime()){
-                      
+                    if( itemDate.getDate()>= minDate.getDate() && itemDate.getDate() <= maxDate.getDate() ){
+
+                      var c1, c2, c3, c4, c5 = false;//erase the content of each box, only for the first time
                       switch(itemDate.getDay()){
                         case 1:
-                          $("#mon_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          if(!c1){
+                            $("#mon_list").empty();
+                            c1=true;
+                          }
+                          $("#mon_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
                           break;
                         case 2:
-                          $("#tue_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          if(!c2){
+                            $("#tue_list").empty();
+                            c2=true;
+                          }
+                          $("#tue_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
                           break;
                         case 3:
-                          $("#wed_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          if(!c3){
+                            $("#wed_list").empty();
+                            c3=true;
+                          }
+                          $("#wed_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
                           break;
                         case 4:
-                          $("#thu_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          if(!c4){
+                            $("#thu_list").empty();
+                            c4=true;
+                          }
+                          $("#thu_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
                           break;
                         case 5:
-                          $("#fri_list").empty().append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          if(!c5){
+                            $("#fri_list").empty();
+                            c4=true;
+                          }
+                          $("#fri_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
                           break;
                       }
                     }
