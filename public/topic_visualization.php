@@ -85,8 +85,12 @@ if(isset($_SESSION['msg_result'])) {
                         <div class="form-group-class">
                             <label for="studentSelection">Select a student</label>
                             <select class="form-control" id="studentSelection" name="student_SSN">
-                                <option>Mario Rossi</option>
-                                <option></option>
+                                <?php
+                                    $children = get_children_of_parent($_SESSION['mySession']);
+                                    foreach($children as $child){
+                                      echo '<option value="' . $child['SSN'] . '">' . $child['Name'] . ' ' . $child['Surname'] . "</option>\n";
+                                    }
+                                ?>
                             </select>
                         </div>
                     </div>
