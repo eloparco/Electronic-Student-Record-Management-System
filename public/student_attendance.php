@@ -98,8 +98,12 @@ if (isset($_SESSION['msg_result'])) {
       echo(json_encode($events));
     ?>
   });
-  $(':button').removeClass();
-  $(':button').addClass('btn btn-lg btn-primary ml-1');
+
+  // override calendar button layout
+  $('button:contains("today")').removeClass();
+  $('button:contains("today")').addClass('btn btn-lg btn-primary ml-1');
+  $('button span').parent().removeClass();
+  $('button span').parent().addClass('btn btn-lg btn-primary ml-1');
 </script>
 
 <!-- Icons -->
