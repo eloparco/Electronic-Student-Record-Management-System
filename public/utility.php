@@ -36,6 +36,7 @@ define("MAX_ROLES_ALLOWED", "The account cannot take other roles.");
 define("ROLE_ALREADY_TAKEN", "The account has already this role.");
 define("ROLE_NOT_ALLOWED", "The account cannot take this role.");
 define("SSN_OF_CHILD", "The SSN inserted is that of a child.");
+define("STUDENT_ABSENT", "The selected student is absent.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
 
