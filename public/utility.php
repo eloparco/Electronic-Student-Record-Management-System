@@ -221,7 +221,7 @@ function tryLogin($username, $password, $ini_path='') {
                         return LOGIN_SECRETARY_OK;
                     else if($dbUserType == 'PRINCIPAL')
                         return LOGIN_PRINCIPAL_OK;
-                    else if($dbUserType == 'SYS_ADMIN')
+                    else if($dbUserType == 'ADMIN')
                         return LOGIN_ADMIN_OK;
                     else 
                         return LOGIN_USER_NOT_DEFINED;

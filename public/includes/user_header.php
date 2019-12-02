@@ -20,6 +20,10 @@
                 echo $_SESSION['myUserType']; 
             ?>
         </a>
+        <?php
+            $roles = get_roles_per_user($_SESSION['mySession']);
+            if(count($roles) > 1){
+        ?>
         <div class="dropdown ml-auto">
 			<a id="dRoles" role="button" data-toggle="dropdown" href="#">
 			<button type="button" class="btn btn-warning" id="username" value="<?php echo $_SESSION['mySession']; ?>">
@@ -29,7 +33,6 @@
 			</a>
             <ul class="dropdown-menu ml-auto" role="menu" aria-labelledby="dRoles" id="rolesList">
             <?php
-                $roles = get_roles_per_user($_SESSION['mySession']);
                 foreach($roles as $role){
                     echo '<li class="nav-item"><a class="role" href="' . name_page($role) . '">' . $role . '</a></li>'."\n";
                 }
@@ -38,5 +41,8 @@
             <li class="nav-item"><a href="logout.php">Logout</a></li>
             </ul>
         </div>
+        <?php
+            }
+        ?>
     </nav>
 </header>

@@ -13,7 +13,7 @@ function name_page($role){
         case "PRINCIPAL":
             $page = "user_principal.php";
         break;
-        case "SYS_ADMIN":
+        case "ADMIN":
             $page = "user_admin.php";
         break;
         default:
