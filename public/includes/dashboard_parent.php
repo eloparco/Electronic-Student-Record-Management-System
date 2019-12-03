@@ -42,11 +42,13 @@ if(isset($_SESSION['child'])){
                 </a>    
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <?php   
+                    $_SESSION['ACTIVE_CHILD'] = "";
                     foreach($children as $child) {
                         $ssn = $child['SSN'];
                         $nameAndsurname = $child['Name'].' '.$child['Surname'];
                         $isActive = $ssn == $_SESSION['child'];
-                        if($isActive)
+                        if($isActive){
+                            $_SESSION['ACTIVE_CHILD'] = $nameAndsurname;
                             echo "<li class='nav-item'>
                                 <a href='user_parent.php' class='nav-link active sidebar-dropdown-nav-link ajaxLink'>
                                     <span data-feather='user'></span>
@@ -54,7 +56,7 @@ if(isset($_SESSION['child'])){
                                     <span id='spanSSN' class='sidebar-link'>$ssn</span>
                                 </a>
                                 </li>";
-                        else 
+                        }else 
                             echo "<li class='nav-item'>
                                 <a href='user_parent.php' class='nav-link sidebar-dropdown-nav-link ajaxLink'>
                                     <span data-feather='user'></span>
@@ -92,7 +94,7 @@ if(isset($_SESSION['child'])){
         </ul>
         </div>   
         <div class="form-inline my-2 my-lg-0">
-            <div id="selectedChild" class="btn btn-static"><?php echo $nameAndsurname; ?></div>
+            <div id="selectedChild" class="btn btn-static"><?php echo $_SESSION['ACTIVE_CHILD']; ?></div>
         </div>
 <?php
 }
