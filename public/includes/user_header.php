@@ -37,8 +37,6 @@
                     echo '<li class="nav-item"><a class="role" href="' . name_page($role) . '">' . $role . '</a></li>'."\n";
                 }
             ?>
-            <div class="dropdown-divider"></div>
-            <li class="nav-item"><a href="logout.php">Logout</a></li>
             </ul>
         </div>
         <?php
