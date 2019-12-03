@@ -1,33 +1,34 @@
 <?php
-include("includes/config.php"); 
-require_once('utility.php');
-/* HTTPS CHECK */
-if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-} else {
-  $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-  myRedirectToHTTPS($redirectHTTPS);
-  exit;
-}
-check_inactivity();
-if(!isset($_SESSION)) 
-  session_start();
- 
-/* LOGGED IN CHECK */
-if(!userLoggedIn() || !userTypeLoggedIn('PARENT')) {   
-  myRedirectTo('login.php', 'SessionTimeOut');
-  exit;
-}
-if(isset($_SESSION['msg_result'])) {
-  if(!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_PARENT_OK)) { 
-      $_SESSION['msg_result'] = '';
+  include("includes/config.php"); 
+  require_once('utility.php');
+  /* HTTPS CHECK */
+  if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+  } else {
+    $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    myRedirectToHTTPS($redirectHTTPS);
+    exit;
   }
-}
+  check_inactivity();
+  if(!isset($_SESSION)) 
+    session_start();
+  
+  /* LOGGED IN CHECK */
+  if(!userLoggedIn() || !userTypeLoggedIn('PARENT')) {   
+    myRedirectTo('login.php', 'SessionTimeOut');
+    exit;
+  }
+  if(isset($_SESSION['msg_result'])) {
+    if(!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_PARENT_OK)) { 
+        $_SESSION['msg_result'] = '';
+    }
+  }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
+
     <?php include("includes/head.php");?>
     <link href="css/dashboard.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
@@ -43,7 +44,14 @@ if(isset($_SESSION['msg_result'])) {
           $_GET['msg_result'] = "";
         }
       }
+      
+      // Delete cookie used for weekIndex
+      if (isset($_COOKIE['weekIndex'])) {
+        unset($_COOKIE['weekIndex']);
+        setcookie('weekIndex', '', time() - 3600, '/'); // Empty value and old timestamp
+      }
     ?>
+    
 </head>
 
 <body>
@@ -152,12 +160,12 @@ if(isset($_SESSION['msg_result'])) {
 
            <!-- Populate lists with an AJAX query -->
            <script>
+            
             var child = "<?PHP echo $_SESSION['child']; ?>";
             // alert(child);
 
-            
             $( document ).ready(function() {
-
+            
               var minDate=new Date();
               var minDay=minDate.getDay();
 
@@ -182,13 +190,12 @@ if(isset($_SESSION['msg_result'])) {
                   }
 
                   var resJSON = JSONdata['result'];
-                  //$("#mon_list").empty();
 
                   for(var i=0; i<resJSON.length; i++){
                     var item = resJSON[i];
                     var itemDate = new Date(item['Deadline']);
 
-                    if( itemDate.getDate()>= minDate.getDate() && itemDate.getDate() <= maxDate.getDate() ){
+                    if( itemDate >= minDate && itemDate <= maxDate){
 
                       var c1, c2, c3, c4, c5 = false;//erase the content of each box, only for the first time
                       switch(itemDate.getDay()){
@@ -238,10 +245,167 @@ if(isset($_SESSION['msg_result'])) {
                 }
               });
             });
-
           </script>
-        
-          <button class="btn btn-lg btn-primary btn-block" onClick="window.location.reload()">Refresh</button>
+
+          <button class="btn btn-lg btn-outline-primary" onClick="prevWeekAssign()">
+            <span class="glyphicon glyphicon-chevron-right"></span> << Previous week
+          </button>
+
+          <button class="btn btn-lg btn-outline-primary" onClick="nextWeekAssign()">
+            <span class="glyphicon glyphicon-chevron-left"></span> Next week >>
+          </button>
+
+          <button style="margin-top: 15px;" class="btn btn-lg btn-primary btn-block" onClick="window.location.reload()">Refresh</button>
+
+          <script>
+
+            function prevWeekAssign(){
+              var wkIndex = getCookie("weekIndex");
+
+              if(wkIndex == "" || wkIndex == null){
+                setCookie("weekIndex", "-1", "1");
+                wkIndex = -1;
+              } else {
+                eraseCookie("weekIndex");
+                wkIndex--;
+                setCookie("weekIndex", ""+wkIndex, "1");
+              }
+
+              //alert("Cookie value: "+wkIndex);
+              updateCalendar(wkIndex);
+            }
+
+            function nextWeekAssign(){
+              var wkIndex = getCookie("weekIndex");
+
+              if(wkIndex == "" || wkIndex == null){
+                setCookie("weekIndex", "1", "1");
+                wkIndex = 1;
+              } else {
+                eraseCookie("weekIndex");
+                wkIndex++;
+                setCookie("weekIndex", ""+wkIndex, "1");
+              }
+
+              //alert("Cookie value: "+wkIndex);
+              updateCalendar(wkIndex);
+            }
+
+            function updateCalendar(weekIndex){
+      
+              var minDate=new Date();
+              var minDay=minDate.getDay();
+
+              minDate.setDate( minDate.getDate() - (minDay - 1) + 7*weekIndex);
+              var maxDate=new Date();
+
+              maxDate.setDate( maxDate.getDate() + (5 - minDay) +7*weekIndex);
+
+              $.ajax({
+                url: "get_assignments.php",
+                data: {
+                  "child": child,
+                },
+
+                type: "POST",
+                success: function(data, state) {
+                  var JSONdata = $.parseJSON(data);
+
+                  if(JSONdata['state'] != "ok"){
+                    console.log("Error: "+state);
+                    return;
+                  }
+
+                  var resJSON = JSONdata['result'];
+                  $("#mon_list").empty().append("<li>There are no assignment for that day</li>");
+                  $("#tue_list").empty().append("<li>There are no assignment for that day</li>");
+                  $("#wed_list").empty().append("<li>There are no assignment for that day</li>");
+                  $("#thu_list").empty().append("<li>There are no assignment for that day</li>");
+                  $("#fri_list").empty().append("<li>There are no assignment for that day</li>");
+
+                  for(var i=0; i<resJSON.length; i++){
+                    var item = resJSON[i];
+                    var itemDate = new Date(item['Deadline']);
+
+                    if( itemDate >= minDate && itemDate <= maxDate){
+
+                      var c1, c2, c3, c4, c5 = false;//erase the content of each box, only for the first time
+                      switch(itemDate.getDay()){
+                        case 1:
+                          if(!c1){
+                            $("#mon_list").empty();
+                            c1=true;
+                          }
+                          $("#mon_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                        case 2:
+                          if(!c2){
+                            $("#tue_list").empty();
+                            c2=true;
+                          }
+                          $("#tue_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                        case 3:
+                          if(!c3){
+                            $("#wed_list").empty();
+                            c3=true;
+                          }
+                          $("#wed_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                        case 4:
+                          if(!c4){
+                            $("#thu_list").empty();
+                            c4=true;
+                          }
+                          $("#thu_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                        case 5:
+                          if(!c5){
+                            $("#fri_list").empty();
+                            c5=true;
+                          }
+                          $("#fri_list").append('<li class="list-group-item"><div class="d-flex w-100 justify-content-between"><h5>'+item['Title']+' '+item['Subject']+'</h5></div><p class="mb-1">Assignment date: '+item['Date']+' '+item['Description']+' Deadline:'+item['Deadline']+'</p></li>');
+                          break;
+                      }
+                    }
+                    //$fields = array("Subject" => $Subject, "Date" => $Date, "Deadline" => $Deadline, "Title" => $Title, "Description" => $Description);
+                  }
+                },
+                error: function(request, state, error) {
+                  console.log("State error " + state);
+                  console.log("Value error " + error);
+                }
+              });
+            }
+
+            function setCookie(cname, cvalue, exdays) {
+              var d = new Date();
+              d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+              var expires = "expires="+d.toUTCString();
+              document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+                        
+            function getCookie(cname) {
+              var name = cname + "=";
+              var decodedCookie = decodeURIComponent(document.cookie);
+              var ca = decodedCookie.split(';');
+              for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+                }
+              }
+              return "";
+            }
+
+            function eraseCookie(name) {   
+                document.cookie = name+'=; Max-Age=-99999999;';  
+            }
+          </script>
+
           </form>
       </div>
   </body>
