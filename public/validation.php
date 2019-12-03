@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else if($retVal == LOGIN_ADMIN_OK) {
                 $_SESSION['time'] = time(); 
                 $_SESSION['mySession'] = $username;
-                $_SESSION['myUserType'] = 'ADMIN';
+                $_SESSION['myUserType'] = 'SYS_ADMIN';
                 header('Location: user_admin.php');
             } else if($retVal == CHANGE_PASSWORD) {                
                 header('Location: update_password.php');

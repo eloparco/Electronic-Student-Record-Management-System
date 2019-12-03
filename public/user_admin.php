@@ -13,7 +13,7 @@ if(!isset($_SESSION))
   session_start();
  
 /* LOGGED IN CHECK */
-if(!userLoggedIn() || !userTypeLoggedIn('ADMIN')) {   
+if(!userLoggedIn() || !userTypeLoggedIn('SYS_ADMIN')) {   
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }

@@ -2,7 +2,7 @@
 require_once('utility.php');
 session_start();
 /* TYPE LOGGED IN CHECK */
-if(!userTypeLoggedIn('ADMIN')) {   
+if(!userTypeLoggedIn('SYS_ADMIN')) {   
     myRedirectTo('login.php', 'SessionTimeOut');
     exit;
 }

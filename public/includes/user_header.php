@@ -13,7 +13,7 @@
                 echo 'user_teacher.php';
             else if($_SESSION['myUserType'] == 'PRINCIPAL')
                 echo 'user_principal.php';
-            else if($_SESSION['myUserType'] == 'ADMIN')
+            else if($_SESSION['myUserType'] == 'SYS_ADMIN')
                 echo 'user_admin.php';
         }?>>
             <?php 

@@ -130,7 +130,7 @@ function checkNormalText($input) {
 
 function checkUserType($type) {
     return $type === 'TEACHER' || $type === 'SECRETARY_OFFICER' || $type === 'PARENT' 
-        || $type === 'PRINCIPAL' || $type === 'ADMIN';
+        || $type === 'PRINCIPAL' || $type === 'SYS_ADMIN';
 }
 
 function generatePass() {
@@ -222,7 +222,7 @@ function tryLogin($username, $password, $ini_path='') {
                         return LOGIN_SECRETARY_OK;
                     else if($dbUserType == 'PRINCIPAL')
                         return LOGIN_PRINCIPAL_OK;
-                    else if($dbUserType == 'ADMIN')
+                    else if($dbUserType == 'SYS_ADMIN')
                         return LOGIN_ADMIN_OK;
                     else 
                         return LOGIN_USER_NOT_DEFINED;
