@@ -25,7 +25,7 @@
       case 'PRINCIPAL':
         header('Location: user_principal.php');
         break;
-      case 'ADMIN':
+      case 'SYS_ADMIN':
         header('Location: user_admin.php');
         break;
     }
