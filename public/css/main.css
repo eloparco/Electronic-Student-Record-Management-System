@@ -56,3 +56,7 @@
 .radio-inline {
     cursor: pointer;
 }
+
+#visualizeMarksImg {
+    margin-bottom: 40px;
+}

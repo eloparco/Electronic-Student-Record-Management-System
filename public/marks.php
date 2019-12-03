@@ -54,7 +54,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
   <main role="main" >
     <div>
     <!-- Child selection -->
-    <form class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <form id="visualizeMarksImg" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <img class="mb-4" src="images/icons/mark_visual.png" alt="" width="102" height="102">    
     </form>
     <form action="return false;" id="filters" class="form-inline">
