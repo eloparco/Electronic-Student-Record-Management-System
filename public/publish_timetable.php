@@ -23,7 +23,6 @@ if (isset($_SESSION['msg_result'])) {
 }
 
 if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
-  echo "entered";
   // error
   if ($_FILES["file"]["error"] > 0 || $_FILES["file"]["type"] !== "text/csv") {
     $_SESSION['msg_result'] = PUBLISH_TIMETABLE_FAILED;
@@ -49,10 +48,10 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
       if (count($timetable) !== 6 || $wrong_format === true) {
         $_SESSION['msg_result'] = WRONG_FILE_FORMAT;
       } else {
-        //$_SESSION['msg_result'] = insert_timetable($timetable);
+        $_SESSION['msg_result'] = insert_timetable($class, $timetable);
 
 
-        print_r($timetable);
+        // print_r($timetable);
         // foreach ($timetable as $hour) {
         //   foreach ($hour as $subject) {
         //     echo $subject . " ";

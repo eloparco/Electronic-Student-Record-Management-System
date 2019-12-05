@@ -865,6 +865,13 @@ function get_list_presences_class_per_date($class, $date, $ini_path=''){
 }
 ### END Presence report by a teacher
 
+// generic debugging function
+function console_log( $data ){
+    echo '<script>';
+    echo 'console.log('. json_encode( $data ) .')';
+    echo '</script>';
+}
+
 # save in the database the timetable received from csv
 function insert_timetable($class, $timetable, $ini_path=''){
     if ($ini_path !== '')
@@ -876,45 +883,32 @@ function insert_timetable($class, $timetable, $ini_path=''){
         $days_of_week = array(
             'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
         );
-
         try {
             mysqli_autocommit($con, false);
 
             $start_hour = 1;
             foreach ($timetable as $row) {
                 $day_counter = 0;
-                foreach($row as $subject) {  
-                    // check if subject already defined
-                    if(!$prep = mysqli_prepare($con, "SELECT ID FROM SUBJECT WHERE Name = ? FOR UPDATE;"))
+                foreach($row as $subject) {                      
+                    // add entry in timetable
+                    // if ($subject === '-')
+                    //     $subject = NULL;
+
+                    // select subject id starting from subject name
+                    if(!$prep = mysqli_prepare($con, "SELECT ID FROM SUBJECT WHERE Name=? LIMIT 1;")) 
                         throw new Exception();
-                    if(!mysqli_stmt_bind_param($prep, "s", $class)) 
+                    if(!mysqli_stmt_bind_param($prep, "s", $subject)) 
                         throw new Exception();
-                    if(!mysqli_stmt_execute($prep))
+                    if(!mysqli_stmt_execute($prep)) 
                         throw new Exception();
-                    if(!mysqli_stmt_store_result($prep))
-                        throw new Exception();
-                    $count = mysqli_stmt_num_rows($prep);
+                    $result = mysqli_stmt_get_result($prep);
+                    $subject_id = mysqli_fetch_assoc($result)["ID"];
                     mysqli_stmt_free_result($prep);
                     mysqli_stmt_close($prep);
 
-                    // add subject if not defined yet
-                    if($count == 0) {
-                        if(!$prep = mysqli_prepare($con, "INSERT INTO SUBJECT(Name) VALUES(?);"))
-                            throw new Exception();
-                        if(!mysqli_stmt_bind_param($prep, "s", $class)) 
-                            throw new Exception();
-                        if(!mysqli_stmt_execute($prep))
-                            throw new Exception();
-                        if(!mysqli_stmt_store_result($prep))
-                            throw new Exception();
-                        mysqli_stmt_free_result($prep);
-                        mysqli_stmt_close($prep);
-                    }
-                    
-                    // add entry in timetable
-                    if(!$prep = mysqli_prepare($con, "INSERT INTO CLASS_TIMETABLE(Class, DayOfWeek, StartHour, SubjectID) VALUES(?, ?, ?, ?);")) 
+                    if(!$prep = mysqli_prepare($con, "INSERT INTO CLASS_TIMETABLE(Class, DayOfWeek, Hour, SubjectID) VALUES(?, ?, ?, ?);")) 
                         throw new Exception();
-                    if(!mysqli_stmt_bind_param($prep, "ssii", $class, $days_of_week[$day_counter], $start_hour, $subject)) 
+                    if(!mysqli_stmt_bind_param($prep, "ssii", $class, $days_of_week[$day_counter], $start_hour, $subject_id)) 
                         throw new Exception();
                     if(!mysqli_stmt_execute($prep)) 
                         throw new Exception();
@@ -924,7 +918,9 @@ function insert_timetable($class, $timetable, $ini_path=''){
                 }  
                 $start_hour++;      
             }
+            mysqli_commit($con);
         } catch (Exception $e) {
+            console_log(mysqli_error($con));
             mysqli_rollback($con);
             return DB_QUERY_ERROR;
         }
