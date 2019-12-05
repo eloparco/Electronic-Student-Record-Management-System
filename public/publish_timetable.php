@@ -36,18 +36,18 @@ if (isset($_FILES["file"])) {
 
     // check file format
     $wrong_format = false;
-    foreach ($timetable as $column) {
-      if (count($column) !== 5) {
+    foreach ($timetable as $row) {
+      if (count($row) !== 5) {
         $wrong_format = true;
       }
     }
-    if (count($timetable !== 6) || $wrong_format === true) {
+    if (count($timetable) !== 6 || $wrong_format === true) {
       $_SESSION['msg_result'] = WRONG_FILE_FORMAT;
     } else {
         //$_SESSION['msg_result'] = insert_timetable($timetable);
         
         
-        // print_r($timetable);
+        print_r($timetable);
         // foreach ($timetable as $hour) {
         //   foreach ($hour as $subject) {
         //     echo $subject . " ";
