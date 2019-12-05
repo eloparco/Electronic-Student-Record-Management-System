@@ -22,8 +22,8 @@ if (isset($_SESSION['msg_result'])) {
   }
 }
 
-// handle csv file upload
-if (isset($_FILES["file"])) {
+if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
+  echo "entered";
   // error
   if ($_FILES["file"]["error"] > 0 || $_FILES["file"]["type"] !== "text/csv") {
     $_SESSION['msg_result'] = PUBLISH_TIMETABLE_FAILED;
@@ -34,19 +34,24 @@ if (isset($_FILES["file"])) {
       $timetable[] = $row;
     }
 
-    // check file format
-    $wrong_format = false;
-    foreach ($timetable as $row) {
-      if (count($row) !== 5) {
-        $wrong_format = true;
-      }
-    }
-    if (count($timetable) !== 6 || $wrong_format === true) {
-      $_SESSION['msg_result'] = WRONG_FILE_FORMAT;
+    // check if class is empty
+    $class = $_REQUEST['classSelection'];
+    if ($class === '') {
+      $_SESSION['msg_result'] = MISSING_INPUT;
     } else {
+      // check file format
+      $wrong_format = false;
+      foreach ($timetable as $row) {
+        if (count($row) !== 5) {
+          $wrong_format = true;
+        }
+      }
+      if (count($timetable) !== 6 || $wrong_format === true) {
+        $_SESSION['msg_result'] = WRONG_FILE_FORMAT;
+      } else {
         //$_SESSION['msg_result'] = insert_timetable($timetable);
-        
-        
+
+
         print_r($timetable);
         // foreach ($timetable as $hour) {
         //   foreach ($hour as $subject) {
@@ -54,6 +59,7 @@ if (isset($_FILES["file"])) {
         //   }
         //   echo "\n";
         // }
+      }
     }
   }
 }
@@ -90,6 +96,18 @@ if (isset($_FILES["file"])) {
       <img class="mb-4" src="images/icons/publish_timetable.png" alt="" width="102" height="102">
       <h1 class="h3 mb-3 font-weight-normal">Select CSV file <br>to import as timetable</h1>
       <p class="lead text-muted">Format:<br> 6 rows: one for each hour<br> 5 columns: one for each day</p>
+      <div class="form-group mb-2">
+        <label class="filterLabel" for="classSelection">Class</label>
+        <select class="form-control" id="classSelection" name="classSelection">
+          <option></option>
+          <?php
+          $classes= get_list_of_classes();
+          foreach ($classes as $class) {
+            echo "<option>" . $class . "</option>\n";
+          }
+          ?>
+        </select>
+      </div>
       <input type="file" id="file" name="file" class="form-control mt-4">
 
       <?php

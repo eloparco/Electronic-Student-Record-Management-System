@@ -40,6 +40,7 @@ define("STUDENT_ABSENT", "The selected student is absent.");
 define("PUBLISH_TIMETABLE_OK", "Timetable correclty uploaded.");
 define("PUBLISH_TIMETABLE_FAILED", "Invalid file.");
 define("WRONG_FILE_FORMAT", "The file format is not correct.");
+define("MISSING_INPUT", "Please fill all inputs.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
 
@@ -932,5 +933,32 @@ function insert_timetable($class, $timetable, $ini_path=''){
         return DB_ERROR;
     }
     return PUBLISH_TIMETABLE_OK;
+}
+
+function get_list_of_classes($ini_path='') {
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
+
+    $classes_query = "SELECT DISTINCT(Name) FROM CLASS ORDER BY Name;";
+    if(!$con){
+        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+    }
+    $classes_prep = mysqli_prepare($con, $classes_query);
+    if(!$classes_prep){
+        print('Error in preparing query: '.$classes_query);
+        die('Check database error:<br>'.mysqli_error($con));
+    }
+    if(!mysqli_stmt_execute($classes_prep)){
+        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
+    }
+    $classes_res = mysqli_stmt_get_result($classes_prep);
+    $classes = array();
+    while($row = mysqli_fetch_array($classes_res, MYSQLI_ASSOC)){
+        $classes[] = $row['Name'];
+    }
+    mysqli_stmt_close($classes_prep);
+    return $classes;
 }
 ?>
