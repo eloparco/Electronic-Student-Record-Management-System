@@ -37,6 +37,9 @@ define("ROLE_ALREADY_TAKEN", "The account has already this role.");
 define("ROLE_NOT_ALLOWED", "The account cannot take this role.");
 define("SSN_OF_CHILD", "The SSN inserted is that of a child.");
 define("STUDENT_ABSENT", "The selected student is absent.");
+define("PUBLISH_TIMETABLE_OK", "Timetable correclty uploaded.");
+define("PUBLISH_TIMETABLE_FAILED", "Invalid file.");
+define("WRONG_FILE_FORMAT", "The file format is not correct.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
 
@@ -166,7 +169,7 @@ function get_roles_per_user($username, $ini_path=''){
     $roles_prep = mysqli_prepare($db_con, $roles_query);
     if(!$roles_prep){
         print('Error in preparing query: '.$roles_query);
-        die("Check database error:<br>".mysqi_error($db_con));
+        die("Check database error:<br>".mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
         die('Error in binding parameters for roles_prep.'."\n");
@@ -256,7 +259,7 @@ function check_change_role($username, $role, $ini_path=''){
     $roles_prep = mysqli_prepare($db_con, $roles_query);
     if(!$roles_prep){
         print('Error in preparing query: '.$roles_query);
-        die("Check database error:<br>".mysqi_error($db_con));
+        die("Check database error:<br>".mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
         die('Error in binding parameters for roles_prep.'."\n");
@@ -560,7 +563,7 @@ function get_children_of_parent($parentUsername, $ini_path=''){
         die('Error in binding parameters to children_prep.'."\n");
     }
     if(!mysqli_stmt_execute($children_prep)){
-        die('Error in executing children query. Database error:<br>'.mysqli_error($db_con));
+        die('Error in executing children query. Database error:<br>'.mysqli_error($con));
     }
     $children_res = mysqli_stmt_get_result($children_prep);
     $children_data = array();
@@ -861,4 +864,73 @@ function get_list_presences_class_per_date($class, $date, $ini_path=''){
 }
 ### END Presence report by a teacher
 
+# save in the database the timetable received from csv
+function insert_timetable($class, $timetable, $ini_path=''){
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
+
+    if($con && mysqli_connect_error() == NULL) {
+        $days_of_week = array(
+            'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+        );
+
+        try {
+            mysqli_autocommit($con, false);
+
+            $start_hour = 1;
+            foreach ($timetable as $row) {
+                $day_counter = 0;
+                foreach($row as $subject) {  
+                    // check if subject already defined
+                    if(!$prep = mysqli_prepare($con, "SELECT ID FROM SUBJECT WHERE Name = ? FOR UPDATE;"))
+                        throw new Exception();
+                    if(!mysqli_stmt_bind_param($prep, "s", $class)) 
+                        throw new Exception();
+                    if(!mysqli_stmt_execute($prep))
+                        throw new Exception();
+                    if(!mysqli_stmt_store_result($prep))
+                        throw new Exception();
+                    $count = mysqli_stmt_num_rows($prep);
+                    mysqli_stmt_free_result($prep);
+                    mysqli_stmt_close($prep);
+
+                    // add subject if not defined yet
+                    if($count == 0) {
+                        if(!$prep = mysqli_prepare($con, "INSERT INTO SUBJECT(Name) VALUES(?);"))
+                            throw new Exception();
+                        if(!mysqli_stmt_bind_param($prep, "s", $class)) 
+                            throw new Exception();
+                        if(!mysqli_stmt_execute($prep))
+                            throw new Exception();
+                        if(!mysqli_stmt_store_result($prep))
+                            throw new Exception();
+                        mysqli_stmt_free_result($prep);
+                        mysqli_stmt_close($prep);
+                    }
+                    
+                    // add entry in timetable
+                    if(!$prep = mysqli_prepare($con, "INSERT INTO CLASS_TIMETABLE(Class, DayOfWeek, StartHour, SubjectID) VALUES(?, ?, ?, ?);")) 
+                        throw new Exception();
+                    if(!mysqli_stmt_bind_param($prep, "ssii", $class, $days_of_week[$day_counter], $start_hour, $subject)) 
+                        throw new Exception();
+                    if(!mysqli_stmt_execute($prep)) 
+                        throw new Exception();
+                    mysqli_stmt_free_result($prep);
+                    mysqli_stmt_close($prep);
+                    $day_counter++;
+                }  
+                $start_hour++;      
+            }
+        } catch (Exception $e) {
+            mysqli_rollback($con);
+            return DB_QUERY_ERROR;
+        }
+        mysqli_close($con);
+    } else {
+        return DB_ERROR;
+    }
+    return PUBLISH_TIMETABLE_OK;
+}
 ?>
