@@ -37,8 +37,15 @@ define("ROLE_ALREADY_TAKEN", "The account has already this role.");
 define("ROLE_NOT_ALLOWED", "The account cannot take this role.");
 define("SSN_OF_CHILD", "The SSN inserted is that of a child.");
 define("STUDENT_ABSENT", "The selected student is absent.");
+define("PUBLISH_TIMETABLE_OK", "Timetable correclty uploaded.");
+define("PUBLISH_TIMETABLE_FAILED", "Invalid file.");
+define("WRONG_FILE_FORMAT", "The file format is not correct.");
+define("MISSING_INPUT", "Please fill all inputs.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
+define("COMMUNICATION_RECORDING_INCORRECT", "Please fill all the fields.");
+define("COMMUNICATION_RECORDING_FAILED", "Communication recording failed.");
+define("COMMUNICATION_RECORDING_OK","Communication correctly recorded.");
 
 function connect_to_db($ini_path_test='') {
     // $ini_path = $_SERVER['DOCUMENT_ROOT'] . '/Electronic-Student-Record-Management-System/config/database/database.ini';
@@ -166,7 +173,7 @@ function get_roles_per_user($username, $ini_path=''){
     $roles_prep = mysqli_prepare($db_con, $roles_query);
     if(!$roles_prep){
         print('Error in preparing query: '.$roles_query);
-        die("Check database error:<br>".mysqi_error($db_con));
+        die("Check database error:<br>".mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
         die('Error in binding parameters for roles_prep.'."\n");
@@ -256,7 +263,7 @@ function check_change_role($username, $role, $ini_path=''){
     $roles_prep = mysqli_prepare($db_con, $roles_query);
     if(!$roles_prep){
         print('Error in preparing query: '.$roles_query);
-        die("Check database error:<br>".mysqi_error($db_con));
+        die("Check database error:<br>".mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
         die('Error in binding parameters for roles_prep.'."\n");
@@ -560,7 +567,7 @@ function get_children_of_parent($parentUsername, $ini_path=''){
         die('Error in binding parameters to children_prep.'."\n");
     }
     if(!mysqli_stmt_execute($children_prep)){
-        die('Error in executing children query. Database error:<br>'.mysqli_error($db_con));
+        die('Error in executing children query. Database error:<br>'.mysqli_error($con));
     }
     $children_res = mysqli_stmt_get_result($children_prep);
     $children_data = array();
@@ -677,6 +684,30 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
             mysqli_close($con);
             //return TOPIC_RECORDING_FAILED." ".$e;
             return TOPIC_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
+
+function recordCommunication($date,$title, $subtitle){
+    $con = connect_to_db();
+
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            if(!$prep = mysqli_prepare($con, "INSERT INTO COMMUNICATION (Title, Description, Date) VALUES (?, ?, ?);")) 
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "sss", $title, $subtitle, $date)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return COMMUNICATION_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            return COMMUNICATION_RECORDING_FAILED." ".$e;
+            // eturn COMMUNICATION_RECORDING_FAILED
         }
     } else {
         return DB_ERROR;
@@ -860,5 +891,172 @@ function get_list_presences_class_per_date($class, $date, $ini_path=''){
     return $presences;
 }
 ### END Presence report by a teacher
+
+// generic debugging function
+function console_log( $data ){
+    echo '<script>';
+    echo 'console.log('. json_encode( $data ) .')';
+    echo '</script>';
+}
+
+# save in the database the timetable received from csv
+function insert_timetable($class, $timetable, $ini_path=''){
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
+
+    if($con && mysqli_connect_error() == NULL) {
+        $days_of_week = array(
+            'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+        );
+        try {
+            mysqli_autocommit($con, false);
+
+            $start_hour = 1;
+            foreach ($timetable as $row) {
+                $day_counter = 0;
+                foreach($row as $subject) {                      
+                    // add entry in timetable
+                    // if ($subject === '-')
+                    //     $subject = NULL;
+
+                    // select subject id starting from subject name
+                    if(!$prep = mysqli_prepare($con, "SELECT ID FROM SUBJECT WHERE Name=? LIMIT 1;")) 
+                        throw new Exception();
+                    if(!mysqli_stmt_bind_param($prep, "s", $subject)) 
+                        throw new Exception();
+                    if(!mysqli_stmt_execute($prep)) 
+                        throw new Exception();
+                    $result = mysqli_stmt_get_result($prep);
+                    $subject_id = mysqli_fetch_assoc($result)["ID"];
+                    mysqli_stmt_free_result($prep);
+                    mysqli_stmt_close($prep);
+
+                    if(!$prep = mysqli_prepare($con, "INSERT INTO CLASS_TIMETABLE(Class, DayOfWeek, Hour, SubjectID) VALUES(?, ?, ?, ?);")) 
+                        throw new Exception();
+                    if(!mysqli_stmt_bind_param($prep, "ssii", $class, $days_of_week[$day_counter], $start_hour, $subject_id)) 
+                        throw new Exception();
+                    if(!mysqli_stmt_execute($prep)) 
+                        throw new Exception();
+                    mysqli_stmt_free_result($prep);
+                    mysqli_stmt_close($prep);
+                    $day_counter++;
+                }  
+                $start_hour++;      
+            }
+            mysqli_commit($con);
+        } catch (Exception $e) {
+            console_log(mysqli_error($con));
+            mysqli_rollback($con);
+            return DB_QUERY_ERROR;
+        }
+        mysqli_close($con);
+    } else {
+        return DB_ERROR;
+    }
+    return PUBLISH_TIMETABLE_OK;
+}
+
+function get_list_of_classes($ini_path='') {
+    if ($ini_path !== '')
+        $con = connect_to_db($ini_path);
+    else
+        $con = connect_to_db();
+
+    $classes_query = "SELECT DISTINCT(Name) FROM CLASS ORDER BY Name;";
+    if(!$con){
+        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+    }
+    $classes_prep = mysqli_prepare($con, $classes_query);
+    if(!$classes_prep){
+        print('Error in preparing query: '.$classes_query);
+        die('Check database error:<br>'.mysqli_error($con));
+    }
+    if(!mysqli_stmt_execute($classes_prep)){
+        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
+    }
+    $classes_res = mysqli_stmt_get_result($classes_prep);
+    $classes = array();
+    while($row = mysqli_fetch_array($classes_res, MYSQLI_ASSOC)){
+        $classes[] = $row['Name'];
+    }
+    mysqli_stmt_close($classes_prep);
+    return $classes;
+}
+
+
+function uploadSupportMaterialFile($class, $subjectID, $teacher, $ini_path=''){    
+
+        //Limit max dimension file
+        if ($_FILES['userfile']['size'] > 4194304) 
+            return 'File size is higher than 4MB.';
+
+        //check valid extension
+        $ext_ok = array('doc', 'docx', 'pdf', 'ppt', 'pptx');
+        $temp = explode('.', $_FILES['userfile']['name']);
+        $ext = end($temp);
+        if (!in_array($ext, $ext_ok)) {
+            return 'file extension is not supported.';    
+        }
+          
+        //create the directory if not exists
+        if (!file_exists('../support_material')) {
+            mkdir('../support_material', 0777, true);
+        }    
+
+        //path to save files
+        $uploaddir = '../support_material/';
+
+        //Get the temporary filename
+        $userfile_tmp = $_FILES['userfile']['tmp_name'];
+
+        //Get Original filename
+        $userfile_name = $_FILES['userfile']['name'];
+
+        //needed for unit test, to find the correct path to connect to db
+        if ($ini_path !== '')
+            $db_con = connect_to_db($ini_path);
+        else
+            $db_con = connect_to_db();
+
+        try {  
+            mysqli_autocommit($db_con, false);
+            //table support_material locked
+            //check if filename for specific class and subjectId already exists
+            if(!$result = mysqli_query($db_con, 'SELECT COUNT(*) as cnt FROM support_material WHERE SubjectID='.$subjectID.' AND Class="'.$class.'" AND Filename="'.$userfile_name.'" FOR UPDATE;'))
+                throw new Exception('Please retry later.');            
+            
+            $row = mysqli_fetch_array($result); 
+            $cnt = $row['cnt'];
+            if($cnt>0)
+                throw new Exception('File already exists, please select another one.'); 
+
+            if(!$result = mysqli_query($db_con, 'INSERT INTO support_material(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");'))
+                throw new Exception('Please retry later.');
+            
+            if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;'))
+                throw new Exception('Please retry later.');
+            
+            $row = mysqli_fetch_array($result); 
+            $fileid = $row['id'];
+
+            //Move file to the final directory
+            if (move_uploaded_file($userfile_tmp, $uploaddir.$fileid)) {
+                mysqli_autocommit($db_con, true);
+                mysqli_close($db_con);            
+                return  'File correctly uploaded.';
+            } else{   
+                throw new Exception('Please retry.');                
+            }  
+
+        } catch (Exception $e) {         
+            $msg =$e->getMessage();
+            mysqli_rollback($db_con);
+            mysqli_autocommit($db_con, true);
+            mysqli_close($db_con);
+            return $msg; 
+        }        
+}
 
 ?>

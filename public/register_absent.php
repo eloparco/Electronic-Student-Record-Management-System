@@ -4,7 +4,7 @@ require_once('utility.php');
 $db_con = connect_to_db();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(!isset($_POST['SSN']) || !isset($_POST['Date']) || !isset($_POST['ExitHour'])) {
+    if(!isset($_POST['SSN']) || !isset($_POST['Date'])) {
         echo '{"state" : "error",
         "result" : "Incomplete request."}';
 
@@ -14,9 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $ssn = $_POST['SSN'];
     $assignDate = $_POST['Date'];
-    $ExitHour = $_POST['ExitHour'];
 
-    $query = "INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `ExitHour`) VALUES  (?, ?, ?) ON DUPLICATE KEY UPDATE ExitHour = ?";
+    $query = "INSERT INTO ATTENDANCE (StudentSSN, Date, Presence, ExitHour) VALUES  (?, ?, 'ABSENT', 0) ON DUPLICATE KEY UPDATE Presence = 'ABSENT', ExitHour=0 ;";
 
     if(!$db_con){
         echo '{"state" : "error",
@@ -24,12 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $prep_query = mysqli_prepare($db_con, $query);
+  
     if(!$prep_query){
         print('Error in preparing query: '.$prep_query);
         echo '{"state" : "error",
         "result" : "Database error." }';
     }
-    if(!mysqli_stmt_bind_param($prep_query, "ssii", $ssn, $assignDate, $ExitHour, $ExitHour)){
+    if(!mysqli_stmt_bind_param($prep_query, "ss", $ssn, $assignDate)){
         echo '{"state" : "error",
         "result" : "Param binding error." }';
     }

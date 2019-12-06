@@ -309,7 +309,8 @@ if (isset($_GET['msg_result'])) {
                 var exitHour = 0;
                 var updateDB = true;
                 var recordLeaving = false;
-                
+                var absent = false;
+
                 // Present
                 if(tr.getElementsByTagName("input")[0].checked){ 
                     value = "PRESENT";
@@ -317,21 +318,23 @@ if (isset($_GET['msg_result'])) {
                 } else if(tr.getElementsByTagName("input")[1].checked) { // Absent
                     value = "ABSENT";
                     exitHour = 0;
+                    absent = true;
                 } else if(tr.getElementsByTagName("input")[2].checked){  // Late 10 min
                     value = "10_MIN_LATE";
                     exitHour = 0;
                 } else if(tr.getElementsByTagName("input")[3].checked){  // Late 1 hour
                     value = "1_HOUR_LATE";
                     exitHour = 0;
-                } else if(tr.getElementsByTagName("input")[4].checked){  // Leaving eary
+                } else if(tr.getElementsByTagName("input")[4].checked){  // Leaving early
                     recordLeaving = true;
                     exitHour = tr.getElementsByTagName("input")[5].value;
                 }
 
                 if(updateDB){
-                    if(!recordLeaving){
-                        $.ajax({
-                            url: "register_attendance.php",
+                    if(!recordLeaving && !absent){
+                        alert("DEBUG: Late 10 min / 1h");
+                        $.ajax({ // Late 10 min / 1h
+                            url: "register_attendance.php", // Late 10 min - Late 1 hour 
                             data: { "SSN": SSN,
                                     "Date":  date.toISOString().substr(0, 10),
                                     "Presence": value
@@ -339,7 +342,7 @@ if (isset($_GET['msg_result'])) {
 
                             type: "POST",
                             success: function(data, state) {
-                                // alert(data);
+                                alert(data);
                                 var JSONdata = $.parseJSON(data);
 
                                 if(JSONdata['state'] != "ok"){
@@ -355,7 +358,34 @@ if (isset($_GET['msg_result'])) {
                             console.log("Value error " + error);
                             }
                         });
-                    } else {
+                    } else if(absent){ // absent
+                        alert("DEBUG: absent");
+                        $.ajax({
+                            url: "register_absent.php",
+                            data: { "SSN": SSN,
+                                    "Date":  date.toISOString().substr(0, 10)
+                            },
+
+                            type: "POST",
+                            success: function(data, state) {
+                                alert(data);
+                                var JSONdata = $.parseJSON(data);
+
+                                if(JSONdata['state'] != "ok"){
+                                    console.log("Error: "+state);
+                                    return;
+                                }   else {
+                                    alert("Action sucessfully executed.");
+                                }
+                                
+                            },
+                            error: function(request, state, error) {
+                            console.log("State error " + state);
+                            console.log("Value error " + error);
+                            }
+                        });
+                    }else { // early leaving
+                        alert("DEBUG: early leaving");
                         $.ajax({
                             url: "register_leaving.php",
                             data: { "SSN": SSN,
@@ -365,6 +395,7 @@ if (isset($_GET['msg_result'])) {
 
                             type: "POST",
                             success: function(data, state) {
+                                alert(data);
                                 var JSONdata = $.parseJSON(data);
 
                                 if(JSONdata['state'] != "ok"){

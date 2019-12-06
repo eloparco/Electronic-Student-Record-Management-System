@@ -36,5 +36,17 @@
             Setup class composition
         </a>
         </li>
+        <li class="nav-item">
+            <a id="publish_timetable_dashboard" class="nav-link" href="publish_timetable.php">
+                <span data-feather="file"></span>
+                Publish timetable
+            </a>
+            </li>
+            <li class="nav-item">
+            <a id="publish_timetable_dashboard" class="nav-link" href="communication_recording.php">
+                <span data-feather="file"></span>
+                Publish official communication
+            </a>
+        </li>
     </ul>
 </div>

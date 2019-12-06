@@ -34,8 +34,14 @@
             </a>
             <li class="nav-item">
             <a id="recordAttendance" class="nav-link" href="attendance_recording.php">
-                <span data-feather="edit"></span>
+                <span data-feather="check-circle"></span>
                 Record attendance
+            </a>
+            </li>
+            <li class="nav-item">
+            <a id="publishMaterial" class="nav-link" href="publish_support_material.php">
+                <span data-feather="upload-cloud"></span>
+                Publish Material
             </a>
             </li>
         </ul>
