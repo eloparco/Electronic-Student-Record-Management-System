@@ -25,6 +25,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
 <head>
   <?php include("includes/head.php"); ?>
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
+  <link href="css/responsive.css" rel="stylesheet" type="text/css">
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <!-- Bootstrap datepicker -->
@@ -37,8 +38,16 @@ if(!empty($children) && !isset($_SESSION['child'])){
 
 <body>
   <?php include("includes/user_header.php"); ?> 
-  <?php include("includes/dashboard_parent.php"); ?> 
-
+  <script>
+    $(document).ready(function() {
+      $('[data-toggle=offcanvas]').click(function() {
+        $('.row-offcanvas').toggleClass('active');
+      });
+    });
+  </script>
+  <div class="container-fluid" style="height: 100%; margin-top:48px">
+    <div class="row row-offcanvas row-offcanvas-left" style="height: 100%">
+    <?php include("includes/dashboard_parent.php"); ?> 
   <script>
     var homeElement = document.getElementById("homeNavig");
     var visualizeMarkElement = document.getElementById("marks_dashboard");
@@ -50,9 +59,15 @@ if(!empty($children) && !isset($_SESSION['child'])){
     } 
   </script>
 
-  <div class="formContainer text-center">
-  <main role="main" >
-    <div>
+<div class="col main formContainer text-center bg-light">
+  <!--toggle sidebar button-->
+  <p class="visible-xs" id="sidebar-toggle-btn">
+    <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
+      <i data-feather="menu"></i>
+    </button>
+  </p>  
+  <main role="main" class="form-record">
+    <div class="form-record">
     <!-- Child selection -->
     <form id="visualizeMarksImg" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <img class="mb-4" src="images/icons/mark_visual.png" alt="" width="102" height="102">    

@@ -31,6 +31,7 @@
 
     <?php include("includes/head.php");?>
     <link href="css/dashboard.css" rel="stylesheet" type="text/css">
+    <link href="css/responsive.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
     <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
     <link rel="stylesheet" type="text/css" href="css/w3.css"> 
@@ -51,13 +52,20 @@
         setcookie('weekIndex', '', time() - 3600, '/'); // Empty value and old timestamp
       }
     ?>
-    
 </head>
 
 <body>
     <?php include("includes/user_header.php"); ?>
+    <script>
+    $(document).ready(function() {
+      $('[data-toggle=offcanvas]').click(function() {
+        $('.row-offcanvas').toggleClass('active');
+      });
+    });
+  </script>
+  <div class="container-fluid" style="height: 100%; margin-top:48px">
+    <div class="row row-offcanvas row-offcanvas-left" style="height: 100%">
     <?php include("includes/dashboard_parent.php"); ?> 
-
      
     <script>
     var homeElement = document.getElementById("homeNavig");
@@ -71,16 +79,15 @@
     </script>
     
 
-    <div class="formContainer text-center">
-        
+    <div class="col main formContainer text-center bg-light">
+      <!--toggle sidebar button-->
+      <p class="visible-xs" id="sidebar-toggle-btn">
+        <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
+          <i data-feather="menu"></i>
+        </button>
+      </p> 
         <div id="assignments_div" class="table-responsive col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-8 pt-3 px-8">  
             <div id="compositionContainer" class="container">
-                <!-- Child selection -->
-                <div class="row">
-                    <div class="col">
-                        <h1 class="h3 mb-3 font-weight-normal">Student assignments</h1> 
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col">                        
                         <img class="mb-4" src="images/icons/assignments.png" alt="" width="102" height="102">    

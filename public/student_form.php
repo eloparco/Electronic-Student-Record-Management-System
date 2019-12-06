@@ -32,6 +32,7 @@ if(isset($_SESSION['msg_result'])) {
 <head>
   <?php include("includes/head.php"); ?>
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
+  <link href="css/responsive.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/customForm.css">
   <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
   <link rel="stylesheet" type="text/css" href="css/student_form.css">
@@ -41,7 +42,16 @@ if(isset($_SESSION['msg_result'])) {
 
 <body>
   <?php include("includes/user_header.php"); ?> 
-  <?php include("includes/dashboard_secretary.php"); ?> 
+  <script>
+    $(document).ready(function() {
+      $('[data-toggle=offcanvas]').click(function() {
+        $('.row-offcanvas').toggleClass('active');
+      });
+    });
+  </script>
+  <div class="container-fluid" style="height: 100%; margin-top:48px">
+    <div class="row row-offcanvas row-offcanvas-left" style="height: 100%">
+    <?php include("includes/dashboard_secretary.php"); ?> 
 
   <script>
     var homeElement = document.getElementById("homeDash");
@@ -57,9 +67,14 @@ if(isset($_SESSION['msg_result'])) {
         recordStudentElement.classList.add("active");
   </script>
 
-  <div class="formContainer text-center">
-    <form id="myStudentForm" class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="insert_student.php" method="post">
-
+<div class="col main formContainer text-center bg-light">
+    <!--toggle sidebar button-->
+    <p class="visible-xs" id="sidebar-toggle-btn">
+      <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
+        <i data-feather="menu"></i>
+      </button>
+    </p> 
+      <form id="myStudentForm" class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="insert_student.php" method="post">
       <img class="mb-4" src="images/icons/student.png" alt="" width="102" height="102">
       <h1 id="myFormTitle" class="h3 mb-3 font-weight-normal">Enter student data</h1>
       <label for="inputSSN" class="sr-only">SSN</label>

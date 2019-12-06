@@ -3,7 +3,9 @@
 		<a class="navbar-brand" href="index.php">
 			<img src="images/nav.svg" alt="" width="42" height="42">
 		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse01" aria-controls="navbarCollapse01" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" 
+				data-target="#navbarCollapse01" aria-controls="navbarCollapse01" 
+				aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse01">

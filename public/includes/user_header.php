@@ -1,8 +1,8 @@
 <?php
     include('role_pages.php');
 ?>
-<header>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+<header>    
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-nowrap p-0"> <!-- flex-md-nowrap -> flex-nowrap -->
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href=<?php 
         if(isset($_SESSION['myUserType'])) {
             if($_SESSION['myUserType'] == 'PARENT')

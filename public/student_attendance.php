@@ -29,16 +29,25 @@ if (isset($_SESSION['msg_result'])) {
 <head>
   <?php include("includes/head.php"); ?>
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
-
+  <link href="css/responsive.css" rel="stylesheet" type="text/css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
 </head>
 
 <body>
   <?php include("includes/user_header.php"); ?>
-  <?php include("includes/dashboard_parent.php"); ?>
+  <script>
+    $(document).ready(function() {
+      $('[data-toggle=offcanvas]').click(function() {
+        $('.row-offcanvas').toggleClass('active');
+      });
+    });
+  </script>
+  <div class="container-fluid" style="height: 100%; margin-top:48px">
+    <div class="row row-offcanvas row-offcanvas-left" style="height: 100%">
+    <?php include("includes/dashboard_parent.php"); ?> 
 
   <script>
     var homeElement = document.getElementById("homeNavig");
@@ -51,9 +60,21 @@ if (isset($_SESSION['msg_result'])) {
     } 
   </script>
 
-  <div class="formContainer text-center">
-    <img class="mb-4 mt-5" src="images/icons/calendar.png" alt="" width="102" height="102">
-    <div id="calendar" class="mx-auto" style="width: 900px;"></div>
+  <div class="col main formContainer text-center bg-light">
+    <!--toggle sidebar button-->
+    <p class="visible-xs" id="sidebar-toggle-btn">
+      <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
+        <i data-feather="menu"></i>
+      </button>
+    </p> 
+    <div class="col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-8 pt-3 px-8">
+      <div class="row">
+        <div class="col">                        
+            <img class="mb-4" src="images/icons/calendar.png" alt="" width="102" height="102">    
+        </div>
+      </div>
+      <div id="calendar"></div>
+  </div>
   </div>
 </body>
 

@@ -32,6 +32,7 @@ if(isset($_SESSION['msg_result'])) {
 <head>
   <?php include("includes/head.php"); ?>
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
+  <link href="css/responsive.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/customForm.css">
   <link rel="stylesheet" type="text/css" href="css/w3.css">
   <!--<link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.3/materia/bootstrap.min.css" rel="stylesheet"/>-->
@@ -39,6 +40,15 @@ if(isset($_SESSION['msg_result'])) {
 
 <body>
   <?php include("includes/user_header.php"); ?> 
+  <script>
+    $(document).ready(function() {
+      $('[data-toggle=offcanvas]').click(function() {
+        $('.row-offcanvas').toggleClass('active');
+      });
+    });
+  </script>
+<div class="container-fluid" style="height: 100%; margin-top:48px">
+  <div class="row row-offcanvas row-offcanvas-left" style="height: 100%">
   <?php include("includes/dashboard_admin.php"); ?> 
 
   <script>
@@ -51,8 +61,14 @@ if(isset($_SESSION['msg_result'])) {
       setupAccountsElement.classList.add("active");
     } 
   </script>
-
-  <div class="formContainer text-center">
+ 
+  <div class="col main formContainer text-center bg-light">
+    <!--toggle sidebar button-->
+    <p class="visible-xs" id="sidebar-toggle-btn">
+      <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
+        <i data-feather="menu"></i>
+      </button>
+    </p>  
     <form id="myAccountForm" class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="validation_account.php" method="post">
       <img id="accountImg" class="mb-4" src="images/icons/account.png" alt="" width="102" height="102">
       <h1 class="h3 mb-3 font-weight-normal">Enter account data</h1>
@@ -106,7 +122,9 @@ if(isset($_SESSION['msg_result'])) {
           $_GET['msg'] = "";} ?>
       <button class="btn btn-lg btn-primary btn-block" type="submit"  id="confirmInsertAccount">Submit</button>
     </form>
-  <div>
+  </div>
+  </div>
+</div>
 </body>
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
@@ -139,5 +157,4 @@ if(isset($_SESSION['msg_result'])) {
       });
     }
 </script>
-
 </html>
