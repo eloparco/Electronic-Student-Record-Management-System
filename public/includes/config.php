@@ -44,29 +44,37 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $CURRENT_PAGE = "mark_recording";
     $PAGE_TITLE = "Mark recording";
     break;
-  case "class_composition.php";
+  case "class_composition.php":
     $CURRENT_PAGE = "class_composition";
     $PAGE_TITLE = "Class composition";
     break;
-  case "student_form.php";
+  case "student_form.php":
     $CURRENT_PAGE = "student_form";
     $PAGE_TITLE = "Record Student";
     break;
-  case "account_form.php";
+  case "account_form.php":
     $CURRENT_PAGE = "account_form";
     $PAGE_TITLE = "Setup accounts";
     break;
-  case "attendance_recording.php";
+  case "attendance_recording.php":
     $CURRENT_PAGE = "attendance_recording";
     $PAGE_TITLE = "Attendance recording";
     break;
-  case "topic_visualization.php";
+  case "topic_visualization.php":
     $CURRENT_PAGE = "topic_visualization";
     $PAGE_TITLE = "Students assignments";
     break;
-  case "student_attendance.php";
+  case "student_attendance.php":
     $CURRENT_PAGE = "student_attendance";
     $PAGE_TITLE = "Student attendance";
     break;  
-}
+  case "publish_timetable.php":
+    $CURRENT_PAGE = "publish_timetable";
+    $PAGE_TITLE = "Publish Timetable";
+    break;
+  case "communication_recording.php":
+    $CURRENT_PAGE = "communication_recording";
+    $PAGE_TITLE = "Publish Official Communication";
+    break;
+  }
 ?>

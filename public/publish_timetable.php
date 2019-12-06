@@ -70,28 +70,43 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
 <head>
   <?php include("includes/head.php"); ?>
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
-
+  <link href="css/responsive.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/customForm.css">
   <link rel="stylesheet" type="text/css" href="css/w3.css">
 </head>
 
 <body>
   <?php include("includes/user_header.php"); ?>
-  <?php include("includes/dashboard_secretary.php"); ?>
+  <script>
+    $(document).ready(function() {
+      $('[data-toggle=offcanvas]').click(function() {
+        $('.row-offcanvas').toggleClass('active');
+      });
+    });
+  </script>
+  <div class="container-fluid" style="height: 100%; margin-top:48px">
+    <div class="row row-offcanvas row-offcanvas-left" style="height: 100%">
+    <?php include("includes/dashboard_secretary.php"); ?> 
 
   <script>
     var homeElement = document.getElementById("homeDash");
-    var visualizeMarkElement = document.getElementById("publish_timetable_dashboard");
+    var publishTimetableElement = document.getElementById("publish_timetable_dashboard");
     if (homeElement.classList) {
       homeElement.classList.remove("active");
     }
-    if (visualizeMarkElement.classList) {
-      visualizeMarkElement.classList.add("active");
+    if (publishTimetableElement.classList) {
+      publishTimetableElement.classList.add("active");
     }
   </script>
 
-  <div class="formContainer text-center">
-    <form class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
+<div class="col main formContainer text-center bg-light">
+    <!--toggle sidebar button-->
+    <p class="visible-xs" id="sidebar-toggle-btn">
+      <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
+        <i data-feather="menu"></i>
+      </button>
+    </p> 
+      <form class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
       <img class="mb-4" src="images/icons/publish_timetable.png" alt="" width="102" height="102">
       <h1 class="h3 mb-3 font-weight-normal">Select CSV file <br>to import as timetable</h1>
       <p class="lead text-muted">Format:<br> 6 rows: one for each hour<br> 5 columns: one for each day</p>
