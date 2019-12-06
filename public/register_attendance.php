@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignDate = $_POST['Date'];
     $Presence = $_POST['Presence'];
 
-    $query = "INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `Presence`) VALUES  (?, ?, ?)";
+    $query = "INSERT INTO ATTENDANCE(StudentSSN, Date, Presence) VALUES  (?, ?, ?) ON DUPLICATE KEY UPDATE Presence = ?;";
 
     if(!$db_con){
         echo '{"state" : "error",
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo '{"state" : "error",
         "result" : "Database error." }';
     }
-    if(!mysqli_stmt_bind_param($prep_query, "sss", $ssn, $assignDate, $Presence)){
+    if(!mysqli_stmt_bind_param($prep_query, "ssss", $ssn, $assignDate, $Presence, $Presence)){
         echo '{"state" : "error",
         "result" : "Param binding error." }';
     }
