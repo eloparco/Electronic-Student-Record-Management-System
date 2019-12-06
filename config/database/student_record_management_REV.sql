@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Dic 06, 2019 alle 18:45
+-- Creato il: Dic 06, 2019 alle 19:37
 -- Versione del server: 10.4.8-MariaDB
 -- Versione PHP: 7.3.10
 
@@ -104,6 +104,19 @@ CREATE TABLE `CLASS_TIMETABLE` (
   `Hour` int(11) NOT NULL,
   `SubjectID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `COMMUNICATION`
+--
+
+CREATE TABLE `COMMUNICATION` (
+  `id` int(11) NOT NULL,
+  `Title` text NOT NULL,
+  `Description` text NOT NULL,
+  `Date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -361,6 +374,12 @@ ALTER TABLE `CLASS_TIMETABLE`
   ADD KEY `CLASS_TIMETABLE_ibfk_4` (`SubjectID`);
 
 --
+-- Indici per le tabelle `COMMUNICATION`
+--
+ALTER TABLE `COMMUNICATION`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indici per le tabelle `MARK`
 --
 ALTER TABLE `MARK`
@@ -417,6 +436,12 @@ ALTER TABLE `USER_TYPE`
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
+
+--
+-- AUTO_INCREMENT per la tabella `COMMUNICATION`
+--
+ALTER TABLE `COMMUNICATION`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `SUBJECT`
