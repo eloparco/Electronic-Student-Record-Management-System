@@ -43,6 +43,9 @@ define("WRONG_FILE_FORMAT", "The file format is not correct.");
 define("MISSING_INPUT", "Please fill all inputs.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
+define("COMMUNICATION_RECORDING_INCORRECT", "Please fill all the fields.");
+define("COMMUNICATION_RECORDING_FAILED", "Communication recording failed.");
+define("COMMUNICATION_RECORDING_OK","Communication correctly recorded.");
 
 function connect_to_db($ini_path_test='') {
     // $ini_path = $_SERVER['DOCUMENT_ROOT'] . '/Electronic-Student-Record-Management-System/config/database/database.ini';
@@ -681,6 +684,30 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
             mysqli_close($con);
             //return TOPIC_RECORDING_FAILED." ".$e;
             return TOPIC_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
+
+function recordCommunication($date,$title, $subtitle){
+    $con = connect_to_db();
+
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            if(!$prep = mysqli_prepare($con, "INSERT INTO COMMUNICATION (Title, Description, Date) VALUES (?, ?, ?);")) 
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "sss", $title, $subtitle, $date)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return COMMUNICATION_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            return COMMUNICATION_RECORDING_FAILED." ".$e;
+            // eturn COMMUNICATION_RECORDING_FAILED
         }
     } else {
         return DB_ERROR;
