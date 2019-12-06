@@ -957,4 +957,79 @@ function get_list_of_classes($ini_path='') {
     mysqli_stmt_close($classes_prep);
     return $classes;
 }
+
+
+function uploadSupportMaterialFile($class, $subjectID, $teacher, $ini_path=''){    
+
+        //Limit max dimension file
+        if ($_FILES['userfile']['size'] > 4194304) 
+            return 'File size is higher than 4MB.';
+
+        //check valid extension
+        $ext_ok = array('doc', 'docx', 'pdf', 'ppt', 'pptx');
+        $temp = explode('.', $_FILES['userfile']['name']);
+        $ext = end($temp);
+        if (!in_array($ext, $ext_ok)) {
+            return 'file extension is not supported.';    
+        }
+          
+        //create the directory if not exists
+        if (!file_exists('../support_material')) {
+            mkdir('../support_material', 0777, true);
+        }    
+
+        //path to save files
+        $uploaddir = '../support_material/';
+
+        //Get the temporary filename
+        $userfile_tmp = $_FILES['userfile']['tmp_name'];
+
+        //Get Original filename
+        $userfile_name = $_FILES['userfile']['name'];
+
+        //needed for unit test, to find the correct path to connect to db
+        if ($ini_path !== '')
+            $db_con = connect_to_db($ini_path);
+        else
+            $db_con = connect_to_db();
+
+        try {  
+            mysqli_autocommit($db_con, false);
+            //table support_material locked
+            //check if filename for specific class and subjectId already exists
+            if(!$result = mysqli_query($db_con, 'SELECT COUNT(*) as cnt FROM support_material WHERE SubjectID='.$subjectID.' AND Class="'.$class.'" AND Filename="'.$userfile_name.'" FOR UPDATE;'))
+                throw new Exception('Please retry later.');            
+            
+            $row = mysqli_fetch_array($result); 
+            $cnt = $row['cnt'];
+            if($cnt>0)
+                throw new Exception('File already exists, please select another one.'); 
+
+            if(!$result = mysqli_query($db_con, 'INSERT INTO support_material(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");'))
+                throw new Exception('Please retry later.');
+            
+            if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;'))
+                throw new Exception('Please retry later.');
+            
+            $row = mysqli_fetch_array($result); 
+            $fileid = $row['id'];
+
+            //Move file to the final directory
+            if (move_uploaded_file($userfile_tmp, $uploaddir.$fileid)) {
+                mysqli_autocommit($db_con, true);
+                mysqli_close($db_con);            
+                return  'File correctly uploaded.';
+            } else{   
+                throw new Exception('Please retry.');                
+            }  
+
+        } catch (Exception $e) {         
+            $msg =$e->getMessage();
+            mysqli_rollback($db_con);
+            mysqli_autocommit($db_con, true);
+            mysqli_close($db_con);
+            return $msg; 
+        }        
+}
+
 ?>
