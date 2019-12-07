@@ -151,3 +151,8 @@ th .today {
 #endDateSelection {
   margin-right: 4px;
 }
+
+#attendance-rec-div {
+  padding-right: 6px;
+  padding-left: 3px;
+}

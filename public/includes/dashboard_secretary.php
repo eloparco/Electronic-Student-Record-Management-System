@@ -1,5 +1,5 @@
 <div class="col-md-3 col-lg-2 sidebar-offcanvas pl-0" role="navigation" id="sidebar">
-    <ul class="nav flex-column">
+    <ul class="nav flex-column mb-2">
         <li class="nav-item">
         <a id="homeDash" class="nav-link active" href="user_secretary.php">
             <span data-feather="home"></span>

@@ -87,7 +87,7 @@ if(isset($_SESSION['msg_result'])) {
       </button>
     </p> 
     <form class="form-record col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-7 pt-3 px-4" action="record_communication.php" method="post" name="comm_recording"> 
-    <img class="mb-4" src="images/icons/lecture_recording.png" alt="" width="102" height="102">  
+    <img class="mb-4" src="images/icons/communication_recording.png" alt="" width="102" height="102">  
     <h1 class="h3 mb-3 font-weight-normal" id='commRecordingTitle'>Official Communication Recording</h1>
 
         <!-- Text area for lecture's topic recording -->

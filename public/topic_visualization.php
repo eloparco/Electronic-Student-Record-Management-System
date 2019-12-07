@@ -77,7 +77,6 @@
       topicDashboardElement.classList.add("active");
     } 
     </script>
-    
 
     <div class="col main formContainer text-center bg-light">
       <!--toggle sidebar button-->

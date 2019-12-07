@@ -29,6 +29,7 @@ if(isset($_SESSION['msg_result'])) {
   <head>
     <?php include("includes/head.php");?>
     <link href="css/dashboard.css" rel="stylesheet" type="text/css">
+    <link href="css/responsive.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
     <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
     <link rel="stylesheet" type="text/css" href="css/w3.css"> 
@@ -48,7 +49,16 @@ if(isset($_SESSION['msg_result'])) {
 
   <body>
     <?php include("includes/user_header.php"); ?>
-    <?php include("includes/dashboard_teacher.php"); ?> 
+    <script>
+    $(document).ready(function() {
+      $('[data-toggle=offcanvas]').click(function() {
+        $('.row-offcanvas').toggleClass('active');
+      });
+    });
+  </script>
+<div class="container-fluid" style="height: 100%; margin-top:48px">
+  <div class="row row-offcanvas row-offcanvas-left" style="height: 100%">
+  <?php include("includes/dashboard_teacher.php"); ?> 
 
     <script>
         var homeElement = document.getElementById("homeDash");
@@ -69,8 +79,14 @@ if(isset($_SESSION['msg_result'])) {
             publishMaterial.classList.add("active");
     </script>
 
-    <div class="formContainer text-center">
-        <form enctype="multipart/form-data" id="markRecForm" class="form-record col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-4 pt-3 px-4"  action="upload_support_material.php" method="POST" name="post_support_material">
+<div class="col main formContainer text-center bg-light">
+    <!--toggle sidebar button-->
+    <p class="visible-xs" id="sidebar-toggle-btn">
+      <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
+        <i data-feather="menu"></i>
+      </button>
+    </p> 
+      <form enctype="multipart/form-data" id="markRecForm" class="form-record col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-8 pt-3 px-4"  action="upload_support_material.php" method="POST" name="post_support_material">
           <img class="mb-4" src="images/icons/publish_support_material.png" alt="" width="102" height="102">
           <h1 class="h3 mb-3 font-weight-normal">Publish Support Material</h1>
           <!-- Class selection -->
