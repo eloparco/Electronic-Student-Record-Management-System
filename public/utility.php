@@ -42,6 +42,7 @@ define("PUBLISH_TIMETABLE_FAILED", "Invalid file.");
 define("WRONG_FILE_FORMAT", "The file format is not correct.");
 define("MISSING_INPUT", "Please fill all inputs.");
 define("SUBJECT_INCORRECT", "Unknown subject in the uploaded file.");
+define("TOPIC_RECORDING_WRONG_DATE", "Date entered is wrong.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
 define("COMMUNICATION_RECORDING_INCORRECT", "Please fill all the fields.");
@@ -648,7 +649,7 @@ function isInThisWeek($date) {
 
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
     if(!isInThisWeek($date) || $date === "")
-        return MARK_RECORDING_FAILED;
+        return TOPIC_RECORDING_WRONG_DATE;
         
     $con = connect_to_db($ini_path);
     

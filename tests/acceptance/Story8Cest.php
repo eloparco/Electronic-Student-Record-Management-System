@@ -21,16 +21,17 @@ class Story8Cest
         
         // want to go to Novermber 2019:
         // calculate difference in months between today and 11/2019
-        $ts1 = strtotime('now');
-        $ts2 = strtotime('2019/1/1');
+        $ts2 = strtotime('now');
+        $ts1 = strtotime('2019/11/1');
         $year1 = date('Y', $ts1);
         $year2 = date('Y', $ts2);
         $month1 = date('m', $ts1);
         $month2 = date('m', $ts2);
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        
         // move back to the right month (11/2019)
         for($i = 0; $i < $diff; ++$i)
-            $I->click('.fc-prev-button');
+            $I->click('.cal-button'); // $I->click('.cal-button:nth-child(1)');
         
         // check entries in table
         $entries = array("1 HOUR LATE", "ABSENT", "EARLY EXIT", "10 MINUTES LATE");

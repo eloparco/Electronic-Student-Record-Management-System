@@ -9,35 +9,34 @@ class Story2Cest
     // tests
     public function testInsertTopicSuccess(AcceptanceTester $I)
     {
-        $I->wait(1);
         // login as teacher
         $I->amOnPage('/login.php');
         $I->fillField('username', 'aaa@bbb.com');
         $I->fillField('password', 'a1a1a1a1');
         $I->click('Sign in');
+        
         $I->seeInCurrentUrl('/user_teacher.php');
-        $I->see('Record lecture\'s topics');
-        $I->waitForElementClickable('#recordMark', 10);
-        $I->click('Record lecture\'s topics');
+        $I->waitForElementClickable('#recordLecture', 10);
+        $I->click("Record lecture's topics");
         
         // insert new topic
-        // $I->waitForElement('#lessonRecordingTitle', 10);
-        $I->fillField('date', date('d/m/Y'));         
+        $I->waitForElement('#lessonRecordingTitle', 10);
 
+        // select class
         $I->selectOption("form select[name='class_sID_ssn']", "1B");  
-        // $I->fillField('date', date('d/m/Y'));         
-        $I->selectOption("form select[name='hour']", 3); 
 
-        // $I->pressKey('#dataSelection',WebDriverKeys::ENTER);
-        // $I->click('Select an hour');
-        $I->executeJS("$('#dataSelection').val('1969-01-02');");
+        // select date
+        $today = date('d/m/Y');    
+        // $I->executeJS("$('#dataSelection').val('" . $today . "');");
+        $I->executeJS("$('#dataSelection').val('13/12/2019');");
 
-        // $I->click();
-        $I->wait(2);
+        // select hour
+        $I->selectOption("form select[name='hour']", 3);   
 
-        
+        // enter title and description
         $I->fillField('title', 'Mock topic');
         $I->fillField('subtitle', 'Mock description');
+        
         $I->waitForElementClickable('#confirm', 10);
         
         $I->wait(2);

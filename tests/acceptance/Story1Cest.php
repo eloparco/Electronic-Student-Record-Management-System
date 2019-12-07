@@ -68,12 +68,10 @@ class Story1Cest
 
         $I->seeInCurrentUrl('/user_parent.php');
         
-        // // check marks
-        $I->elementCwait(1);  // without this nothing works 
-        // $I->waitForElement('#marks_dashboard', 10);
-
+        // check marks
+        $I->waitForElementClickable('#marks_dashboard', 10);
         $I->click('Visualize marks');
-        // $I->wait(5);   
+        
         $I->waitForElement('#filters', 10);
         $table = array(
             array('Geography', '4th Nov 2019', '8.75'),
@@ -100,13 +98,14 @@ class Story1Cest
         $I->click('Sign in');
 
         $I->seeInCurrentUrl('/user_parent.php');
-        $I->see('Marks');
-        $I->wait(1);
-        $I->click('Marks');
+        
+        // check marks
+        $I->waitForElementClickable('#marks_dashboard', 10);
+        $I->click('Visualize marks');
 
         // select subject
         $I->selectOption("form select[name='subjectSelection']", 'Geography');
-        $I->wait(1);
+        // $I->wait(1);
         $mark = array('Geography', '4th Nov 2019', '8.75');
         foreach ($mark as $item) {
             $I->see($item);

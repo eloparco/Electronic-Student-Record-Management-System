@@ -138,7 +138,7 @@ class UtilityTest extends \Codeception\Test\Unit
     }
     public function testRecordTopicEmptyDate()
     {
-        $this->assertEquals(MARK_RECORDING_FAILED, recordTopic('1A', '', 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        $this->assertEquals(TOPIC_RECORDING_WRONG_DATE, recordTopic('1A', '', 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
     }
     public function testRecordTopicNonExistingTeacher()
     {
@@ -146,7 +146,7 @@ class UtilityTest extends \Codeception\Test\Unit
     }
     public function testRecordTopicDateTooOld()
     {
-        $this->assertEquals(MARK_RECORDING_FAILED, recordTopic('1A', '01/01/1996', 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        $this->assertEquals(TOPIC_RECORDING_WRONG_DATE, recordTopic('1A', '01/01/1996', 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
     }
 
     // GET ATTENDANCE
