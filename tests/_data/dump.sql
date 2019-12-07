@@ -3,10 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 24, 2019 at 10:05 PM
+-- Generation Time: Dec 07, 2019 at 06:06 PM
 -- Server version: 5.7.28-0ubuntu0.19.04.2
 -- PHP Version: 7.2.24-0ubuntu0.19.04.1
-DROP DATABASE  student_record_management_test;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -19,8 +19,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `student_record_management_test`
 --
-CREATE DATABASE IF NOT EXISTS `student_record_management_test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `student_record_management_test` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `student_record_management_test`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ASSIGNMENT`
+--
+
+DROP TABLE IF EXISTS `ASSIGNMENT`;
+CREATE TABLE IF NOT EXISTS `ASSIGNMENT` (
+  `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
+  `SubjectID` int(11) NOT NULL,
+  `DateOfAssignment` date NOT NULL,
+  `DeadlineDate` date NOT NULL,
+  `Title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Description` varchar(400) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`Class`,`SubjectID`,`DeadlineDate`),
+  KEY `SubjectID` (`SubjectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -33,8 +51,9 @@ CREATE TABLE IF NOT EXISTS `ATTENDANCE` (
   `StudentSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `Date` date NOT NULL,
   `Presence` enum('PRESENT','10_MIN_LATE','1_HOUR_LATE','ABSENT') COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ExitHour` int(11) NOT NULL DEFAULT '6'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `ExitHour` int(11) NOT NULL DEFAULT '6',
+  KEY `ATTENDANCE_ibfk_1` (`StudentSSN`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `ATTENDANCE`
@@ -53,17 +72,17 @@ INSERT INTO `ATTENDANCE` (`StudentSSN`, `Date`, `Presence`, `ExitHour`) VALUES
 
 DROP TABLE IF EXISTS `CHILD`;
 CREATE TABLE IF NOT EXISTS `CHILD` (
-  `SSN` varchar(50) NOT NULL,
-  `Name` varchar(50) NOT NULL,
-  `Surname` varchar(50) NOT NULL,
-  `SSNParent1` varchar(50) NOT NULL,
-  `SSNParent2` varchar(50) NOT NULL,
-  `Class` varchar(30) NOT NULL,
+  `SSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
+  `Name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Surname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `SSNParent1` char(16) COLLATE utf8_unicode_ci NOT NULL,
+  `SSNParent2` char(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Class` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`SSN`),
   KEY `SSNParent1` (`SSNParent1`),
   KEY `SSNParent2` (`SSNParent2`),
   KEY `Class` (`Class`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `CHILD`
@@ -71,7 +90,6 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
-('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', ''),
 ('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A');
 
 -- --------------------------------------------------------
@@ -82,9 +100,9 @@ INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Clas
 
 DROP TABLE IF EXISTS `CLASS`;
 CREATE TABLE IF NOT EXISTS `CLASS` (
-  `Name` varchar(50) NOT NULL,
+  `Name` char(2) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `CLASS`
@@ -102,15 +120,14 @@ INSERT INTO `CLASS` (`Name`) VALUES
 
 DROP TABLE IF EXISTS `CLASS_TIMETABLE`;
 CREATE TABLE IF NOT EXISTS `CLASS_TIMETABLE` (
-  `Class` varchar(50) NOT NULL,
-  `DayOfWeek` varchar(50) NOT NULL,
-  `StartHour` int(11) NOT NULL,
-  `SubjectID` int(11) NOT NULL,
-  `TeacherSSN` varchar(50) NOT NULL,
-  PRIMARY KEY (`Class`,`DayOfWeek`,`StartHour`),
-  KEY `DayOfWeek` (`DayOfWeek`,`StartHour`),
-  KEY `TeacherSSN` (`TeacherSSN`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
+  `DayOfWeek` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `Hour` int(11) NOT NULL,
+  `SubjectID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Class`,`DayOfWeek`,`Hour`),
+  KEY `DayOfWeek` (`DayOfWeek`,`Hour`),
+  KEY `CLASS_TIMETABLE_ibfk_4` (`SubjectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -120,14 +137,15 @@ CREATE TABLE IF NOT EXISTS `CLASS_TIMETABLE` (
 
 DROP TABLE IF EXISTS `MARK`;
 CREATE TABLE IF NOT EXISTS `MARK` (
-  `StudentSSN` varchar(50) NOT NULL,
+  `StudentSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `SubjectID` int(11) NOT NULL,
   `Date` date NOT NULL,
-  `Class` varchar(50) NOT NULL,
+  `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
   `Score` decimal(5,2) NOT NULL,
   PRIMARY KEY (`StudentSSN`,`SubjectID`,`Date`),
-  KEY `SubjectID` (`SubjectID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `SubjectID` (`SubjectID`),
+  KEY `MARK_ibfk_2` (`Class`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `MARK`
@@ -149,10 +167,10 @@ INSERT INTO `MARK` (`StudentSSN`, `SubjectID`, `Date`, `Class`, `Score`) VALUES
 DROP TABLE IF EXISTS `SUBJECT`;
 CREATE TABLE IF NOT EXISTS `SUBJECT` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(50) NOT NULL,
+  `Name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `HoursPerWeek` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `SUBJECT`
@@ -163,7 +181,13 @@ INSERT INTO `SUBJECT` (`ID`, `Name`, `HoursPerWeek`) VALUES
 (2, 'History', 3),
 (3, 'Italian', 6),
 (4, 'Mathematics', 5),
-(5, 'Physics', 4);
+(5, 'Physics', 4),
+(6, 'Latin', 3),
+(7, 'English', 4),
+(8, 'Gym', 1),
+(9, 'Art', 2),
+(10, 'Science', 2),
+(11, 'Religion', 1);
 
 -- --------------------------------------------------------
 
@@ -173,12 +197,12 @@ INSERT INTO `SUBJECT` (`ID`, `Name`, `HoursPerWeek`) VALUES
 
 DROP TABLE IF EXISTS `TEACHER_SUBJECT`;
 CREATE TABLE IF NOT EXISTS `TEACHER_SUBJECT` (
-  `TeacherSSN` varchar(50) NOT NULL,
+  `TeacherSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `SubjectID` int(11) NOT NULL,
-  `Class` varchar(50) NOT NULL,
+  `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`TeacherSSN`,`SubjectID`,`Class`),
   KEY `SubjectID` (`SubjectID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `TEACHER_SUBJECT`
@@ -198,11 +222,46 @@ INSERT INTO `TEACHER_SUBJECT` (`TeacherSSN`, `SubjectID`, `Class`) VALUES
 
 DROP TABLE IF EXISTS `TIMETABLE`;
 CREATE TABLE IF NOT EXISTS `TIMETABLE` (
-  `DayOfWeek` varchar(50) NOT NULL,
-  `StartHour` int(11) NOT NULL,
-  `EndHour` int(11) NOT NULL,
-  PRIMARY KEY (`DayOfWeek`,`StartHour`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `DayOfWeek` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `Hour` int(11) NOT NULL,
+  PRIMARY KEY (`DayOfWeek`,`Hour`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `TIMETABLE`
+--
+
+INSERT INTO `TIMETABLE` (`DayOfWeek`, `Hour`) VALUES
+('Friday', 1),
+('Friday', 2),
+('Friday', 3),
+('Friday', 4),
+('Friday', 5),
+('Friday', 6),
+('Monday', 1),
+('Monday', 2),
+('Monday', 3),
+('Monday', 4),
+('Monday', 5),
+('Monday', 6),
+('Thursday', 1),
+('Thursday', 2),
+('Thursday', 3),
+('Thursday', 4),
+('Thursday', 5),
+('Thursday', 6),
+('Tuesday', 1),
+('Tuesday', 2),
+('Tuesday', 3),
+('Tuesday', 4),
+('Tuesday', 5),
+('Tuesday', 6),
+('Wednesday', 1),
+('Wednesday', 2),
+('Wednesday', 3),
+('Wednesday', 4),
+('Wednesday', 5),
+('Wednesday', 6);
 
 -- --------------------------------------------------------
 
@@ -212,17 +271,17 @@ CREATE TABLE IF NOT EXISTS `TIMETABLE` (
 
 DROP TABLE IF EXISTS `TOPIC`;
 CREATE TABLE IF NOT EXISTS `TOPIC` (
-  `Class` varchar(50) NOT NULL,
+  `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
   `Date` date NOT NULL,
   `StartHour` int(11) NOT NULL,
   `SubjectID` int(11) NOT NULL,
-  `TeacherSSN` varchar(50) NOT NULL,
-  `Title` varchar(50) NOT NULL,
-  `Description` varchar(50) NOT NULL,
+  `TeacherSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
+  `Title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Description` varchar(400) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`Class`,`Date`,`StartHour`),
   KEY `SubjectID` (`SubjectID`),
   KEY `TeacherSSN` (`TeacherSSN`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `TOPIC`
@@ -239,27 +298,22 @@ INSERT INTO `TOPIC` (`Class`, `Date`, `StartHour`, `SubjectID`, `TeacherSSN`, `T
 
 DROP TABLE IF EXISTS `USER`;
 CREATE TABLE IF NOT EXISTS `USER` (
-  `SSN` char(16) NOT NULL,
-  `Name` varchar(50) NOT NULL,
-  `Surname` varchar(50) NOT NULL,
-  `Email` varchar(50) UNIQUE NOT NULL,
-  `Password` varchar(50) NOT NULL,
-  `AccountActivated` tinyint(1) NOT NULL DEFAULT FALSE,
-  PRIMARY KEY (`SSN`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `SSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
+  `Name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Surname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `AccountActivated` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`SSN`),
+  UNIQUE KEY `Email` (`Email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-DROP TABLE IF EXISTS `USER_TYPE`;
-CREATE TABLE IF NOT EXISTS `USER_TYPE` (
-  `SSN` char(16) NOT NULL,
-  `UserType` varchar(30) NOT NULL,
-  PRIMARY KEY (`SSN`,`UserType`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
 -- Dumping data for table `USER`
 --
 
 INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES
-('123aaa', 'aaa', 'bbb', 'enrico@gmail.com', '1111eeee?', NULL),
+('123aaa', 'aaa', 'bbb', 'enrico@gmail.com', '1111eeee?', 0),
 ('123q', 'ggg', 'ggg', 'enrico@gmail.it', 'a1a1a1a1', 1),
 ('aaa111', 'aaa', 'bbb', 'aaa@bbb.com', 'a1a1a1a1', 1),
 ('aaa111bbb', 'aaa', 'bbb', 'johnny@doe.it', 'a1a1a1a1', 1),
@@ -267,6 +321,7 @@ INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActiv
 ('ABC456', 'Jane', 'Doe', 'jane@doe.it', 'pass456', 0),
 ('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'r.filicaro@parent.esrmsystem.com', 'Roberta77', 1),
 ('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrmsystem.com', 'Teresa72', 1),
+('KKKFZL52M61I4KKK', 'Mamma', 'Mia', 'mamma@mia.it', 'Mamma', 1),
 ('LNGMRN58M51L219R', 'Marina', 'Longobardi', 'm.longobardi@esrmsystem.com', 'Marina58', 1),
 ('MNDFPP68C16L219N', 'Filippo', 'Mandini', 'f.mandini@parent.esrmsystem.com', 'Filippo68', 1),
 ('PLLMRT70E68L219Q', 'Marta', 'Pellegrino', 'm.pellegrino@parent.esrmsystem.com', 'Marta70', 1),
@@ -274,48 +329,71 @@ INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActiv
 ('QFFFZL52M61I472B', 'Milo', 'Contini', 'milo@milo.it', 'Milo1', 1),
 ('RSSMRA70A01F205V', 'Mario', 'Rossi', 'mario.rossi@email.com', 'Mariorossi2', 1),
 ('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@parent.esrmsystem.com', 'Roberto66', 1),
-('testSSN123', 'Mario', 'Rossi', 'mario@rossi.it', 'Mario12', 1),
-('KKKFZL52M61I4KKK', 'Mamma', 'Mia', 'mamma@mia.it', 'Mamma', 1);
+('testSSN123', 'Mario', 'Rossi', 'mario@rossi.it', 'Mario12', 1);
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `USER_TYPE`
+--
 
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('123aaa', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('123q', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('aaa111', 'TEACHER');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('aaa111bbb', 'TEACHER');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('ABC123', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('ABC456', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('FLCRRT77B43L219Q', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('FNLTRS72H50L219Z', 'TEACHER');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('LNGMRN58M51L219R', 'TEACHER');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('MNDFPP68C16L219N', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('PLLMRT70E68L219Q', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('PNCMSM75D20L219X', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('QFFFZL52M61I472B', 'SECRETARY_OFFICER');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('RSSMRA70A01F205V', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('STLRRT66T06L219L', 'PARENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('testSSN123', 'STUDENT');
-INSERT INTO `USER_TYPE`(`SSN`,`UserType`) VALUES ('KKKFZL52M61I4KKK', 'SYS_ADMIN');
+DROP TABLE IF EXISTS `USER_TYPE`;
+CREATE TABLE IF NOT EXISTS `USER_TYPE` (
+  `SSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
+  `UserType` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`SSN`,`UserType`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-ALTER TABLE `USER_TYPE`
-  ADD CONSTRAINT `USER_TYPE_ibfk_1` FOREIGN KEY (`SSN`) REFERENCES `USER` (`SSN`);
+--
+-- Dumping data for table `USER_TYPE`
+--
+
+INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES
+('123aaa', 'PARENT'),
+('123q', 'PARENT'),
+('aaa111', 'TEACHER'),
+('aaa111bbb', 'TEACHER'),
+('ABC123', 'PARENT'),
+('ABC456', 'PARENT'),
+('FLCRRT77B43L219Q', 'PARENT'),
+('FNLTRS72H50L219Z', 'TEACHER'),
+('KKKFZL52M61I4KKK', 'SYS_ADMIN'),
+('LNGMRN58M51L219R', 'TEACHER'),
+('MNDFPP68C16L219N', 'PARENT'),
+('PLLMRT70E68L219Q', 'PARENT'),
+('PNCMSM75D20L219X', 'PARENT'),
+('QFFFZL52M61I472B', 'SECRETARY_OFFICER'),
+('RSSMRA70A01F205V', 'PARENT'),
+('STLRRT66T06L219L', 'PARENT'),
+('testSSN123', 'STUDENT');
+
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `CHILD`
+--
+ALTER TABLE `CHILD`
+  ADD CONSTRAINT `CHILD_ibfk_1` FOREIGN KEY (`SSNParent1`) REFERENCES `USER` (`SSN`),
+  ADD CONSTRAINT `CHILD_ibfk_2` FOREIGN KEY (`SSNParent2`) REFERENCES `USER` (`SSN`),
+  ADD CONSTRAINT `CHILD_ibfk_3` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`);
 
 --
 -- Constraints for table `CLASS_TIMETABLE`
 --
 ALTER TABLE `CLASS_TIMETABLE`
   ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_1` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`),
-  ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_2` FOREIGN KEY (`DayOfWeek`,`StartHour`) REFERENCES `TIMETABLE` (`DayOfWeek`, `StartHour`),
-  ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_3` FOREIGN KEY (`TeacherSSN`) REFERENCES `USER` (`SSN`);
+  ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_2` FOREIGN KEY (`DayOfWeek`,`Hour`) REFERENCES `TIMETABLE` (`DayOfWeek`, `Hour`),
+  ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_4` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`);
 
 --
 -- Constraints for table `MARK`
 --
 ALTER TABLE `MARK`
-  ADD CONSTRAINT `MARK_ibfk_1` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`);
+  ADD CONSTRAINT `MARK_ibfk_1` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`),
+  ADD CONSTRAINT `MARK_ibfk_2` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`),
+  ADD CONSTRAINT `MARK_ibfk_3` FOREIGN KEY (`StudentSSN`) REFERENCES `CHILD` (`SSN`);
 
 --
 -- Constraints for table `TEACHER_SUBJECT`
@@ -331,6 +409,12 @@ ALTER TABLE `TOPIC`
   ADD CONSTRAINT `TOPIC_ibfk_1` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`),
   ADD CONSTRAINT `TOPIC_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`),
   ADD CONSTRAINT `TOPIC_ibfk_3` FOREIGN KEY (`TeacherSSN`) REFERENCES `USER` (`SSN`);
+
+--
+-- Constraints for table `USER_TYPE`
+--
+ALTER TABLE `USER_TYPE`
+  ADD CONSTRAINT `USER_TYPE_ibfk_1` FOREIGN KEY (`SSN`) REFERENCES `USER` (`SSN`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
