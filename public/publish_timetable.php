@@ -129,7 +129,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
         $_SESSION['msg_result'] = "";
       } ?>
 
-      <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Submit</button>
+      <button class="btn btn-lg btn-primary btn-block mt-2" type="submit" id="submit">Submit</button>
     </form>
   </div>
 </body>
