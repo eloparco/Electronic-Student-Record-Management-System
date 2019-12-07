@@ -7,7 +7,6 @@ class UtilityTest extends \Codeception\Test\Unit
      * @var \UnitTester
      */
     protected $tester;
-    // private $user_id;
     
     protected function _before()
     {
@@ -139,7 +138,7 @@ class UtilityTest extends \Codeception\Test\Unit
     }
     public function testRecordTopicEmptyDate()
     {
-        $this->assertEquals(TOPIC_RECORDING_FAILED, recordTopic('1A', '', 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        $this->assertEquals(MARK_RECORDING_FAILED, recordTopic('1A', '', 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
     }
     public function testRecordTopicNonExistingTeacher()
     {
@@ -147,7 +146,7 @@ class UtilityTest extends \Codeception\Test\Unit
     }
     public function testRecordTopicDateTooOld()
     {
-        $this->assertEquals(TOPIC_RECORDING_FAILED, recordTopic('1A', '01/01/1996', 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        $this->assertEquals(MARK_RECORDING_FAILED, recordTopic('1A', '01/01/1996', 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
     }
 
     // GET ATTENDANCE
@@ -206,6 +205,10 @@ class UtilityTest extends \Codeception\Test\Unit
         tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'PRINCIPAL', 1, $this->ini_path));
     }
     public function testTryInsertAccountMaxRoles() {
+        $this->assertEquals(UPDATE_ACCOUNT_OK, 
+        tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'TEACHER', 1, $this->ini_path));
+        $this->assertEquals(UPDATE_ACCOUNT_OK, 
+        tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'PRINCIPAL', 1, $this->ini_path));
         $this->assertEquals(MAX_ROLES_ALLOWED, 
         tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'SECRETARY_OFFICER', 1, $this->ini_path));
     }

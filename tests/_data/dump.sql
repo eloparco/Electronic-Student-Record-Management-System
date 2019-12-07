@@ -90,7 +90,8 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
-('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A');
+('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A'),
+('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', NULL, '1A');
 
 -- --------------------------------------------------------
 

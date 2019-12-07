@@ -9,7 +9,7 @@ class Story1Cest
     // tests
     public function testLoginSuccess(AcceptanceTester $I)
     {
-        $I->amOnPage('/login.php');        
+        // $I->amOnPage('/login.php');        
         // $I->fillField('username', 'john@doe.it');
         // $I->fillField('password', 'pass123');
         // $I->click('Sign in');
@@ -67,13 +67,12 @@ class Story1Cest
         $I->click('Sign in');
 
         $I->seeInCurrentUrl('/user_parent.php');
-        // $I->see('Marks');
         
         // // check marks
-        $I->wait(1);  // without this nothing works 
+        $I->elementCwait(1);  // without this nothing works 
         // $I->waitForElement('#marks_dashboard', 10);
 
-        $I->click('Marks');
+        $I->click('Visualize marks');
         // $I->wait(5);   
         $I->waitForElement('#filters', 10);
         $table = array(

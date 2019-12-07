@@ -49,7 +49,6 @@ define("COMMUNICATION_RECORDING_FAILED", "Communication recording failed.");
 define("COMMUNICATION_RECORDING_OK","Communication correctly recorded.");
 
 function connect_to_db($ini_path_test='') {
-    // $ini_path = $_SERVER['DOCUMENT_ROOT'] . '/Electronic-Student-Record-Management-System/config/database/database.ini';
     $ini_path = '../config/database/database.ini';
 
     if ($ini_path_test !== '')
@@ -193,10 +192,8 @@ function get_roles_per_user($username, $ini_path=''){
 
 # login -> only credentials check
 function tryLogin($username, $password, $ini_path='') {
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
+
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "SELECT Password, AccountActivated FROM `USER` WHERE Email = ?")) 
@@ -218,10 +215,11 @@ function tryLogin($username, $password, $ini_path='') {
             } else {
                 if(!mysqli_stmt_fetch($prep))
                     throw new Exception(); 
-                if($password == $dbPass && $isActive == 1) { 
+                if($password == $dbPass && $isActive == 1) {
                     mysqli_stmt_close($prep);
                     mysqli_close($con);
-                    $dbUserType = get_roles_per_user($username)[0];
+
+                    $dbUserType = get_roles_per_user($username, $ini_path)[0];
                     if($dbUserType == 'TEACHER')
                         return LOGIN_TEACHER_OK;
                     else if($dbUserType == 'PARENT')
@@ -285,10 +283,8 @@ function check_change_role($username, $role, $ini_path=''){
 ### END functions to login and retrieve roles
 
 function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype, $accountactivated, $ini_path='') {
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
+    
     if($con && mysqli_connect_error() == NULL) {
         mysqli_autocommit($con, FALSE);
         try {
@@ -350,10 +346,8 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
 }
 
 function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype, $accountactivated, $ini_path='') {
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
+
     if($con && mysqli_connect_error() == NULL) {
         mysqli_autocommit($con, FALSE);
         try {
@@ -548,10 +542,7 @@ function check_inactivity () {
 
 # get children given the parent
 function get_children_of_parent($parentUsername, $ini_path=''){
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
 
     $children_query = "SELECT C.SSN, C.Name, C.Surname\n" .
                       "FROM CHILD C, USER P\n" .
@@ -583,10 +574,7 @@ function get_children_of_parent($parentUsername, $ini_path=''){
 
 # functions to manage Marks from Parent side
 function get_scores_per_child_and_date($childSSN, $startDate, $endDate, $ini_path=''){
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
 
     $marks_query = "SELECT Name, Date, Score\n" .
                     "FROM MARK M, SUBJECT S\n" .
@@ -617,10 +605,7 @@ function get_scores_per_child_and_date($childSSN, $startDate, $endDate, $ini_pat
 }
 
 function get_list_of_subjects($childSSN, $ini_path=''){
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
 
     $subjects_query = "SELECT DISTINCT(Name)\n" . 
                       "FROM MARK M, SUBJECT S\n" . 
@@ -662,13 +647,10 @@ function isInThisWeek($date) {
 }
 
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
-    if(!isInThisWeek($date))
+    if(!isInThisWeek($date) || $date === "")
         return MARK_RECORDING_FAILED;
         
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
     
     if($con && mysqli_connect_error() == NULL) {
         try {
@@ -691,8 +673,8 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
     }
 }
 
-function recordCommunication($date,$title, $subtitle){
-    $con = connect_to_db();
+function recordCommunication($date,$title, $subtitle, $ini_path=''){
+    $con = connect_to_db($ini_path);
 
     if($con && mysqli_connect_error() == NULL) {
         try {
@@ -742,10 +724,8 @@ function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
 }
 
 function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_path=''){
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
+
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) 
@@ -768,10 +748,7 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_p
 }
 
 function get_attendance($childSSN, $ini_path=''){
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
 
     $attendance_query = "SELECT StudentSSN, Date, Presence, ExitHour\n" . 
                       "FROM ATTENDANCE\n" . 
@@ -902,10 +879,7 @@ function console_log( $data ){
 
 # save in the database the timetable received from csv
 function insert_timetable($class, $timetable, $ini_path=''){
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
 
     if($con && mysqli_connect_error() == NULL) {
         $days_of_week = array(
@@ -959,10 +933,7 @@ function insert_timetable($class, $timetable, $ini_path=''){
 }
 
 function get_list_of_classes($ini_path='') {
-    if ($ini_path !== '')
-        $con = connect_to_db($ini_path);
-    else
-        $con = connect_to_db();
+    $con = connect_to_db($ini_path);
 
     $classes_query = "SELECT DISTINCT(Name) FROM CLASS ORDER BY Name;";
     if(!$con){
@@ -1015,10 +986,7 @@ function uploadSupportMaterialFile($class, $subjectID, $teacher, $ini_path=''){
         $userfile_name = $_FILES['userfile']['name'];
 
         //needed for unit test, to find the correct path to connect to db
-        if ($ini_path !== '')
-            $db_con = connect_to_db($ini_path);
-        else
-            $db_con = connect_to_db();
+        $db_con = connect_to_db($ini_path);
 
         try {  
             mysqli_autocommit($db_con, false);
