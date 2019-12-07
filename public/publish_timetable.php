@@ -49,15 +49,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
         $_SESSION['msg_result'] = WRONG_FILE_FORMAT;
       } else {
         $_SESSION['msg_result'] = insert_timetable($class, $timetable);
-
-
         // print_r($timetable);
-        // foreach ($timetable as $hour) {
-        //   foreach ($hour as $subject) {
-        //     echo $subject . " ";
-        //   }
-        //   echo "\n";
-        // }
       }
     }
   }

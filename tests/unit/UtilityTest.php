@@ -209,4 +209,45 @@ class UtilityTest extends \Codeception\Test\Unit
         $this->assertEquals(MAX_ROLES_ALLOWED, 
         tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'SECRETARY_OFFICER', 1, $this->ini_path));
     }
+
+    // GET LIST OF CLASSES
+    public function testGetClassList() {
+        $classes = get_list_of_classes($this->ini_path);
+        $this->assertEquals(2, count($classes));
+        $this->assertTrue(in_array("1A", $classes));
+        $this->assertTrue(in_array("1B", $classes));
+    }
+
+    // INSERT TIMETABLE
+    public function testInsertTimetable() {
+        $subjects = array(
+            array("Mathematics", "History", "Italian", "English", "Physics"),
+            array("Italian", "Italian", "Italian", "History", "Gym"),
+            array("Art", "English", "English", "Mathematics", "Latin"),
+            array("Latin", "Gym", "Science", "Mathematics", "Science"),
+            array("Latin", "Mathematics", "Latin", "Religion", "Mathematics"),
+            array("-", "Physics",  "-", "-", "Art")
+        );
+
+        $this->assertEquals(PUBLISH_TIMETABLE_OK, insert_timetable("1A", $subjects, $this->ini_path));
+    }
+    public function testInsertTimetableNonExistingClass() {
+        $subjects = array(
+            array("Mathematics", "History", "Italian", "English", "Physics"),
+            array("Italian", "Italian", "Italian", "History", "Gym"),
+            array("Art", "English", "English", "Mathematics", "Latin"),
+            array("Latin", "Gym", "Science", "Mathematics", "Science"),
+            array("Latin", "Mathematics", "Latin", "Religion", "Mathematics"),
+            array("-", "Physics",  "-", "-", "Art")
+        );
+
+        $this->assertEquals(DB_QUERY_ERROR, insert_timetable("7FAKE", $subjects, $this->ini_path));
+    }
+    public function testInsertTimetableNonExistingSubject() {
+        $subjects = array(
+            array("FakeSubject", "History", "Italian", "English", "Physics")
+        );
+
+        $this->assertEquals(SUBJECT_INCORRECT, insert_timetable("1A", $subjects, $this->ini_path));
+    } 
 }

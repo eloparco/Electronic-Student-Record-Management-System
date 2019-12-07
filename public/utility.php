@@ -41,6 +41,7 @@ define("PUBLISH_TIMETABLE_OK", "Timetable correclty uploaded.");
 define("PUBLISH_TIMETABLE_FAILED", "Invalid file.");
 define("WRONG_FILE_FORMAT", "The file format is not correct.");
 define("MISSING_INPUT", "Please fill all inputs.");
+define("SUBJECT_INCORRECT", "Unknown subject in the uploaded file.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
 define("COMMUNICATION_RECORDING_INCORRECT", "Please fill all the fields.");
@@ -817,7 +818,7 @@ function get_classes_of_teacher($teacherUsername, $ini_path=''){
     if(!mysqli_stmt_bind_param($classes_prep, "s", $teacherUsername)){
         die('Error in binding paramters to classes_prep.'."\n");
     }
-    if(!mysqli_stmt_execute($subjects_prep)){
+    if(!mysqli_stmt_execute($classes_prep)){
         die('Error in executing classes query. Database error:<br>'.mysqli_error($db_con));
     }
     $classes_res = mysqli_stmt_get_result($classes_prep);
@@ -917,10 +918,6 @@ function insert_timetable($class, $timetable, $ini_path=''){
             foreach ($timetable as $row) {
                 $day_counter = 0;
                 foreach($row as $subject) {                      
-                    // add entry in timetable
-                    // if ($subject === '-')
-                    //     $subject = NULL;
-
                     // select subject id starting from subject name
                     if(!$prep = mysqli_prepare($con, "SELECT ID FROM SUBJECT WHERE Name=? LIMIT 1;")) 
                         throw new Exception();
@@ -932,6 +929,9 @@ function insert_timetable($class, $timetable, $ini_path=''){
                     $subject_id = mysqli_fetch_assoc($result)["ID"];
                     mysqli_stmt_free_result($prep);
                     mysqli_stmt_close($prep);
+
+                    if ($subject_id === NULL && $subject !== "-")
+                        return SUBJECT_INCORRECT;
 
                     if(!$prep = mysqli_prepare($con, "INSERT INTO CLASS_TIMETABLE(Class, DayOfWeek, Hour, SubjectID) VALUES(?, ?, ?, ?);")) 
                         throw new Exception();
