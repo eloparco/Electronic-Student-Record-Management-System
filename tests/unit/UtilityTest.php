@@ -130,11 +130,19 @@ class UtilityTest extends \Codeception\Test\Unit
     // RECORD TOPIC
     public function testRecordTopicSuccess()
     {
-        $this->assertEquals(TOPIC_RECORDING_OK, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        $day_of_week = date('l', strtotime('now'));
+        if ($day_of_week === "Sunday")
+            $this->assertEquals(TOPIC_RECORDING_WRONG_DATE, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        else
+            $this->assertEquals(TOPIC_RECORDING_OK, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
     }
     public function testRecordTopicNonExistingClass()
     {
-        $this->assertEquals(TOPIC_RECORDING_FAILED, recordTopic('ZZZ', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        $day_of_week = date('l', strtotime('now'));
+        if ($day_of_week === "Sunday")
+            $this->assertEquals(TOPIC_RECORDING_WRONG_DATE, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        else
+            $this->assertEquals(TOPIC_RECORDING_FAILED, recordTopic('ZZZ', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
     }
     public function testRecordTopicEmptyDate()
     {
@@ -142,7 +150,11 @@ class UtilityTest extends \Codeception\Test\Unit
     }
     public function testRecordTopicNonExistingTeacher()
     {
-        $this->assertEquals(TOPIC_RECORDING_FAILED, recordTopic('1A', date('d/m/Y'), 3, 1, 'TEST', 'Mock topic', 'Mock description', $this->ini_path));
+        $day_of_week = date('l', strtotime('now'));
+        if ($day_of_week === "Sunday")
+            $this->assertEquals(TOPIC_RECORDING_WRONG_DATE, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        else
+            $this->assertEquals(TOPIC_RECORDING_FAILED, recordTopic('1A', date('d/m/Y'), 3, 1, 'TEST', 'Mock topic', 'Mock description', $this->ini_path));
     }
     public function testRecordTopicDateTooOld()
     {

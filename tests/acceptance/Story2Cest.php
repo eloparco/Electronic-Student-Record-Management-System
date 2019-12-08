@@ -1,4 +1,5 @@
 <?php 
+require_once('public/utility.php');
 
 class Story2Cest
 {
@@ -27,8 +28,7 @@ class Story2Cest
 
         // select date
         $today = date('d/m/Y');    
-        // $I->executeJS("$('#dataSelection').val('" . $today . "');");
-        $I->executeJS("$('#dataSelection').val('13/12/2019');");
+        $I->executeJS("$('#dataSelection').val('" . $today . "');");
 
         // select hour
         $I->selectOption("form select[name='hour']", 3);   
@@ -38,11 +38,15 @@ class Story2Cest
         $I->fillField('subtitle', 'Mock description');
         
         $I->waitForElementClickable('#confirm', 10);
-        
-        $I->wait(2);
         $I->click('Confirm');
 
-        $I->wait(3);
+        $day_of_week = date('l', strtotime('now'));
+        if ($day_of_week === "Sunday") {
+            // error should be displayed
+            $I->see(TOPIC_RECORDING_WRONG_DATE);
+            return;
+        }
+
         // check if database updated
         $I->seeInDatabase('TOPIC', [
             'Class' => '1A',
@@ -53,6 +57,8 @@ class Story2Cest
             'Title' => 'Mock topic',
             'Description' => 'Mock description'
         ]);
+
+        $I->see(TOPIC_RECORDING_OK);
     }
 
     public function testInsertTopicWithoutAllInformation(AcceptanceTester $I)
@@ -69,14 +75,14 @@ class Story2Cest
         $I->click('Record lecture\'s topics');
 
         // insert new topic leaving empty fields
-        // $I->waitForElement('#lessonRecordingTitle', 10);
+        $I->waitForElement('#lessonRecordingTitle', 10);
         $I->fillField('title', 'Mock topic');
         $I->fillField('subtitle', 'Mock description');
         $I->waitForElementClickable('#confirm', 10);
         $I->click('Confirm');
 
         // error shoud be displayed
-        $I->see('Please fill all the fields.');
+        $I->see(TOPIC_RECORDING_INCORRECT);
 
         // database shoud not be updated
         $I->dontSeeInDatabase('TOPIC', [
@@ -87,7 +93,6 @@ class Story2Cest
 
     public function testInsertTopicWrongDate(AcceptanceTester $I)
     {
-        $I->wait(1);
         // login as teacher
         $I->amOnPage('/login.php');
         $I->fillField('username', 'aaa@bbb.com');
@@ -99,16 +104,17 @@ class Story2Cest
         $I->click('Record lecture\'s topics');
 
         // insert new topic with wrong data (too)
-        // $I->waitForElement('#lessonRecordingTitle', 10);
+        $I->waitForElement('#lessonRecordingTitle', 10);
         $I->selectOption("form select[name='class_sID_ssn']", "1A Geography");  
-        $I->fillField('date', '05/05/1992');         
+        $I->executeJS("$('#dataSelection').val('05/05/1992');");
         $I->selectOption("form select[name='hour']", 3); 
         $I->fillField('title', 'Mock topic');
         $I->fillField('subtitle', 'Mock description');
+
         $I->waitForElementClickable('#confirm', 10);
         $I->click('Confirm');
 
         // error should be displayed
-        $I->see('Please fill all the fields.');
+        $I->see(TOPIC_RECORDING_WRONG_DATE);
     }
 }
