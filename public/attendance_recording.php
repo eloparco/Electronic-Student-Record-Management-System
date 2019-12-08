@@ -328,6 +328,7 @@ if (isset($_GET['msg_result'])) {
         }
 
         function registerAttendance(){
+            var check_if_all_ok = true;
             $('#classTable > tbody:last-child > tr').each(function(index, tr) {
                 var SSN = tr.cells[2].innerText;
                 var date = new Date();
@@ -358,7 +359,7 @@ if (isset($_GET['msg_result'])) {
 
                 if(updateDB){
                     if(!recordLeaving && !absent){
-                        alert("DEBUG: Late 10 min / 1h");
+                        //alert("DEBUG: Late 10 min / 1h");
                         $.ajax({ // Late 10 min / 1h
                             url: "register_attendance.php", // Late 10 min - Late 1 hour 
                             data: { "SSN": SSN,
@@ -368,14 +369,15 @@ if (isset($_GET['msg_result'])) {
 
                             type: "POST",
                             success: function(data, state) {
-                                alert(data);
+                                //alert(data);
                                 var JSONdata = $.parseJSON(data);
 
                                 if(JSONdata['state'] != "ok"){
                                     console.log("Error: "+state);
+                                    check_if_all_ok = false;
                                     return;
                                 }   else {
-                                    alert("Action sucessfully executed.");
+                                    //alert("Action sucessfully executed.");                                    
                                 }
                                 
                             },
@@ -385,7 +387,7 @@ if (isset($_GET['msg_result'])) {
                             }
                         });
                     } else if(absent){ // absent
-                        alert("DEBUG: absent");
+                        //alert("DEBUG: absent");
                         $.ajax({
                             url: "register_absent.php",
                             data: { "SSN": SSN,
@@ -394,14 +396,15 @@ if (isset($_GET['msg_result'])) {
 
                             type: "POST",
                             success: function(data, state) {
-                                alert(data);
+                                //alert(data);
                                 var JSONdata = $.parseJSON(data);
 
                                 if(JSONdata['state'] != "ok"){
                                     console.log("Error: "+state);
+                                    check_if_all_ok = false;
                                     return;
                                 }   else {
-                                    alert("Action sucessfully executed.");
+                                    //alert("Action sucessfully executed.");
                                 }
                                 
                             },
@@ -411,7 +414,7 @@ if (isset($_GET['msg_result'])) {
                             }
                         });
                     }else { // early leaving
-                        alert("DEBUG: early leaving");
+                        //alert("DEBUG: early leaving");
                         $.ajax({
                             url: "register_leaving.php",
                             data: { "SSN": SSN,
@@ -421,14 +424,15 @@ if (isset($_GET['msg_result'])) {
 
                             type: "POST",
                             success: function(data, state) {
-                                alert(data);
+                                //alert(data);
                                 var JSONdata = $.parseJSON(data);
 
                                 if(JSONdata['state'] != "ok"){
                                     console.log("Error: "+state);
+                                    check_if_all_ok = false;
                                     return;
                                 }   else {
-                                    alert("Action sucessfully executed.");
+                                    //alert("Action sucessfully executed.");
                                 }
                                 
                             },
@@ -448,14 +452,15 @@ if (isset($_GET['msg_result'])) {
 
                             type: "POST",
                             success: function(data, state) {
-                                // alert(data);
+                                //alert(data);
                                 var JSONdata = $.parseJSON(data);
 
                                 if(JSONdata['state'] != "ok"){
                                     console.log("Error: "+state);
+                                    check_if_all_ok = false;
                                     return;
                                 }   else {
-                                    alert("Action sucessfully executed.");
+                                    //alert("Action sucessfully executed.");
                                 }
                                 
                             },
@@ -467,6 +472,10 @@ if (isset($_GET['msg_result'])) {
 
                 } 
             });
+            if(check_if_all_ok){
+                alert("Action sucessfully executed.");
+            } else 
+                alert("Something went wrong, retry.");
         }
     </script>
 </body>

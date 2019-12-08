@@ -9,6 +9,8 @@ class Story9Cest
     // tests
     public function testPresentStudent(AcceptanceTester $I)
     {        
+        //so important, without maximize, in small screen, logout and home button will be not visible, and so not clickable     
+        $I->maximizeWindow();
         // login as teacher
         $I->amOnPage('/login.php');
         $I->fillField('username', 'aaa@bbb.com');
@@ -36,10 +38,9 @@ class Story9Cest
             'Presence' => 'ABSENT',
             'ExitHour' => '6'
         ]);
-        $I->acceptPopup();          
-        $I->acceptPopup();
-        
-        $I->click('Logout');
+        $I->acceptPopup(); 
+        //$I->wait(1);       
+        //$I->click('Logout');
         
     }
     public function testInsertAbsentStudent(AcceptanceTester $I)
@@ -71,7 +72,7 @@ class Story9Cest
             'StudentSSN' => 'MNDGPP04E14L219U',
             'Date' => date('Y-m-d'),            
             'Presence' => 'ABSENT',
-            'ExitHour' => '6'
+            'ExitHour' => '0'
         ]);   
 
         $I->seeInDatabase('ATTENDANCE', [
@@ -79,11 +80,9 @@ class Story9Cest
             'Date' => date('Y-m-d'),            
             'Presence' => '10_MIN_LATE',
             'ExitHour' => '6'
-        ]);
-        $I->acceptPopup();            
-        $I->acceptPopup();
-                 
-        $I->click('Logout');
+        ]); 
+        $I->acceptPopup();      
+        
     }
     
 

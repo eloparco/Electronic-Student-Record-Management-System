@@ -93,7 +93,7 @@ if(isset($_SESSION['msg_result'])) {
           <div class="form-group-class">
               <label for="classSelection">Select a class and a subject</label>
               <select class="form-control" id="classSelection" name="class_sID_ssn" required>
-                <!-- <option>1A</option> -->                
+              <!-- <option></option> -->             
               </select>
           </div>
 
@@ -148,7 +148,7 @@ if(isset($_SESSION['msg_result'])) {
           <?php
           }}
           $_SESSION['msg_result'] = "";} ?>    
-          <button class="btn btn-lg btn-primary btn-block" type="submit" value= "sendFile">Upload</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" value= "sendFile" >Upload</button>
           </form>
       </div>
   </body>

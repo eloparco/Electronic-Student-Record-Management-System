@@ -1,6 +1,6 @@
 <?php
 require_once('public/utility.php');
-class insertParentStudentTest extends \Codeception\Test\Unit
+class insertParentStudent_UploadSupportMaterial_Test extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -53,7 +53,7 @@ class insertParentStudentTest extends \Codeception\Test\Unit
     public function testInsertNotAllowedExtensionFileSupportMaterial()
     {
         $ini_path = __DIR__ . '/../../config/database/database.ini';
-        $this->assertEquals('file extension is not supported.', uploadSupportMaterialFile( '1A', 1, 'C:\xampp\tmp\php4E89.tmp', 'test.sql', 1048576, $ini_path) );
+        $this->assertEquals('File extension not supported.', uploadSupportMaterialFile( '1A', 1, 'C:\xampp\tmp\php4E89.tmp', 'test.sql', 1048576, $ini_path) );
     }
     public function testInsertInvalidTmpNameSupportMaterial()
     {

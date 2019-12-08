@@ -1007,7 +1007,7 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
         $temp = explode('.', $userfile_name);
         $ext = end($temp);
         if (!in_array($ext, $ext_ok)) {
-            return 'file extension is not supported.';    
+            return 'File extension not supported.';    
         }          
 
         //create the directory if not exists

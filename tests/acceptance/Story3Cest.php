@@ -34,7 +34,6 @@ class Story3Cest
 
     public function testInsertParentSuccess(AcceptanceTester $I)
     {
-        $I->wait(1);
         // login as secretary
         $I->amOnPage('/login.php');
         $I->fillField('username', 'milo@milo.it');
@@ -44,7 +43,7 @@ class Story3Cest
              
         $I->click('Record parent');        
         
-        $I->wait(3);
+        $I->wait(2);
         // insert new parent    
         $I->fillField('ssn', 'DKDVHF36L48G407J');
         $I->fillField('name', 'Giorgio');
@@ -69,6 +68,25 @@ class Story3Cest
  
     public function testInsertParentDuplicate(AcceptanceTester $I)
     {
+        // login as secretary
+        $I->amOnPage('/login.php');
+        $I->fillField('username', 'milo@milo.it');
+        $I->fillField('password', 'Milo1');
+        $I->click('Sign in');
+        $I->seeInCurrentUrl('/user_secretary.php');
+             
+        $I->click('Record parent');        
+        
+        $I->wait(1);
+        // insert new parent    
+        $I->fillField('ssn', 'DKDVHF36L48G407J');
+        $I->fillField('name', 'Giorgio');
+        $I->fillField('surname', 'Padovani');
+        $I->fillField('username', 'giorgio@giorgio.it');        
+        $I->click('Submit');        
+
+        $I->click('Logout');
+
         $I->wait(1);
         // login as secretary
         $I->amOnPage('/login.php');
@@ -76,7 +94,7 @@ class Story3Cest
         $I->fillField('password', 'Milo1');
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_secretary.php');
-        $I->wait(2);    
+        $I->wait(1);    
         $I->click('Record parent');
                
         //$I->waitForElement('#myParentForm', 1);
@@ -98,14 +116,13 @@ class Story3Cest
 
     public function testInsertWrongForm(AcceptanceTester $I)
     {
-        $I->wait(1);
         // login as secretary
         $I->amOnPage('/login.php');
         $I->fillField('username', 'milo@milo.it');
         $I->fillField('password', 'Milo1');
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_secretary.php');
-        $I->wait(2);    
+        $I->wait(1);    
         $I->click('Record parent');
                
         //$I->waitForElement('#myParentForm', 1);
