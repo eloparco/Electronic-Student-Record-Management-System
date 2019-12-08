@@ -80,7 +80,7 @@ if(isset($_SESSION['msg_result'])) {
         <i data-feather="menu"></i>
       </button>
     </p>  
-    <form class="form-record col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-7 pt-3 px-4" action="record_topic.php" method="post" name="post_recording"> 
+    <form class="form-record col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-7 pt-3 px-4" action="record_assignment.php" method="post" name="post_recording" enctype="multipart/form-data"> 
     <img class="mb-4" src="images/icons/lecture_recording.png" alt="" width="102" height="102">  
     <h1 class="h3 mb-3 font-weight-normal" id='lessonRecordingTitle'>Lesson recording</h1>
       <!-- Class and subject selection -->
@@ -126,13 +126,25 @@ if(isset($_SESSION['msg_result'])) {
         });
       </script>
 
-      <!-- Date picker -->
+        <!-- Text area for title -->
+        <div class="form-group-text">
+          <label for="topicTitleTextArea">Insert the assignment title</label>
+          <textarea class="form-control" id="topicTitleTextArea" rows="1" name="title"></textarea>
+        </div>
+
+        <!-- Text area for description -->
+        <div class="form-group-text">
+          <label for="lectureTextArea">Insert the assignment description</label>
+          <textarea class="form-control" id="lectureTextArea" rows="3" name="subtitle"></textarea>
+        </div>
+
+         <!-- Date picker -->
       <div class="form-group-class">
-        <label for="dataSelection" class="col-form-label">Select a date</label>
+        <label for="dataSelection" class="col-form-label">Select a deadline</label>
         <input type="text" class="form-control" id="dataSelection" name="date">
       </div>
 
-      <!-- Setup datepicler -->
+      <!-- Setup datepicker -->
       <script>
         var minDate=new Date();
         var minDay=minDate.getDay();
@@ -144,7 +156,7 @@ if(isset($_SESSION['msg_result'])) {
         maxDate.setDate( maxDate.getDate() + (5 - minDay) );
 
         $('#dataSelection').datepicker({
-            format: 'dd/mm/yyyy',
+            format: 'yyyy-mm-dd',
             startDate: minDate,
             endDate: maxDate,
             todayBtn: true,
@@ -154,17 +166,6 @@ if(isset($_SESSION['msg_result'])) {
         
       </script>
         
-        <!-- Text area for lecture's topic recording -->
-        <div class="form-group-text">
-          <label for="topicTitleTextArea">Insert the assignment title</label>
-          <textarea class="form-control" id="topicTitleTextArea" rows="1" name="title"></textarea>
-        </div>
-
-        <!-- Text area for lecture's topic recording -->
-        <div class="form-group-text">
-          <label for="lectureTextArea">Insert the assignment descriotion</label>
-          <textarea class="form-control" id="lectureTextArea" rows="3" name="description"></textarea>
-        </div>
 
        <!-- Attachment upload -->
        <div class="input-group">
@@ -173,16 +174,17 @@ if(isset($_SESSION['msg_result'])) {
             </div>
 
             <div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputGroupFile01">Select a file</label>
+                 <input id="attachment" type="file" name="file">
+                <label for="attachment">Select a file</label>
             </div>
+
         </div>
 
         <!-- POST Method response -->
         <?php 
           if(isset($_SESSION['msg_result'])) {
           if(!empty($_SESSION['msg_result'])) {
-            if($_SESSION['msg_result'] != TOPIC_RECORDING_OK){ ?>
+            if($_SESSION['msg_result'] != ASSIGNMENT_RECORDING_OK){ ?>
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
           <?php } else { ?>
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>

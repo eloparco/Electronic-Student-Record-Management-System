@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Dic 08, 2019 alle 11:33
+-- Creato il: Dic 08, 2019 alle 12:58
 -- Versione del server: 10.4.8-MariaDB
 -- Versione PHP: 7.3.10
 
@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `ASSIGNMENT` (
   `DeadlineDate` date NOT NULL,
   `Title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Description` varchar(400) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Attachment` text COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`Class`,`SubjectID`,`DeadlineDate`),
   KEY `SubjectID` (`SubjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -137,14 +138,15 @@ CREATE TABLE IF NOT EXISTS `COMMUNICATION` (
   `Description` text NOT NULL,
   `Date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `COMMUNICATION`
 --
 
 INSERT INTO `COMMUNICATION` (`id`, `Title`, `Description`, `Date`) VALUES
-(2, 'title', 'subtitle', '2019-12-05');
+(2, 'title', 'subtitle', '2019-12-05'),
+(3, 'Prova', 'Prova 2', '2019-12-11');
 
 -- --------------------------------------------------------
 
