@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Dic 06, 2019 alle 19:37
+-- Creato il: Dic 08, 2019 alle 11:33
 -- Versione del server: 10.4.8-MariaDB
 -- Versione PHP: 7.3.10
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `student_record_management`
 --
+CREATE DATABASE IF NOT EXISTS `student_record_management` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `student_record_management`;
 
 -- --------------------------------------------------------
 
@@ -28,13 +30,16 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `ASSIGNMENT`
 --
 
-CREATE TABLE `ASSIGNMENT` (
+DROP TABLE IF EXISTS `ASSIGNMENT`;
+CREATE TABLE IF NOT EXISTS `ASSIGNMENT` (
   `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
   `SubjectID` int(11) NOT NULL,
   `DateOfAssignment` date NOT NULL,
   `DeadlineDate` date NOT NULL,
   `Title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `Description` varchar(400) COLLATE utf8_unicode_ci DEFAULT NULL
+  `Description` varchar(400) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`Class`,`SubjectID`,`DeadlineDate`),
+  KEY `SubjectID` (`SubjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -43,11 +48,14 @@ CREATE TABLE `ASSIGNMENT` (
 -- Struttura della tabella `ATTENDANCE`
 --
 
-CREATE TABLE `ATTENDANCE` (
+DROP TABLE IF EXISTS `ATTENDANCE`;
+CREATE TABLE IF NOT EXISTS `ATTENDANCE` (
   `StudentSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `Date` date NOT NULL,
   `Presence` enum('PRESENT','10_MIN_LATE','1_HOUR_LATE','ABSENT') COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ExitHour` int(11) NOT NULL DEFAULT 6
+  `ExitHour` int(11) NOT NULL DEFAULT 6,
+  PRIMARY KEY (`StudentSSN`,`Date`),
+  KEY `ATTENDANCE_ibfk_1` (`StudentSSN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -56,13 +64,18 @@ CREATE TABLE `ATTENDANCE` (
 -- Struttura della tabella `CHILD`
 --
 
-CREATE TABLE `CHILD` (
+DROP TABLE IF EXISTS `CHILD`;
+CREATE TABLE IF NOT EXISTS `CHILD` (
   `SSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `Name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Surname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `SSNParent1` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `SSNParent2` char(16) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `Class` char(2) COLLATE utf8_unicode_ci DEFAULT NULL
+  `Class` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`SSN`),
+  KEY `SSNParent1` (`SSNParent1`),
+  KEY `SSNParent2` (`SSNParent2`),
+  KEY `Class` (`Class`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -80,8 +93,10 @@ INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Clas
 -- Struttura della tabella `CLASS`
 --
 
-CREATE TABLE `CLASS` (
-  `Name` char(2) COLLATE utf8_unicode_ci NOT NULL
+DROP TABLE IF EXISTS `CLASS`;
+CREATE TABLE IF NOT EXISTS `CLASS` (
+  `Name` char(2) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -98,11 +113,15 @@ INSERT INTO `CLASS` (`Name`) VALUES
 -- Struttura della tabella `CLASS_TIMETABLE`
 --
 
-CREATE TABLE `CLASS_TIMETABLE` (
+DROP TABLE IF EXISTS `CLASS_TIMETABLE`;
+CREATE TABLE IF NOT EXISTS `CLASS_TIMETABLE` (
   `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
   `DayOfWeek` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `Hour` int(11) NOT NULL,
-  `SubjectID` int(11) DEFAULT NULL
+  `SubjectID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Class`,`DayOfWeek`,`Hour`),
+  KEY `DayOfWeek` (`DayOfWeek`,`Hour`),
+  KEY `CLASS_TIMETABLE_ibfk_4` (`SubjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -111,12 +130,21 @@ CREATE TABLE `CLASS_TIMETABLE` (
 -- Struttura della tabella `COMMUNICATION`
 --
 
-CREATE TABLE `COMMUNICATION` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `COMMUNICATION`;
+CREATE TABLE IF NOT EXISTS `COMMUNICATION` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Title` text NOT NULL,
   `Description` text NOT NULL,
-  `Date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `COMMUNICATION`
+--
+
+INSERT INTO `COMMUNICATION` (`id`, `Title`, `Description`, `Date`) VALUES
+(2, 'title', 'subtitle', '2019-12-05');
 
 -- --------------------------------------------------------
 
@@ -124,12 +152,16 @@ CREATE TABLE `COMMUNICATION` (
 -- Struttura della tabella `MARK`
 --
 
-CREATE TABLE `MARK` (
+DROP TABLE IF EXISTS `MARK`;
+CREATE TABLE IF NOT EXISTS `MARK` (
   `StudentSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `SubjectID` int(11) NOT NULL,
   `Date` date NOT NULL,
   `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
-  `Score` decimal(5,2) NOT NULL
+  `Score` decimal(5,2) NOT NULL,
+  PRIMARY KEY (`StudentSSN`,`SubjectID`,`Date`),
+  KEY `SubjectID` (`SubjectID`),
+  KEY `MARK_ibfk_2` (`Class`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -149,11 +181,13 @@ INSERT INTO `MARK` (`StudentSSN`, `SubjectID`, `Date`, `Class`, `Score`) VALUES
 -- Struttura della tabella `SUBJECT`
 --
 
-CREATE TABLE `SUBJECT` (
-  `ID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `SUBJECT`;
+CREATE TABLE IF NOT EXISTS `SUBJECT` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `HoursPerWeek` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `HoursPerWeek` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `SUBJECT`
@@ -178,12 +212,14 @@ INSERT INTO `SUBJECT` (`ID`, `Name`, `HoursPerWeek`) VALUES
 -- Struttura della tabella `SUPPORT_MATERIAL`
 --
 
-CREATE TABLE `SUPPORT_MATERIAL` (
-  `ID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `SUPPORT_MATERIAL`;
+CREATE TABLE IF NOT EXISTS `SUPPORT_MATERIAL` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `SubjectID` varchar(255) NOT NULL,
   `Class` varchar(255) NOT NULL,
   `Date` date NOT NULL,
-  `Filename` varchar(255) NOT NULL
+  `Filename` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -192,10 +228,13 @@ CREATE TABLE `SUPPORT_MATERIAL` (
 -- Struttura della tabella `TEACHER_SUBJECT`
 --
 
-CREATE TABLE `TEACHER_SUBJECT` (
+DROP TABLE IF EXISTS `TEACHER_SUBJECT`;
+CREATE TABLE IF NOT EXISTS `TEACHER_SUBJECT` (
   `TeacherSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `SubjectID` int(11) NOT NULL,
-  `Class` char(2) COLLATE utf8_unicode_ci NOT NULL
+  `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`TeacherSSN`,`SubjectID`,`Class`),
+  KEY `SubjectID` (`SubjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -216,9 +255,11 @@ INSERT INTO `TEACHER_SUBJECT` (`TeacherSSN`, `SubjectID`, `Class`) VALUES
 -- Struttura della tabella `TIMETABLE`
 --
 
-CREATE TABLE `TIMETABLE` (
+DROP TABLE IF EXISTS `TIMETABLE`;
+CREATE TABLE IF NOT EXISTS `TIMETABLE` (
   `DayOfWeek` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `Hour` int(11) NOT NULL
+  `Hour` int(11) NOT NULL,
+  PRIMARY KEY (`DayOfWeek`,`Hour`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -263,14 +304,18 @@ INSERT INTO `TIMETABLE` (`DayOfWeek`, `Hour`) VALUES
 -- Struttura della tabella `TOPIC`
 --
 
-CREATE TABLE `TOPIC` (
+DROP TABLE IF EXISTS `TOPIC`;
+CREATE TABLE IF NOT EXISTS `TOPIC` (
   `Class` char(2) COLLATE utf8_unicode_ci NOT NULL,
   `Date` date NOT NULL,
   `StartHour` int(11) NOT NULL,
   `SubjectID` int(11) NOT NULL,
   `TeacherSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `Title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `Description` varchar(400) COLLATE utf8_unicode_ci NOT NULL
+  `Description` varchar(400) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`Class`,`Date`,`StartHour`),
+  KEY `SubjectID` (`SubjectID`),
+  KEY `TeacherSSN` (`TeacherSSN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -279,13 +324,16 @@ CREATE TABLE `TOPIC` (
 -- Struttura della tabella `USER`
 --
 
-CREATE TABLE `USER` (
+DROP TABLE IF EXISTS `USER`;
+CREATE TABLE IF NOT EXISTS `USER` (
   `SSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `Name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Surname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `AccountActivated` tinyint(1) NOT NULL DEFAULT 0
+  `AccountActivated` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`SSN`),
+  UNIQUE KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -295,7 +343,7 @@ CREATE TABLE `USER` (
 INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES
 ('BLLDRD66S07L219N', 'Edoardo', 'Bello', 'e.bello@esrmsystem.com', 'Edoardo66', 1),
 ('BRBGPP57M04L219W', 'Giuseppe', 'Barbero', 'g.barbero@esrmsystem.com', 'Giuseppe57', 1),
-('FLCGNN62R19L219X', 'Giovanni', 'Felice', 'g.felice@esrmsystem.com', 'Giovanni62', 1),
+('FLCGNN62R19L219X', 'Giovanni', 'Felice', 'sec@sec.it', 'Password1', 1),
 ('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'parent@parent.it', 'parent1', 1),
 ('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrmsystem.com', 'Teresa72', 1),
 ('LNGMRN58M51L219R', 'Marina', 'Longobardi', 'm.longobardi@esrmsystem.com', 'Marina58', 1),
@@ -310,9 +358,11 @@ INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActiv
 -- Struttura della tabella `USER_TYPE`
 --
 
-CREATE TABLE `USER_TYPE` (
+DROP TABLE IF EXISTS `USER_TYPE`;
+CREATE TABLE IF NOT EXISTS `USER_TYPE` (
   `SSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
-  `UserType` varchar(30) COLLATE utf8_unicode_ci NOT NULL
+  `UserType` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`SSN`,`UserType`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -331,129 +381,6 @@ INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES
 ('PLLMRT70E68L219Q', 'PARENT'),
 ('PNCMSM75D20L219X', 'PARENT'),
 ('STLRRT66T06L219L', 'PARENT');
-
---
--- Indici per le tabelle scaricate
---
-
---
--- Indici per le tabelle `ASSIGNMENT`
---
-ALTER TABLE `ASSIGNMENT`
-  ADD PRIMARY KEY (`Class`,`SubjectID`,`DeadlineDate`),
-  ADD KEY `SubjectID` (`SubjectID`);
-
---
--- Indici per le tabelle `ATTENDANCE`
---
-ALTER TABLE `ATTENDANCE`
-  ADD PRIMARY KEY (`StudentSSN`,`Date`),
-  ADD KEY `ATTENDANCE_ibfk_1` (`StudentSSN`);
-
---
--- Indici per le tabelle `CHILD`
---
-ALTER TABLE `CHILD`
-  ADD PRIMARY KEY (`SSN`),
-  ADD KEY `SSNParent1` (`SSNParent1`),
-  ADD KEY `SSNParent2` (`SSNParent2`),
-  ADD KEY `Class` (`Class`);
-
---
--- Indici per le tabelle `CLASS`
---
-ALTER TABLE `CLASS`
-  ADD PRIMARY KEY (`Name`);
-
---
--- Indici per le tabelle `CLASS_TIMETABLE`
---
-ALTER TABLE `CLASS_TIMETABLE`
-  ADD PRIMARY KEY (`Class`,`DayOfWeek`,`Hour`),
-  ADD KEY `DayOfWeek` (`DayOfWeek`,`Hour`),
-  ADD KEY `CLASS_TIMETABLE_ibfk_4` (`SubjectID`);
-
---
--- Indici per le tabelle `COMMUNICATION`
---
-ALTER TABLE `COMMUNICATION`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indici per le tabelle `MARK`
---
-ALTER TABLE `MARK`
-  ADD PRIMARY KEY (`StudentSSN`,`SubjectID`,`Date`),
-  ADD KEY `SubjectID` (`SubjectID`),
-  ADD KEY `MARK_ibfk_2` (`Class`);
-
---
--- Indici per le tabelle `SUBJECT`
---
-ALTER TABLE `SUBJECT`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indici per le tabelle `SUPPORT_MATERIAL`
---
-ALTER TABLE `SUPPORT_MATERIAL`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indici per le tabelle `TEACHER_SUBJECT`
---
-ALTER TABLE `TEACHER_SUBJECT`
-  ADD PRIMARY KEY (`TeacherSSN`,`SubjectID`,`Class`),
-  ADD KEY `SubjectID` (`SubjectID`);
-
---
--- Indici per le tabelle `TIMETABLE`
---
-ALTER TABLE `TIMETABLE`
-  ADD PRIMARY KEY (`DayOfWeek`,`Hour`);
-
---
--- Indici per le tabelle `TOPIC`
---
-ALTER TABLE `TOPIC`
-  ADD PRIMARY KEY (`Class`,`Date`,`StartHour`),
-  ADD KEY `SubjectID` (`SubjectID`),
-  ADD KEY `TeacherSSN` (`TeacherSSN`);
-
---
--- Indici per le tabelle `USER`
---
-ALTER TABLE `USER`
-  ADD PRIMARY KEY (`SSN`),
-  ADD UNIQUE KEY `Email` (`Email`);
-
---
--- Indici per le tabelle `USER_TYPE`
---
-ALTER TABLE `USER_TYPE`
-  ADD PRIMARY KEY (`SSN`,`UserType`);
-
---
--- AUTO_INCREMENT per le tabelle scaricate
---
-
---
--- AUTO_INCREMENT per la tabella `COMMUNICATION`
---
-ALTER TABLE `COMMUNICATION`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `SUBJECT`
---
-ALTER TABLE `SUBJECT`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT per la tabella `SUPPORT_MATERIAL`
---
-ALTER TABLE `SUPPORT_MATERIAL`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Limiti per le tabelle scaricate
