@@ -137,9 +137,9 @@ if(isset($_SESSION['msg_result'])) {
           if(isset($_SESSION['msg_result'])) {
             if(!empty($_SESSION['msg_result'])) {
                 if($_SESSION['msg_result'] != COMMUNICATION_RECORDING_OK){ ?>
-                    <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
+                    <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span id="msg-result"><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
                 <?php } else { ?>
-                    <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
+                    <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span id="msg-result"><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
                 <?php
                 }}
           $_SESSION['msg_result'] = "";} ?>    

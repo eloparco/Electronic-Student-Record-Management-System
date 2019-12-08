@@ -133,6 +133,29 @@ CREATE TABLE IF NOT EXISTS `CLASS_TIMETABLE` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `COMMUNICATION`
+--
+
+DROP TABLE IF EXISTS `COMMUNICATION`;
+CREATE TABLE IF NOT EXISTS `COMMUNICATION` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Title` text NOT NULL,
+  `Description` text NOT NULL,
+  `Date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `COMMUNICATION`
+--
+
+INSERT INTO `COMMUNICATION` (`id`, `Title`, `Description`, `Date`) VALUES
+(2, 'title', 'subtitle', '2019-12-05'),
+(3, 'Prova', 'Prova 2', '2019-12-11');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `MARK`
 --
 
@@ -189,6 +212,22 @@ INSERT INTO `SUBJECT` (`ID`, `Name`, `HoursPerWeek`) VALUES
 (9, 'Art', 2),
 (10, 'Science', 2),
 (11, 'Religion', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `SUPPORT_MATERIAL`
+--
+
+DROP TABLE IF EXISTS `SUPPORT_MATERIAL`;
+CREATE TABLE IF NOT EXISTS `SUPPORT_MATERIAL` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SubjectID` varchar(255) NOT NULL,
+  `Class` varchar(255) NOT NULL,
+  `Date` date NOT NULL,
+  `Filename` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
