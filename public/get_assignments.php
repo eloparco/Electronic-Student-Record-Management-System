@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $child = $_POST['child'];
 
-    $query = "SELECT SUBJECT.Name, ASSIGNMENT.DateOfAssignment, ASSIGNMENT.DeadlineDate, ASSIGNMENT.Title, ASSIGNMENT.Description FROM ASSIGNMENT, CHILD, SUBJECT WHERE SUBJECT.ID = ASSIGNMENT.SubjectID AND ASSIGNMENT.Class = CHILD.Class AND CHILD.SSN = ?";
+    $query = "SELECT SUBJECT.Name, ASSIGNMENT.DateOfAssignment, ASSIGNMENT.DeadlineDate, ASSIGNMENT.Title, ASSIGNMENT.Description, ASSIGNMENT.Attachment FROM ASSIGNMENT, CHILD, SUBJECT WHERE SUBJECT.ID = ASSIGNMENT.SubjectID AND ASSIGNMENT.Class = CHILD.Class AND CHILD.SSN = ?";
 
     if(!$db_con){
         echo '{"state" : "error",
@@ -36,13 +36,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "result" : "Database error (Query execution)." }';
     }
 
-    mysqli_stmt_bind_result($prep_query, $Subject, $Date, $Deadline, $Title, $Description);
+    mysqli_stmt_bind_result($prep_query, $Subject, $Date, $Deadline, $Title, $Description, $Attachment);
 
     $rows = array();
 
     while (mysqli_stmt_fetch($prep_query)) {
         //echo $Class.$Name.$ID.$SSN;
-        $fields = array("Subject" => $Subject, "Date" => $Date, "Deadline" => $Deadline, "Title" => $Title, "Description" => $Description);
+        $fields = array("Subject" => $Subject, "Date" => $Date, "Deadline" => $Deadline, "Title" => $Title, "Description" => $Description, "Attachment" => $Attachment);
         $result[] = $fields;
 
     }

@@ -38,7 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die();
             }
 
-            move_uploaded_file($file_tmp,"./uploads/".$file_name);
+            $uploaded = move_uploaded_file($file_tmp,UPLOAD_PATH.$file_name);
+
+            if(!$uploaded){
+                $_SESSION['msg_result'] = "Error moving: ".$file_tmp." to ".UPLOAD_PATH.$file_name;
+                // $_SESSION['msg_result'] = FILE_UPLOAD_ERROR. " File: ".$file_name." uploading failed. ";
+                die();
+            }
+            //copy($file_tmp, PATH_UPLOADS.$file_name);
 
             $fields = explode("_", $_POST['class_sID_ssn']);
             
@@ -49,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $date =$_POST['date'];
             $title = $_POST['title'];
             $subtitle = $_POST['subtitle'];
-            $attachment = "upload/".$_FILES["file"]["name"];
+            $attachment = "uploads/".$_FILES["file"]["name"];
 
             $retval = recordAssignment($class, $subjectID, $date, $title, $subtitle, $attachment);
 

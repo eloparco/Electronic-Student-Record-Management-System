@@ -54,6 +54,9 @@ define("ASSIGNMENT_RECORDING_OK", "Assignment correctly recorded.");
 define("WRONG_FILE_EXTENSION","File type not supported");
 define("FILE_TOO_BIG","The file size is too big. Max size: 2MB");
 define("FILE_ALREADY_EXISTS", "The file already exists.");
+define("FILE_UPLOAD_ERROR","Error during file uploading.");
+// Note: Give the following directory R/W rights for "other" group
+define("UPLOAD_PATH", "/opt/lampp/htdocs/Electronic-Student-Record-Management-System/public/uploads/");
 
 function connect_to_db($ini_path_test='') {
     $ini_path = '../config/database/database.ini';
