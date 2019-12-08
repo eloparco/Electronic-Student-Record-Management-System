@@ -969,6 +969,29 @@ function get_list_of_classes($ini_path='') {
     return $classes;
 }
 
+function recordAssignment($class, $subject, $date, $title, $description, $attachment){        
+    $con = connect_to_db();
+
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            if(!$prep = mysqli_prepare($con, "INSERT INTO ASSIGNMENT(Class, SubjectID, DateOfAssignment, DeadlineDate, Title, Description, Attachment) VALUES (?, ?, CURRENT_DATE, ?, ?, ?, ?);")) 
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "ssssss", $class, $subject, $date, $title, $description, $attachment)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return ASSIGNMENT_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            return ASSIGNMENT_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
+
 
 function uploadSupportMaterialFile($class, $subjectID, $teacher, $ini_path=''){    
 

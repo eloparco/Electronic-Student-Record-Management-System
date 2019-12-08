@@ -156,7 +156,7 @@ if(isset($_SESSION['msg_result'])) {
         maxDate.setDate( maxDate.getDate() + (5 - minDay) );
 
         $('#dataSelection').datepicker({
-            format: 'dd/mm/yyyy',
+            format: 'yyyy-mm-dd',
             startDate: minDate,
             endDate: maxDate,
             todayBtn: true,
@@ -184,7 +184,7 @@ if(isset($_SESSION['msg_result'])) {
         <?php 
           if(isset($_SESSION['msg_result'])) {
           if(!empty($_SESSION['msg_result'])) {
-            if($_SESSION['msg_result'] != TOPIC_RECORDING_OK){ ?>
+            if($_SESSION['msg_result'] != ASSIGNMENT_RECORDING_OK){ ?>
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
           <?php } else { ?>
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>

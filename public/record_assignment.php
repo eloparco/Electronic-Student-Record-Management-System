@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['class_sID_ssn']) && isset($_POST['date']) && isset($_POST['title']) && isset($_POST['subtitle']) && 
     !empty($_POST['class_sID_ssn']) && !empty($_POST['date'])  && !empty($_POST['title']) && !empty($_POST['subtitle'])){
 
-        if(isset($_FILES['file'])){
+        if(isset($_FILES['file']) && !empty(strtolower(end(explode('.',$_FILES['file']['name']))))){
             // Get file data
             $file_name = $_FILES['file']['name'];
             $file_size =$_FILES['file']['size'];
@@ -39,25 +39,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             move_uploaded_file($file_tmp,"./uploads/".$file_name);
+
+            $fields = explode("_", $_POST['class_sID_ssn']);
             
-            $_SESSION['msg_result'] = "File uploaded, path: /upload/".$_FILES["file"]["name"];
+            $class = $fields[0];
+            $subjectID = $fields[1];
+            $teacher = $fields[2];
+
+            $date =$_POST['date'];
+            $title = $_POST['title'];
+            $subtitle = $_POST['subtitle'];
+            $attachment = "upload/".$_FILES["file"]["name"];
+
+            $retval = recordAssignment($class, $subjectID, $date, $title, $subtitle, $attachment);
+
+            $_SESSION['msg_result'] = $retval;
+
             die();
+        } else {
+            $fields = explode("_", $_POST['class_sID_ssn']);
+            
+            $class = $fields[0];
+            $subjectID = $fields[1];
+            $teacher = $fields[2];
+
+            $date =$_POST['date'];
+            $title = $_POST['title'];
+            $subtitle = $_POST['subtitle'];
+            $attachment = "NULL";
+
+            $retval = recordAssignment($class, $subjectID, $date, $title, $subtitle, $attachment);
+
+            $_SESSION['msg_result'] = $retval;
         }
-
-        $fields = explode("_", $_POST['class_sID_ssn']);
-        
-        $class = $fields[0];
-        $subjectID = $fields[1];
-        $teacher = $fields[2];
-
-        $date =$_POST['date'];
-        $title = $_POST['title'];
-        $subtitle = $_POST['subtitle'];
-
-        // TODO: Add to utility
-        // $retval = recordAssignment();
-
-        $_SESSION['msg_result'] = $retval;
 
     } else {
         $_SESSION['msg_result'] = ASSIGNMENT_RECORDING_INCORRECT;
