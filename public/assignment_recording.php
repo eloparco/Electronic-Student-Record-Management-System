@@ -177,7 +177,13 @@ if(isset($_SESSION['msg_result'])) {
                  <input id="attachment" type="file" name="file">
                 <label for="attachment">Select a file</label>
             </div>
+        </div>
 
+        <!-- Assignment already loaded -->
+        <div>
+            <label for="assignments">Assignment already uploaded</label>
+                <ul id="assignments" class="list-group">
+        </select>
         </div>
 
         <!-- POST Method response -->
@@ -193,6 +199,44 @@ if(isset($_SESSION['msg_result'])) {
           $_SESSION['msg_result'] = "";} ?>    
           <button class="btn btn-lg btn-primary btn-block" type="submit" id="confirm">Confirm</button>
     </form>
+
+
+    <script>
+        $( document ).ready(function() {
+            $.ajax({
+                    url: "get_all_assignment.php",
+                    data: {
+                    },
+
+                    type: "POST",
+                    success: function(data, state) {
+                        var JSONdata = $.parseJSON(data);
+
+                        if(JSONdata['state'] != "ok"){
+                            console.log("Error: "+state);
+                            return;
+                        }
+
+                        var resJSON = JSONdata['result'];
+
+                        for(var i=0; i<resJSON.length; i++){
+                            var item = resJSON[i];
+
+                            // $fields = array("Class" => $Class, "Date" => $Date, "Deadline" => $Deadline, 
+                            //                 "Title" => $Title, "Description" => $Description, "Attachment" => $Attachment);
+        
+                            $("#assignments").append("<li>Title: "+item['Title']+" Date: "+item['Date']+" Deadline: "+item['Deadline']+"</li>");
+                            
+                        }
+                    },
+                    error: function(request, state, error) {
+                        console.log("State error " + state);
+                        console.log("Value error " + error);
+                    }
+            });
+        });
+    </script>
+
   </div>
   </body>
   <!-- Icons -->
