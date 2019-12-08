@@ -48,6 +48,12 @@ define("DEFAULT_PASSWORD_LENGTH", 8);
 define("COMMUNICATION_RECORDING_INCORRECT", "Please fill all the fields.");
 define("COMMUNICATION_RECORDING_FAILED", "Communication recording failed.");
 define("COMMUNICATION_RECORDING_OK","Communication correctly recorded.");
+define("ASSIGNMENT_RECORDING_INCORRECT", "Please fill all the fields.");
+define("ASSIGNMENT_RECORDING_FAILED", "Assignment recording failed.");
+define("ASSIGNMENT_RECORDING_OK", "Assignment correctly recorded.");
+define("WRONG_FILE_EXTENSION","File type not supported");
+define("FILE_TOO_BIG","The file size is too big. Max size: 2MB");
+define("FILE_ALREADY_EXISTS", "The file already exists.");
 
 function connect_to_db($ini_path_test='') {
     $ini_path = '../config/database/database.ini';
