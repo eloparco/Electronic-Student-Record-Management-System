@@ -103,13 +103,13 @@ if(isset($_SESSION['msg_result'])) {
         </div>        
         
     
-      <!-- Date picker -->
+      <!-- Date picker 
       <div class="form-group-class">
         <label for="dataSelection" class="col-form-label">Select a date</label>
         <input type="text" class="form-control" id="dataSelection" name="date">
       </div>
 
-      <!-- Setup datepicler -->
+      Setup datepicler
       <script>
         var minDate=new Date();
         var minDay=minDate.getDay();
@@ -130,6 +130,7 @@ if(isset($_SESSION['msg_result'])) {
         });
         
       </script>
+      -->
 
         <!-- POST Method response -->
         <?php 
