@@ -13,9 +13,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fields = explode("_", $_POST['class_sID_ssn']);
         $class = mySanitizeString($fields[0]);
         $subjectID = mySanitizeString($fields[1]);
-        $teacher = mySanitizeString($fields[2]);        
+        //$teacher = mySanitizeString($fields[2]);        
 
-        $_SESSION['msg_result'] = uploadSupportMaterialFile($class, $subjectID, $teacher);  
+        //Get the temporary filename
+        $userfile_tmp = $_FILES['userfile']['tmp_name'];
+
+        //Get Original filename
+        $userfile_name = $_FILES['userfile']['name'];
+
+        //Get File Size
+        $file_size = $_FILES['userfile']['size'];
+
+        $_SESSION['msg_result'] = uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_name, $file_size);  
 
     } else {
         $_SESSION['msg_result'] = "Upload Failed.";
