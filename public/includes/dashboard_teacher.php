@@ -41,5 +41,12 @@
             Publish Material
         </a>
         </li>
+        <li class="nav-item">
+        <a id="recordAssignment" class="nav-link" href="assignment_recording.php">
+            <span data-feather="file-text"></span>
+            Record assignment
+        </a>
+        </li>
+        
     </ul>
 </div>
