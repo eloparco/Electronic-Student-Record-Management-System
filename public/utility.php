@@ -964,33 +964,26 @@ function get_list_of_classes($ini_path='') {
 }
 
 
-function uploadSupportMaterialFile($class, $subjectID, $teacher, $ini_path=''){    
+function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_name, $file_size, $ini_path=''){    
 
-        //Limit max dimension file
-        if ($_FILES['userfile']['size'] > 4194304) 
-            return 'File size is higher than 4MB.';
+        //Limit max dimension file (20MB)
+        if ($file_size > 20971520) 
+            return 'File size is higher than 20MB.';
 
         //check valid extension
-        $ext_ok = array('doc', 'docx', 'pdf', 'ppt', 'pptx');
-        $temp = explode('.', $_FILES['userfile']['name']);
+        $ext_ok = array('doc', 'docx', 'pdf', 'ppt', 'pptx', 'txt');
+        $temp = explode('.', $userfile_name);
         $ext = end($temp);
         if (!in_array($ext, $ext_ok)) {
             return 'file extension is not supported.';    
-        }
-          
+        }          
+
         //create the directory if not exists
         if (!file_exists('../support_material')) {
             mkdir('../support_material', 0777, true);
-        }    
-
+        }       
         //path to save files
-        $uploaddir = '../support_material/';
-
-        //Get the temporary filename
-        $userfile_tmp = $_FILES['userfile']['tmp_name'];
-
-        //Get Original filename
-        $userfile_name = $_FILES['userfile']['name'];
+        $uploaddir = '../support_material/';  
 
         //needed for unit test, to find the correct path to connect to db
         $db_con = connect_to_db($ini_path);
@@ -999,7 +992,7 @@ function uploadSupportMaterialFile($class, $subjectID, $teacher, $ini_path=''){
             mysqli_autocommit($db_con, false);
             //table support_material locked
             //check if filename for specific class and subjectId already exists
-            if(!$result = mysqli_query($db_con, 'SELECT COUNT(*) as cnt FROM support_material WHERE SubjectID='.$subjectID.' AND Class="'.$class.'" AND Filename="'.$userfile_name.'" FOR UPDATE;'))
+            if(!$result = mysqli_query($db_con, 'SELECT COUNT(*) as cnt FROM SUPPORT_MATERIAL WHERE SubjectID='.$subjectID.' AND Class="'.$class.'" AND Filename="'.$userfile_name.'" FOR UPDATE;'))
                 throw new Exception('Please retry later.');            
             
             $row = mysqli_fetch_array($result); 
@@ -1007,7 +1000,7 @@ function uploadSupportMaterialFile($class, $subjectID, $teacher, $ini_path=''){
             if($cnt>0)
                 throw new Exception('File already exists, please select another one.'); 
 
-            if(!$result = mysqli_query($db_con, 'INSERT INTO support_material(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");'))
+            if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");'))
                 throw new Exception('Please retry later.');
             
             if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;'))
