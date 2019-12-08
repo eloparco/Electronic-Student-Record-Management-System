@@ -4,14 +4,14 @@ session_start();
 header('Location: communication_recording.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['date']) && isset($_POST['title']) && isset($_POST['subtitle']) && 
-    !empty($_POST['date']) && !empty($_POST['title']) && !empty($_POST['subtitle'])){
+    if(isset($_POST['title']) && isset($_POST['subtitle']) && 
+    !empty($_POST['title']) && !empty($_POST['subtitle'])){
 
-        $date =$_POST['date'];
+        // $date =$_POST['date'];
         $title = $_POST['title'];
         $subtitle = $_POST['subtitle'];
 
-        $retval = recordCommunication($date,$title, $subtitle);
+        $retval = recordCommunication($title, $subtitle);
         $_SESSION['msg_result'] = $retval;
 
     } else {

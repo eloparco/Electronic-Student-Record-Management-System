@@ -689,14 +689,14 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
     }
 }
 
-function recordCommunication($date,$title, $subtitle, $ini_path=''){
+function recordCommunication($title, $subtitle, $ini_path=''){
     $con = connect_to_db($ini_path);
 
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "INSERT INTO COMMUNICATION (Title, Description, Date) VALUES (?, ?, ?);")) 
+            if(!$prep = mysqli_prepare($con, "INSERT INTO COMMUNICATION (Title, Description, Date) VALUES (?, ?, CURRENT_DATE);")) 
                 throw new Exception();
-            if(!mysqli_stmt_bind_param($prep, "sss", $title, $subtitle, $date)) 
+            if(!mysqli_stmt_bind_param($prep, "ss", $title, $subtitle)) 
                 throw new Exception();
             if(!mysqli_stmt_execute($prep)) 
                 throw new Exception();
@@ -705,8 +705,8 @@ function recordCommunication($date,$title, $subtitle, $ini_path=''){
             }
         } catch (Exception $e) {
             mysqli_close($con);
-            return COMMUNICATION_RECORDING_FAILED." ".$e;
-            // eturn COMMUNICATION_RECORDING_FAILED
+            //return COMMUNICATION_RECORDING_FAILED." ".$e;
+            return COMMUNICATION_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;
