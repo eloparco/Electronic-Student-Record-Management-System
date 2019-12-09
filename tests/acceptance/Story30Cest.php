@@ -91,7 +91,6 @@ class Story30Cest
         $I->click('Setup accounts');
         
         // insert new account
-        // $I->waitForElement('#lessonRecordingTitle', 10);
         $I->fillField('ssn', 'FLCRRT77B43L219Q');
         $I->fillField('name', 'Roberta');
         $I->fillField('surname', 'Filicaro');
@@ -106,6 +105,21 @@ class Story30Cest
         $I->click('Submit');
         $I->wait(3);
 
+        // insert new account
+        $I->fillField('ssn', 'FLCRRT77B43L219Q');
+        $I->fillField('name', 'Roberta');
+        $I->fillField('surname', 'Filicaro');
+        $I->fillField('username', 'r.filicaro@parent.esrmsystem.com');
+
+        $I->wait(3);
+        $I->click('input[id="input-type-teacher"]');
+        $I->wait(2);
+        $I->waitForElementClickable('#confirmInsertAccount', 10);
+        $I->wait(2);
+
+        $I->click('Submit');
+        $I->wait(3);
+        
         // check if database updated
         $I->see('The account has already this role.');
     }
