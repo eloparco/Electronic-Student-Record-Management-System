@@ -19,7 +19,9 @@ if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
 }
 
 if(isset($_SESSION['msg_result'])) {
-    if(!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_PARENT_OK ||
+    if(!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_PARENT_OK || 
+        $_SESSION['msg_result'] == INSERT_PARENT_OK || $_SESSION['msg_result'] == PUBLISH_TIMETABLE_OK ||
+        $_SESSION['msg_result'] == COMMUNICATION_RECORDING_OK ||
         $_SESSION['msg_result'] == LOGIN_SECRETARY_OK || $_SESSION['msg_result'] == LOGIN_TEACHER_OK ||
         $_SESSION['msg_result'] == LOGIN_PRINCIPAL_OK || $_SESSION['msg_result'] == LOGIN_ADMIN_OK)) { 
         $_SESSION['msg_result'] = '';
