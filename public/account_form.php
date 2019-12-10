@@ -143,12 +143,35 @@ if(isset($_SESSION['msg_result'])) {
           var JSONdata = $.parseJSON(data);
           if(JSONdata['state'] != "ok") {
             console.log("Error: " + state);
-            return;
+            // return;
           }
           var resJSON = JSONdata['result'];
-          $("#inputName").val(resJSON['Name']);
-          $("#inputSurname").val(resJSON['Surname']);
-          $("#inputEmail").val(resJSON['Email']);
+          var retJSON = JSONdata['state'];
+
+          // alert(retJSON);
+
+          if(retJSON !== "error"){
+            $("#inputName").val(resJSON['Name']);
+            $("#inputSurname").val(resJSON['Surname']);
+            $("#inputEmail").val(resJSON['Email']);
+            
+            // Disable the input
+            $("#inputName").prop('disabled', true);
+            $("#inputSurname").prop('disabled', true);
+            $("#inputEmail").prop('disabled', true);
+            
+          } else {
+            $("#inputName").val("");
+            $("#inputSurname").val("");
+            $("#inputEmail").val("");
+
+            // Enable input
+            $("#inputName").prop('disabled', false);
+            $("#inputSurname").prop('disabled', false);
+            $("#inputEmail").prop('disabled', false);
+            
+          }
+
         },
         error: function(request, state, error) {
           console.log("State error " + state);
