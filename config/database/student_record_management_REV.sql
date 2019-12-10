@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Dic 08, 2019 alle 12:58
+-- Creato il: Dic 10, 2019 alle 13:23
 -- Versione del server: 10.4.8-MariaDB
 -- Versione PHP: 7.3.10
 
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 --
 
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
-('BRBSMN04A24L219R', 'Simone', 'Barbero', 'BRBGPP57M04L219W', NULL, '1B'),
+('BRBSMN04A24L219R', 'Simone', 'Barbero', 'BRBGPP57M04L219W', NULL, '1A'),
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
 ('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A');
 
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `COMMUNICATION` (
   `Description` text NOT NULL,
   `Date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `COMMUNICATION`
@@ -146,7 +146,9 @@ CREATE TABLE IF NOT EXISTS `COMMUNICATION` (
 
 INSERT INTO `COMMUNICATION` (`id`, `Title`, `Description`, `Date`) VALUES
 (2, 'title', 'subtitle', '2019-12-05'),
-(3, 'Prova', 'Prova 2', '2019-12-11');
+(3, 'Prova', 'Prova 2', '2019-12-11'),
+(4, 'title', 'subtitle', '2019-12-08'),
+(5, 'title', 'sub', '2019-12-08');
 
 -- --------------------------------------------------------
 
@@ -372,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `USER_TYPE` (
 --
 
 INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES
-('BLLDRD66S07L219N', 'ADMIN'),
+('BLLDRD66S07L219N', 'SYS_ADMIN'),
 ('BRBGPP57M04L219W', 'PARENT'),
 ('BRBGPP57M04L219W', 'TEACHER'),
 ('FLCGNN62R19L219X', 'SECRETARY_OFFICER'),
