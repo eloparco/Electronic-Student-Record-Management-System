@@ -78,6 +78,7 @@ class Story12Cest{
         ]);
     }
 
+    /*
     public function testInsertCommunicationNonAsciiTitle(\AcceptanceTester $I){
         $I->seeInCurrentUrl('/user_secretary.php');
         // go to the correct menu
@@ -101,5 +102,6 @@ class Story12Cest{
             'Date' => date('Y-m-d')
         ]);
     }
+    */
 }
 ?>

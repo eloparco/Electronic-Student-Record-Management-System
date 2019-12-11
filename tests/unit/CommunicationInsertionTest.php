@@ -35,13 +35,6 @@ class CommunicationInsertionTest extends \Codeception\Test\Unit {
         $result = recordCommunication($title, $description, $this->ini_path);
         $this->assertStringStartsWith(COMMUNICATION_RECORDING_FAILED, $result);
     }
-
-    public function testCommNonAsciiTitle(){
-        $title = '#\$/()*#&@$(&@';
-        $description = "First school communication in date " . date('j F Y');
-        $result = recordCommunication($title, $description, $this->ini_path);
-        $this->assertStringStartsWith(COMMUNICATION_RECORDING_FAILED, $result);
-    }
 }
 
 ?>
