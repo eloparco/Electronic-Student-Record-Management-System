@@ -26,18 +26,18 @@
         ?>
         <div class="dropdown ml-auto">
 			<a id="dRoles" role="button" data-toggle="dropdown" href="#">
-			<button type="button" class="btn btn-warning" id="username" value="<?php echo $_SESSION['mySession']; ?>">
+			<button type="button" class="btn btn-warning dropdown-toggle" id="username" value="<?php echo $_SESSION['mySession']; ?>">
             <?php echo $_SESSION['mySession']; ?>
             </button>
-			<b class="caret"></b>
+			<span class="caret"></span>
 			</a>
-            <ul class="dropdown-menu ml-auto" role="menu" aria-labelledby="dRoles" id="rolesList">
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dRoles" id="rolesList">
             <?php
                 foreach($roles as $role){
-                    echo '<li class="nav-item"><a class="role" href="' . name_page($role) . '">' . $role . '</a></li>'."\n";
+                    echo '<li class="dropdown-item"><a id="userTypeLink" class="role" href="' . name_page($role) . '">' . $role . '</a></li>'."\n";
                 }
             ?>
-            </ul>
+            </ul>   
         </div>
         <?php
             }

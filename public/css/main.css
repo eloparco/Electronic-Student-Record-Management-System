@@ -60,3 +60,20 @@
 #visualizeMarksImg {
     margin-bottom: 40px;
 }
+
+#userTypeLink:hover {
+    text-decoration: none;
+}
+
+#userTypeLink:active {
+    text-decoration: none;
+}
+
+#userTypeLink {
+    display: block;
+    text-decoration: none;
+}
+
+#userTypeLink:visited {
+    color: #303030;
+}
