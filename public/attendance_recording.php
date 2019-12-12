@@ -188,6 +188,11 @@ if (isset($_GET['msg_result'])) {
 
                 for(var i=0; i<resJSON.length; i++){
                 var item = resJSON[i];
+                var leavingHour = item['ExitHour'];
+
+                if(leavingHour === null || leavingHour === 6)
+                    leavingHour="";
+
                 if(item['Presence'] == "ABSENT"){ // Absent
                     $('#classTable > tbody:last-child').append(
                             '<tr><form id='+item['SSN']+'>'
@@ -207,7 +212,7 @@ if (isset($_GET['msg_result'])) {
                             // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio"  value="late1h"></div></td>'
                             // +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio"  value="leave"></td>'
                                 +'<td><div class="input-group date">'
-                                    +'<input type="text" class="form-control" id="'+item["SSN"]+'tp" name="'+item["SSN"]+'earlyleavingText" disabled="disabled"/>'
+                                    +'<input type="text"  pattern="[0-5]" class="form-control" id="'+item["SSN"]+'tp" name="'+item["SSN"]+'earlyleavingText" disabled="disabled" value="'+leavingHour+'"/>'
                                     +'<span class="input-group-addon">'
                                         +'<span class="glyphicon glyphicon-time"></span>'
                                     +'</span>'
@@ -233,7 +238,7 @@ if (isset($_GET['msg_result'])) {
                             // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio"  value="late1h"></div></td>'
                             // +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio"  value="leave"></td>'
                                 +'<td><div class="input-group date">'
-                                    +'<input type="text" class="form-control" id="'+item["SSN"]+'tp" name="'+item["SSN"]+'earlyleavingText" disabled="disabled"/>'
+                                    +'<input type="text"  pattern="[0-5]" class="form-control" id="'+item["SSN"]+'tp" name="'+item["SSN"]+'earlyleavingText" disabled="disabled" value="'+leavingHour+'"/>'
                                     +'<span class="input-group-addon">'
                                         +'<span class="glyphicon glyphicon-time"></span>'
                                     +'</span>'
@@ -259,8 +264,7 @@ if (isset($_GET['msg_result'])) {
                             // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio"  value="late1h" checked></div></td>'
                             // +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio"  value="leave"></td>'
                                 +'<td><div class="input-group date">'
-                                    +'<input type="text" class="form-control" id="'+item["SSN"]+'tp" name="'+item["SSN"]+'earlyleavingText" disabled="disabled"/>'
-                                    +'<span class="input-group-addon">'
+                                    +'<input type="text"  pattern="[0-5]" class="form-control" id="'+item["SSN"]+'tp" name="'+item["SSN"]+'earlyleavingText" disabled="disabled" value="'+leavingHour+'"/>'
                                         +'<span class="glyphicon glyphicon-time"></span>'
                                     +'</span>'
                                 +'</div>'
@@ -285,7 +289,7 @@ if (isset($_GET['msg_result'])) {
                             // +'<td><div class="form-check"><input onclick="disableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="late60Radio"  value="late1h"></div></td>'
                             // +'<td><div class="form-check"><input onclick="enableHour(\'' + item["SSN"] + '\', this)" class="form-check-input" type="radio" name="'+item["SSN"]+'Radios" id="leavingRadio"  value="leave"></td>'
                                 +'<td><div class="input-group date">'
-                                    +'<input type="text" class="form-control" id="'+item["SSN"]+'tp" name="'+item["SSN"]+'earlyleavingText" disabled="disabled"/>'
+                                    +'<input type="text"  pattern="[0-5]" class="form-control" id="'+item["SSN"]+'tp" name="'+item["SSN"]+'earlyleavingText" disabled="disabled" value="'+leavingHour+'"/>'
                                     +'<span class="input-group-addon">'
                                         +'<span class="glyphicon glyphicon-time"></span>'
                                     +'</span>'
@@ -415,6 +419,12 @@ if (isset($_GET['msg_result'])) {
                         });
                     }else { // early leaving
                         //alert("DEBUG: early leaving");
+                        
+                        if(exitHour < 1 || exitHour >= 6){
+                            alert("Please insert a valid value for field: leaving hour, in range: [1-5]");
+                            return;
+                        }
+
                         $.ajax({
                             url: "register_leaving.php",
                             data: { "SSN": SSN,

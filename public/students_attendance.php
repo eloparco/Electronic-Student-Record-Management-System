@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $class = $_POST['class'];
 
-    $query = "SELECT CHILD.Name, CHILD.Surname, CHILD.SSN, A.Presence FROM CHILD LEFT JOIN (SELECT * FROM ATTENDANCE WHERE ATTENDANCE.Date = CURRENT_DATE) A ON A.StudentSSN = CHILD.SSN WHERE CHILD.Class = ?;";
+    $query = "SELECT CHILD.Name, CHILD.Surname, CHILD.SSN, A.Presence, A.ExitHour FROM CHILD LEFT JOIN (SELECT * FROM ATTENDANCE WHERE ATTENDANCE.Date = CURRENT_DATE) A ON A.StudentSSN = CHILD.SSN WHERE CHILD.Class = ?;";
     
     if(!$db_con){
         echo '{"state" : "error",
@@ -37,13 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "result" : "Database error (Query execution)." }';
     }
 
-    mysqli_stmt_bind_result($prep_query, $Name, $Surname, $SSN, $Presence);
+    mysqli_stmt_bind_result($prep_query, $Name, $Surname, $SSN, $Presence, $ExitHour);
 
     $rows = array();
     $students = array();
     
     while (mysqli_stmt_fetch($prep_query)) {
-        $fields = array("SSN" => $SSN, "Name" => $Name, "Surname" => $Surname, "Presence" => $Presence);
+        $fields = array("SSN" => $SSN, "Name" => $Name, "Surname" => $Surname, "Presence" => $Presence, "ExitHour" => $ExitHour);
         $students[] = $fields;
     }
 
