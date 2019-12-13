@@ -975,8 +975,8 @@ function get_list_of_classes($ini_path='') {
     return $classes;
 }
 
-function recordAssignment($class, $subject, $date, $title, $description, $attachment){        
-    $con = connect_to_db();
+function recordAssignment($class, $subject, $date, $title, $description, $attachment, $ini_path=''){        
+    $con = connect_to_db($ini_path);
 
     if($con && mysqli_connect_error() == NULL) {
         try {

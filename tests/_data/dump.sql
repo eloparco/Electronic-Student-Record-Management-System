@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `ASSIGNMENT` (
   `DeadlineDate` date NOT NULL,
   `Title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Description` varchar(400) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Attachment` text COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`Class`,`SubjectID`,`DeadlineDate`),
   KEY `SubjectID` (`SubjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
