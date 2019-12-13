@@ -413,6 +413,13 @@ INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES
 --
 
 --
+-- Constraints for table `ASSIGNMENT`
+--
+ALTER TABLE `ASSIGNMENT`
+  ADD CONSTRAINT `assignment_ibfk_1` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`),
+  ADD CONSTRAINT `assignment_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`);
+
+--
 -- Constraints for table `CHILD`
 --
 ALTER TABLE `CHILD`
