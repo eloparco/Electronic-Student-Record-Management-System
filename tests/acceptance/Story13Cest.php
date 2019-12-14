@@ -50,6 +50,7 @@ class Story13Cest{
         $I->waitForElementClickable('#confirm', 10);
         $I->click('Confirm');
         $I->cancelPopup();
+        $I->cancelPopup();
         $I->dontSeeInDatabase('ATTENDANCE', [
             'StudentSSN' => 'PNCRCR02C13L219K',
             'Date' => date('Y-m-d'),
@@ -58,7 +59,8 @@ class Story13Cest{
         $I->waitForElementClickable('#PNCRCR02C13L219Ktp');
         $I->fillField('#PNCRCR02C13L219Ktp', '6');
         $I->click('Confirm');
-        $I->tryToClick('OK', '.alert');
+        $I->cancelPopup();
+        $I->cancelPopup();
         $I->dontSeeInDatabase('ATTENDANCE', [
             'StudentSSN' => 'PNCRCR02C13L219K',
             'Date' => date('Y-m-d'),
@@ -74,6 +76,7 @@ class Story13Cest{
         $I->waitForElementClickable('#confirm', 10);
         $I->click('Confirm');
         $I->cancelPopup();
+        $I->cancelPopup();
         $I->dontSeeInDatabase('ATTENDANCE', [
             'StudentSSN' => 'MNDLRT04E14L219I',
             'Date' => date('Y-m-d'),
@@ -88,6 +91,7 @@ class Story13Cest{
         $I->fillField('#MNDLRT04E14L219Itp', '9');
         $I->waitForElementClickable('#confirm', 10);
         $I->click('Confirm');
+        $I->cancelPopup();
         $I->cancelPopup();
         $I->dontSeeInDatabase('ATTENDANCE', [
             'StudentSSN' => 'MNDLRT04E14L219I',
