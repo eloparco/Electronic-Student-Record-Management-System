@@ -131,6 +131,7 @@ class UtilityTest extends \Codeception\Test\Unit
     public function testRecordTopicSuccess()
     {
         $day_of_week = date('l', strtotime('now'));
+
         if ($day_of_week === "Sunday")
             $this->assertEquals(TOPIC_RECORDING_WRONG_DATE, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
         else
