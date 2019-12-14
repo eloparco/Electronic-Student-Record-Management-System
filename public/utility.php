@@ -926,9 +926,11 @@ function insert_timetable($class, $timetable, $ini_path=''){
                     if ($subject_id === NULL && $subject !== "-")
                         return SUBJECT_INCORRECT;
 
-                    if(!$prep = mysqli_prepare($con, "INSERT INTO CLASS_TIMETABLE(Class, DayOfWeek, Hour, SubjectID) VALUES(?, ?, ?, ?);")) 
+                    if(!$prep = mysqli_prepare($con, "INSERT INTO CLASS_TIMETABLE(Class, DayOfWeek, Hour, SubjectID) 
+                                                        VALUES(?, ?, ?, ?) 
+                                                        ON DUPLICATE KEY UPDATE SubjectID=?;")) 
                         throw new Exception();
-                    if(!mysqli_stmt_bind_param($prep, "ssii", $class, $days_of_week[$day_counter], $start_hour, $subject_id)) 
+                    if(!mysqli_stmt_bind_param($prep, "ssiii", $class, $days_of_week[$day_counter], $start_hour, $subject_id, $subject_id)) 
                         throw new Exception();
                     if(!mysqli_stmt_execute($prep)) 
                         throw new Exception();
