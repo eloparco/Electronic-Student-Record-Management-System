@@ -59,7 +59,6 @@ class Story11Cest{
         $I->attachFile('#attachment', $attachName);
         $I->waitForElementClickable('#confirm');
         $I->click('Confirm');
-        $I->wait(30);
         $I->seeInDatabase('ASSIGNMENT', [
             'Class' => '1A',
             'SubjectID' => 5,
@@ -91,7 +90,6 @@ class Story11Cest{
         $I->attachFile('#attachment', $attachName);
         $I->waitForElementClickable('#confirm');
         $I->click('Confirm');
-        $I->wait(30);
         $I->dontSeeInDatabase('ASSIGNMENT', [
             'Class' => '1A',
             'SubjectID' => 5,
@@ -122,7 +120,6 @@ class Story11Cest{
         $I->attachFile('#attachment', $attachName);
         $I->waitForElementClickable('#confirm');
         $I->click('Confirm');
-        $I->wait(30);
         $I->dontSeeInDatabase('ASSIGNMENT', [
             'Class' => '1A',
             'SubjectID' => 5,
@@ -155,7 +152,6 @@ class Story11Cest{
         $I->attachFile('#attachment', $attachName);
         $I->waitForElementClickable('#confirm');
         $I->click('Confirm');
-        $I->wait(30);
         $I->dontSeeInDatabase('ASSIGNMENT', [
             'Class' => '1A',
             'SubjectID' => 5,
@@ -165,7 +161,7 @@ class Story11Cest{
             'Description' => 'Body of test assignment: description 5',
             'Attachment' => "uploads/".$attachName
         ]);
-        $I->see(ASSIGNMENT_RECORDING_OK);
+        $I->see(ASSIGNMENT_RECORDING_FAILED);
         unlink($tmpFileName);
     }
 }
