@@ -118,7 +118,7 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $inexistentSubjectID = 10000;
         $negativeSubjectID = -2;
         $correctClass = "1A";
-        $wrongClass = "1B";
+        $wrongClass = "1C";
         $inexistentClass = "8Z";
         $score = 6.75;
         $negativeScore = -2.25;

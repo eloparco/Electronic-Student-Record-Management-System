@@ -654,7 +654,7 @@ function isInThisWeek($date) {
     // $date = strtotime($date);
     $FirstDay = date("d/m/Y", strtotime('sunday last week'));  
     $LastDay = date("d/m/Y", strtotime('sunday this week'));  
-    return $date > $FirstDay && $date < $LastDay;
+    return $date > $FirstDay && $date <= $LastDay;
 }
 
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
@@ -714,6 +714,8 @@ function recordCommunication($title, $subtitle, $ini_path=''){
 
 function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
     if(!isInThisWeek($date))
+        return MARK_RECORDING_FAILED;
+    if($score <= 0 || $score > 10)
         return MARK_RECORDING_FAILED;
 
     $con = connect_to_db($ini_path);
@@ -975,6 +977,10 @@ function get_list_of_classes($ini_path='') {
 
 function recordAssignment($class, $subject, $date, $title, $description, $attachment, $ini_path=''){        
     $con = connect_to_db($ini_path);
+    $today = date('Y-m-d');
+    if($date <= $today){
+        return ASSIGNMENT_RECORDING_FAILED;
+    }
 
     if($con && mysqli_connect_error() == NULL) {
         try {
