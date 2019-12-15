@@ -654,7 +654,7 @@ function isInThisWeek($date) {
     // $date = strtotime($date);
     $FirstDay = date("d/m/Y", strtotime('sunday last week'));  
     $LastDay = date("d/m/Y", strtotime('sunday this week'));  
-    return $date > $FirstDay && $date <= $LastDay;
+    return $date > $FirstDay && $date < $LastDay;
 }
 
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {

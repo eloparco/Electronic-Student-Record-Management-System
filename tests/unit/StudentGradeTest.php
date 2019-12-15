@@ -26,8 +26,13 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $inexistentClass = "8Z";
         $score = 6.75;
         $negativeScore = -2.25;
+        $today = date('l');
         $result = recordMark($correctSSN, $subjectID, date('d/m/Y'), $correctClass, $score, $ini_path);
-        $this->assertEquals("Mark correctly recorded.", $result);
+        if($today !== 'Sunday'){
+            $this->assertEquals(MARK_RECORDING_OK, $result);
+        } else {
+            $this->assertEquals(MARK_RECORDING_FAILED, $result);
+        }
     }
 
     public function testWrongSSN(){
@@ -43,7 +48,7 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $score = 6.75;
         $negativeScore = -2.25;
         $result = recordMark($wrongSSN, $subjectID, date('d/m/Y'), $correctClass, $score, $ini_path);
-        $this->assertEquals("Mark recording failed.", $result);
+        $this->assertEquals(MARK_RECORDING_FAILED, $result);
     }
 
     public function testWrongSubjectID(){
@@ -59,7 +64,7 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $score = 6.75;
         $negativeScore = -2.25;
         $result = recordMark($correctSSN, $inexistentSubjectID, date('d/m/Y'), $correctClass, $score, $ini_path);
-        $this->assertEquals("Mark recording failed.", $result);
+        $this->assertEquals(MARK_RECORDING_FAILED, $result);
     }
     
     public function testNegativeSubjectID(){
@@ -75,7 +80,7 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $score = 6.75;
         $negativeScore = -2.25;
         $result = recordMark($correctSSN, $negativeSubjectID, date('d/m/Y'), $correctClass, $score, $ini_path);
-        $this->assertEquals("Mark recording failed.", $result);
+        $this->assertEquals(MARK_RECORDING_FAILED, $result);
     }
     
     public function testPreviousWeek(){
@@ -91,7 +96,7 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $score = 6.75;
         $negativeScore = -2.25;
         $result = recordMark($correctSSN, $subjectID, date('d/m/Y', time()-10*24*60*60), $correctClass, $score, $ini_path);
-        $this->assertEquals("Mark recording failed.", $result);
+        $this->assertEquals(MARK_RECORDING_FAILED, $result);
     }
     
     public function testFollowingWeek(){
@@ -107,7 +112,7 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $score = 6.75;
         $negativeScore = -2.25;
         $result = recordMark($correctSSN, $subjectID, date('d/m/Y', time()+10*24*60*60), $correctClass, $score, $ini_path);
-        $this->assertEquals("Mark recording failed.", $result);
+        $this->assertEquals(MARK_RECORDING_FAILED, $result);
     }
     
     public function testWrongClass(){
@@ -123,7 +128,7 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $score = 6.75;
         $negativeScore = -2.25;
         $result = recordMark($correctSSN, $subjectID, date('d/m/Y'), $wrongClass, $score, $ini_path);
-        $this->assertEquals("Mark recording failed.", $result);
+        $this->assertEquals(MARK_RECORDING_FAILED, $result);
     }
     
     public function testNotExistingClass(){
@@ -139,7 +144,7 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $score = 6.75;
         $negativeScore = -2.25;
         $result = recordMark($correctSSN, $subjectID, date('d/m/Y'), $inexistentClass, $score, $ini_path);
-        $this->assertEquals("Mark recording failed.", $result);
+        $this->assertEquals(MARK_RECORDING_FAILED, $result);
     }
     
     public function testNegativeScore(){
@@ -155,7 +160,7 @@ class StudentGradeTest extends \Codeception\Test\Unit {
         $score = 6.75;
         $negativeScore = -2.25;
         $result = recordMark($correctSSN, $subjectID, date('d/m/Y'), $correctClass, $negativeScore, $ini_path);
-        $this->assertEquals("Mark recording failed.", $result);
+        $this->assertEquals(MARK_RECORDING_FAILED, $result);
     }
 }
 
