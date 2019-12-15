@@ -47,7 +47,6 @@ class Story11Cest{
         $I->waitForElementClickable('#dataSelection', 10);
         $I->pressKey('#dataSelection', WebDriverKeys::ESCAPE);
         $I->fillField('#dataSelection', date('Y-m-d', time()+14*24*60*60));
-        print("Try to create tmp file.\n");
         $codecept_dir = codecept_data_dir();
         $attachName = "first_test.txt";
         $tmpFileName = $codecept_dir . $attachName;
@@ -55,7 +54,6 @@ class Story11Cest{
         fwrite($tmpFile, "A blanc line\n");
         fseek($tmpFile, 0);
         fclose($tmpFile);
-        print("Tmp file created.\n");
         $I->attachFile('#attachment', $attachName);
         $I->waitForElementClickable('#confirm');
         $I->click('Confirm');
