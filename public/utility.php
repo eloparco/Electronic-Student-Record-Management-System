@@ -885,6 +885,37 @@ function get_list_presences_class_per_date($class, $date, $ini_path=''){
     mysqli_stmt_close($presences_class_prep);
     return $presences;
 }
+
+# update early exit of children
+function register_early_exit($childSSN, $today_date, $hour_leaving, $ini_path=''){
+    $leaving_query = "INSERT INTO ATTENDANCE(StudentSSN, Date, ExitHour) VALUES(?,?,?) ON DUPLICATE KEY UPDATE ExitHour=?";
+    if(empty($childSSN) || empty($today_date) || empty($hour_leaving)){
+        return "Parameter missing.";
+    }
+    if($today_date !== date('Y-m-d')){
+        return "Cannot register early exits on a different day than today.";
+    }
+    if($hour_leaving <= 0 || $hour_leaving >= 6){
+        return "Exit hour must be between 1 and 5 included.";
+    }
+    $db_con = connect_to_db($ini_path);
+    if(!$db_con){
+        return 'Error in connecting to database. [Register early exits]'."\n";
+    }
+    $leaving_prep = mysqli_prepare($db_con, $leaving_query);
+    if(!$leaving_prep){
+        print('Error in preparting query '.$leaving_query);
+        return 'Check database error:<br>'.mysqli_error($db_con);
+    }
+    if(!mysqli_stmt_bind_param($leaving_prep, "ssii", $childSSN, $today_date, $hour_leaving, $hour_leaving)){
+        return 'Error in binding parameters to leaving_prep.'."\n";
+    }
+    if(!mysqli_stmt_execute($leaving_prep)){
+        return 'Error in executing early exit query. Database error:<br>'.mysqli_error($db_con);
+    }
+    mysqli_stmt_close($leaving_prep);
+    return true;
+}
 ### END Presence report by a teacher
 
 ### Assignments query
@@ -920,6 +951,7 @@ function get_assignment_of_child($childSSN, $ini_path=''){
     mysqli_stmt_close($assignments_prep);
     return $assignments;
 }
+### END assignment (parent) section
 
 // generic debugging function
 function console_log( $data ){

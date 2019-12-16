@@ -420,6 +420,12 @@ INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES
 --
 
 --
+-- Constraints for table `ATTENDANCE`
+--
+ALTER TABLE `ATTENDANCE`
+  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`StudentSSN`) REFERENCES `CHILD` (`SSN`);
+
+--
 -- Constraints for table `ASSIGNMENT`
 --
 ALTER TABLE `ASSIGNMENT`

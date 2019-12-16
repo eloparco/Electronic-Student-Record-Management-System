@@ -1,14 +1,11 @@
 <?php
 define("JSON", "JSON");
 require_once('utility.php');
-$db_con = connect_to_db();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(!isset($_POST['SSN']) || !isset($_POST['Date']) || !isset($_POST['ExitHour'])) {
         echo '{"state" : "error",
         "result" : "Incomplete request."}';
-
-        mysqli_close($db_con);
         exit();
     }
 
@@ -21,33 +18,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "result" : "Param values not admitted for exit hour." }';
     }
 
-    $query = "INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `ExitHour`) VALUES  (?, ?, ?) ON DUPLICATE KEY UPDATE ExitHour = ?";
+    $query_ok = register_early_exit($ssn, $assignDate, $ExitHour);
 
-    if(!$db_con){
-        echo '{"state" : "error",
-        "result" : "Error in connection to database." }';
+    if(is_bool($query_ok) && $query_ok){
+        echo '{"state" : "ok",
+                "result" : "ok"}';
+    } else if(is_string($query_ok)){
+        echo '{"state": "error",
+            "result":' . $query_ok . '}';
+    } else {
+        echo '{"state": "error",
+            "result": "A generic error occurred"}';
     }
-
-    $prep_query = mysqli_prepare($db_con, $query);
-    if(!$prep_query){
-        print('Error in preparing query: '.$prep_query);
-        echo '{"state" : "error",
-        "result" : "Database error." }';
-    }
-    if(!mysqli_stmt_bind_param($prep_query, "ssii", $ssn, $assignDate, $ExitHour, $ExitHour)){
-        echo '{"state" : "error",
-        "result" : "Param binding error." }';
-    }
-    
-
-    if(!mysqli_stmt_execute($prep_query)){
-        echo '{"state" : "error",
-        "result" : "Database error (Query execution)." }';
-    }
-
-    mysqli_stmt_close($prep_query);
-
-    echo '{"state" : "ok",
-            "result" : "ok"}';
 }
 ?>
