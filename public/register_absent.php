@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ssn = $_POST['SSN'];
     $assignDate = $_POST['Date'];
 
-    $query = "INSERT INTO ATTENDANCE (StudentSSN, Date, Presence, ExitHour) VALUES  (?, ?, 'ABSENT', 0) ON DUPLICATE KEY UPDATE Presence = 'ABSENT', ExitHour=0 ;";
+    $query = "INSERT INTO ATTENDANCE (StudentSSN, Date, Presence) VALUES  (?, ?, 'ABSENT') ON DUPLICATE KEY UPDATE Presence = 'ABSENT', ExitHour=6;";
 
     if(!$db_con){
         echo '{"state" : "error",
