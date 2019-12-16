@@ -16,6 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignDate = $_POST['Date'];
     $ExitHour = $_POST['ExitHour'];
 
+    if($ExitHour < 1 || $ExitHour > 6){
+        echo '{"state" : "error",
+            "result" : "Param values not admitted for exit hour." }';
+    }
+
     $query = "INSERT INTO `ATTENDANCE`(`StudentSSN`, `Date`, `ExitHour`) VALUES  (?, ?, ?) ON DUPLICATE KEY UPDATE ExitHour = ?";
 
     if(!$db_con){
