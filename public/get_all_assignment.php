@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     mysqli_stmt_bind_result($prep_query, $Class, $Date, $Deadline, $Title, $Description, $Attachment);
 
-    $rows = array();
+    $result = array();
 
     while (mysqli_stmt_fetch($prep_query)) {
         $fields = array("Class" => $Class, "Date" => $Date, "Deadline" => $Deadline, "Title" => $Title, "Description" => $Description, "Attachment" => $Attachment);

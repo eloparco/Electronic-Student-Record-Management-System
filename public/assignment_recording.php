@@ -180,7 +180,7 @@ if(isset($_SESSION['msg_result'])) {
         </div>
 
         <!-- Assignment already loaded -->
-        <div>
+        <div id="assignments_list">
             <label for="assignments">Assignment already uploaded</label>
                 <ul id="assignments" class="list-group">
         </select>
@@ -218,15 +218,16 @@ if(isset($_SESSION['msg_result'])) {
                         }
 
                         var resJSON = JSONdata['result'];
-
-                        for(var i=0; i<resJSON.length; i++){
-                            var item = resJSON[i];
-
-                            // $fields = array("Class" => $Class, "Date" => $Date, "Deadline" => $Deadline, 
-                            //                 "Title" => $Title, "Description" => $Description, "Attachment" => $Attachment);
-        
-                            $("#assignments").append("<li>Title: "+item['Title']+" Date: "+item['Date']+" Deadline: "+item['Deadline']+"</li>");
-                            
+                        if(resJSON.length === 0){
+                          var assignList = document.getElementById('assignments_list');
+                          assignList.style.display = 'none';
+                        } else {
+                          for(var i=0; i<resJSON.length; i++){
+                              var item = resJSON[i];
+                              // $fields = array("Class" => $Class, "Date" => $Date, "Deadline" => $Deadline, 
+                              //                 "Title" => $Title, "Description" => $Description, "Attachment" => $Attachment);
+                              $("#assignments").append("<li>Title: "+item['Title']+" Date: "+item['Date']+" Deadline: "+item['Deadline']+"</li>");   
+                          }
                         }
                     },
                     error: function(request, state, error) {
