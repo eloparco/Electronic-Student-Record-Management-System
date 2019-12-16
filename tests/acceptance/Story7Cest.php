@@ -23,7 +23,6 @@ class Story7Cest {
         $I->waitForElement('#wed_list', 10);
         $I->waitForElement('#thu_list', 10);
         $I->waitForElement('#fri_list', 10);
-        $I->see('Student assignment');
         $I->see('Refresh');
     }
 

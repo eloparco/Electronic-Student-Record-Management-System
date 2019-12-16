@@ -887,6 +887,40 @@ function get_list_presences_class_per_date($class, $date, $ini_path=''){
 }
 ### END Presence report by a teacher
 
+### Assignments query
+# Parent: retrieve assignment of his child
+function get_assignment_of_child($childSSN, $ini_path=''){
+    $assignments_query = "SELECT S.Name, A.DateOfAssignment, A.DeadlineDate, A.Title, A.Description, A.Attachment\n" . 
+                         "FROM ASSIGNMENT A, CHILD C, SUBJECT S\n" . 
+                         "WHERE A.SubjectID = S.ID AND A.Class=C.Class AND C.SSN=?";
+    if(empty($childSSN)){
+        return "Child SSN cannot be empty.";
+    }
+    $db_con = connect_to_db($ini_path);
+    if(!$db_con){
+        return 'Error in connecting to the database. [Assignments of child]\n';
+    }
+    $assignments_prep = mysqli_prepare($db_con, $assignments_query);
+    if(!$assignments_prep){
+        print('Error in preparing query: '.$assignments_query);
+        return 'Check database error:<br>'.mysqli_error($db_con);
+    }
+    if(!mysqli_stmt_bind_param($assignments_prep, "s", $childSSN)){
+        return 'Error in binding parameters to assignments_prep.'."\n";
+    }
+    if(!mysqli_stmt_execute($assignments_prep)){
+        return 'Error in executing assignments query. Database error:<br>'.mysqli_error($db_con);
+    }
+    $assignments_res = mysqli_stmt_get_result($assignments_prep);
+    $assignments = array();
+    while($row = mysqli_fetch_array($assignments_res, MYSQLI_ASSOC)){
+        $fields = array("Subject" => $row['Name'], "Date" => $row['DateOfAssignment'], "Deadline" => $row['DeadlineDate'], "Title" => $row['Title'], "Description" => $row['Description'], "Attachment" => $row['Attachment']);
+        $assignments[] = $fields;
+    }
+    mysqli_stmt_close($assignments_prep);
+    return $assignments;
+}
+
 // generic debugging function
 function console_log( $data ){
     echo '<script>';
