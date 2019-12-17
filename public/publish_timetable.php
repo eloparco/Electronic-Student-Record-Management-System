@@ -24,7 +24,8 @@ if (isset($_SESSION['msg_result'])) {
 
 if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
   // error
-  if ($_FILES["file"]["error"] > 0 || $_FILES["file"]["type"] !== "text/csv") {
+  $extension = end(explode('.', $_FILES["file"]["name"]));
+  if ($_FILES["file"]["error"] > 0 || $extension !== "csv") {
     $_SESSION['msg_result'] = PUBLISH_TIMETABLE_FAILED;
   } else {
     $file = fopen($_FILES['file']['tmp_name'], 'r');
