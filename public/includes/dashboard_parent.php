@@ -88,6 +88,12 @@ if(isset($_SESSION['child'])){
                 Show lesson attendance
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="show_child_notes.php" id="notes_dashboard">
+                <span data-feather="archive"></span>
+                Show child notes
+            </a>
+        </li>
     </ul>
     <div class="col-md3" style="position: relative; top: 300px">
         <div id="selectedChild" class="btn btn-static"><?php echo $_SESSION['ACTIVE_CHILD']; ?></div>
