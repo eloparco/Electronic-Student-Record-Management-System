@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 17, 2019 at 11:57 PM
+-- Generation Time: Dec 18, 2019 at 12:41 AM
 -- Server version: 5.7.28-0ubuntu0.19.04.2
 -- PHP Version: 7.2.24-0ubuntu0.19.04.1
 
@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 --
 
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
+('AAABBBCCC1234567', 'Giuseppe', 'Ponci', 'PNCMSM75D20L219X', NULL, '1A'),
 ('BRBSMN04A24L219R', 'Simone', 'Barbero', 'BRBGPP57M04L219W', NULL, '1A'),
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
 ('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A');
