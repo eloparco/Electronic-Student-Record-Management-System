@@ -229,6 +229,7 @@ if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
                               }
                               var resJSON = JSONdata['result'];
                               alert(resJSON);
+                              location.reload(true);
                               
                           },
                           error: function(request, state, error) {

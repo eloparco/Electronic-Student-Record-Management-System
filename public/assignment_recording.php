@@ -64,7 +64,7 @@ if(isset($_SESSION['msg_result'])) {
     <script>
       var homeElement = document.getElementById("homeDash");
       var recordMark = document.getElementById("recordMark");
-      var recordLecture = document.getElementById("recordLecture");
+      var recordLecture = document.getElementById("recordAssignment");
       if (homeElement.classList)
         homeElement.classList.remove("active");
       if(recordMark.classList) 
@@ -149,16 +149,15 @@ if(isset($_SESSION['msg_result'])) {
         var minDate=new Date();
         var minDay=minDate.getDay();
 
-        minDate.setDate( minDate.getDate() - (minDay - 1) );
-
+        minDate.setDate( minDate.getDate() + 1 );
+/*
         var maxDate=new Date();
 
         maxDate.setDate( maxDate.getDate() + (5 - minDay) );
-
+*/
         $('#dataSelection').datepicker({
             format: 'yyyy-mm-dd',
             startDate: minDate,
-            endDate: maxDate,
             todayBtn: true,
             daysOfWeekDisabled: "0,6",
             autoclose: true
@@ -169,22 +168,18 @@ if(isset($_SESSION['msg_result'])) {
 
        <!-- Attachment upload -->
        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupFileAddon01">Attachment</span>
-            </div>
 
             <div class="custom-file">
-                 <input id="attachment" type="file" name="file">
-                <label for="attachment">Select a file</label>
+                 <input id="attachment" class="custom-file-input" type="file" name="file">
+                 <label class="custom-file-label" for="customFile">Choose file</label>
             </div>
         </div>
-
-        <!-- Assignment already loaded -->
-        <div id="assignments_list">
-            <label for="assignments">Assignment already uploaded</label>
-                <ul id="assignments" class="list-group">
-        </select>
-        </div>
+        <script>
+        $(".custom-file-input").on("change", function() {
+          var fileName = $(this).val().split("\\").pop();
+          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+        </script>
 
         <!-- POST Method response -->
         <?php 
@@ -196,10 +191,26 @@ if(isset($_SESSION['msg_result'])) {
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
           <?php
           }}
-          $_SESSION['msg_result'] = "";} ?>    
-          <button class="btn btn-lg btn-primary btn-block" type="submit" id="confirm">Confirm</button>
-    </form>
+          $_SESSION['msg_result'] = "";} ?>
 
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <span>&nbsp;</span>
+          </div>
+        </div>
+        
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="confirm">Confirm</button>
+
+
+        <!-- Assignment already loaded -->
+        <div id="assignments_list">
+            <label for="assignments">Assignment already uploaded</label>
+                <ul id="assignments" class="list-group">
+        </select>
+        </div>
+
+
+    </form>
 
     <script>
         $( document ).ready(function() {
