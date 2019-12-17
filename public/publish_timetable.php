@@ -102,7 +102,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
       <form class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
       <img class="mb-4" src="images/icons/publish_timetable.png" alt="" width="102" height="102">
       <h1 class="h3 mb-3 font-weight-normal">Select CSV file <br>to import as timetable</h1>
-      <p class="lead text-muted">Format:<br> 6 rows: one for each hour<br> 5 columns: one for each day</p>
+      <p class="lead text-muted">Format:<br> 6 rows: one for each hour<br> 5 columns: one for each day <br> Use dash symbol for empty hours </p>
       <div class="form-group mb-2">
         <label class="filterLabel" for="classSelection">Class</label>
         <select class="form-control" id="classSelection" name="classSelection">
