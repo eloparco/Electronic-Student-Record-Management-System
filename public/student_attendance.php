@@ -104,19 +104,16 @@ if (isset($_SESSION['msg_result'])) {
       $events = array();
       foreach ($attendances as $attendance) {
         $att_code = $attendance['Presence'];
-        
-        if($att_code == NULL){
-          $att_code ="EARLY_EXIT";
-        }
-
-        $title = $titles[$att_code];
-        $color = $colors[$att_code];
         $start = $attendance['Date'];
-        $events[] = array('title' => $title, 'color' => $color, 'start' => $start);
+
+        if ($att_code !== NULL) {
+          $title = $titles[$att_code];
+          $color = $colors[$att_code];
+          $events[] = array('title' => $title, 'color' => $color, 'start' => $start);
+        }
 
         if ($attendance['ExitHour'] !== 6) {
           $title = $titles['EARLY_EXIT'] . $attendance['ExitHour'];
-          $color = $colors[$att_code];
           $color = $colors['EARLY_EXIT'];
           $events[] = array('title' => $title, 'color' => $color, 'start' => $start);
         }
