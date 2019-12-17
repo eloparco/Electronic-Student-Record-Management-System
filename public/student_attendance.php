@@ -104,6 +104,11 @@ if (isset($_SESSION['msg_result'])) {
       $events = array();
       foreach ($attendances as $attendance) {
         $att_code = $attendance['Presence'];
+        
+        if($att_code == NULL){
+          $att_code ="EARLY_EXIT";
+        }
+
         $title = $titles[$att_code];
         $color = $colors[$att_code];
         $start = $attendance['Date'];
