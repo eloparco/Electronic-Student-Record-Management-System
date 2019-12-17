@@ -88,24 +88,17 @@ if (isset($_SESSION['msg_result'])) {
               <img class="mb-4" src="images/icons/notes.png" alt="" width="102" height="102">
             </div>
           </div>
-
+          <h1 class="h3 mb-3 font-weight-normal">Notes ordered by date</h1>
+          
           <!-- accordion -->
           <div class="accordion mt-1" id="accordion">
             <?php
-            $notes = array(
-              array(
-                'SubjectName' => 'Math',
-                'Description' => 'description aaa',
-                'Date' => '01/01/01'
-              ),
-              array(
-                'SubjectName' => 'Italian',
-                'Description' => 'description bbb',
-                'Date' => '02/02/02'
-              )
-            );
-            $i = 0;
-            foreach ($notes as $note) {
+            $notes = get_list_of_student_notes($_SESSION['child']);
+            if (count($notes) ===0) {
+              echo '<p class="lead text-muted">No notes received.</p>';
+            } else {
+              $i = 0;
+              foreach ($notes as $note) {
             ?>
             
               <div class="card">
@@ -128,6 +121,7 @@ if (isset($_SESSION['msg_result'])) {
             
             <?php
                $i++;
+              }
             }
             ?>
 

@@ -1132,4 +1132,35 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
         }        
 }
 
+// return list of notes ordered by date (most recent ones first)
+function get_list_of_student_notes($studentSSN, $ini_path='') {
+    $con = connect_to_db($ini_path);
+
+    $notes_query = "SELECT Name AS 'SubjectName', Description, Date\n" . 
+                      "FROM NOTE N, SUBJECT S\n" . 
+                      "WHERE N.SubjectID=S.ID AND StudentSSN=?\n" . 
+                      "ORDER BY Date DESC";
+    if(!$con){
+        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+    }
+    $notes_prep = mysqli_prepare($con, $notes_query);
+    if(!$notes_prep){
+        print('Error in preparing query: '.$notes_query);
+        die('Check database error:<br>'.mysqli_error($con));
+    }
+    if(!mysqli_stmt_bind_param($notes_prep, "s", $studentSSN)){
+        die('Error in binding paramters to marks_prep.'."\n");
+    }
+    if(!mysqli_stmt_execute($notes_prep)){
+        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
+    }
+    $notes_res = mysqli_stmt_get_result($notes_prep);
+    $notes = array();
+    while($row = mysqli_fetch_array($notes_res, MYSQLI_ASSOC)){
+        $notes[] = $row;
+    }
+    mysqli_stmt_close($notes_prep);
+    return $notes;
+}
+
 ?>
