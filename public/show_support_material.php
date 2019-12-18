@@ -37,18 +37,21 @@ if (isset($_SESSION['msg_result'])) {
 </head>
 
 <style type="text/css">
-	.accordion .card-header .btn {
-		width: 100%;
-		text-align: left;
-		padding-left: 0;
-		padding-right: 0;
-	}
-	.accordion .card-header i {
-		font-size: 1.3rem;
-		position: absolute;
-		top: 15px;
-		right: 1rem;
-	}			
+
+  #materialTable th:hover {
+  background: #cccccc;
+  cursor: pointer;
+  }
+  #myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+  }
 </style>
 
 <body>
@@ -93,16 +96,15 @@ if (isset($_SESSION['msg_result'])) {
           <h1 class="h3 mb-3 font-weight-normal">Support Material</h1>
                     
 
-          <!-- table -->
-          <div class="accordion mt-1" id="accordion">
-          <div class="row">
-            <table class="col table" id="classTable">
+          <!-- table -->          
+          <input type="text" id="myInput" onkeyup="sortFunction()" placeholder="Search file.." title="Type in a name">
+          <div class="row">          
+            <table class="col table" id="materialTable">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Date</th>
-                        <th>Subject</th>
-                        <th>Filename</th>
+                        <th onclick="sortTableDate()">Date</th>
+                        <th onclick="sortTableSubject()">Subject</th>
+                        <th onclick="sortTableFilename()">File</th>
                         <th></th>                        
                     </tr>
                 </thead>
@@ -112,30 +114,135 @@ if (isset($_SESSION['msg_result'])) {
                 if (count($files) ===0) {
                     echo '<p class="lead text-muted">No support material available.</p>';
                 } else {
-                    $i = 0;
+                    //$i = 0;
                     foreach ($files as $file) {
                         echo '<tr>';
-                            echo '<td>'.$i.' </td>';
+                            //echo '<td>'.$i.' </td>';
                             echo '<td>'.$file['Date'].' </td>';
                             echo '<td>'.$file['Subject'].' </td>';
                             echo '<td>'.$file['Filename'].' </td>';                        
                             echo '<td><a href="show_support_material.php?file_id='.$file['Id'].'">Download</a></td>';
                         echo '</tr>';                    
-                        $i++;
+                        //$i++;
                     }
                 }            
                 ?>        
                 </tbody>
-            </table>
-            </div>
-            </div>
+            </table>            
+            </div>            
+          </div>
         </div>
-         </div>
         </div>
       </div>
     </div>
 </body>
 
+<script>
+
+function sortFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("materialTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+
+function sortTableFilename() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("materialTable");
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    
+    switching = false;
+    rows = table.rows;
+    
+    for (i = 1; i < (rows.length - 1); i++) {      
+      shouldSwitch = false;
+      
+      x = rows[i].getElementsByTagName("TD")[2];
+      y = rows[i + 1].getElementsByTagName("TD")[2];
+      
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {        
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {      
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+function sortTableSubject() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("materialTable");
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    
+    switching = false;
+    rows = table.rows;
+    
+    for (i = 1; i < (rows.length - 1); i++) {      
+      shouldSwitch = false;
+      
+      x = rows[i].getElementsByTagName("TD")[1];
+      y = rows[i + 1].getElementsByTagName("TD")[1];
+      
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {        
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {      
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+function sortTableDate() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("materialTable");
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    
+    switching = false;
+    rows = table.rows;
+    
+    for (i = 1; i < (rows.length - 1); i++) {      
+      shouldSwitch = false;
+      
+      x = rows[i].getElementsByTagName("TD")[0];
+      y = rows[i + 1].getElementsByTagName("TD")[0];
+      
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {        
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {      
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+</script>
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
