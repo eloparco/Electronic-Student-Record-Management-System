@@ -84,6 +84,10 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $CURRENT_PAGE = "record assignment";
     $PAGE_TITLE = "Record Assignment";
     break;
+  case "note_recording.php":
+    $CURRENT_PAGE = "record note";
+    $PAGE_TITLE = "Record Notes";
+    break;
   case "show_child_notes.php":
     $CURRENT_PAGE = "show notes";
     $PAGE_TITLE = "Show Notes";

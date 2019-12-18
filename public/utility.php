@@ -58,6 +58,9 @@ define("FILE_ALREADY_EXISTS", "The file already exists.");
 define("FILE_UPLOAD_ERROR","Error during file uploading.");
 // Note: Give the following directory R/W rights for "other" group
 define("UPLOAD_PATH", "uploads/");
+define("NOTE_RECORDING_INCORRECT", "Please fill all the fields.");
+define("NOTE_RECORDING_FAILED", "Note recording failed.");
+define("NOTE_RECORDING_OK", "Note correctly recorded.");
 
 function connect_to_db($ini_path_test='') {
     $ini_path = '../config/database/database.ini';
@@ -1221,6 +1224,35 @@ function get_file($id, $ini_path='') {
     $file = mysqli_fetch_assoc($result);  
     mysqli_close($db_con);     
     return $file; 
+}
+
+function recordNote($student, $subject, $date, $description, $ini_path='') {
+    
+    if($description == NULL){
+        return NOTE_RECORDING_FAILED;
+    }
+    $con = connect_to_db($ini_path);
+
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            // INSERT INTO `NOTE`(`StudentSSN`, `SubjectID`, `Description`, `Date`) VALUES ([value-1],[value-2],[value-3],[value-4])
+            if(!$prep = mysqli_prepare($con, "INSERT INTO NOTE VALUES(?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'));")) 
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "ssss", $student, $subject, $description, $date)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return NOTE_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            //return MARK_RECORDING_FAILED." ".$e;
+            return NOTE_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
 }
 
 ?>

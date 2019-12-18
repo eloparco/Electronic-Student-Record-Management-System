@@ -47,6 +47,14 @@
             Record assignment
         </a>
         </li>
+
+        </li>
+        <li class="nav-item">
+        <a id="recordNote" class="nav-link" href="note_recording.php">
+            <span data-feather="file-text"></span>
+            Record note
+        </a>
+        </li>
         
     </ul>
 </div>
