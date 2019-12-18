@@ -67,8 +67,8 @@
               <img class="first-slide" src="images/slider/slider1.jpg" alt="First slide">
               <div class="container">
                 <div class="carousel-caption text-left">
-                  <h2 class="h2-responsive">This is the default communication.</h2>
-                  <p>Welcome to ESRMS System</p>
+                  <h2 class="h2-responsive">Welcome to ESRMS System</h2>
+                  <p>System to support electronic student records for High Schools</p>
                 </div>
               </div>
             </div>
@@ -116,7 +116,7 @@
           <div class="carousel-item">
             <img class="second-slide" src="images/slider/slider3.jpg" alt="Second slide">
             <div class="container">
-              <div class="carousel-caption">
+              <div class="carousel-caption text-right">
                 <h2 class="h2-responsive"><?php echo $communications[1]['Title']; ?></h2>
                 <p><?php echo $communications[1]['Description']; ?></p>
                 <p><?php echo $communications[1]['Date']; ?></p>
