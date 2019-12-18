@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if(!$isEmailCorrect)
             redirect(EMAIL_INCORRECT, 'update_password.php'); 
-        else if(!$isPasswordCorrect1 && !$isPasswordCorrect1)
+        else if(!$isPasswordCorrect1 && !$isPasswordCorrect2)
             redirect(PASSWORD_INCORRECT, 'update_password.php'); 
         else if($newPassword == $oldPassword)
             redirect("The new password must be different from the old one", 'update_password.php'); 
