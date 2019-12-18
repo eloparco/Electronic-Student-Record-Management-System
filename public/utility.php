@@ -15,6 +15,7 @@ define("INSERT_ACCOUNT_OK", "Account inserted successfully.");
 define("UPDATE_ACCOUNT_OK", "Account updated successfully.");
 define("INSERT_ACCOUNT_FAILED", "Insert Account failed.");
 define("CHANGE_PASSWORD", "Password entered needs to be changed");
+define("GET_COMMUNICATIONS_FAILED", "Error on getting official communications.");
 define("DB_ERROR", "Error on db connection.");
 define("DB_QUERY_ERROR", "Error on query db.");
 define("PASSWORD_INCORRECT", "Password entered is incorrect.");
@@ -950,6 +951,30 @@ function get_assignment_of_child($childSSN, $ini_path=''){
     }
     mysqli_stmt_close($assignments_prep);
     return $assignments;
+}
+### END assignment (parent) section
+
+function get_communications($ini_path='') {
+    $query = "SELECT id, Title, Description, Date FROM COMMUNICATION ORDER BY Date DESC LIMIT 3";
+    $db_con = connect_to_db($ini_path);
+    if(!$db_con) {
+        return DB_ERROR;
+    }
+    $prep = mysqli_prepare($db_con, $query);
+    if(!$prep) {
+        return GET_COMMUNICATIONS_FAILED;
+    }
+    if(!mysqli_stmt_execute($prep)) {
+        return GET_COMMUNICATIONS_FAILED;
+    }
+    $res = mysqli_stmt_get_result($prep);
+    $communications = array();
+    while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
+        $fields = array("id" => $row['id'], "Title" => $row['Title'], "Description" => $row['Description'], "Date" => $row['Date']);
+        $communications[] = $fields;
+    }
+    mysqli_stmt_close($prep);
+    return $communications;
 }
 ### END assignment (parent) section
 
