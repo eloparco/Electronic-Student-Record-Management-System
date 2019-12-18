@@ -94,6 +94,12 @@ if(isset($_SESSION['child'])){
                 Show child notes
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="show_support_material.php" id="support_material_dashboard">
+                <span data-feather="download-cloud"></span>
+                Show support material
+            </a>
+        </li>
     </ul>
     <div class="col-md3" style="position: relative; top: 300px">
         <div id="selectedChild" class="btn btn-static"><?php echo $_SESSION['ACTIVE_CHILD']; ?></div>

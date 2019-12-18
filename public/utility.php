@@ -1188,4 +1188,39 @@ function get_list_of_student_notes($studentSSN, $ini_path='') {
     return $notes;
 }
 
+// return list of support material of a child
+function get_list_of_support_material($studentSSN, $ini_path='') {
+    $db_con = connect_to_db($ini_path);
+
+    $studentSSN = mySanitizeString($studentSSN);
+    try {  
+        if(!$result = mysqli_query($db_con, 'SELECT S.ID as "Id", SJ.Name as "Subject", S.Date as "Date", S.Filename as "Filename"  FROM SUPPORT_MATERIAL S, SUBJECT SJ, CHILD C 
+                WHERE C.Class = S.Class AND
+                      SJ.ID = S.SubjectID AND
+                      C.SSN="'.$studentSSN.'" ORDER BY S.Date DESC;'))
+            throw new Exception('Error on SELECT support material.');            
+               
+        $files = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        mysqli_close($db_con);
+        return $files;
+    } catch (Exception $e) { 
+        $msg =$e->getMessage();        
+        mysqli_close($db_con);
+        die($msg.mysqli_error($db_con));        
+    }   
+}
+// return file infos from db
+function get_file($id, $ini_path='') {
+    $db_con = connect_to_db($ini_path);    
+    $id = mySanitizeString($id);
+    
+    // fetch file to download from database
+    $sql = "SELECT * FROM SUPPORT_MATERIAL WHERE ID=$id";
+    $result = mysqli_query($db_con, $sql);
+
+    $file = mysqli_fetch_assoc($result);  
+    mysqli_close($db_con);     
+    return $file; 
+}
+
 ?>
