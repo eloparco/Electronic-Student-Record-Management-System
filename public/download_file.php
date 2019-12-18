@@ -4,6 +4,11 @@ if (isset($_GET['file_id'])) {
     $id = $_GET['file_id'];
     
     $file = get_file($id);
+    
+    if(empty($file)){
+        echo 'Error fetching file from db, retry'; 
+        exit;
+    }
     // needed to know where is the file in the server
     $filepath = '../support_material/'.$file['ID'];
 

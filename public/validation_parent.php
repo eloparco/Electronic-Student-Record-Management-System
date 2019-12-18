@@ -26,13 +26,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = generatePass($name);
 
         if(!$isEmailCorrect)
-            $_SESSION['msg_result'] = EMAIL_INCORRECT;
+            $_SESSION[MSG] = EMAIL_INCORRECT;
         else if(!$isSSNCorrect)
-            $_SESSION['msg_result'] = SSN_INCORRECT;
+            $_SESSION[MSG] = SSN_INCORRECT;
         else if(!$isNameCorrect)
-            $_SESSION['msg_result'] = NAME_INCORRECT;
+            $_SESSION[MSG] = NAME_INCORRECT;
         else if(!$isSurnameCorrect)
-            $_SESSION['msg_result'] = SURNAME_INCORRECT;
+            $_SESSION[MSG] = SURNAME_INCORRECT;
         else {
             /* Sanitize strings */
             $ssn = mySanitizeString($ssn);
@@ -44,15 +44,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $retVal = tryInsertParent($ssn, $name, $surname, $username, $password, 'PARENT', 0);
             if($retVal == INSERT_PARENT_OK) {
                 $_SESSION['time'] = time(); 
-                $_SESSION['msg_result'] = $retVal;
+                $_SESSION[MSG] = $retVal;
                 header('Location: parent_form.php');
             } else 
-                $_SESSION['msg_result'] = $retVal;
+                $_SESSION[MSG] = $retVal;
         }
     } else {
-        $_SESSION['msg_result'] = INSERT_PARENT_FAILED;
+        $_SESSION[MSG] = INSERT_PARENT_FAILED;
     }
 } else {
-    $_SESSION['msg_result'] = INSERT_PARENT_FAILED;
+    $_SESSION[MSG] = INSERT_PARENT_FAILED;
 }
 ?>

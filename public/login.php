@@ -1,19 +1,13 @@
 <?php 
 include("includes/config.php"); 
 require_once('utility.php');
-/* HTTPS CHECK */
-if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-} else { 
-  $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-  myRedirectToHTTPS($redirectHTTPS);
-  exit;
-}
-session_start();
-if(isset($_SESSION['msg_result'])) {
-  if(!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_TEACHER_OK ||
-    $_SESSION['msg_result'] == LOGIN_PARENT_OK || $_SESSION['msg_result'] == LOGIN_SECRETARY_OK ||
-    $_SESSION['msg_result'] == LOGIN_PRINCIPAL_OK || $_SESSION['msg_result'] == LOGIN_ADMIN_OK)) { 
-      $_SESSION['msg_result'] = '';
+https_redirect();
+
+if(isset($_SESSION[MSG])) {
+  if(!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_TEACHER_OK ||
+    $_SESSION[MSG] == LOGIN_PARENT_OK || $_SESSION[MSG] == LOGIN_SECRETARY_OK ||
+    $_SESSION[MSG] == LOGIN_PRINCIPAL_OK || $_SESSION[MSG] == LOGIN_ADMIN_OK)) { 
+      $_SESSION[MSG] = '';
   }
 }
 ?>
@@ -47,11 +41,11 @@ if(isset($_SESSION['msg_result'])) {
       <label for="inputPassword" class="sr-only">Password</label>
       <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z\d]).+" title="Password must contain at least one lowercase alphabetic character, and at least another uppercase alphabetic character or numeric character." required>
       <?php 
-        if(isset($_SESSION['msg_result'])) {
-          if(!empty($_SESSION['msg_result'])) { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong></span></div>
+        if(isset($_SESSION[MSG])) {
+          if(!empty($_SESSION[MSG])) { ?>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION[MSG];?></strong></span></div></strong></span></div>
           <?php }
-          $_SESSION['msg_result'] = "";} ?>
+          $_SESSION[MSG] = "";} ?>
       <?php 
         if(isset($_GET['msg'])) {
           if(!empty($_GET['msg'])) { ?>

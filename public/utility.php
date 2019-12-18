@@ -56,6 +56,7 @@ define("WRONG_FILE_EXTENSION","File type not supported");
 define("FILE_TOO_BIG","The file size is too big. Max size: 2MB");
 define("FILE_ALREADY_EXISTS", "The file already exists.");
 define("FILE_UPLOAD_ERROR","Error during file uploading.");
+define("MSG", "msg_result");
 // Note: Give the following directory R/W rights for "other" group
 define("UPLOAD_PATH", "uploads/");
 define("NOTE_RECORDING_INCORRECT", "Please fill all the fields.");
@@ -118,7 +119,7 @@ function myRedirectTo($toRedirect, $msg="") {
 
 function redirect($msg='', $new_location){
     if(!empty($msg)){
-        $_SESSION['msg_result'] = $msg;
+        $_SESSION[MSG] = $msg;
     }    
     header("HTTP/1.1 303 See Other");
     header('Location: '.$new_location);
@@ -1200,7 +1201,7 @@ function get_list_of_support_material($studentSSN, $ini_path='') {
         if(!$result = mysqli_query($db_con, 'SELECT S.ID as "Id", SJ.Name as "Subject", S.Date as "Date", S.Filename as "Filename"  FROM SUPPORT_MATERIAL S, SUBJECT SJ, CHILD C 
                 WHERE C.Class = S.Class AND
                       SJ.ID = S.SubjectID AND
-                      C.SSN="'.$studentSSN.'" ORDER BY S.Date DESC;'))
+                      C.SSN="'.$studentSSN.'" ORDER BY S.Date;'))
             throw new Exception('Error on SELECT support material.');            
                
         $files = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -1255,4 +1256,28 @@ function recordNote($student, $subject, $date, $description, $ini_path='') {
     }
 }
 
+function https_redirect() {
+    session_start();
+
+    if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off') {
+        $location = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        header('HTTP/1.1 301 Moved Permanently');
+        header('Location: '.$location);
+        exit;
+    }
+    
+    if (isset($_SESSION['time'])) {
+        $diff = time() - $_SESSION['time'];
+        if ($diff > MAX_INACTIVITY) {
+            $_SESSION=array();
+            if (session_id() != "" || isset($_COOKIE[session_name()]))
+                setcookie(session_name(), '', time()-2592000, '/');
+            session_destroy();
+
+            header('HTTP/1.1 307 temporary redirect');
+            header('Location: login.php');
+            die();
+        }
+    }
+}
 ?>

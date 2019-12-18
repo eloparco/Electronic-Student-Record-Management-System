@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
         
         if($rows[0] != 0){
-            $_SESSION['msg_result'] = STUDENT_ABSENT;
+            $_SESSION[MSG] = STUDENT_ABSENT;
             die();
         }
         // end check
@@ -68,12 +68,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $retval = recordMark($student, $subjectID, $date, $class, $score);
         
-        $_SESSION['msg_result'] = $retval;
+        $_SESSION[MSG] = $retval;
 
     } else {
-        $_SESSION['msg_result'] = MARK_RECORDING_FAILED;
+        $_SESSION[MSG] = MARK_RECORDING_FAILED;
     }
 } else {
-    $_SESSION['msg_result'] = MARK_RECORDING_FAILED;
+    $_SESSION[MSG] = MARK_RECORDING_FAILED;
 }
 ?>

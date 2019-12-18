@@ -1,25 +1,16 @@
 <?php
 include("includes/config.php"); 
 require_once('utility.php');
-/* HTTPS CHECK */
-if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-} else {
-  $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-  myRedirectToHTTPS($redirectHTTPS);
-  exit;
-}
-check_inactivity();
-if(!isset($_SESSION)) 
-  session_start();
+https_redirect();
  
 /* LOGGED IN CHECK */
 if(!userLoggedIn() || !userTypeLoggedIn('TEACHER')) {   
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if(isset($_SESSION['msg_result'])) {
-  if(!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_TEACHER_OK)) { 
-      $_SESSION['msg_result'] = '';
+if(isset($_SESSION[MSG])) {
+  if(!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_TEACHER_OK)) { 
+      $_SESSION[MSG] = '';
   }
 }
 ?>
@@ -39,9 +30,9 @@ if(isset($_SESSION['msg_result'])) {
     <script type="text/javascript" src="./css/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
     <?php  
-      if(isset($_GET['msg_result'])) {
-        if(!empty($_GET['msg_result'])) {
-          $_GET['msg_result'] = "";
+      if(isset($_GET[MSG])) {
+        if(!empty($_GET[MSG])) {
+          $_GET[MSG] = "";
         }
       }
     ?>
@@ -211,15 +202,15 @@ if(isset($_SESSION['msg_result'])) {
         
         <!-- POST Method response -->
           <?php 
-        if(isset($_SESSION['msg_result'])) {
-        if(!empty($_SESSION['msg_result'])) {
-          if($_SESSION['msg_result'] != NOTE_RECORDING_OK){ ?>
-          <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong>
+        if(isset($_SESSION[MSG])) {
+        if(!empty($_SESSION[MSG])) {
+          if($_SESSION[MSG] != NOTE_RECORDING_OK){ ?>
+          <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION[MSG];?></strong></span></div></strong>
         <?php } else { ?>
-          <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong>
+          <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><strong><?php echo $_SESSION[MSG];?></strong></span></div></strong>
         <?php
         }}
-        $_SESSION['msg_result'] = "";} ?>    
+        $_SESSION[MSG] = "";} ?>    
         <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm</button>
         </form>
       </div>

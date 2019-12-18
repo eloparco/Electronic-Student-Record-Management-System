@@ -53,19 +53,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
         
         if($rows[0] != 0){
-            $_SESSION['msg_result'] = STUDENT_ABSENT;
+            $_SESSION[MSG] = STUDENT_ABSENT;
             die();
         }
         // end check
 
         $retval = recordNote($student, $subjectID, $date, $description);
         
-        $_SESSION['msg_result'] = $retval;
+        $_SESSION[MSG] = $retval;
 
     } else {
-        $_SESSION['msg_result'] = NOTE_RECORDING_FAILED;
+        $_SESSION[MSG] = NOTE_RECORDING_FAILED;
     }
 } else {
-    $_SESSION['msg_result'] = NOTE_RECORDING_FAILED;
+    $_SESSION[MSG] = NOTE_RECORDING_FAILED;
 }
 ?>
