@@ -87,6 +87,44 @@ if(isset($_SESSION['msg_result'])) {
       <label for="inputSurname" class="sr-only">Surname</label>
       <input type="text" id="inputSurname" name="surname" class="form-control" placeholder="Surname" pattern=".{2,20}" title="Please insert a name with length between 2 and 20." required>
       
+      <!-- AJAX check for duplicate SSN -->
+      <script>
+
+
+         $("#inputSSN").change(function() {
+              $.ajax({
+                url: "students.php",
+                data: {
+                },
+
+                type: "POST",
+                success: function(data, state) {
+                  var JSONdata = $.parseJSON(data);
+
+                  if(JSONdata['state'] != "ok"){
+                    console.log("Error: "+state);
+                    return;
+                  }
+
+                  var resJSON = JSONdata['result'];
+
+                  for(var i=0; i<resJSON.length; i++){
+                    var currSSN = resJSON[i]["SSN"];
+                    if($(inputSSN).val() === currSSN){
+                      alert("This SSN it's already registered. Please insert a new one.");
+                      $(inputSSN).val("");
+                      return;
+                    }
+                  }
+                },
+                error: function(request, state, error) {
+                  console.log("State error " + state);
+                  console.log("Value error " + error);
+                }
+              });
+            });
+      </script>
+
        <!-- Parent 1 selection -->
        <div id="parent1Div" class="form-group-class">
             <label for="parent1Selection">Parent #1</label>
