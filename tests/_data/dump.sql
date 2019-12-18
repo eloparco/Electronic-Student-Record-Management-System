@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 07, 2019 at 06:06 PM
+-- Generation Time: Dec 18, 2019 at 10:18 AM
 -- Server version: 5.7.28-0ubuntu0.19.04.2
 -- PHP Version: 7.2.24-0ubuntu0.19.04.1
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `ASSIGNMENT` (
   `DeadlineDate` date NOT NULL,
   `Title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Description` varchar(400) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `Attachment` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Attachment` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`Class`,`SubjectID`,`DeadlineDate`),
   KEY `SubjectID` (`SubjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -97,9 +97,10 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 --
 
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
+('AAABBBCCC1234567', 'Giuseppe', 'Ponci', 'PNCMSM75D20L219X', NULL, '1A'),
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
-('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A'),
-('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', NULL, '1A');
+('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', NULL, '1A'),
+('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A');
 
 -- --------------------------------------------------------
 
@@ -193,6 +194,30 @@ INSERT INTO `MARK` (`StudentSSN`, `SubjectID`, `Date`, `Class`, `Score`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `NOTE`
+--
+
+DROP TABLE IF EXISTS `NOTE`;
+CREATE TABLE IF NOT EXISTS `NOTE` (
+  `StudentSSN` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `SubjectID` int(11) NOT NULL,
+  `Description` varchar(500) NOT NULL,
+  `Date` date NOT NULL,
+  PRIMARY KEY (`StudentSSN`,`SubjectID`,`Date`),
+  KEY `SubjectID` (`SubjectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `NOTE`
+--
+
+INSERT INTO `NOTE` (`StudentSSN`, `SubjectID`, `Description`, `Date`) VALUES
+('PNCRCR02C13L219K', 3, 'The student is making noise and using his smartphone during the lesson.', '2019-12-15'),
+('PNCRCR02C13L219K', 4, 'The student has not completed his homework. Moreover, he does not seem interested in the lesson. ', '2019-12-17');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `SUBJECT`
 --
 
@@ -230,12 +255,12 @@ INSERT INTO `SUBJECT` (`ID`, `Name`, `HoursPerWeek`) VALUES
 DROP TABLE IF EXISTS `SUPPORT_MATERIAL`;
 CREATE TABLE IF NOT EXISTS `SUPPORT_MATERIAL` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `SubjectID` varchar(255) NOT NULL,
-  `Class` varchar(255) NOT NULL,
+  `SubjectID` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `Class` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `Date` date NOT NULL,
-  `Filename` varchar(255) NOT NULL,
+  `Filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -420,17 +445,17 @@ INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES
 --
 
 --
--- Constraints for table `ATTENDANCE`
---
-ALTER TABLE `ATTENDANCE`
-  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`StudentSSN`) REFERENCES `CHILD` (`SSN`);
-
---
 -- Constraints for table `ASSIGNMENT`
 --
 ALTER TABLE `ASSIGNMENT`
   ADD CONSTRAINT `assignment_ibfk_1` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`),
   ADD CONSTRAINT `assignment_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`);
+
+--
+-- Constraints for table `ATTENDANCE`
+--
+ALTER TABLE `ATTENDANCE`
+  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`StudentSSN`) REFERENCES `CHILD` (`SSN`);
 
 --
 -- Constraints for table `CHILD`
@@ -457,6 +482,13 @@ ALTER TABLE `MARK`
   ADD CONSTRAINT `MARK_ibfk_3` FOREIGN KEY (`StudentSSN`) REFERENCES `CHILD` (`SSN`);
 
 --
+-- Constraints for table `NOTE`
+--
+ALTER TABLE `NOTE`
+  ADD CONSTRAINT `NOTE_ibfk_1` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`),
+  ADD CONSTRAINT `NOTE_ibfk_2` FOREIGN KEY (`StudentSSN`) REFERENCES `CHILD` (`SSN`);
+
+--
 -- Constraints for table `TEACHER_SUBJECT`
 --
 ALTER TABLE `TEACHER_SUBJECT`
@@ -480,13 +512,3 @@ ALTER TABLE `USER_TYPE`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-DROP TABLE IF EXISTS `SUPPORT_MATERIAL`;
-CREATE TABLE SUPPORT_MATERIAL (
-    ID INT NOT NULL AUTO_INCREMENT,
-    SubjectID VARCHAR(255) NOT NULL REFERENCES subject(ID),
-    Class VARCHAR(255) NOT NULL,
-    Date DATE NOT NULL,
-    Filename VARCHAR(255) NOT NULL,
-    PRIMARY KEY (ID)
-);
