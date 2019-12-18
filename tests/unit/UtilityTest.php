@@ -265,5 +265,43 @@ class UtilityTest extends \Codeception\Test\Unit
         );
 
         $this->assertEquals(SUBJECT_INCORRECT, insert_timetable("1A", $subjects, $this->ini_path));
-    } 
+    }
+
+    // GET STUDENT NOTES
+    public function testGetStudentNotes() {
+        $notes = get_list_of_student_notes('PNCRCR02C13L219K', $this->ini_path);
+        $this->assertEquals(2, count($notes));
+
+        $notes_in_db = array(
+            array(
+                'SubjectName' => 'Mathematics',
+                'Date' => '2019-12-15'
+            ),
+            array(
+                'SubjectName' => 'Italian',
+                'Date' => '2019-12-17'
+            )
+        );
+
+        // check if first entry id notes_in_db is present
+        $this->assertTrue(in_array($notes_in_db[0]['SubjectName'], $notes[0]) ||
+                                in_array($notes_in_db[0]['SubjectName'], $notes[1]));
+        $this->assertTrue(in_array($notes_in_db[0]['Date'], $notes[0]) ||
+                                in_array($notes_in_db[0]['Date'], $notes[1]));
+
+        // check if second entry id notes_in_db is present
+        $this->assertTrue(in_array($notes_in_db[1]['SubjectName'], $notes[0]) ||
+                                in_array($notes_in_db[1]['SubjectName'], $notes[1]));
+        $this->assertTrue(in_array($notes_in_db[1]['Date'], $notes[0]) ||
+                                in_array($notes_in_db[1]['Date'], $notes[1]));
+    }
+    // get notes from a student without notes
+    public function testGetStudentNoNotes() {
+        $notes = get_list_of_student_notes('AAABBBCCC1234567', $this->ini_path);
+        $this->assertEquals(0, count($notes));
+    }
+    public function testGetStudentNotesNonExistingStudent() {
+        $notes = get_list_of_student_notes('FakeSSN', $this->ini_path);
+        $this->assertEquals(0, count($notes));
+    }
 }
