@@ -15,6 +15,7 @@ session_start();
 
 <head>
   <?php include("includes/head.php"); ?>
+  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
   <link rel="stylesheet" type="text/css" href="css/signin.css">
   <link rel="stylesheet" type="text/css" href="css/w3.css">
 </head>
