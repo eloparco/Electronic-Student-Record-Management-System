@@ -1,5 +1,6 @@
 ### VIsual Studio Code ###
 .vscode/
+.scannerwork/
 Backups/
 Cache/
 CachedExtensions/
