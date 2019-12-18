@@ -290,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `SUPPORT_MATERIAL` (
   `Date` date NOT NULL,
   `Filename` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
