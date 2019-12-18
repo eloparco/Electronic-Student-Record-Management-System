@@ -27,7 +27,8 @@ if(isset($_SESSION['msg_result'])) {
 <html lang="en">
 
   <head>
-    <?php include("includes/head.php");?>
+    <?php include("includes/head.php"); ?>
+  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
     <link href="css/dashboard.css" rel="stylesheet" type="text/css">
     <link href="css/responsive.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
