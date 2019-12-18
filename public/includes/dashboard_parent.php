@@ -31,8 +31,8 @@ if(isset($_SESSION['child'])){
         <span>Child selection</span>
     </h6>
     <ul class="nav flex-column mb-2">
-    <li class="nav-item dropdown-toggle liDropdown">
-            <a class="nav-link sideDropdown" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+    <li class="nav-item dropdown-toggle liDropdown" id="dropMenu">
+            <a id='' class="nav-link sideDropdown" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
                 <span id="arrowDownDropdown" data-feather="chevron-down"></span>
                 <span id="arrowUpDropdown" data-feather="chevron-up"></span>
                 Select child

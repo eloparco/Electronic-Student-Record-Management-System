@@ -108,7 +108,7 @@ if (isset($_SESSION['msg_result'])) {
                   </h2>
                 </div>
                 <div id="collapse<?php echo $i ?>" class="collapse" aria-labelledby="heading<?php echo $i ?>" data-parent="#accordion">
-                  <div class="card-body">
+                  <div class="card-body" id=cardBody<?php echo $i ?>>
                     <div class="media">
                       <div class="media-body">
                         <h5 class="mt-0"><?php echo $note['SubjectName'] ?></h5>
