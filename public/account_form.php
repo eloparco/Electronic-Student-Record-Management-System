@@ -31,6 +31,7 @@ if(isset($_SESSION['msg_result'])) {
 
 <head>
   <?php include("includes/head.php"); ?>
+  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
   <link href="css/responsive.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/customForm.css">
@@ -66,7 +67,7 @@ if(isset($_SESSION['msg_result'])) {
     <!--toggle sidebar button-->
     <p class="visible-xs" id="sidebar-toggle-btn">
       <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-        <i data-feather="menu"></i>
+        <em data-feather="menu"></em>
       </button>
     </p>  
     <form id="myAccountForm" class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="validation_account.php" method="post">
@@ -108,16 +109,16 @@ if(isset($_SESSION['msg_result'])) {
         if(isset($_SESSION['msg_result'])) {
           if(!empty($_SESSION['msg_result'])) {
             if($_SESSION['msg_result'] == INSERT_ACCOUNT_OK || $_SESSION['msg_result'] == UPDATE_ACCOUNT_OK) { ?>
-                <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
+                <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong>
           <?php } else { ?>
-                <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
+                <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong>
             <?php } }
           else {
           $_SESSION['msg_result'] = "";} } ?>
       <?php 
         if(isset($_GET['msg'])) {
           if(!empty($_GET['msg'])) { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo 'Session expired: try to login again.';?></b></span></div></b>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo 'Session expired: try to login again.';?></strong></span></div></strong>
           <?php }
           $_GET['msg'] = "";} ?>
       <button class="btn btn-lg btn-primary btn-block" type="submit"  id="confirmInsertAccount">Submit</button>

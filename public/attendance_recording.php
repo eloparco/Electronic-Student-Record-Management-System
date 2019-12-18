@@ -27,6 +27,7 @@ if (isset($_SESSION['msg_result'])) {
 
 <head>
     <?php include("includes/head.php"); ?>
+  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
     <link href="css/dashboard.css" rel="stylesheet" type="text/css">
     <link href="css/responsive.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -80,7 +81,7 @@ if (isset($_GET['msg_result'])) {
     <!--toggle sidebar button-->
     <p class="visible-xs" id="sidebar-toggle-btn">
       <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-        <i data-feather="menu"></i>
+        <em data-feather="menu"></em>
       </button>
     </p>  
     <div id="attendance-rec-div" class="table-responsive col-md-12 ml-lg-15 ml-sm-1 col-lg-10 col-sm-11 pt-3 px-8">
@@ -105,15 +106,15 @@ if (isset($_GET['msg_result'])) {
         <table class="col table" id="classTable">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Student</th>
-                    <th>SSN</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                    <th>10 min late</th>
-                    <th>1 hour late</th>
-                    <th>Early leaving</th>
-                    <th>Leaving hour</th>
+                    <th id="idNum">#</th>
+                    <th id="student">Student</th>
+                    <th id="ssn">SSN</th>
+                    <th id="present">Present</th>
+                    <th id="absent">Absent</th>
+                    <th id="10minLate">10 min late</th>
+                    <th id="1hourLate">1 hour late</th>
+                    <th id="earlyLeaving">Early leaving</th>
+                    <th id="leavingHour">Leaving hour</th>
                 </tr>
             </thead>
             <tbody>

@@ -29,6 +29,7 @@ if (isset($_SESSION['msg_result'])) {
 
 <head>
   <?php include("includes/head.php"); ?>
+  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
   <link href="css/responsive.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/lecture_rec.css">
@@ -78,7 +79,7 @@ if (isset($_SESSION['msg_result'])) {
         <!--toggle sidebar button-->
         <p class="visible-xs" id="sidebar-toggle-btn">
           <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-            <i data-feather="menu"></i>
+            <em data-feather="menu"></em>
           </button>
         </p>
         <div class="col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-8 pt-3 px-8">

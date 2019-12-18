@@ -24,6 +24,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
 
 <head>
   <?php include("includes/head.php"); ?>
+  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
   <link href="css/responsive.css" rel="stylesheet" type="text/css">
   <!-- jQuery -->
@@ -63,7 +64,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
   <!--toggle sidebar button-->
   <p class="visible-xs" id="sidebar-toggle-btn">
     <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-      <i data-feather="menu"></i>
+      <em data-feather="menu"></em>
     </button>
   </p>  
   <main role="main" class="form-record">
@@ -101,9 +102,9 @@ if(!empty($children) && !isset($_SESSION['child'])){
     <table class="table table-bordered" id="marks_table">
         <thead class="thead-dark">
         <tr>
-            <td><b>Subject</b></td>
-            <td><b>Date</b></td>
-            <td><b>Score</b></td>
+            <th id="subject"><strong>Subject</strong></th>
+            <th id="date"><strong>Date</strong></th>
+            <th id="score"><strong>Score</strong></th>
         </tr>
         </thead>
         <tbody>

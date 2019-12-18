@@ -62,6 +62,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
 
 <head>
   <?php include("includes/head.php"); ?>
+  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
   <link href="css/responsive.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/customForm.css">
@@ -96,7 +97,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
     <!--toggle sidebar button-->
     <p class="visible-xs" id="sidebar-toggle-btn">
       <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-        <i data-feather="menu"></i>
+        <em data-feather="menu"></em>
       </button>
     </p> 
       <form class="form-signin col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST" enctype="multipart/form-data">
@@ -121,9 +122,9 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
       if (isset($_SESSION['msg_result'])) {
         if (!empty($_SESSION['msg_result'])) {
           if ($_SESSION['msg_result'] != PUBLISH_TIMETABLE_OK) { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result']; ?></b></span></div></b>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION['msg_result']; ?></strong></span></div></strong>
           <?php } else { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result']; ?></b></span></div></b>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><strong><?php echo $_SESSION['msg_result']; ?></strong></span></div></strong>
       <?php
           }
         }

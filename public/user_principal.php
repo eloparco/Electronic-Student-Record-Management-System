@@ -24,6 +24,7 @@ if(!userLoggedIn() || !userTypeLoggedIn('PRINCIPAL')) {
 
 <head>
   <?php include("includes/head.php"); ?>
+  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
   <link href="css/responsive.css" rel="stylesheet" type="text/css">
 </head>
@@ -45,7 +46,7 @@ if(!userLoggedIn() || !userTypeLoggedIn('PRINCIPAL')) {
     <!--toggle sidebar button-->
     <p class="visible-xs" id="sidebar-toggle-btn">
       <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-        <i data-feather="menu"></i>
+        <em data-feather="menu"></em>
       </button>
     </p>    
     <h1 class="mt-5">User Principal Main Page</h1>
