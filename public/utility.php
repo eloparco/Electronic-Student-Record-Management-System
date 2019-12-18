@@ -1201,7 +1201,7 @@ function get_list_of_support_material($studentSSN, $ini_path='') {
         if(!$result = mysqli_query($db_con, 'SELECT S.ID as "Id", SJ.Name as "Subject", S.Date as "Date", S.Filename as "Filename"  FROM SUPPORT_MATERIAL S, SUBJECT SJ, CHILD C 
                 WHERE C.Class = S.Class AND
                       SJ.ID = S.SubjectID AND
-                      C.SSN="'.$studentSSN.'" ORDER BY S.Date DESC;'))
+                      C.SSN="'.$studentSSN.'" ORDER BY S.Date;'))
             throw new Exception('Error on SELECT support material.');            
                
         $files = mysqli_fetch_all($result, MYSQLI_ASSOC);
