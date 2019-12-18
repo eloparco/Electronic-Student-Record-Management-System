@@ -1,18 +1,8 @@
 <?php
 include("includes/config.php"); 
 require_once('utility.php'); 
+https_redirect();
 
-/* HTTPS CHECK */
-if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-} else {
-  $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-  myRedirectToHTTPS($redirectHTTPS);
-  exit;
-}
-if(session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
-check_inactivity();
 /* LOGGED IN CHECK */
 if(!userLoggedIn() || !userTypeLoggedIn('TEACHER')) {   
   myRedirectTo('login.php', 'SessionTimeOut');

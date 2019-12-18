@@ -1,24 +1,16 @@
 <?php
 include("includes/config.php");
 require_once('utility.php');
-/* HTTPS CHECK */
-if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') { } else {
-  $redirectHTTPS = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-  myRedirectToHTTPS($redirectHTTPS);
-  exit;
-}
-check_inactivity();
-if (!isset($_SESSION))
-  session_start();
+https_redirect();
 
 /* LOGGED IN CHECK */
 if (!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if (isset($_SESSION['msg_result'])) {
-  if (!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_SECRETARY_OK)) {
-    $_SESSION['msg_result'] = '';
+if (isset($_SESSION[MSG])) {
+  if (!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_SECRETARY_OK)) {
+    $_SESSION[MSG] = '';
   }
 }
 
@@ -26,7 +18,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
   // error
   $extension = end(explode('.', $_FILES["file"]["name"]));
   if ($_FILES["file"]["error"] > 0 || $extension !== "csv") {
-    $_SESSION['msg_result'] = PUBLISH_TIMETABLE_FAILED;
+    $_SESSION[MSG] = PUBLISH_TIMETABLE_FAILED;
   } else {
     $file = fopen($_FILES['file']['tmp_name'], 'r');
     $timetable = array();
@@ -37,7 +29,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
     // check if class is empty
     $class = $_REQUEST['classSelection'];
     if ($class === '') {
-      $_SESSION['msg_result'] = MISSING_INPUT;
+      $_SESSION[MSG] = MISSING_INPUT;
     } else {
       // check file format
       $wrong_format = false;
@@ -47,9 +39,9 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
         }
       }
       if (count($timetable) !== 6 || $wrong_format === true) {
-        $_SESSION['msg_result'] = WRONG_FILE_FORMAT;
+        $_SESSION[MSG] = WRONG_FILE_FORMAT;
       } else {
-        $_SESSION['msg_result'] = insert_timetable($class, $timetable);
+        $_SESSION[MSG] = insert_timetable($class, $timetable);
         // print_r($timetable);
       }
     }
@@ -119,16 +111,16 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
       <input type="file" id="file" name="file" class="form-control mt-4">
 
       <?php
-      if (isset($_SESSION['msg_result'])) {
-        if (!empty($_SESSION['msg_result'])) {
-          if ($_SESSION['msg_result'] != PUBLISH_TIMETABLE_OK) { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION['msg_result']; ?></strong></span></div></strong>
+      if (isset($_SESSION[MSG])) {
+        if (!empty($_SESSION[MSG])) {
+          if ($_SESSION[MSG] != PUBLISH_TIMETABLE_OK) { ?>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION[MSG]; ?></strong></span></div></strong>
           <?php } else { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><strong><?php echo $_SESSION['msg_result']; ?></strong></span></div></strong>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><strong><?php echo $_SESSION[MSG]; ?></strong></span></div></strong>
       <?php
           }
         }
-        $_SESSION['msg_result'] = "";
+        $_SESSION[MSG] = "";
       } ?>
 
       <button class="btn btn-lg btn-primary btn-block mt-2" type="submit" id="submit">Submit</button>
@@ -136,10 +128,6 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
   </div>
 </body>
 
-<!-- Icons -->
-<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script>
-  feather.replace();
-</script>
+
 
 </html>

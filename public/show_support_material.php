@@ -2,25 +2,16 @@
 include("includes/config.php");
 require_once('utility.php');
 include("download_file.php");//needed to download file
-/* HTTPS CHECK */
-if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-} else {
-  $redirectHTTPS = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-  myRedirectToHTTPS($redirectHTTPS);
-  exit;
-}
-check_inactivity();
-if (!isset($_SESSION))
-  session_start();
+https_redirect();
 
 /* LOGGED IN CHECK */
 if (!userLoggedIn() || !userTypeLoggedIn('PARENT')) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if (isset($_SESSION['msg_result'])) {
-  if (!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_PARENT_OK)) {
-    $_SESSION['msg_result'] = '';
+if (isset($_SESSION[MSG])) {
+  if (!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK)) {
+    $_SESSION[MSG] = '';
   }
 }
 ?>
@@ -136,10 +127,6 @@ if (isset($_SESSION['msg_result'])) {
     </div>
 </body>
 
-<!-- Icons -->
-<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script>
-  feather.replace();
-</script>
+
 
 </html>

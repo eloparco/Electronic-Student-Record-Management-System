@@ -14,9 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $isEmailCorrect = checkEmail($username);
 
         if(!$isEmailCorrect)
-            $_SESSION['msg_result'] = EMAIL_INCORRECT;
+            $_SESSION[MSG] = EMAIL_INCORRECT;
         else if(!$isPasswordCorrect)
-            $_SESSION['msg_result'] = PASSWORD_INCORRECT;
+            $_SESSION[MSG] = PASSWORD_INCORRECT;
         else {
             $username = mySanitizeString($username);
             $retVal = tryLogin($username, $password);
@@ -48,12 +48,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else if($retVal == CHANGE_PASSWORD) {                
                 header('Location: update_password.php');
             } else 
-                $_SESSION['msg_result'] = $retVal;
+                $_SESSION[MSG] = $retVal;
         }
     } else {
-        $_SESSION['msg_result'] = LOGIN_FAILED;
+        $_SESSION[MSG] = LOGIN_FAILED;
     }
 } else {
-    $_SESSION['msg_result'] = LOGIN_FAILED;
+    $_SESSION[MSG] = LOGIN_FAILED;
 }
 ?>

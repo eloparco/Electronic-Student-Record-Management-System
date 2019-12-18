@@ -17,12 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $subtitle = $_POST['subtitle'];
 
         $retval = recordTopic($class, $date, $hour, $subjectID, $teacher, $title, $subtitle);
-        $_SESSION['msg_result'] = $retval;
+        $_SESSION[MSG] = $retval;
 
     } else {
-        $_SESSION['msg_result'] = TOPIC_RECORDING_INCORRECT;
+        $_SESSION[MSG] = TOPIC_RECORDING_INCORRECT;
     }
 } else {
-    $_SESSION['msg_result'] = TOPIC_RECORDING_FAILED;
+    $_SESSION[MSG] = TOPIC_RECORDING_FAILED;
 }
 ?>

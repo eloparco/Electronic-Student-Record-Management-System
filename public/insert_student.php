@@ -16,11 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $class = $_POST['class'];
         
         $retval = insertStudent($ssn, $name, $surname, $parent1, $parent2, $class);
-        $_SESSION['msg_result'] = $retval;
+        $_SESSION[MSG] = $retval;
     }
 
 } else {
-    $_SESSION['msg_result'] = STUDENT_RECORDING_FAILED;
+    $_SESSION[MSG] = STUDENT_RECORDING_FAILED;
 }
 
 ?>

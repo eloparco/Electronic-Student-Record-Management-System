@@ -24,12 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //Get File Size
         $file_size = $_FILES['userfile']['size'];
 
-        $_SESSION['msg_result'] = uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_name, $file_size);  
+        $_SESSION[MSG] = uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_name, $file_size);  
 
     } else {
-        $_SESSION['msg_result'] = "Upload Failed.";
+        $_SESSION[MSG] = "Upload Failed.";
     }
 } else {
-    $_SESSION['msg_result'] = "Upload Failed.";
+    $_SESSION[MSG] = "Upload Failed.";
 }
 ?>

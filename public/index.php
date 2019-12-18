@@ -1,17 +1,10 @@
 <?php
   include("includes/config.php");
   require_once('utility.php');
-  /* HTTPS CHECK */
-  if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-  } else { 
-    $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-    myRedirectToHTTPS($redirectHTTPS);
-    exit;
-  }
-  session_start();
+  https_redirect();
   /* LOGGED IN CHECK */
   if(userLoggedIn()) { //stay in 'user page' until you do logout
-    $_SESSION['msg_result'] = "";
+    $_SESSION[MSG] = "";
     switch($_SESSION['myUserType']) {
       case 'TEACHER':
         header('Location: user_teacher.php');
