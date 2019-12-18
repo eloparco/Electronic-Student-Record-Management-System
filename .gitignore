@@ -22,3 +22,4 @@ chromedriver*
 
 ### Upload folder ###
 public/uploads/*
+support_material/*
