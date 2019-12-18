@@ -29,10 +29,8 @@ class Story10Cest
         //select 1 students late       
         $I->click('input[for="PNCRCR02C13L219Klate15Radio"]');        
         //send request to db        
-        $I->click('Confirm');
-
-        $I->acceptPopup();       
-        $I->wait(8);
+        $I->click('Confirm');        
+        $I->acceptPopup();
         $I->click('Logout');
         
         // login as teacher

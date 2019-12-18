@@ -100,7 +100,7 @@ class Story4Cest
         // che if it is showing an error
         //$I->seeInCurrentUrl('/parent_form.php');
         $I->wait(1);
-        $I->see('Student already exists.');
+        $I->see("This SSN it's already registered. Please insert a new one.");
         $I->click('Logout');        
         
     }

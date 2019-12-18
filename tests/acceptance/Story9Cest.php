@@ -72,7 +72,7 @@ class Story9Cest
             'StudentSSN' => 'MNDGPP04E14L219U',
             'Date' => date('Y-m-d'),            
             'Presence' => 'ABSENT',
-            'ExitHour' => '0'
+            'ExitHour' => '6'
         ]);   
 
         $I->seeInDatabase('ATTENDANCE', [
