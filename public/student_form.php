@@ -111,11 +111,13 @@ if(isset($_SESSION['msg_result'])) {
                   for(var i=0; i<resJSON.length; i++){
                     var currSSN = resJSON[i]["SSN"];
                     if($(inputSSN).val() === currSSN){
-                      alert("This SSN it's already registered. Please insert a new one.");
+                      // alert("This SSN it's already registered. Please insert a new one.");
                       $(inputSSN).val("");
+                      $("#duplicateError").show();
                       return;
                     }
                   }
+                  $("#duplicateError").hide();
                 },
                 error: function(request, state, error) {
                   console.log("State error " + state);
@@ -218,6 +220,11 @@ if(isset($_SESSION['msg_result'])) {
               });
             });
           </script>
+
+          <div id="duplicateError" class="alert alert-danger" role="alert" style="display:none">
+            This SSN it's already registered. Please insert a new one.
+          </div>
+
           <!-- POST Method response -->
         <?php 
         if(isset($_SESSION['msg_result'])) {
