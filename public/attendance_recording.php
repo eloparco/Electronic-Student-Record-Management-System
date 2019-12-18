@@ -105,15 +105,15 @@ if (isset($_GET['msg_result'])) {
         <table class="col table" id="classTable">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Student</th>
-                    <th>SSN</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                    <th>10 min late</th>
-                    <th>1 hour late</th>
-                    <th>Early leaving</th>
-                    <th>Leaving hour</th>
+                    <th id="idNum">#</th>
+                    <th id="student">Student</th>
+                    <th id="ssn">SSN</th>
+                    <th id="present">Present</th>
+                    <th id="absent">Absent</th>
+                    <th id="10minLate">10 min late</th>
+                    <th id="1hourLate">1 hour late</th>
+                    <th id="earlyLeaving">Early leaving</th>
+                    <th id="leavingHour">Leaving hour</th>
                 </tr>
             </thead>
             <tbody>

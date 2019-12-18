@@ -101,9 +101,9 @@ if(!empty($children) && !isset($_SESSION['child'])){
     <table class="table table-bordered" id="marks_table">
         <thead class="thead-dark">
         <tr>
-            <td><b>Subject</b></td>
-            <td><b>Date</b></td>
-            <td><b>Score</b></td>
+            <th id="subject"><b>Subject</b></th>
+            <th id="date"><b>Date</b></th>
+            <th id="score"><b>Score</b></th>
         </tr>
         </thead>
         <tbody>
