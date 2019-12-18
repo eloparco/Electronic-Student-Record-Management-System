@@ -32,7 +32,7 @@ class Story10Cest
         $I->click('Confirm');
 
         $I->acceptPopup();       
-        
+        $I->wait(8);
         $I->click('Logout');
         
         // login as teacher
@@ -51,7 +51,7 @@ class Story10Cest
         $I->wait(1);
         //check if Early Leaving button is checked
         $I->seeCheckboxIsChecked('input[for="MNDGPP04E14L219UabsentRadio"]');
-        $I->click('Logout');
+        //$I->click('Logout');
     }
     public function testInsertEarlyLeavingStudent(AcceptanceTester $I)
     {        
