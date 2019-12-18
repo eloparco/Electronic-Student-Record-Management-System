@@ -1,17 +1,8 @@
 <?php
 include("includes/config.php"); 
 require_once('utility.php'); 
-if(session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-/* HTTPS CHECK */
-if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-} else {
-  $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-  myRedirectToHTTPS($redirectHTTPS);
-  exit;
-}
-check_inactivity();
+https_redirect();
+
 /* LOGGED IN CHECK */
 if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {   
   myRedirectTo('login.php', 'SessionTimeOut');

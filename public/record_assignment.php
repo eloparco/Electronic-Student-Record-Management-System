@@ -16,33 +16,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $file_ext=strtolower(end(explode('.',$_FILES['file']['name'])));
 
             // Uncomment for debug
-            // $_SESSION['msg_result'] = "DEBUG: filename: ".$file_name." File size: ".$file_size." file tmp: ".file_tmp." file type: ".$file_type." file ext: ".$file_ext;
+            // $_SESSION[MSG] = "DEBUG: filename: ".$file_name." File size: ".$file_size." file tmp: ".file_tmp." file type: ".$file_type." file ext: ".$file_ext;
             // die();
 
             // Supported extension
             $extensions= array("jpeg","jpg","png", "pdf", "md", "txt", "ods");
 
             if(in_array($file_ext,$extensions) === false){
-                $_SESSION['msg_result'] = WRONG_FILE_EXTENSION.". .".$file_ext." files are not allowed.";
+                $_SESSION[MSG] = WRONG_FILE_EXTENSION.". .".$file_ext." files are not allowed.";
                 die();
              }
 
              if($file_size > 2097152){
-                $_SESSION['msg_result'] = FILE_TOO_BIG;
+                $_SESSION[MSG] = FILE_TOO_BIG;
                 die();
              }
 
              
              if (file_exists($file_name)) {
-                $_SESSION['msg_result'] = FILE_ALREADY_EXISTS;
+                $_SESSION[MSG] = FILE_ALREADY_EXISTS;
                 die();
             }
 
             $uploaded = move_uploaded_file($file_tmp,UPLOAD_PATH.$file_name);
 
             if(!$uploaded){
-                $_SESSION['msg_result'] = "Error moving: ".$file_tmp." to ".UPLOAD_PATH.$file_name;
-                // $_SESSION['msg_result'] = FILE_UPLOAD_ERROR. " File: ".$file_name." uploading failed. ";
+                $_SESSION[MSG] = "Error moving: ".$file_tmp." to ".UPLOAD_PATH.$file_name;
+                // $_SESSION[MSG] = FILE_UPLOAD_ERROR. " File: ".$file_name." uploading failed. ";
                 die();
             }
             //copy($file_tmp, PATH_UPLOADS.$file_name);
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $retval = recordAssignment($class, $subjectID, $date, $title, $subtitle, $attachment);
 
-            $_SESSION['msg_result'] = $retval;
+            $_SESSION[MSG] = $retval;
 
             die();
         } else {
@@ -77,13 +77,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $retval = recordAssignment($class, $subjectID, $date, $title, $subtitle, $attachment);
 
-            $_SESSION['msg_result'] = $retval;
+            $_SESSION[MSG] = $retval;
         }
 
     } else {
-        $_SESSION['msg_result'] = ASSIGNMENT_RECORDING_INCORRECT;
+        $_SESSION[MSG] = ASSIGNMENT_RECORDING_INCORRECT;
     }
 } else {
-    $_SESSION['msg_result'] = ASSIGNMENT_RECORDING_FAILED;
+    $_SESSION[MSG] = ASSIGNMENT_RECORDING_FAILED;
 }
 ?>

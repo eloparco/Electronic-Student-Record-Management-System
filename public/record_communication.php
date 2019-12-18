@@ -12,12 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $subtitle = $_POST['subtitle'];
 
         $retval = recordCommunication($title, $subtitle);
-        $_SESSION['msg_result'] = $retval;
+        $_SESSION[MSG] = $retval;
 
     } else {
-        $_SESSION['msg_result'] = COMMUNICATION_RECORDING_INCORRECT;
+        $_SESSION[MSG] = COMMUNICATION_RECORDING_INCORRECT;
     }
 } else {
-    $_SESSION['msg_result'] = COMMUNICATION_RECORDING_FAILED;
+    $_SESSION[MSG] = COMMUNICATION_RECORDING_FAILED;
 }
 ?>

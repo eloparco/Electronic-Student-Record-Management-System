@@ -1,16 +1,7 @@
 <?php
 include('includes/config.php');
 require_once('utility.php');
-/* HTTPS CHECK */
-if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-} else {
-  $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-  myRedirectToHTTPS($redirectHTTPS);
-  exit;
-}
-check_inactivity();
-if(!isset($_SESSION)) 
-  session_start();
+https_redirect();
  
 $children = get_children_of_parent($_SESSION['mySession']);
 if(!empty($children) && !isset($_SESSION['child'])){
@@ -128,11 +119,4 @@ if(!empty($children) && !isset($_SESSION['child'])){
   </main>
 </div>
 </body>
-
-<!-- Icons -->
-<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script>
-    feather.replace();
-</script>
-
 </html>

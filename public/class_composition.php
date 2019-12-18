@@ -1,16 +1,7 @@
 <?php
 include("includes/config.php"); 
 require_once('utility.php');
-/* HTTPS CHECK */
-if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-} else {
-  $redirectHTTPS = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-  myRedirectToHTTPS($redirectHTTPS);
-  exit;
-}
-check_inactivity();
-if(!isset($_SESSION)) 
-  session_start();
+https_redirect();
  
 /* LOGGED IN CHECK */
 if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {   
@@ -33,9 +24,9 @@ if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
     <link rel="stylesheet" type="text/css" href="css/w3.css"> 
     <script src="https://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>    
     <?php  
-      if(isset($_GET['msg_result'])) {
-        if(!empty($_GET['msg_result'])) {
-          $_GET['msg_result'] = "";
+      if(isset($_GET[MSG])) {
+        if(!empty($_GET[MSG])) {
+          $_GET[MSG] = "";
         }
       }
     ?>

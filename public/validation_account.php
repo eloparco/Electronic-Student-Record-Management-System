@@ -28,15 +28,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = generatePass($name);
 
         if(!$isEmailCorrect)
-            $_SESSION['msg_result'] = EMAIL_INCORRECT;
+            $_SESSION[MSG] = EMAIL_INCORRECT;
         else if(!$isSSNCorrect)
-            $_SESSION['msg_result'] = SSN_INCORRECT;
+            $_SESSION[MSG] = SSN_INCORRECT;
         else if(!$isNameCorrect)
-            $_SESSION['msg_result'] = NAME_INCORRECT;
+            $_SESSION[MSG] = NAME_INCORRECT;
         else if(!$isSurnameCorrect)
-            $_SESSION['msg_result'] = SURNAME_INCORRECT;
+            $_SESSION[MSG] = SURNAME_INCORRECT;
         else if(!$isAccountTypeCorrect)
-            $_SESSION['msg_result'] = USERTYPE_INCORRECT;
+            $_SESSION[MSG] = USERTYPE_INCORRECT;
         else {
             /* Sanitize strings */
             $ssn = mySanitizeString($ssn);
@@ -49,15 +49,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $retVal = tryInsertAccount($ssn, $name, $surname, $username, $password, $accountType, 0);
             if($retVal == INSERT_ACCOUNT_OK || $retVal == UPDATE_ACCOUNT_OK) {
                 $_SESSION['time'] = time(); 
-                $_SESSION['msg_result'] = $retVal;
+                $_SESSION[MSG] = $retVal;
                 header('Location: account_form.php');
             } else 
-                $_SESSION['msg_result'] = $retVal;
+                $_SESSION[MSG] = $retVal;
         }
     } else {
-        $_SESSION['msg_result'] = INSERT_ACCOUNT_FAILED;
+        $_SESSION[MSG] = INSERT_ACCOUNT_FAILED;
     }
 } else {
-    $_SESSION['msg_result'] = INSERT_ACCOUNT_FAILED;
+    $_SESSION[MSG] = INSERT_ACCOUNT_FAILED;
 }
 ?>
