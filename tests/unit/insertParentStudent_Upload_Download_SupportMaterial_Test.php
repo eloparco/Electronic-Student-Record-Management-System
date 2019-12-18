@@ -1,6 +1,6 @@
 <?php
 require_once('public/utility.php');
-class insertParentStudent_UploadSupportMaterial_Test extends \Codeception\Test\Unit
+class insertParentStudent_Upload_Download_SupportMaterial_Test extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -68,6 +68,69 @@ class insertParentStudent_UploadSupportMaterial_Test extends \Codeception\Test\U
             echo 'error on testInsertAlreadyExistsSupportMaterial';
         mysqli_close($db_con);
         $this->assertEquals('File already exists, please select another one.', uploadSupportMaterialFile( '1A', 1, 'tmpfile', 'test.pdf', 1048576, $ini_path) );
+    }
+    //Story 16
+    public function test_get_list_of_support_material_success()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $db_con = connect_to_db($ini_path);
+        if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
+            echo 'error on testInsertAlreadyExistsSupportMaterial';
+        mysqli_close($db_con);
+
+                                                //PNCRCR02C13L219K is Riccardo Ponci Child
+        $files = get_list_of_support_material("PNCRCR02C13L219K", $ini_path);
+
+        foreach ($files as $file) {
+            $this->assertEquals('test.pdf', $file['Filename']);
+            $this->assertEquals(1, $file['Id']);
+            $this->assertEquals('Geography', $file['Subject']);
+            $this->assertEquals(date('Y-m-d'), $file['Date']);
+        }
+    }
+    public function test_get_list_of_support_material_failed()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $db_con = connect_to_db($ini_path);
+        if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
+            echo 'error on test_get_list_of_support_material_failed';
+        mysqli_close($db_con);
+
+                                                //PNCRCR02C13L219K is Riccardo Ponci, Child
+        $files = get_list_of_support_material("fakeSSN", $ini_path);
+
+        $this->assertEmpty($files);
+    }
+    public function test_get_file_success()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $db_con = connect_to_db($ini_path);
+        if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
+            echo 'error on test_get_file_success';
+        mysqli_close($db_con);
+
+                                                
+        $file = get_file(1, $ini_path);
+        
+        $this->assertEquals('test.pdf', $file['Filename']);
+        $this->assertEquals(1, $file['ID']);
+        $this->assertEquals(1, $file['SubjectID']);
+        $this->assertEquals("1A", $file['Class']);
+        $this->assertEquals(date('Y-m-d'), $file['Date']);
+        
+    }
+    public function test_get_file_failed()
+    {
+        $ini_path = __DIR__ . '/../../config/database/database.ini';
+        $db_con = connect_to_db($ini_path);
+        if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
+            echo 'error on test_get_file_failed';
+        mysqli_close($db_con);
+
+        //500505 is a fake file ID                         
+        $file = get_file(500505, $ini_path);
+        
+        $this->assertEmpty($file);        
     }
 
     

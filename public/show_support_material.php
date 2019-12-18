@@ -111,6 +111,7 @@ if (isset($_SESSION['msg_result'])) {
                 <tbody>
                 <?php
                 $files = get_list_of_support_material($_SESSION['child']);
+                                
                 if (count($files) ===0) {
                     echo '<p class="lead text-muted">No support material available.</p>';
                 } else {
