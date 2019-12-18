@@ -72,7 +72,7 @@ if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
     <!--toggle sidebar button-->
     <p class="visible-xs" id="sidebar-toggle-btn">
       <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-        <i data-feather="menu"></i>
+        <em data-feather="menu"></em>
       </button>
     </p> 
     <div id="compositionDiv" class="form-record col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-7 pt-4 px-4">

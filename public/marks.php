@@ -63,7 +63,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
   <!--toggle sidebar button-->
   <p class="visible-xs" id="sidebar-toggle-btn">
     <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-      <i data-feather="menu"></i>
+      <em data-feather="menu"></em>
     </button>
   </p>  
   <main role="main" class="form-record">
@@ -101,9 +101,9 @@ if(!empty($children) && !isset($_SESSION['child'])){
     <table class="table table-bordered" id="marks_table">
         <thead class="thead-dark">
         <tr>
-            <th id="subject"><b>Subject</b></th>
-            <th id="date"><b>Date</b></th>
-            <th id="score"><b>Score</b></th>
+            <th id="subject"><strong>Subject</strong></th>
+            <th id="date"><strong>Date</strong></th>
+            <th id="score"><strong>Score</strong></th>
         </tr>
         </thead>
         <tbody>

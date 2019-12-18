@@ -83,7 +83,7 @@ if(isset($_SESSION['msg_result'])) {
     <!--toggle sidebar button-->
     <p class="visible-xs" id="sidebar-toggle-btn">
       <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-        <i data-feather="menu"></i>
+        <em data-feather="menu"></em>
       </button>
     </p> 
     <form class="form-record col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-7 pt-3 px-4" action="record_communication.php" method="post" name="comm_recording"> 
@@ -137,9 +137,9 @@ if(isset($_SESSION['msg_result'])) {
           if(isset($_SESSION['msg_result'])) {
             if(!empty($_SESSION['msg_result'])) {
                 if($_SESSION['msg_result'] != COMMUNICATION_RECORDING_OK){ ?>
-                    <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span id="msg-result"><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
+                    <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span id="msg-result"><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong>
                 <?php } else { ?>
-                    <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span id="msg-result"><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
+                    <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span id="msg-result"><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong>
                 <?php
                 }}
           $_SESSION['msg_result'] = "";} ?>    

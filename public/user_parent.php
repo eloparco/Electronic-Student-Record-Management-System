@@ -49,7 +49,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
     <!--toggle sidebar button-->
     <p class="visible-xs" id="sidebar-toggle-btn">
       <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-        <i data-feather="menu"></i>
+        <em data-feather="menu"></em>
       </button>
     </p>  
     <h1 class="mt-5">User Parent Main Page</h1>

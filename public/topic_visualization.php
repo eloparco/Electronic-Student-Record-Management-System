@@ -82,7 +82,7 @@
       <!--toggle sidebar button-->
       <p class="visible-xs" id="sidebar-toggle-btn">
         <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-          <i data-feather="menu"></i>
+          <em data-feather="menu"></em>
         </button>
       </p> 
         <div id="assignments_div" class="table-responsive col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-8 pt-3 px-8">  

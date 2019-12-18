@@ -80,7 +80,7 @@ if (isset($_GET['msg_result'])) {
     <!--toggle sidebar button-->
     <p class="visible-xs" id="sidebar-toggle-btn">
       <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-        <i data-feather="menu"></i>
+        <em data-feather="menu"></em>
       </button>
     </p>  
     <div id="attendance-rec-div" class="table-responsive col-md-12 ml-lg-15 ml-sm-1 col-lg-10 col-sm-11 pt-3 px-8">

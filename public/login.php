@@ -48,13 +48,13 @@ if(isset($_SESSION['msg_result'])) {
       <?php 
         if(isset($_SESSION['msg_result'])) {
           if(!empty($_SESSION['msg_result'])) { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b></span></div>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong></span></div>
           <?php }
           $_SESSION['msg_result'] = "";} ?>
       <?php 
         if(isset($_GET['msg'])) {
           if(!empty($_GET['msg'])) { ?>
-            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo 'Session expired: try to login again.';?></b></span></div></b></span></div>
+            <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo 'Session expired: try to login again.';?></strong></span></div></strong></span></div>
           <?php }
           $_GET['msg'] = "";} ?>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>

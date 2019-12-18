@@ -76,7 +76,7 @@ if(isset($_SESSION['msg_result'])) {
     <!--toggle sidebar button-->
     <p class="visible-xs" id="sidebar-toggle-btn">
       <button type="button" class="btn btn-light btn-xs" data-toggle="offcanvas">
-        <i data-feather="menu"></i>
+        <em data-feather="menu"></em>
       </button>
     </p> 
     <form id="markRecForm" class="form-record col-md-9 ml-lg-15 ml-md-5 ml-sm-1 col-lg-7 pt-3 px-4" onsubmit="calcMark()" action="record_mark.php" method="post" name="post_mark_recording">
@@ -245,9 +245,9 @@ if(isset($_SESSION['msg_result'])) {
         if(isset($_SESSION['msg_result'])) {
         if(!empty($_SESSION['msg_result'])) {
           if($_SESSION['msg_result'] != MARK_RECORDING_OK){ ?>
-          <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
+          <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong>
         <?php } else { ?>
-          <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><b><?php echo $_SESSION['msg_result'];?></b></span></div></b>
+          <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><strong><?php echo $_SESSION['msg_result'];?></strong></span></div></strong>
         <?php
         }}
         $_SESSION['msg_result'] = "";} ?>    
