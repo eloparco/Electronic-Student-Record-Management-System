@@ -160,10 +160,10 @@ CREATE TABLE IF NOT EXISTS `COMMUNICATION` (
 
 INSERT INTO `COMMUNICATION` (`id`, `Title`, `Description`, `Date`) VALUES
 (2, 'title', 'subtitle', '2019-12-05'),
-(3, 'Prova', 'Prova 2', '2019-12-11');
+(3, 'Prova', 'Prova 2', '2019-12-11'),
 (6, 'Suspension of teaching activities', 'Teaching activities will be suspended from 19/04 to 26/04', '2019-12-20'),
 (7, 'She Hacks ESRMS 2020', '48 hours Hackathon at Polytechnic of Turin', '2019-12-23'),
-(8, 'Dialogues on sustainability', 'A conversation with a special guest: Piero Angela', '2019-12-21')
+(8, 'Dialogues on sustainability', 'A conversation with a special guest: Piero Angela', '2019-12-21');
 
 -- --------------------------------------------------------
 
