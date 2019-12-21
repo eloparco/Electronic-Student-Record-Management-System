@@ -226,6 +226,17 @@ class UtilityTest extends \Codeception\Test\Unit
         tryInsertAccount('FLCRRT77B43L219Q', 'NameTest', 'SurnameTest', 'test@test.tt', 'Test99', 'SECRETARY_OFFICER', 1, $this->ini_path));
     }
 
+    public function testGetCommunications() {
+        $communications = get_communications($this->ini_path);
+        $this->assertEquals(3, count($communications));
+        $this->assertTrue($communications[0]['Title'] == "She Hacks ESRMS 2020");
+        $this->assertTrue($communications[1]['Title'] == "Dialogues on sustainability");
+        $this->assertTrue($communications[2]['Title'] == "Suspension of teaching activities");
+        $this->assertTrue($communications[0]['Description'] == "48 hours Hackathon at Polytechnic of Turin");
+        $this->assertTrue($communications[1]['Description'] == "A conversation with a special guest: Piero Angela");
+        $this->assertTrue($communications[2]['Description'] == "Teaching activities will be suspended from 19/04 to 26/04");
+    }
+
     // GET LIST OF CLASSES
     public function testGetClassList() {
         $classes = get_list_of_classes($this->ini_path);

@@ -980,7 +980,6 @@ function get_communications($ini_path='') {
     mysqli_stmt_close($prep);
     return $communications;
 }
-### END assignment (parent) section
 
 // generic debugging function
 function console_log( $data ){
