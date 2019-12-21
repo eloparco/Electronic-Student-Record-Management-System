@@ -137,30 +137,27 @@ if(isset($_SESSION[MSG])) {
             console.log("Error: " + state);
             // return;
           }
-          var resJSON = JSONdata['result'];
           var retJSON = JSONdata['state'];
-
-          // alert(retJSON);
-
+         
           if(retJSON !== "error"){
-            $("#inputName").val(resJSON['Name']);
-            $("#inputSurname").val(resJSON['Surname']);
-            $("#inputEmail").val(resJSON['Email']);
+            $("#inputName").val(JSONdata['result']['Name']);
+            $("#inputSurname").val(JSONdata['result']['Surname']);
+            $("#inputEmail").val(JSONdata['result']['Email']);
             
             // Disable the input
-            $("#inputName").prop('disabled', true);
-            $("#inputSurname").prop('disabled', true);
-            $("#inputEmail").prop('disabled', true);
-            
+            $("#inputName").attr('readonly', true); 
+            $("#inputSurname").attr('readonly', true); 
+            $("#inputEmail").attr('readonly', true); 
+
           } else {
             $("#inputName").val("");
             $("#inputSurname").val("");
             $("#inputEmail").val("");
 
             // Enable input
-            $("#inputName").prop('disabled', false);
-            $("#inputSurname").prop('disabled', false);
-            $("#inputEmail").prop('disabled', false);
+            $("#inputName").attr('readonly', false); 
+            $("#inputSurname").attr('readonly', false); 
+            $("#inputEmail").attr('readonly', false); 
             
           }
 
