@@ -191,6 +191,9 @@ INSERT INTO `COMMUNICATION` (`id`, `Title`, `Description`, `Date`) VALUES
 (3, 'Prova', 'Prova 2', '2019-12-11'),
 (4, 'title', 'subtitle', '2019-12-08'),
 (5, 'title', 'sub', '2019-12-08');
+(6, 'Suspension of teaching activities', 'Teaching activities will be suspended from 19/04 to 26/04', '2019-12-20'),
+(7, 'She Hacks ESRMS 2020', '48 hours Hackathon at Polytechnic of Turin', '2019-12-23'),
+(8, 'Dialogues on sustainability', 'A conversation with a special guest: Piero Angela', '2019-12-21')
 
 -- --------------------------------------------------------
 
