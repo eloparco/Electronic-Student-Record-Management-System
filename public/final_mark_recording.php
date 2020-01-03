@@ -190,6 +190,61 @@ if(isset($_SESSION[MSG])) {
               </select>
             </div>  
           </div>  
+
+
+          <!-- Use CSV file -->
+          
+          <label for="fileinput">Upload a CSV file with marks</label>
+          
+          <input type="file" id="fileinput" />
+          <script>
+            function readSingleFile(evt) {
+              var f = evt.target.files[0]; 
+             
+              if (f) {
+                var r = new FileReader();
+                r.onload = function(e) { 
+                  var contents = e.target.result;
+                  var lines = contents.split("\n"), output = [];
+             
+                  for (var i=0; i<lines.length; i++){
+                    var fields = lines[i].split(",");
+                      
+                    var student = fields[0];
+                    var subject = fields[1];
+                    var score = fields [2];
+                
+                    if(student != ""){
+                      $.ajax({
+                        type : "POST", 
+                        url  : "record_final_mark_csv.php",
+                        data : { student : student, subject : subject, score : score },
+                        success: function(JSONres){  
+                          var res = JSON.parse(JSONres);
+
+                          var succesCode = "<?php echo MARK_RECORDING_OK;?>";
+                          if(res['result'] != succesCode){
+                            alert("Error during mark recording with values: "+res['tuple']+" values are not valid.");
+                          } else {
+                            alert("Mark successfully recorded for values: "+res['tuple']);
+                          }
+                        },
+                        
+                        error: function (xhr, ajaxOptions, thrownError) {
+                          alert("Error during mark recording with values: "+res['tuple']+" values are not valid.");
+                        }
+                      });
+                    }
+                  }
+                }
+                r.readAsText(f);
+              } else { 
+                alert("Failed to load file");
+              }
+            }
+            document.getElementById('fileinput').addEventListener('change', readSingleFile);
+          </script>
+        
         
         <!-- POST Method response -->
           <?php 
