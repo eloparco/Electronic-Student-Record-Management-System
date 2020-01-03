@@ -1,3 +1,5 @@
+<?php require_once('utility.php'); ?>
+
 <div class="col-md-3 col-lg-2 sidebar-offcanvas pl-0" role="navigation" id="sidebar">
     <ul class="nav flex-column mb-2">
         <li class="nav-item">
@@ -55,6 +57,17 @@
             Record note
         </a>
         </li>
-        
+
+        <?php
+            if(isCoordinator($_SESSION["mySession"])){
+                echo '<li class="nav-item">
+                        <a id="recordFinalMarks" class="nav-link" href="final_mark_recording.php">
+                            <span data-feather="edit"></span>
+                            Publish final marks
+                        </a>
+                    </li>';
+            }    
+        ?>
+
     </ul>
 </div>

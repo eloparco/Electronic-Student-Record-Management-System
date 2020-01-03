@@ -1279,4 +1279,91 @@ function https_redirect() {
         }
     }
 }
+
+function isCoordinator($user, $ini_path=''){
+    $db_con = connect_to_db($ini_path);    
+    $user = mySanitizeString($user);
+
+    // Check on db
+    $sql = "SELECT COUNT(*) AS total FROM CLASS, USER WHERE Coordinator = USER.SSN AND USER.Email = '$user';";
+
+    $result = mysqli_query($db_con, $sql);
+    
+    $row = mysqli_fetch_array($result); 
+    $count = $row['total'];
+
+    mysqli_close($db_con);     
+
+    if($count >= 1){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getCoordinatorSubject($teacher){
+    $db_con = connect_to_db();
+
+
+    $query = "SELECT CLASS.Name as Class, SUBJECT.Name, SUBJECT.ID, USER.SSN FROM USER, SUBJECT, CLASS WHERE USER.Email = ? AND USER.SSN = CLASS.Coordinator";
+
+    if(!$db_con){
+        echo '{"state" : "error",
+        "result" : "Error in connection to database." }';
+    }
+
+    $prep_query = mysqli_prepare($db_con, $query);
+    if(!$prep_query){
+        print('Error in preparing query: '.$prep_query);
+        echo '{"state" : "error",
+        "result" : "Database error." }';
+    }
+    if(!mysqli_stmt_bind_param($prep_query, "s", $teacher)){
+        echo '{"state" : "error",
+        "result" : "Param binding error." }';
+    }
+    if(!mysqli_stmt_execute($prep_query)){
+        echo '{"state" : "error",
+        "result" : "Database error (Query execution)." }';
+    }
+
+    mysqli_stmt_bind_result($prep_query, $Class, $Name, $ID, $SSN);
+
+    $rows = array();
+
+    while (mysqli_stmt_fetch($prep_query)) {
+        //echo $Class.$Name.$ID.$SSN;
+        $fields = array("Class" => $Class, "Name" => $Name, "ID" => $ID, "SSN" => $SSN);
+        $subjects[] = $fields;
+
+    }
+
+    mysqli_stmt_close($prep_query);
+
+    return $subjects;
+}
+
+function recordFinalMark($student, $subjectID, $score){
+
+    $con = connect_to_db();
+    if($con && mysqli_connect_error() == NULL) {
+        try {
+            if(!$prep = mysqli_prepare($con, "INSERT INTO FINAL_MARK VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE Mark = ?;"))
+                throw new Exception();
+            if(!mysqli_stmt_bind_param($prep, "siii", $student, $subjectID, $score, $score)) 
+                throw new Exception();
+            if(!mysqli_stmt_execute($prep)) 
+                throw new Exception();
+            else{
+                return MARK_RECORDING_OK;
+            }
+        } catch (Exception $e) {
+            mysqli_close($con);
+            return MARK_RECORDING_FAILED." ".$e;
+            //return MARK_RECORDING_FAILED;
+        }
+    } else {
+        return DB_ERROR;
+    }
+}
 ?>
