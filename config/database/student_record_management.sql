@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Gen 03, 2020 alle 12:49
+-- Creato il: Gen 03, 2020 alle 16:31
 -- Versione del server: 10.4.8-MariaDB
 -- Versione PHP: 7.3.10
 
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `CLASS` (
 
 INSERT INTO `CLASS` (`Name`, `Coordinator`) VALUES
 ('1A', 'BRBGPP57M04L219W'),
-('1B', 'BRBGPP57M04L219W');
+('1B', 'FNLTRS72H50L219Z');
 
 --
 -- Trigger `CLASS`
@@ -124,11 +124,11 @@ INSERT INTO `CLASS` (`Name`, `Coordinator`) VALUES
 DROP TRIGGER IF EXISTS `check_coordinator_as_teacher`;
 DELIMITER $$
 CREATE TRIGGER `check_coordinator_as_teacher` BEFORE INSERT ON `CLASS` FOR EACH ROW BEGIN
-        DECLARE var_role CHAR(30);
+        DECLARE var int;
        
-  		SELECT UserType INTO var_role FROM USER_TYPE WHERE SSN = NEW.Coordinator;
+  		SELECT COUNT(*) INTO var FROM USER_TYPE WHERE SSN = NEW.Coordinator AND USER_TYPE.UserType = "TEACHER";
        
-        IF (var_role != "TEACHER") THEN
+        IF (var = 0 ) THEN
 			SIGNAL sqlstate '45000' set message_text = 'Error! Coordinator must be a teacher!';
         END IF;
 	END
@@ -137,11 +137,11 @@ DELIMITER ;
 DROP TRIGGER IF EXISTS `check_coordinator_as_teacher_update`;
 DELIMITER $$
 CREATE TRIGGER `check_coordinator_as_teacher_update` BEFORE UPDATE ON `CLASS` FOR EACH ROW BEGIN
-        DECLARE var_role CHAR(30);
+        DECLARE var int;
        
-  		SELECT UserType INTO var_role FROM USER_TYPE WHERE SSN = NEW.Coordinator;
+  		SELECT COUNT(*) INTO var FROM USER_TYPE WHERE SSN = NEW.Coordinator AND USER_TYPE.UserType = "TEACHER";
        
-        IF (var_role != "TEACHER") THEN
+        IF (var = 0 ) THEN
 			SIGNAL sqlstate '45000' set message_text = 'Error! Coordinator must be a teacher!';
         END IF;
 	END
@@ -225,6 +225,28 @@ INSERT INTO `COMMUNICATION` (`id`, `Title`, `Description`, `Date`) VALUES
 (3, 'Prova', 'Prova 2', '2019-12-11'),
 (4, 'title', 'subtitle', '2019-12-08'),
 (5, 'title', 'sub', '2019-12-08');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `FINAL_MARK`
+--
+
+DROP TABLE IF EXISTS `FINAL_MARK`;
+CREATE TABLE IF NOT EXISTS `FINAL_MARK` (
+  `Student` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Subject` int(11) NOT NULL,
+  `Mark` int(11) NOT NULL DEFAULT 6,
+  PRIMARY KEY (`Student`,`Subject`),
+  KEY `fk_fm_sb` (`Subject`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `FINAL_MARK`
+--
+
+INSERT INTO `FINAL_MARK` (`Student`, `Subject`, `Mark`) VALUES
+('BRBSMN04A24L219R', 3, 9);
 
 -- --------------------------------------------------------
 
@@ -513,6 +535,13 @@ ALTER TABLE `CLASS_TIMETABLE`
   ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_1` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`),
   ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_2` FOREIGN KEY (`DayOfWeek`,`Hour`) REFERENCES `TIMETABLE` (`DayOfWeek`, `Hour`),
   ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_4` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`);
+
+--
+-- Limiti per la tabella `FINAL_MARK`
+--
+ALTER TABLE `FINAL_MARK`
+  ADD CONSTRAINT `fk_fm_s` FOREIGN KEY (`Student`) REFERENCES `CHILD` (`SSN`),
+  ADD CONSTRAINT `fk_fm_sb` FOREIGN KEY (`Subject`) REFERENCES `SUBJECT` (`ID`);
 
 --
 -- Limiti per la tabella `MARK`
