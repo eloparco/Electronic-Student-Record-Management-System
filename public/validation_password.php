@@ -20,12 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         else if(!$isPasswordCorrect1 && !$isPasswordCorrect2)
             redirect(PASSWORD_INCORRECT, 'update_password.php'); 
         else if($newPassword == $oldPassword)
-            redirect("The new password must be different from the old one", 'update_password.php'); 
+            redirect("The new password must be different from the current one", 'update_password.php'); 
         else {
             $username = mySanitizeString($username);
             $con = connect_to_db();
             try {  
-                if(!$result = mysqli_query($con, 'SELECT UserType, Password FROM USER WHERE Email="'.$username.'";'))
+                if(!$result = mysqli_query($con, 'SELECT UserType, Password FROM USER U, USER_TYPE UT WHERE U.SSN = UT.SSN AND Email="'.$username.'";'))
                     throw new Exception('select error');
                 
                 $row = mysqli_fetch_array($result);        
