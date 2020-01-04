@@ -204,11 +204,12 @@ if(isset($_SESSION[MSG])) {
               if (f) {
                 var r = new FileReader();
                 r.onload = function(e) { 
-                  if(f.type != "csv"){
+                  if(f.type != "text/csv"){
+                    //alert("Type: "+ f.type);
                     alert("The file must be in a CSV format.");
                     return;
                   }
-                  
+
                   var contents = e.target.result;
                   var lines = contents.split("\n"), output = [];
              
