@@ -657,15 +657,16 @@ function get_score_visualization($decimalScore){
 function isInThisWeek($date) {
     ## Check if date is in this week
     // $date = strtotime($date);
-    $FirstDay = date("d/m/Y", strtotime('sunday last week'));  
-    $LastDay = date("d/m/Y", strtotime('sunday this week'));  
-    return $date > $FirstDay && $date < $LastDay;
+    $FirstDay = strtotime('sunday last week');
+    $LastDay = strtotime('sunday this week');
+
+    return (strtotime($date) > $FirstDay && strtotime($date) < $LastDay); 
 }
 
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
     if(!isInThisWeek($date) || $date === "")
         return TOPIC_RECORDING_WRONG_DATE;
-        
+
     $con = connect_to_db($ini_path);
     
     if($con && mysqli_connect_error() == NULL) {
@@ -680,10 +681,10 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
                 return TOPIC_RECORDING_OK;
             }
         } catch (Exception $e) {
-            // $err = mysqli_error($con);
+            $err = mysqli_error($con);
             mysqli_close($con);
-            // return $err;
-            return TOPIC_RECORDING_FAILED;
+            return $err;
+            //return TOPIC_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;
