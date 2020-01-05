@@ -9,6 +9,7 @@ define("LOGIN_ADMIN_OK", "Login Admin success.");
 define("LOGIN_USER_NOT_DEFINED", "User not defined.");
 define("LOGIN_FAILED", "Login failed.");
 define("USER_ALREADY_EXIST", "SSN already exists.");
+define("USER_IS_A_STUDENT", "User is a student.");
 define("INSERT_PARENT_OK", "Parent inserted successfully.");
 define("INSERT_PARENT_FAILED", "Insert Parent failed.");
 define("INSERT_ACCOUNT_OK", "Account inserted successfully.");
@@ -303,8 +304,8 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
     if($con && mysqli_connect_error() == NULL) {
         mysqli_autocommit($con, FALSE);
         try {
-            /* Check if user already exists */
-            if(!$prep = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE"))
+            /* Check if is a student */
+            if(!$prep = mysqli_prepare($con, "SELECT * FROM `CHILD` WHERE SSN = ? FOR UPDATE"))
                 throw new Exception();
             if(!mysqli_stmt_bind_param($prep, "s", $ssn)) 
                 throw new Exception();
@@ -319,33 +320,53 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
                 mysqli_rollback($con);
                 mysqli_autocommit($con, TRUE);
                 mysqli_close($con);
-                return USER_ALREADY_EXIST;
-            } 
+                return USER_IS_A_STUDENT;
+            }
             else {
-                /* Insert parent data into db */
-                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)"))
+                /* Check if user already exists */
+                if(!$prep4 = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE"))
                     throw new Exception();
-                if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) 
+                if(!mysqli_stmt_bind_param($prep4, "s", $ssn)) 
                     throw new Exception();
-                if(!mysqli_stmt_execute($prep2)) 
+                if(!mysqli_stmt_execute($prep4))
                     throw new Exception();
-                else { 
-                    mysqli_stmt_close($prep2);
+                if(!mysqli_stmt_store_result($prep4))
+                    throw new Exception();
+                $count2 = mysqli_stmt_num_rows($prep4);
+                mysqli_stmt_free_result($prep4);
+                mysqli_stmt_close($prep4);
+                if($count2 == 1) {
+                    mysqli_rollback($con);
+                    mysqli_autocommit($con, TRUE);
+                    mysqli_close($con);
+                    return USER_ALREADY_EXIST;
+                } 
+                else {
                     /* Insert parent data into db */
-                    if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)"))
+                    if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)"))
                         throw new Exception();
-                    if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) 
+                    if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) 
                         throw new Exception();
-                    if(!mysqli_stmt_execute($prep3)) 
+                    if(!mysqli_stmt_execute($prep2)) 
                         throw new Exception();
-                    else {
-                        mysqli_stmt_close($prep3);
-                        if(!mysqli_commit($con)) // do the final commit
+                    else { 
+                        mysqli_stmt_close($prep2);
+                        /* Insert parent data into db */
+                        if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)"))
                             throw new Exception();
-                        //sendMail($username, $password);//to send real e-mail
-                        mysqli_autocommit($con, TRUE);
-                        mysqli_close($con);
-                        return INSERT_PARENT_OK;
+                        if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) 
+                            throw new Exception();
+                        if(!mysqli_stmt_execute($prep3)) 
+                            throw new Exception();
+                        else {
+                            mysqli_stmt_close($prep3);
+                            if(!mysqli_commit($con)) // do the final commit
+                                throw new Exception();
+                            //sendMail($username, $password);//to send real e-mail
+                            mysqli_autocommit($con, TRUE);
+                            mysqli_close($con);
+                            return INSERT_PARENT_OK;
+                        }
                     }
                 }
             }
