@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if(isset($_FILES['file']) && !empty(strtolower(end(explode('.',$_FILES['file']['name']))))){
             // Get file data
-            $file_name = $_FILES['file']['name'];
+            $file_name = mySanitizeString($_FILES['file']['name']);
             $file_size =$_FILES['file']['size'];
             $file_tmp =$_FILES['file']['tmp_name'];
             $file_type=$_FILES['file']['type'];

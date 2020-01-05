@@ -20,7 +20,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
   if ($_FILES["file"]["error"] > 0 || $extension !== "csv") {
     $_SESSION[MSG] = PUBLISH_TIMETABLE_FAILED;
   } else {
-    $file = fopen($_FILES['file']['tmp_name'], 'r');
+    $file = fopen(mySanitizeString($_FILES['file']['tmp_name']), 'r');
     $timetable = array();
     while (($row = fgetcsv($file, 8192)) !== FALSE) {
       $timetable[] = $row;

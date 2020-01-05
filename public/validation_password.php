@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         !empty($_POST['username']) && !empty($_POST['oldPassword']) && !empty($_POST['newPassword'])) {
 
         $username = $_POST['username'];
-        $oldPassword = $_POST['oldPassword'];
+        $oldPassword = mySanitizeString($_POST['oldPassword']);
         $newPassword = $_POST['newPassword'];
 
         $isPasswordCorrect1 = checkPassword($oldPassword);

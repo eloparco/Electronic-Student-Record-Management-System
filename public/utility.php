@@ -1315,7 +1315,7 @@ function https_redirect() {
 
     if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off') {
         if (ctype_alnum($_SERVER['HTTP_HOST']) && ctype_alnum($_SERVER['REQUEST_URI'])) {
-            $location = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            $location = 'https://' . mySanitizeString($_SERVER['HTTP_HOST']) . $_SERVER['REQUEST_URI'];
             header('HTTP/1.1 301 Moved Permanently');
             header('Location: '.$location);
             exit;
