@@ -119,4 +119,9 @@ if(!empty($children) && !isset($_SESSION['child'])){
   </main>
 </div>
 </body>
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
 </html>

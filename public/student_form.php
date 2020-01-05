@@ -234,5 +234,4 @@ if(isset($_SESSION[MSG])) {
 <script>
     feather.replace()
 </script>
-
 </html>

@@ -122,7 +122,9 @@ if (isset($_SESSION[MSG])) {
       </div>
     </div>
 </body>
-
-
-
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
 </html>
