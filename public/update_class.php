@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $class = $_POST['class'];
+    $class = mySanitizeString($_POST['class']);
     $students = array();
     $students = json_decode($_POST['students']);
     $con = connect_to_db();
@@ -37,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     foreach ($students as $student){
+        
         if(!$result = mysqli_query($con,'UPDATE CHILD set Class = "'.$class.'" WHERE SSN = "'.$student.'"')){
             echo '{"state" : "error",
                     "result" : Error, please retry..}';
