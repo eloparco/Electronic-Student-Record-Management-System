@@ -772,14 +772,34 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_p
 
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) 
+            /* Check if user already exists */
+            if(!$prep2 = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE"))
                 throw new Exception();
-            if(!mysqli_stmt_bind_param($prep, "ssssss", $SSN, $Name, $Surname, $Parent1, $Parent2, $Class)) 
+            if(!mysqli_stmt_bind_param($prep2, "s", $SSN)) 
                 throw new Exception();
-            if(!mysqli_stmt_execute($prep)) 
+            if(!mysqli_stmt_execute($prep2))
                 throw new Exception();
-            else{
-                return STUDENT_RECORDING_OK;
+            if(!mysqli_stmt_store_result($prep2))
+                throw new Exception();
+            $count = mysqli_stmt_num_rows($prep2);
+            mysqli_stmt_free_result($prep2);
+            mysqli_stmt_close($prep2);
+            if($count == 1) {
+                mysqli_rollback($con);
+                mysqli_autocommit($con, TRUE);
+                mysqli_close($con);
+                return USER_ALREADY_EXIST;
+            } else {
+                /* Insert student into db */
+                if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) 
+                throw new Exception();
+                if(!mysqli_stmt_bind_param($prep, "ssssss", $SSN, $Name, $Surname, $Parent1, $Parent2, $Class)) 
+                    throw new Exception();
+                if(!mysqli_stmt_execute($prep)) 
+                    throw new Exception();
+                else{
+                    return STUDENT_RECORDING_OK;
+                }
             }
         } catch (Exception $e) {
             mysqli_close($con);
