@@ -229,7 +229,7 @@ if(isset($_SESSION[MSG])) {
                               var item = resJSON[i];
                               // $fields = array("Class" => $Class, "Date" => $Date, "Deadline" => $Deadline, 
                               //                 "Title" => $Title, "Description" => $Description, "Attachment" => $Attachment);
-                              $("#assignments").append("<li>Title: "+item['Title']+" Date: "+item['Date']+" Deadline: "+item['Deadline']+"</li>");   
+                              $("#assignments").append("<li class='list-group-item'>Title: "+item['Title']+" Date: "+item['Date']+" Deadline: "+item['Deadline']+"</li>");   
                           }
                         }
                     },
