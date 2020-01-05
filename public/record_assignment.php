@@ -10,10 +10,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_FILES['file']) && !empty(strtolower(end(explode('.',$_FILES['file']['name']))))){
             // Get file data
             $file_name = mySanitizeString($_FILES['file']['name']);
-            $file_size =$_FILES['file']['size'];
-            $file_tmp =$_FILES['file']['tmp_name'];
-            $file_type=$_FILES['file']['type'];
-            $file_ext=strtolower(end(explode('.',$_FILES['file']['name'])));
+            $file_size = mySanitizeString($_FILES['file']['size']);
+            $file_tmp = mySanitizeString($_FILES['file']['tmp_name']);
+            $file_type = mySanitizeString($_FILES['file']['type']);
+            $file_ext=strtolower(end(explode('.',mySanitizeString($_FILES['file']['name']))));
 
             // Uncomment for debug
             // $_SESSION[MSG] = "DEBUG: filename: ".$file_name." File size: ".$file_size." file tmp: ".file_tmp." file type: ".$file_type." file ext: ".$file_ext;
