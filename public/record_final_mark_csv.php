@@ -12,9 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_close($db_con);
         exit();
     }
-    $student = $_POST['student'];
-    $subject = $_POST['subject'];
-    $score = $_POST['score'];
+    $student = htmlspecialchars($_POST['student']);
+    $subject = htmlspecialchars($_POST['subject']);
+    $score = htmlspecialchars($_POST['score']);
 
     $tuple = "Student: ".$student." Subject: ".$subject." Mark: ".$score;
 

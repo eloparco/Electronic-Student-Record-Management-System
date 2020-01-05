@@ -27,7 +27,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
     }
 
     // check if class is empty
-    $class = $_REQUEST['classSelection'];
+    $class = htmlspecialchars($_REQUEST['classSelection']);
     if ($class === '') {
       $_SESSION[MSG] = MISSING_INPUT;
     } else {
