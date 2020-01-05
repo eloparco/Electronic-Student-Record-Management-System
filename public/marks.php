@@ -28,7 +28,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
   <link rel="stylesheet" type="text/css" href="css/w3.css">
 </head>
 
-<body>
+<body class="marksPage">
   <?php include("includes/user_header.php"); ?> 
   <script>
     $(document).ready(function() {
@@ -86,7 +86,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
         <!-- End date seletion -->
         <div class="form-group mb-2">
             <label class="filterLabel" for="endDateSelection">To</label>
-            <input type="text" class="form-control date-selection" id='endDateSelection'>
+            <input type="text" class="container form-control date-selection" id='endDateSelection'>
         </div>
     </div>
     <div>
@@ -119,4 +119,9 @@ if(!empty($children) && !isset($_SESSION['child'])){
   </main>
 </div>
 </body>
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
 </html>

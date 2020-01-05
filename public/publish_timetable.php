@@ -127,7 +127,9 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
     </form>
   </div>
 </body>
-
-
-
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
 </html>

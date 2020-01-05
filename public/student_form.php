@@ -12,7 +12,7 @@ if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
 if(isset($_SESSION[MSG])) {
     if(!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK || 
         $_SESSION[MSG] == INSERT_PARENT_OK || $_SESSION[MSG] == PUBLISH_TIMETABLE_OK ||
-        $_SESSION[MSG] == COMMUNICATION_RECORDING_OK ||
+        $_SESSION[MSG] == COMMUNICATION_RECORDING_OK || $_SESSION[MSG] == USER_IS_A_STUDENT ||
         $_SESSION[MSG] == LOGIN_SECRETARY_OK || $_SESSION[MSG] == LOGIN_TEACHER_OK ||
         $_SESSION[MSG] == LOGIN_PRINCIPAL_OK || $_SESSION[MSG] == LOGIN_ADMIN_OK)) { 
         $_SESSION[MSG] = '';
@@ -80,8 +80,6 @@ if(isset($_SESSION[MSG])) {
       
       <!-- AJAX check for duplicate SSN -->
       <script>
-
-
          $("#inputSSN").change(function() {
               $.ajax({
                 url: "students.php",
@@ -236,5 +234,4 @@ if(isset($_SESSION[MSG])) {
 <script>
     feather.replace()
 </script>
-
 </html>

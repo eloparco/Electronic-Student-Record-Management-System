@@ -55,19 +55,15 @@ if (isset($_GET[MSG])) {
 
     <script>
         var homeElement = document.getElementById("homeDash");
-        var recordMark = document.getElementById("recordMark");
-        var recordLecture = document.getElementById("recordLecture");
         var recordAttendance = document.getElementById("recordAttendance");
-
-        if (homeElement.classList)
-            homeElement.classList.remove("active");
-        if (recordLecture.classList)
-            recordLecture.classList.remove("active");
-        if (recordMark.classList)
-            recordMark.classList.remove("active");
-        if (recordAttendance.classList)
+        if (homeElement.classList) {
+          homeElement.classList.remove("active");
+        }
+        if (recordAttendance.classList) {
             recordAttendance.classList.add("active");
+        }
     </script>
+    
 
 <div class="col main formContainer text-center bg-light">
     <!--toggle sidebar button-->
