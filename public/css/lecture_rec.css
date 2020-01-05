@@ -156,3 +156,7 @@ th .today {
   padding-right: 6px;
   padding-left: 3px;
 }
+
+.marksPage .datepicker {
+  transform: translate(0, 3.1em);
+}
