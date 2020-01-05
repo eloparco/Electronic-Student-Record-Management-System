@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Create a new class
     if($count == 0){
-        if(!$result = mysqli_query($con,'INSERT INTO CLASS VALUES ("'.$class.'");')){
+        if(!$result = mysqli_query($con,'INSERT INTO CLASS(Name) VALUES ("'.$class.'");')){
             echo '{"state" : "error",
                 "result" : Error, please retry..}';
             exit();

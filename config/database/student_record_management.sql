@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Gen 03, 2020 alle 16:31
+-- Creato il: Gen 05, 2020 alle 19:21
 -- Versione del server: 10.4.8-MariaDB
 -- Versione PHP: 7.3.10
 
@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS `ASSIGNMENT` (
 --
 
 INSERT INTO `ASSIGNMENT` (`Class`, `SubjectID`, `DateOfAssignment`, `DeadlineDate`, `Title`, `Description`, `Attachment`) VALUES
+('1A', 3, '2020-01-05', '2020-01-09', 'PROVA', 'PROVA', 'uploads/README.md'),
+('1A', 3, '2020-01-05', '2020-01-30', 'title', 'subtitle', 'NULL'),
 ('1A', 4, '2019-12-15', '2019-12-16', 'Prova', 'Prova con file', 'uploads/ciao.txt');
 
 -- --------------------------------------------------------
@@ -92,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
 ('AAABBBCCC1234567', 'Giuseppe', 'Ponci', 'PNCMSM75D20L219X', NULL, '1A'),
-('BRBSMN04A24L219R', 'Simone', 'Barbero', 'BRBGPP57M04L219W', NULL, '1A'),
+('BRBSMN04A24L219R', 'Simone', 'Barbero', 'BRBGPP57M04L219W', NULL, '1O'),
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
 ('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A');
 
@@ -105,7 +107,7 @@ INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Clas
 DROP TABLE IF EXISTS `CLASS`;
 CREATE TABLE IF NOT EXISTS `CLASS` (
   `Name` char(2) COLLATE utf8_unicode_ci NOT NULL,
-  `Coordinator` char(16) COLLATE utf8_unicode_ci NOT NULL,
+  `Coordinator` char(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`Name`),
   KEY `fk_coordinator_user` (`Coordinator`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -115,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `CLASS` (
 --
 
 INSERT INTO `CLASS` (`Name`, `Coordinator`) VALUES
+('1O', NULL),
 ('1A', 'BRBGPP57M04L219W'),
 ('1B', 'FNLTRS72H50L219Z');
 
@@ -128,7 +131,7 @@ CREATE TRIGGER `check_coordinator_as_teacher` BEFORE INSERT ON `CLASS` FOR EACH 
        
   		SELECT COUNT(*) INTO var FROM USER_TYPE WHERE SSN = NEW.Coordinator AND USER_TYPE.UserType = "TEACHER";
        
-        IF (var = 0 ) THEN
+        IF (var = 0 AND NEW.Coordinator != NULL) THEN
 			SIGNAL sqlstate '45000' set message_text = 'Error! Coordinator must be a teacher!';
         END IF;
 	END
@@ -271,9 +274,14 @@ CREATE TABLE IF NOT EXISTS `MARK` (
 --
 
 INSERT INTO `MARK` (`StudentSSN`, `SubjectID`, `Date`, `Class`, `Score`) VALUES
+('AAABBBCCC1234567', 3, '2020-01-01', '1A', '1.00'),
+('BRBSMN04A24L219R', 3, '2020-01-02', '1A', '5.50'),
+('BRBSMN04A24L219R', 6, '2020-01-03', '1A', '9.50'),
+('MNDGPP04E14L219U', 3, '2020-01-01', '1A', '1.25'),
 ('PNCRCR02C13L219K', 1, '2019-11-04', '1A', '8.75'),
 ('PNCRCR02C13L219K', 2, '2019-11-07', '1A', '6.50'),
 ('PNCRCR02C13L219K', 3, '2019-11-07', '1A', '7.25'),
+('PNCRCR02C13L219K', 3, '2020-01-01', '1A', '6.50'),
 ('PNCRCR02C13L219K', 4, '2019-11-11', '1A', '8.00'),
 ('PNCRCR02C13L219K', 5, '2019-11-08', '1A', '6.75');
 
@@ -445,6 +453,13 @@ CREATE TABLE IF NOT EXISTS `TOPIC` (
   KEY `SubjectID` (`SubjectID`),
   KEY `TeacherSSN` (`TeacherSSN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dump dei dati per la tabella `TOPIC`
+--
+
+INSERT INTO `TOPIC` (`Class`, `Date`, `StartHour`, `SubjectID`, `TeacherSSN`, `Title`, `Description`) VALUES
+('1A', '2020-01-01', 1, 3, 'BRBGPP57M04L219W', 'title', 'subasd');
 
 -- --------------------------------------------------------
 
