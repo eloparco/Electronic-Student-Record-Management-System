@@ -656,16 +656,26 @@ function get_score_visualization($decimalScore){
 
 function isInThisWeek($date) {
     ## Check if date is in this week
-    // $date = strtotime($date);
-    $FirstDay = strtotime('sunday last week');
-    $LastDay = strtotime('sunday this week');
 
-    return (strtotime($date) > $FirstDay && strtotime($date) < $LastDay); 
+    $date = str_replace("/", ".", $date);
+    $date = strtotime($date);
+    
+    $FirstDay = strtotime('sunday last week');
+    $LastDay =  strtotime('sunday this week');
+    
+    if (($date > $FirstDay && $date < $LastDay)){
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
+    $FirstDay = date('d/m/Y', strtotime('sunday last week'));
+    $LastDay = date('d/m/Y', strtotime('sunday this week'));
+
     if(!isInThisWeek($date) || $date === "")
-        return TOPIC_RECORDING_WRONG_DATE;
+        return TOPIC_RECORDING_WRONG_DATE." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;;
 
     $con = connect_to_db($ini_path);
     
@@ -719,10 +729,13 @@ function recordCommunication($title, $subtitle, $ini_path=''){
 }
 
 function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
+    $FirstDay = date('d/m/Y', strtotime('sunday last week'));
+    $LastDay = date('d/m/Y', strtotime('sunday this week'));
+
     if(!isInThisWeek($date))
-        return MARK_RECORDING_FAILED;
+        return MARK_RECORDING_FAILED." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;
     if($score <= 0 || $score > 10)
-        return MARK_RECORDING_FAILED;
+        return MARK_RECORDING_FAILED." Score value not valid.";
 
     $con = connect_to_db($ini_path);
     if($con && mysqli_connect_error() == NULL) {
@@ -738,8 +751,8 @@ function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
             }
         } catch (Exception $e) {
             mysqli_close($con);
-            //return MARK_RECORDING_FAILED." ".$e;
-            return MARK_RECORDING_FAILED;
+            return MARK_RECORDING_FAILED." ".$e;
+            //return MARK_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;

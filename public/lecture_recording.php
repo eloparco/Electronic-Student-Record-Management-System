@@ -118,33 +118,33 @@ if(isset($_SESSION[MSG])) {
         });
       </script>
 
-      <!-- Date picker -->
-      <div class="form-group-class">
-        <label for="dataSelection" class="col-form-label">Select a date</label>
-        <input type="text" class="form-control" id="dataSelection" name="date">
-      </div>
+       <!-- Date picker -->
+       <div class="form-group-class">
+          <label for="dataSelection" class="col-form-label">Select a date</label>
+          <input type="text" class="form-control" id="dataSelection" name="date">
+        </div>
 
-      <!-- Setup datepicler -->
-      <script>
-        var minDate=new Date();
-        var minDay=minDate.getDay();
+        <!-- Setup datepicler -->
+        <script>
+          var minDate=new Date();
+          var minDay=minDate.getDay() ? minDate.getDay() : 7;
 
-        minDate.setDate( minDate.getDate() - (minDay - 1) );
+          minDate.setDate( minDate.getDate() - (minDay - 1) );
 
-        var maxDate=new Date();
+          var maxDate=new Date();
 
-        maxDate.setDate( maxDate.getDate() + (5 - minDay) );
+          maxDate.setDate( maxDate.getDate() + (5 - minDay) );
 
-        $('#dataSelection').datepicker({
-            format: 'dd/mm/yyyy',
-            startDate: minDate,
-            endDate: maxDate,
-            todayBtn: true,
-            daysOfWeekDisabled: "0,6",
-            autoclose: true
-        });
-        
-      </script>
+          $('#dataSelection').datepicker({
+              format: 'dd/mm/yyyy',
+              startDate: minDate,
+              endDate: maxDate,
+              todayBtn: true,
+              daysOfWeekDisabled: "0,6",
+              autoclose: true
+          });
+          
+        </script>
 
         <!-- Hour selection -->
         <div class="form-group-hour">

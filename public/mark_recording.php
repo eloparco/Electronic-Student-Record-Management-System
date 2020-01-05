@@ -295,7 +295,7 @@ if(isset($_SESSION[MSG])) {
     function calcMark() {
       markValue = $('#decimalScore').html(); //get the value from the span
       $("#decimalMarkValue").val(markValue); //store the extracted value in a hidden form field
-      $("#markRecForm").submit(); //submit the form using it's ID "my-form"
+      // $("#markRecForm").submit(); //submit the form using it's ID "my-form"
     }
   </script>
 </html>
