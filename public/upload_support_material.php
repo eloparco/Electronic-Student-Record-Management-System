@@ -16,10 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //$teacher = mySanitizeString($fields[2]);        
 
         //Get the temporary filename
-        $userfile_tmp = $_FILES['userfile']['tmp_name'];
+        $userfile_tmp = mySanitizeString($_FILES['userfile']['tmp_name']);
 
         //Get Original filename
-        $userfile_name = $_FILES['userfile']['name'];
+        $userfile_name = mySanitizeString($_FILES['userfile']['name']);
 
         //Get File Size
         $file_size = $_FILES['userfile']['size'];
