@@ -2,6 +2,9 @@ $(document).ready(function(){
     // datepiacker initialization
     let date = new Date();
     let sDate = new Date();
+    if(date.getMonth() < 8){
+        date.setFullYear(date.getFullYear()-1);
+    }
     sDate.setFullYear(date.getFullYear());
     sDate.setMonth(8);
     sDate.setDate(1);

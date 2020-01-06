@@ -530,6 +530,19 @@ INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES
 --
 
 --
+-- Constraints for table `ASSIGNMENT`
+--
+ALTER TABLE `ASSIGNMENT`
+  ADD CONSTRAINT `assignment_ibfk_1` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`),
+  ADD CONSTRAINT `assignment_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`);
+
+--
+-- Constraints for table `ATTENDANCE`
+--
+ALTER TABLE `ATTENDANCE`
+  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`StudentSSN`) REFERENCES `CHILD` (`SSN`);
+
+--
 -- Limiti per la tabella `CHILD`
 --
 ALTER TABLE `CHILD`

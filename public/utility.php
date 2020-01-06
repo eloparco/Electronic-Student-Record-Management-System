@@ -1358,8 +1358,8 @@ function isCoordinator($user, $ini_path=''){
     }
 }
 
-function getCoordinatorSubject($teacher){
-    $db_con = connect_to_db();
+function getCoordinatorSubject($teacher, $ini_path=''){
+    $db_con = connect_to_db($ini_path);
 
 
     $query = "SELECT CLASS.Name as Class, SUBJECT.Name, SUBJECT.ID, USER.SSN FROM USER, SUBJECT, CLASS WHERE USER.Email = ? AND USER.SSN = CLASS.Coordinator";
@@ -1400,9 +1400,9 @@ function getCoordinatorSubject($teacher){
     return $subjects;
 }
 
-function recordFinalMark($student, $subjectID, $score){
+function recordFinalMark($student, $subjectID, $score, $ini_path=''){
 
-    $con = connect_to_db();
+    $con = connect_to_db($ini_path);
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO FINAL_MARK VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE Mark = ?;"))

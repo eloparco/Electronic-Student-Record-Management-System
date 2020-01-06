@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `ASSIGNMENT` (
   `DeadlineDate` date NOT NULL,
   `Title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Description` varchar(400) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `Attachment` text COLLATE utf8_unicode_ci,
+  `Attachment` text COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`Class`,`SubjectID`,`DeadlineDate`),
   KEY `SubjectID` (`SubjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -59,7 +59,8 @@ CREATE TABLE IF NOT EXISTS `ATTENDANCE` (
   `StudentSSN` char(16) COLLATE utf8_unicode_ci NOT NULL,
   `Date` date NOT NULL,
   `Presence` enum('PRESENT','10_MIN_LATE','1_HOUR_LATE','ABSENT') COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ExitHour` int(11) NOT NULL DEFAULT '6',
+  `ExitHour` int(11) NOT NULL DEFAULT 6,
+  PRIMARY KEY (`StudentSSN`,`Date`),
   KEY `ATTENDANCE_ibfk_1` (`StudentSSN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -99,6 +100,7 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
 ('AAABBBCCC1234567', 'Giuseppe', 'Ponci', 'PNCMSM75D20L219X', NULL, '1A'),
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
+('BRBSMN04A24L219R', 'Simone', 'Barbero', 'BRBGPP57M04L219W', NULL, '1O'),
 ('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', NULL, '1A'),
 ('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A');
 
@@ -111,16 +113,19 @@ INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Clas
 DROP TABLE IF EXISTS `CLASS`;
 CREATE TABLE IF NOT EXISTS `CLASS` (
   `Name` char(2) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`Name`)
+  `Coordinator` char(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`Name`),
+  KEY `fk_coordinator_user` (`Coordinator`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `CLASS`
 --
 
-INSERT INTO `CLASS` (`Name`) VALUES
-('1A'),
-('1B');
+INSERT INTO `CLASS` (`Name`, `Coordinator`) VALUES
+('1O', NULL),
+('1A', 'BRBGPP57M04L219W'),
+('1B', 'FNLTRS72H50L219Z');
 
 -- --------------------------------------------------------
 
@@ -138,6 +143,42 @@ CREATE TABLE IF NOT EXISTS `CLASS_TIMETABLE` (
   KEY `DayOfWeek` (`DayOfWeek`,`Hour`),
   KEY `CLASS_TIMETABLE_ibfk_4` (`SubjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dump dei dati per la tabella `CLASS_TIMETABLE`
+--
+
+INSERT INTO `CLASS_TIMETABLE` (`Class`, `DayOfWeek`, `Hour`, `SubjectID`) VALUES
+('1A', 'Monday', 6, NULL),
+('1A', 'Thursday', 6, NULL),
+('1A', 'Wednesday', 6, NULL),
+('1A', 'Thursday', 2, 2),
+('1A', 'Tuesday', 1, 2),
+('1A', 'Monday', 2, 3),
+('1A', 'Tuesday', 2, 3),
+('1A', 'Wednesday', 1, 3),
+('1A', 'Wednesday', 2, 3),
+('1A', 'Friday', 5, 4),
+('1A', 'Monday', 1, 4),
+('1A', 'Thursday', 3, 4),
+('1A', 'Thursday', 4, 4),
+('1A', 'Tuesday', 5, 4),
+('1A', 'Friday', 1, 5),
+('1A', 'Tuesday', 6, 5),
+('1A', 'Friday', 3, 6),
+('1A', 'Monday', 4, 6),
+('1A', 'Monday', 5, 6),
+('1A', 'Wednesday', 5, 6),
+('1A', 'Thursday', 1, 7),
+('1A', 'Tuesday', 3, 7),
+('1A', 'Wednesday', 3, 7),
+('1A', 'Friday', 2, 8),
+('1A', 'Tuesday', 4, 8),
+('1A', 'Friday', 6, 9),
+('1A', 'Monday', 3, 9),
+('1A', 'Friday', 4, 10),
+('1A', 'Wednesday', 4, 10),
+('1A', 'Thursday', 5, 11);
 
 -- --------------------------------------------------------
 
@@ -164,6 +205,28 @@ INSERT INTO `COMMUNICATION` (`id`, `Title`, `Description`, `Date`) VALUES
 (6, 'Suspension of teaching activities', 'Teaching activities will be suspended from 19/04 to 26/04', '2019-12-20'),
 (7, 'She Hacks ESRMS 2020', '48 hours Hackathon at Polytechnic of Turin', '2019-12-23'),
 (8, 'Dialogues on sustainability', 'A conversation with a special guest: Piero Angela', '2019-12-21');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `FINAL_MARK`
+--
+
+DROP TABLE IF EXISTS `FINAL_MARK`;
+CREATE TABLE IF NOT EXISTS `FINAL_MARK` (
+  `Student` char(16) COLLATE utf8_unicode_ci NOT NULL,
+  `Subject` int(11) NOT NULL,
+  `Mark` int(11) NOT NULL DEFAULT 6,
+  PRIMARY KEY (`Student`,`Subject`),
+  KEY `fk_fm_sb` (`Subject`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `FINAL_MARK`
+--
+
+INSERT INTO `FINAL_MARK` (`Student`, `Subject`, `Mark`) VALUES
+('BRBSMN04A24L219R', 3, 9);
 
 -- --------------------------------------------------------
 
@@ -379,7 +442,7 @@ CREATE TABLE IF NOT EXISTS `USER` (
   `Surname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `Password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `AccountActivated` tinyint(1) NOT NULL DEFAULT '0',
+  `AccountActivated` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`SSN`),
   UNIQUE KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -395,6 +458,7 @@ INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActiv
 ('aaa111bbb', 'aaa', 'bbb', 'johnny@doe.it', 'a1a1a1a1', 1),
 ('ABC123', 'John', 'Doe', 'john@doe.it', 'pass123', 1),
 ('ABC456', 'Jane', 'Doe', 'jane@doe.it', 'pass456', 0),
+('BRBGPP57M04L219W', 'Giuseppe', 'Barbero', 'g.barbero@esrmsystem.com', 'Giuseppe57', 1),
 ('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'r.filicaro@parent.esrmsystem.com', 'Roberta77', 1),
 ('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrmsystem.com', 'Teresa72', 1),
 ('KKKFZL52M61I4KKK', 'Mamma', 'Mia', 'mamma@mia.it', 'Mamma', 1),
@@ -431,6 +495,7 @@ INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES
 ('aaa111bbb', 'TEACHER'),
 ('ABC123', 'PARENT'),
 ('ABC456', 'PARENT'),
+('BRBGPP57M04L219W', 'TEACHER'),
 ('FLCRRT77B43L219Q', 'PARENT'),
 ('FNLTRS72H50L219Z', 'TEACHER'),
 ('KKKFZL52M61I4KKK', 'SYS_ADMIN'),
@@ -469,12 +534,25 @@ ALTER TABLE `CHILD`
   ADD CONSTRAINT `CHILD_ibfk_3` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`);
 
 --
+-- Constraints for table `CLASS`
+--
+ALTER TABLE `CLASS`
+  ADD CONSTRAINT `fk_coordinator_user` FOREIGN KEY (`Coordinator`) REFERENCES `USER` (`SSN`);
+
+--
 -- Constraints for table `CLASS_TIMETABLE`
 --
 ALTER TABLE `CLASS_TIMETABLE`
   ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_1` FOREIGN KEY (`Class`) REFERENCES `CLASS` (`Name`),
   ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_2` FOREIGN KEY (`DayOfWeek`,`Hour`) REFERENCES `TIMETABLE` (`DayOfWeek`, `Hour`),
   ADD CONSTRAINT `CLASS_TIMETABLE_ibfk_4` FOREIGN KEY (`SubjectID`) REFERENCES `SUBJECT` (`ID`);
+
+--
+-- Constraints for table `FINAL_MARK`
+--
+ALTER TABLE `FINAL_MARK`
+  ADD CONSTRAINT `fk_fm_s` FOREIGN KEY (`Student`) REFERENCES `CHILD` (`SSN`),
+  ADD CONSTRAINT `fk_fm_sb` FOREIGN KEY (`Subject`) REFERENCES `SUBJECT` (`ID`);
 
 --
 -- Constraints for table `MARK`
