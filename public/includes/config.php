@@ -92,10 +92,6 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $CURRENT_PAGE = "show notes";
     $PAGE_TITLE = "Show Notes";
     break;
-  case "publish_timetable.php":
-    $CURRENT_PAGE = "publish timetable";
-    $PAGE_TITLE = "Publish Timetable";
-    break;
   case "final_mark_recording.php":
     $CURRENT_PAGE = "publish fianal marks";
     $PAGE_TITLE = "Publish Final Marks";
