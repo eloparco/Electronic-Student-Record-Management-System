@@ -92,6 +92,7 @@ if (isset($_GET[MSG])) {
         </div>
         <div class="row">
         <table class="col table" id="classTable">
+            <caption>Attendance recording</caption>
             <thead>
                 <tr>
                     <th id="idNum">#</th>

@@ -96,7 +96,7 @@ if (isset($_SESSION[MSG])) {
               <div class="card">
                 <div class="card-header" id="heading<?php echo $i ?>">
                   <h2 class="clearfix mb-0">
-                    <a class="btn btn-link" data-toggle="collapse" data-target="#collapse<?php echo $i ?>" aria-expanded="true" aria-controls="collapse<?php echo $i ?>"><?php echo $note['Date'] ?><i class="fa fa-angle-down"></i></a>
+                    <a class="btn btn-link" data-toggle="collapse" data-target="#collapse<?php echo $i ?>" aria-expanded="true" aria-controls="collapse<?php echo $i ?>"><?php echo $note['Date'] ?><em class="fa fa-angle-down"></em></a>
                   </h2>
                 </div>
                 <div id="collapse<?php echo $i ?>" class="collapse" aria-labelledby="heading<?php echo $i ?>" data-parent="#accordion">

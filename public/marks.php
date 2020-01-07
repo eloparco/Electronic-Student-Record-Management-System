@@ -91,6 +91,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
     </div>
     <div>
     <table class="table table-bordered" id="marks_table">
+        <caption>Marks</caption>
         <thead class="thead-dark">
         <tr>
             <th id="subject"><strong>Subject</strong></th>
