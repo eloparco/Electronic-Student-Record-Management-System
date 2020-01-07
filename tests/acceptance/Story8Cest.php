@@ -26,8 +26,9 @@ class Story8Cest
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
         
         // move back to the right month (11/2019)
-        for($i = 0; $i < $diff; ++$i)
+        for($i = 0; $i < $diff; ++$i) {
             $I->click('.cal-button'); 
+        }
         
         // check entries in table
         $entries = array("1 HOUR LATE", "ABSENT", "EARLY EXIT", "10 MINUTES LATE");
@@ -58,8 +59,9 @@ class Story8Cest
         $month2 = date('m', $ts2);
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
         // move back to the right month (11/2019)
-        for($i = 0; $i < $diff; ++$i)
+        for($i = 0; $i < $diff; ++$i) {
             $I->click('.fc-prev-button');
+        }
 
         // calendar should be empty
         $I->dontSee("LATE");

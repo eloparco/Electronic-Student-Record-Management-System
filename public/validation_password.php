@@ -15,29 +15,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $isPasswordCorrect2 = checkPassword($newPassword);
         $isEmailCorrect = checkEmail($username);
 
-        if(!$isEmailCorrect)
+        if(!$isEmailCorrect) {
             redirect('update_password.php', EMAIL_INCORRECT); 
-        else if(!$isPasswordCorrect1 && !$isPasswordCorrect2)
+        }
+        else if(!$isPasswordCorrect1 && !$isPasswordCorrect2) {
             redirect('update_password.php', PASSWORD_INCORRECT); 
-        else if($newPassword == $oldPassword)
-            redirect('update_password.php', "The new password must be different from the current one"); 
+        }
+        else if($newPassword == $oldPassword) {
+            redirect('update_password.php', "The new password must be different from the current one");
+        } 
         else {
             $username = mySanitizeString($username);
             $con = connect_to_db();
             try {  
-                if(!$result = mysqli_query($con, 'SELECT UserType, Password FROM USER U, USER_TYPE UT WHERE U.SSN = UT.SSN AND Email="'.$username.'";'))
-                    throw new Exception('select error');
+                if(!$result = mysqli_query($con, 'SELECT UserType, Password FROM USER U, USER_TYPE UT WHERE U.SSN = UT.SSN AND Email="'.$username.'";')) {
+                    throw new UnexpectedValueException('select error');
+                }
                 
                 $row = mysqli_fetch_array($result);        
                 $dbUserType = $row['UserType'];  
                 $dbPassword = $row['Password'];
-                if ($dbPassword != $oldPassword || empty($dbPassword)){//Password or email not valid
+                if ($dbPassword != $oldPassword || empty($dbPassword)) {//Password or email not valid
                     redirect('update_password.php', "Invalid Username or Password"); 
-                } else{                
-                    if(!$result = mysqli_query($con,'UPDATE USER SET AccountActivated=1, Password="'.$newPassword.'" WHERE Email="'.$username.'" AND Password="'.$oldPassword.'";'))
-                        throw new Exception('update error');
-                        mysqli_close($con);
-                    if($dbUserType == 'TEACHER'){
+                } else {                
+                    if(!$result = mysqli_query($con,'UPDATE USER SET AccountActivated=1, Password="'.$newPassword.'" WHERE Email="'.$username.'" AND Password="'.$oldPassword.'";')) {
+                        throw new UnexpectedValueException('update error');
+                    }
+                    mysqli_close($con);
+                    if($dbUserType == 'TEACHER') {
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;
                         $_SESSION['myUserType'] = 'TEACHER';
@@ -64,11 +69,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['mySession'] = $username;
                         $_SESSION['myUserType'] = 'SYS_ADMIN';
                         redirect ('user_admin.php', '');  
-                    } else 
-                        redirect('update_password.php', LOGIN_USER_NOT_DEFINED);     
+                    } else {
+                        redirect('update_password.php', LOGIN_USER_NOT_DEFINED);  
+                    }   
             } 
                 
-            }catch (Exception $e) {                
+            }catch (UnexpectedValueException $e) {                
                 mysqli_close($con);
                 redirect('update_password.php', "Something went wrong, retry Dberror");
             }               

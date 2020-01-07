@@ -25,14 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $isSurnameCorrect = checkNormalText($surname);
         $password = generatePass($name);
 
-        if(!$isEmailCorrect)
+        if(!$isEmailCorrect) {
             $_SESSION[MSG] = EMAIL_INCORRECT;
-        else if(!$isSSNCorrect)
+        }
+        else if(!$isSSNCorrect) {
             $_SESSION[MSG] = SSN_INCORRECT;
-        else if(!$isNameCorrect)
+        }
+        else if(!$isNameCorrect) {
             $_SESSION[MSG] = NAME_INCORRECT;
-        else if(!$isSurnameCorrect)
+        }
+        else if(!$isSurnameCorrect) {
             $_SESSION[MSG] = SURNAME_INCORRECT;
+        }
         else {
             /* Sanitize strings */
             $ssn = mySanitizeString($ssn);
@@ -46,8 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['time'] = time(); 
                 $_SESSION[MSG] = $retVal;
                 header('Location: parent_form.php');
-            } else 
+            } else {
                 $_SESSION[MSG] = $retVal;
+            }
         }
     } else {
         $_SESSION[MSG] = INSERT_PARENT_FAILED;

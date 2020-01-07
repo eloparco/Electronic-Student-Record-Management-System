@@ -5,16 +5,21 @@
     <nav class="navbar navbar-dark fixed-top bg-dark flex-nowrap p-0"> <!-- flex-md-nowrap -> flex-nowrap -->
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href=<?php 
         if(isset($_SESSION['myUserType'])) {
-            if($_SESSION['myUserType'] == 'PARENT')
+            if($_SESSION['myUserType'] == 'PARENT') {
                 echo 'user_parent.php';
-            else if($_SESSION['myUserType'] == 'SECRETARY_OFFICER')
+            }
+            else if($_SESSION['myUserType'] == 'SECRETARY_OFFICER') {
                 echo 'user_secretary.php';
-            else if($_SESSION['myUserType'] == 'TEACHER')
+            }
+            else if($_SESSION['myUserType'] == 'TEACHER') {
                 echo 'user_teacher.php';
-            else if($_SESSION['myUserType'] == 'PRINCIPAL')
+            }
+            else if($_SESSION['myUserType'] == 'PRINCIPAL') {
                 echo 'user_principal.php';
-            else if($_SESSION['myUserType'] == 'SYS_ADMIN')
+            }
+            else if($_SESSION['myUserType'] == 'SYS_ADMIN') {
                 echo 'user_admin.php';
+            }
         }?>>
             <?php 
                 echo $_SESSION['myUserType']; 

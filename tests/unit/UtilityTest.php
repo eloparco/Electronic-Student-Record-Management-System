@@ -132,18 +132,22 @@ class UtilityTest extends \Codeception\Test\Unit
     {
         $day_of_week = date('l', strtotime('now'));
 
-        if ($day_of_week === "Sunday")
+        if ($day_of_week === "Sunday") {
             $this->assertEquals(TOPIC_RECORDING_WRONG_DATE, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
-        else
+        }
+        else {
             $this->assertEquals(TOPIC_RECORDING_OK, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        }
     }
     public function testRecordTopicNonExistingClass()
     {
         $day_of_week = date('l', strtotime('now'));
-        if ($day_of_week === "Sunday")
+        if ($day_of_week === "Sunday") {
             $this->assertEquals(TOPIC_RECORDING_WRONG_DATE, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
-        else
+        }
+        else {
             $this->assertEquals(TOPIC_RECORDING_FAILED, recordTopic('ZZZ', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
+        }
     }
     public function testRecordTopicEmptyDate()
     {
@@ -152,10 +156,12 @@ class UtilityTest extends \Codeception\Test\Unit
     public function testRecordTopicNonExistingTeacher()
     {
         $day_of_week = date('l', strtotime('now'));
-        if ($day_of_week === "Sunday")
+        if ($day_of_week === "Sunday") {
             $this->assertEquals(TOPIC_RECORDING_WRONG_DATE, recordTopic('1A', date('d/m/Y'), 3, 1, 'aaa111', 'Mock topic', 'Mock description', $this->ini_path));
-        else
+        }
+        else {
             $this->assertEquals(TOPIC_RECORDING_FAILED, recordTopic('1A', date('d/m/Y'), 3, 1, 'TEST', 'Mock topic', 'Mock description', $this->ini_path));
+        }
     }
     public function testRecordTopicDateTooOld()
     {

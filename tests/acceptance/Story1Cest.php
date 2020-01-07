@@ -103,7 +103,8 @@ class Story1Cest
         }
 
         $subjects = array('7th Nov 2019', '7th Nov 2019', '8th Nov 2019', '11th Nov 2019');
-        foreach ($subjects as $subject)
+        foreach ($subjects as $subject) {
             $I->dontSee($subject);
+        }
     }
 }

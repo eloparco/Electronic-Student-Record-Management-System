@@ -61,8 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // end check
 
         //add decimal value to score
-        if(empty($_POST['decimalMarkValue'])) 
+        if(empty($_POST['decimalMarkValue'])) {
             $decimalMark = "0";
+        }
         $decimalMark = $_POST['decimalMarkValue'];
         $score = $score.substr($decimalMark, 1); //remove '0' from '0.25' -> .25
 

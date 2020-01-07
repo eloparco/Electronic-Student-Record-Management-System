@@ -53,7 +53,7 @@ if(isset($_SESSION['child'])){
                                 <span id='spanSSN' class='sidebar-link'>$ssn</span>
                             </a>
                             </li>";
-                    }else 
+                    } else {
                         echo "<li class='nav-item'>
                             <a href='user_parent.php' class='nav-link sidebar-dropdown-nav-link ajaxLink'>
                                 <span data-feather='user'></span>
@@ -61,6 +61,7 @@ if(isset($_SESSION['child'])){
                                 <span id='spanSSN' class='sidebar-link'>$ssn</span>
                             </a>
                             </li>";
+                    }
                     }       
                 ?>
             </ul>

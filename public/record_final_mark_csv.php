@@ -20,8 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $retval = recordFinalMark($student, $subject, $score);
     
-    if($retval != MARK_RECORDING_OK)
+    if($retval != MARK_RECORDING_OK) {
         $retval = MARK_RECORDING_FAILED;  
+    }
 
     echo '{"state" : "ok",
         "result" :"'.$retval.'",
