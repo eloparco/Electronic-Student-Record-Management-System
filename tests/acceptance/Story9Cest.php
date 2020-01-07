@@ -2,10 +2,6 @@
 
 class Story9Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     // tests
     public function testPresentStudent(AcceptanceTester $I)
     {        
@@ -23,10 +19,7 @@ class Story9Cest
         
         // Select the class
         $I->selectOption("select[name='class_sID_ssn']", "1A");
-        
-        //select 1 students present
-        //$I->click('input[for="MNDGPP04E14L219presentRadio"]'); //it is already checked in radio button
-        
+                
         //send request to db        
         $I->click('Confirm');
         
@@ -38,10 +31,7 @@ class Story9Cest
             'Presence' => 'ABSENT',
             'ExitHour' => '6'
         ]);
-        $I->acceptPopup(); 
-        //$I->wait(1);       
-        //$I->click('Logout');
-        
+        $I->acceptPopup();         
     }
     public function testInsertAbsentStudent(AcceptanceTester $I)
     {        
@@ -53,7 +43,6 @@ class Story9Cest
         $I->seeInCurrentUrl('/user_teacher.php');
         $I->see('Record attendance');
         $I->wait(1);
-        //$I->waitForElementClickable('#recordAttendance', 10);
         $I->click('Record attendance');        
         
         // Select the class
@@ -82,8 +71,5 @@ class Story9Cest
             'ExitHour' => '6'
         ]); 
         $I->acceptPopup();      
-        
     }
-    
-
 }

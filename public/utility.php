@@ -118,7 +118,7 @@ function myRedirectTo($toRedirect, $msg="") {
     exit;
 }
 
-function redirect($msg='', $new_location){
+function redirect($new_location, $msg=''){
     if(!empty($msg)){
         $_SESSION[MSG] = $msg;
     }    
@@ -419,7 +419,6 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
             if($count == 0) { //new account!
                 mysqli_stmt_free_result($prep);
                 mysqli_stmt_close($prep);
-                //$validUserTypes = array("TEACHER", "PARENT", "SECRETARY_OFFICER", "PRINCIPAL", "SYS_ADMIN");
 
                 /* Insert account data into user table */
                 if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)"))
@@ -669,10 +668,6 @@ function get_list_of_subjects($childSSN, $ini_path=''){
     mysqli_stmt_close($subjects_prep);
     return $subjects;
 }
-
-function get_score_visualization($decimalScore){
-    # TODO: conversion from decimal to human-known score
-}
 # end Marks Parent
 
 function isInThisWeek($date) {
@@ -684,11 +679,7 @@ function isInThisWeek($date) {
     $FirstDay = strtotime('sunday last week');
     $LastDay =  strtotime('sunday this week');
     
-    if (($date > $FirstDay && $date < $LastDay)){
-        return true;
-    } else {
-        return false;
-    }
+    return $date > $FirstDay && $date < $LastDay;
 }
 
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
@@ -696,7 +687,7 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
     $LastDay = date('d/m/Y', strtotime('sunday this week'));
 
     if(!isInThisWeek($date) || $date === "")
-        return TOPIC_RECORDING_WRONG_DATE." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;;
+        return TOPIC_RECORDING_WRONG_DATE." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;
 
     $con = connect_to_db($ini_path);
     
@@ -715,7 +706,6 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
             $err = mysqli_error($con);
             mysqli_close($con);
             return $err;
-            //return TOPIC_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;
@@ -741,7 +731,6 @@ function recordCommunication($title, $subtitle, $ini_path=''){
             }
         } catch (Exception $e) {
             mysqli_close($con);
-            //return COMMUNICATION_RECORDING_FAILED." ".$e;
             return COMMUNICATION_RECORDING_FAILED;
         }
     } else {
@@ -773,7 +762,6 @@ function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
         } catch (Exception $e) {
             mysqli_close($con);
             return MARK_RECORDING_FAILED." ".$e;
-            //return MARK_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;
@@ -805,7 +793,7 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_p
             } else {
                 /* Insert student into db */
                 if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) 
-                throw new Exception();
+                    throw new Exception();
                 if(!mysqli_stmt_bind_param($prep, "ssssss", $SSN, $Name, $Surname, $Parent1, $Parent2, $Class)) 
                     throw new Exception();
                 if(!mysqli_stmt_execute($prep)) 
@@ -817,7 +805,6 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_p
         } catch (Exception $e) {
             mysqli_close($con);
             return "Student already exists.";
-            //return STUDENT_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;
@@ -1302,7 +1289,6 @@ function recordNote($student, $subject, $date, $description, $ini_path='') {
             }
         } catch (Exception $e) {
             mysqli_close($con);
-            //return MARK_RECORDING_FAILED." ".$e;
             return NOTE_RECORDING_FAILED;
         }
     } else {
@@ -1351,11 +1337,7 @@ function isCoordinator($user, $ini_path=''){
 
     mysqli_close($db_con);     
 
-    if($count >= 1){
-        return true;
-    } else {
-        return false;
-    }
+    return $count >= 1;
 }
 
 function getCoordinatorSubject($teacher, $ini_path=''){
@@ -1386,10 +1368,7 @@ function getCoordinatorSubject($teacher, $ini_path=''){
 
     mysqli_stmt_bind_result($prep_query, $Class, $Name, $ID, $SSN);
 
-    $rows = array();
-
     while (mysqli_stmt_fetch($prep_query)) {
-        //echo $Class.$Name.$ID.$SSN;
         $fields = array("Class" => $Class, "Name" => $Name, "ID" => $ID, "SSN" => $SSN);
         $subjects[] = $fields;
 
@@ -1417,7 +1396,6 @@ function recordFinalMark($student, $subjectID, $score, $ini_path=''){
         } catch (Exception $e) {
             mysqli_close($con);
             return MARK_RECORDING_FAILED." ".$e;
-            //return MARK_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;

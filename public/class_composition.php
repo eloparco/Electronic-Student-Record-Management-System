@@ -24,10 +24,8 @@ if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
     <link rel="stylesheet" type="text/css" href="css/w3.css"> 
     <script src="https://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>    
     <?php  
-      if(isset($_GET[MSG])) {
-        if(!empty($_GET[MSG])) {
-          $_GET[MSG] = "";
-        }
+      if(isset($_GET[MSG]) && !empty($_GET[MSG])) {
+        $_GET[MSG] = "";
       }
     ?>
  </head>

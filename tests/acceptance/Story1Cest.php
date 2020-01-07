@@ -1,18 +1,10 @@
 <?php 
 
 class Story1Cest
-{
-    public function _before(AcceptanceTester $I)
-    {
-    }
-    
+{    
     // tests
     public function testLoginSuccess(AcceptanceTester $I)
     {
-        // $I->amOnPage('/login.php');        
-        // $I->fillField('username', 'john@doe.it');
-        // $I->fillField('password', 'pass123');
-        // $I->click('Sign in');
         $I->login('john@doe.it', 'pass123');
 
         // redirect to parent page
@@ -105,7 +97,6 @@ class Story1Cest
 
         // select subject
         $I->selectOption("form select[name='subjectSelection']", 'Geography');
-        // $I->wait(1);
         $mark = array('Geography', '4th Nov 2019', '8.75');
         foreach ($mark as $item) {
             $I->see($item);
@@ -115,28 +106,4 @@ class Story1Cest
         foreach ($subjects as $subject)
             $I->dontSee($subject);
     }
-
-    // public function testMarkFromStartingDate(AcceptanceTester $I)
-    // {
-    //     // login as parent
-    //     $I->amOnPage('/login.php');
-    //     $I->fillField('username', 'r.filicaro@parent.esrmsystem.com');
-    //     $I->fillField('password', 'Roberta77');
-    //     $I->click('Sign in');
-
-    //     $I->seeInCurrentUrl('/user_parent.php');
-    //     $I->see('Marks');
-    //     $I->wait(1);
-    //     $I->click('Marks');
-
-    //     // select date
-    //     $I->fillField('startDateSelection', '11/11/2019');
-
-    //     $I->wait(1);
-    //     $I->see('11th Nov 2019');
-
-    //     $subjects = array('4th Nov 2019', '7th Nov 2019', '7th Nov 2019', '8th Nov 2019', '11th Nov 2019');
-    //     foreach ($subjects as $subject)
-    //         $I->dontSee($subject);
-    // }
 }

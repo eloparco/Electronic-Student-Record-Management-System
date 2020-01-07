@@ -8,10 +8,8 @@ if (!userLoggedIn() || !userTypeLoggedIn('PARENT')) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if (isset($_SESSION[MSG])) {
-  if (!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK)) {
-    $_SESSION[MSG] = '';
-  }
+if (isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_PARENT_OK) {
+  $_SESSION[MSG] = '';
 }
 ?>
 
@@ -96,7 +94,6 @@ if (isset($_SESSION[MSG])) {
       );
 
       $curr_child = $_SESSION['child'];
-      // $attendances = get_attendance("MDUHPG46H50I748J");
       $attendances = get_attendance($curr_child);
       $events = array();
       foreach ($attendances as $attendance) {
@@ -115,7 +112,7 @@ if (isset($_SESSION[MSG])) {
           $events[] = array('title' => $title, 'color' => $color, 'start' => $start);
         }
       }
-      echo(json_encode($events));
+      echo json_encode($events);
     ?>
   });
 

@@ -16,11 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $isEmailCorrect = checkEmail($username);
 
         if(!$isEmailCorrect)
-            redirect(EMAIL_INCORRECT, 'update_password.php'); 
+            redirect('update_password.php', EMAIL_INCORRECT); 
         else if(!$isPasswordCorrect1 && !$isPasswordCorrect2)
-            redirect(PASSWORD_INCORRECT, 'update_password.php'); 
+            redirect('update_password.php', PASSWORD_INCORRECT); 
         else if($newPassword == $oldPassword)
-            redirect("The new password must be different from the current one", 'update_password.php'); 
+            redirect('update_password.php', "The new password must be different from the current one"); 
         else {
             $username = mySanitizeString($username);
             $con = connect_to_db();
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $dbUserType = $row['UserType'];  
                 $dbPassword = $row['Password'];
                 if ($dbPassword != $oldPassword || empty($dbPassword)){//Password or email not valid
-                    redirect("Invalid Username or Password", 'update_password.php'); 
+                    redirect('update_password.php', "Invalid Username or Password"); 
                 } else{                
                     if(!$result = mysqli_query($con,'UPDATE USER SET AccountActivated=1, Password="'.$newPassword.'" WHERE Email="'.$username.'" AND Password="'.$oldPassword.'";'))
                         throw new Exception('update error');
@@ -41,45 +41,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;
                         $_SESSION['myUserType'] = 'TEACHER';
-                        redirect ('', 'user_teacher.php');
+                        redirect ('user_teacher.php', '');
                     }
                     else if($dbUserType == 'PARENT'){
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;
                         $_SESSION['myUserType'] = 'PARENT';                        
-                        redirect ('', 'user_parent.php');
+                        redirect ('user_parent.php', '');
                     }
                     else if($dbUserType == 'SECRETARY_OFFICER'){
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;
                         $_SESSION['myUserType'] = 'SECRETARY_OFFICER';
-                        redirect ('', 'user_secretary.php');  
+                        redirect ('user_secretary.php', '');  
                     } else if($dbUserType == 'PRINCIPAL'){
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;
                         $_SESSION['myUserType'] = 'PRINCIPAL';
-                        redirect ('', 'user_principal.php');  
+                        redirect ('user_principal.php', '');  
                     } else if($dbUserType == 'SYS_ADMIN'){
                         $_SESSION['time'] = time(); 
                         $_SESSION['mySession'] = $username;
                         $_SESSION['myUserType'] = 'SYS_ADMIN';
-                        redirect ('', 'user_admin.php');  
+                        redirect ('user_admin.php', '');  
                     } else 
-                        redirect(LOGIN_USER_NOT_DEFINED, 'update_password.php');     
+                        redirect('update_password.php', LOGIN_USER_NOT_DEFINED);     
             } 
                 
             }catch (Exception $e) {                
                 mysqli_close($con);
-                //$msg =$e->getMessage(); //debug  
-                //redirect($msg, 'update_password.php');                       
-                redirect("Something went wrong, retry Dberror", 'update_password.php');
+                redirect('update_password.php', "Something went wrong, retry Dberror");
             }               
 
         }
     } else {
-        redirect("Something went wrong, retry", 'update_password.php');    
+        redirect('update_password.php', "Something went wrong, retry");    
     }
 } else {
-    redirect("Something went wrong, retry", 'update_password.php'); 
+    redirect('update_password.php', "Something went wrong, retry"); 
 }
 ?>

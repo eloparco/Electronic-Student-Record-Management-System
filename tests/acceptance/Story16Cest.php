@@ -2,10 +2,6 @@
 
 class Story16Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     // tests
     public function testDownloadFileNotAvailable(AcceptanceTester $I)
     {
@@ -68,11 +64,8 @@ class Story16Cest
         $I->waitForElementClickable('#support_material_dashboard', 10);
         $I->click('Show support material');
 
-        //$I->waitForElementClickable('#download1', 10);
         $I->wait(1);//without this wait the download doesn't start 
         $I->click('#download1');        
-        //$I->click('a[id=download1]');
-        //$I->seeFileFound('support_material_test.txt','C:\Users\.....\Downloads');
         $I->wait(1);
     }
 }

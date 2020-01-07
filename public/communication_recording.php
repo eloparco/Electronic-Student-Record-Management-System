@@ -8,16 +8,6 @@ if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
     myRedirectTo('login.php', 'SessionTimeOut');
     exit;
   }
-
-  /*
-if(isset($_SESSION[MSG])) {
-    if(!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK ||
-        $_SESSION[MSG] == LOGIN_SECRETARY_OK || $_SESSION[MSG] == LOGIN_TEACHER_OK ||
-        $_SESSION[MSG] == LOGIN_PRINCIPAL_OK || $_SESSION[MSG] == LOGIN_ADMIN_OK)) { 
-        $_SESSION[MSG] = '';
-    }
-}
-*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,10 +28,8 @@ if(isset($_SESSION[MSG])) {
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
     
     <?php  
-      if(isset($_GET[MSG])) {
-        if(!empty($_GET[MSG])) {
-          $_GET[MSG] = "";
-        }
+      if(isset($_GET[MSG])&& !empty($_GET[MSG])) {
+        $_GET[MSG] = "";
       }
     ?>
 
@@ -93,36 +81,6 @@ if(isset($_SESSION[MSG])) {
           <label for="lectureTextArea">Insert a description</label>
           <textarea class="form-control" id="lectureTextArea" rows="3" name="subtitle"></textarea>
         </div>        
-        
-    
-      <!-- Date picker 
-      <div class="form-group-class">
-        <label for="dataSelection" class="col-form-label">Select a date</label>
-        <input type="text" class="form-control" id="dataSelection" name="date">
-      </div>
-
-      Setup datepicler
-      <script>
-        var minDate=new Date();
-        var minDay=minDate.getDay();
-
-        minDate.setDate( minDate.getDate() - (minDay - 1) );
-
-        var maxDate=new Date();
-
-        maxDate.setDate( maxDate.getDate() + (5 - minDay) );
-
-        $('#dataSelection').datepicker({
-            format: 'yyyy-mm-dd',
-            startDate: minDate,
-            endDate: maxDate,
-            todayBtn: true,
-            daysOfWeekDisabled: "0,6",
-            autoclose: true
-        });
-        
-      </script>
-      -->
 
         <!-- POST Method response -->
         <?php 
@@ -133,8 +91,10 @@ if(isset($_SESSION[MSG])) {
                 <?php } else { ?>
                     <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span id="msg-result"><strong><?php echo $_SESSION[MSG];?></strong></span></div></strong>
                 <?php
-                }}
-          $_SESSION[MSG] = "";} ?>    
+                }
+              }
+          $_SESSION[MSG] = "";
+          } ?>    
         
         <button class="btn btn-lg btn-primary btn-block" type="submit" id="confirm">Confirm</button>
     </form>

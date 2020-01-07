@@ -7,7 +7,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['title']) && isset($_POST['subtitle']) && 
     !empty($_POST['title']) && !empty($_POST['subtitle'])){
 
-        // $date =$_POST['date'];
         $title = $_POST['title'];
         $subtitle = $_POST['subtitle'];
 

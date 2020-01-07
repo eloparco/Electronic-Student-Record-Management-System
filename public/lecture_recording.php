@@ -8,10 +8,8 @@ if(!userLoggedIn() || !userTypeLoggedIn('TEACHER')) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if(isset($_SESSION[MSG])) {
-  if(!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_TEACHER_OK)) { 
-      $_SESSION[MSG] = '';
-  }
+if(isset($_SESSION[MSG])&& !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_TEACHER_OK) { 
+  $_SESSION[MSG] = '';
 }
 ?>
 <!DOCTYPE html>
@@ -32,11 +30,9 @@ if(isset($_SESSION[MSG])) {
     <script type="text/javascript" src="./css/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
     <?php  
-      if(isset($_GET[MSG])) {
-        if(!empty($_GET[MSG])) {
-          $_GET[MSG] = "";
-        }
-      }
+      if(isset($_GET[MSG])&& !empty($_GET[MSG])) {
+        $_GET[MSG] = "";
+      } 
     ?>
  </head>
 
@@ -78,9 +74,7 @@ if(isset($_SESSION[MSG])) {
       <!-- Class and subject selection -->
       <div class="form-group-class">
         <label for="classSelection">Select a class and a subject</label>
-        <select class="form-control" id="classSelection" name="class_sID_ssn">
-          <!-- <option>1A</option> -->
-        </select>
+        <select class="form-control" id="classSelection" name="class_sID_ssn"></select>
       </div>
 
       <!-- Setup class selection with AJAX query -->
@@ -179,8 +173,10 @@ if(isset($_SESSION[MSG])) {
           <?php } else { ?>
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><strong><?php echo $_SESSION[MSG];?></strong></span></div></strong>
           <?php
-          }}
-          $_SESSION[MSG] = "";} ?>    
+          }
+        }
+          $_SESSION[MSG] = "";
+          } ?>    
           <button class="btn btn-lg btn-primary btn-block" type="submit" id="confirm">Confirm</button>
     </form>
   </div>

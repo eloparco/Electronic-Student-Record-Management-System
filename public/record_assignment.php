@@ -42,10 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if(!$uploaded){
                 $_SESSION[MSG] = "Error moving: ".$file_tmp." to ".UPLOAD_PATH.$file_name;
-                // $_SESSION[MSG] = FILE_UPLOAD_ERROR. " File: ".$file_name." uploading failed. ";
                 die();
             }
-            //copy($file_tmp, PATH_UPLOADS.$file_name);
 
             $fields = explode("_", $_POST['class_sID_ssn']);
             

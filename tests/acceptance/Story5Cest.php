@@ -1,10 +1,6 @@
 <?php
 
 class Story5Cest{
-    public function _before(AcceptanceTester $I){
-
-    }
-
     // tests
     public function testAssignSingleStudent(AcceptanceTester $I){
         $I->amOnPage('/login.php');        
@@ -18,9 +14,7 @@ class Story5Cest{
         $I->click('Setup class composition');
         // select student and class and submit
         $I->wait(2);
-        // $I->see('MNDLRT04E14L219I');
         $I->click(['css' => '#student_list > li[studentid="MNDLRT04E14L219I"]']);
-        // $I->click('MNDLRT04E14L219I');
         $I->wait(1);
         $I->seeNumberOfElements(['css' => '#new_student_list > li'], 1);
         $I->selectOption("div select[name='year']", "1");
@@ -29,7 +23,6 @@ class Story5Cest{
         $I->wait(1);
         // to dismiss alert or other popups
         $I->cancelPopup(); // /*NOT*/ $I->click('OK');
-        // /*eventually*/ $I->tryToClick('OK', '.alert');
         // check correct data after reloading
         $I->amOnPage('/class_composition.php');
         $I->wait(1);
@@ -57,9 +50,7 @@ class Story5Cest{
         $I->click('Setup class composition');
         // select student and then remove it from new_student_list
         $I->wait(2);
-        // $I->see('MNDGPP04E14L219U');
         $I->click(['css' => '#student_list > li[studentid="MNDGPP04E14L219U"]']);
-        // $I->click('MNDGPP04E14L219U');
         $I->wait(1);
         $I->seeNumberOfElements(['css' => '#new_student_list > li'], 1);
         $I->selectOption("div select[name='year']", "2");
@@ -84,7 +75,6 @@ class Story5Cest{
         $I->wait(1);
         $I->seeNumberOfElements(['css' => '#student_list > li'], 3);
         // control the numbers of elements in each list of students to match the correct number of related students
-        // finally
         $I->wait(5);
         $I->click('Logout');
     }

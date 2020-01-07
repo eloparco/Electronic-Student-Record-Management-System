@@ -2,10 +2,6 @@
 
 class Story17Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     // tests
     public function testGetCommunications(AcceptanceTester $I)
     {

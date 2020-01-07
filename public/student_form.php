@@ -9,14 +9,12 @@ if(!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
   exit;
 }
 
-if(isset($_SESSION[MSG])) {
-    if(!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK || 
+if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK || 
         $_SESSION[MSG] == INSERT_PARENT_OK || $_SESSION[MSG] == PUBLISH_TIMETABLE_OK ||
         $_SESSION[MSG] == COMMUNICATION_RECORDING_OK || $_SESSION[MSG] == USER_IS_A_STUDENT ||
         $_SESSION[MSG] == LOGIN_SECRETARY_OK || $_SESSION[MSG] == LOGIN_TEACHER_OK ||
         $_SESSION[MSG] == LOGIN_PRINCIPAL_OK || $_SESSION[MSG] == LOGIN_ADMIN_OK)) { 
         $_SESSION[MSG] = '';
-    }
 }
 ?>
 <!DOCTYPE html>
@@ -119,17 +117,13 @@ if(isset($_SESSION[MSG])) {
        <!-- Parent 1 selection -->
        <div id="parent1Div" class="form-group-class">
             <label for="parent1Selection">Parent #1</label>
-            <select class="form-control" id="parent1Selection" name="parent1">
-              <!-- <option>Parent 1</option> -->
-           </select>
+            <select class="form-control" id="parent1Selection" name="parent1"></select>
         </div>
          
        <!-- Parent 2 selection -->
        <div class="form-group-class">
             <label for="parent2Selection">Parent #2</label>
-            <select class="form-control" id="parent2Selection" name="parent2">
-              <!-- <option>Parent 2</option> -->
-           </select>
+            <select class="form-control" id="parent2Selection" name="parent2"></select>
         </div>
 
         <!-- Setup class selection with AJAX query -->
@@ -171,9 +165,7 @@ if(isset($_SESSION[MSG])) {
          <!-- Class selection -->
          <div class="form-group-class">
               <label for="classSelection">Class</label>
-              <select class="form-control" id="classSelection" name="class">
-                <!-- <option>1A</option> -->
-              </select>
+              <select class="form-control" id="classSelection" name="class"></select>
           </div>
 
            <!-- Setup class selection with AJAX query -->
@@ -223,8 +215,10 @@ if(isset($_SESSION[MSG])) {
           <?php } else { ?>
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom success-back-color w3-text-green"><span><strong><?php echo $_SESSION[MSG];?></strong></span></div></strong>
           <?php
-          }}
-          $_SESSION[MSG] = "";} ?>
+          }
+        }
+          $_SESSION[MSG] = "";
+          } ?>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form>
   <div>

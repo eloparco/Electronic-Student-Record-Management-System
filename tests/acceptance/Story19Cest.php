@@ -2,10 +2,6 @@
 
 class Story19Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     // tests
     public function testShowChildNotes(AcceptanceTester $I)
     {

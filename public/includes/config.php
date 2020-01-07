@@ -96,6 +96,7 @@ switch (basename($_SERVER["SCRIPT_NAME"])) {
     $CURRENT_PAGE = "publish fianal marks";
     $PAGE_TITLE = "Publish Final Marks";
     break;
-  
+  default:
+    break;
   }
 ?>

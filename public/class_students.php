@@ -2,13 +2,6 @@
 define("JSON", "JSON");
 require_once('utility.php');
 
-/* TYPE LOGGED IN CHECK */
-/*
-if(!userTypeLoggedIn('TEACHER')) {   
-    myRedirectTo('login.php', 'SessionTimeOut');
-    exit;
-}
-*/
 $db_con = connect_to_db();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -50,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $students = array();
     
     while (mysqli_stmt_fetch($prep_query)) {
-        //echo $Class.$Name.$ID.$SSN;
         $fields = array("SSN" => $SSN, "Name" => $Name, "Surname" => $Surname);
         $students[] = $fields;
 

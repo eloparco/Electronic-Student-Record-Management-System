@@ -9,10 +9,8 @@ if (!userLoggedIn() || !userTypeLoggedIn('PARENT')) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if (isset($_SESSION['msg_result'])) {
-  if (!empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_PARENT_OK)) {
-    $_SESSION['msg_result'] = '';
-  }
+if (isset($_SESSION['msg_result']) && !empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_PARENT_OK)) {
+  $_SESSION['msg_result'] = '';
 }
 ?>
 
@@ -111,16 +109,13 @@ if (isset($_SESSION['msg_result'])) {
                 <tbody>
 
                 <?php                  
-                //$i = 0;
                 foreach ($files as $file) {
                     echo '<tr>';
-                        //echo '<td>'.$i.' </td>';
                         echo '<td>'.$file['Date'].' </td>';
                         echo '<td>'.$file['Subject'].' </td>';
                         echo '<td>'.$file['Filename'].' </td>';                        
                         echo '<td><a href="show_support_material.php?file_id='.$file['Id'].'" id="download'.$file['Id'].'">Download</a></td>';
                     echo '</tr>';                    
-                    //$i++;
                 }                            
                 ?>
 

@@ -20,8 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $retval = recordFinalMark($student, $subject, $score);
     
-    // $_SESSION[MSG] =  $retval;
-
     if($retval != MARK_RECORDING_OK)
         $retval = MARK_RECORDING_FAILED;  
 

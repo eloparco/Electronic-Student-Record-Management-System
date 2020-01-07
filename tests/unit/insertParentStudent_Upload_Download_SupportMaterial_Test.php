@@ -1,6 +1,6 @@
 <?php
 require_once('public/utility.php');
-class insertParentStudent_Upload_Download_SupportMaterial_Test extends \Codeception\Test\Unit
+class InsertParentStudent_Upload_Download_SupportMaterial_Test extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -64,7 +64,7 @@ class insertParentStudent_Upload_Download_SupportMaterial_Test extends \Codecept
     {
         $ini_path = __DIR__ . '/../../config/database/database.ini';
         $db_con = connect_to_db($ini_path);
-        if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
+        if(!mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
             echo 'error on testInsertAlreadyExistsSupportMaterial';
         mysqli_close($db_con);
         $this->assertEquals('File already exists, please select another one.', uploadSupportMaterialFile( '1A', 1, 'tmpfile', 'test.pdf', 1048576, $ini_path) );
@@ -74,7 +74,7 @@ class insertParentStudent_Upload_Download_SupportMaterial_Test extends \Codecept
     {
         $ini_path = __DIR__ . '/../../config/database/database.ini';
         $db_con = connect_to_db($ini_path);
-        if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
+        if(!mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
             echo 'error on testInsertAlreadyExistsSupportMaterial';
         mysqli_close($db_con);
 
@@ -92,7 +92,7 @@ class insertParentStudent_Upload_Download_SupportMaterial_Test extends \Codecept
     {
         $ini_path = __DIR__ . '/../../config/database/database.ini';
         $db_con = connect_to_db($ini_path);
-        if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
+        if(!mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
             echo 'error on test_get_list_of_support_material_failed';
         mysqli_close($db_con);
 
@@ -105,7 +105,7 @@ class insertParentStudent_Upload_Download_SupportMaterial_Test extends \Codecept
     {
         $ini_path = __DIR__ . '/../../config/database/database.ini';
         $db_con = connect_to_db($ini_path);
-        if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
+        if(!mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
             echo 'error on test_get_file_success';
         mysqli_close($db_con);
 
@@ -123,7 +123,7 @@ class insertParentStudent_Upload_Download_SupportMaterial_Test extends \Codecept
     {
         $ini_path = __DIR__ . '/../../config/database/database.ini';
         $db_con = connect_to_db($ini_path);
-        if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
+        if(!mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES(1, "1A", CURRENT_DATE, "test.pdf");'))
             echo 'error on test_get_file_failed';
         mysqli_close($db_con);
 

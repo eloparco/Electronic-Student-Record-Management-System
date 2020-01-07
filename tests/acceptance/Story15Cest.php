@@ -2,10 +2,6 @@
 
 class Story15Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     // tests
     public function testFileUploadSuccessAndDuplicate(AcceptanceTester $I)
     {

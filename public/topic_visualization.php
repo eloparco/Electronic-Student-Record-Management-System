@@ -8,10 +8,8 @@
     myRedirectTo('login.php', 'SessionTimeOut');
     exit;
   }
-  if(isset($_SESSION[MSG])) {
-    if(!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK)) { 
-        $_SESSION[MSG] = '';
-    }
+  if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_PARENT_OK) { 
+    $_SESSION[MSG] = '';
   }
 ?>
 
@@ -19,9 +17,8 @@
 <html lang="en">
 
   <head>
-
     <?php include("includes/head.php"); ?>
-  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
+    <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
     <link href="css/dashboard.css" rel="stylesheet" type="text/css">
     <link href="css/responsive.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></head>
@@ -32,10 +29,8 @@
     <script type="text/javascript" src="./css/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
     <?php  
-      if(isset($_GET[MSG])) {
-        if(!empty($_GET[MSG])) {
-          $_GET[MSG] = "";
-        }
+      if(isset($_GET[MSG]) && !empty($_GET[MSG])) {
+        $_GET[MSG] = "";
       }
       
       // Delete cookie used for weekIndex
@@ -83,24 +78,7 @@
                     <div class="col">                        
                         <img class="mb-4" src="images/icons/assignments.png" alt="" width="102" height="102">    
                     </div>
-                </div>
-                <!-- It's not necessary, the student is selected in the dashboard.
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group-class">
-                            <label for="studentSelection">Select a student</label>
-                            <select class="form-control" id="studentSelection" name="student_SSN">
-                                php
-                                    $children = get_children_of_parent($_SESSION['mySession']);
-                                    foreach($children as $child){
-                                      echo '<option value="' . $child['SSN'] . '">' . $child['Name'] . ' ' . $child['Surname'] . "</option>\n";
-                                    }
-                                
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                -->                
+                </div>               
                 <div class="row" style="height: 30%;">
                         
                     <!-- Monday's assignments -->

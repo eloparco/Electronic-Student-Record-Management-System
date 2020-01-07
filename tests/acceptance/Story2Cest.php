@@ -3,10 +3,6 @@ require_once('public/utility.php');
 
 class Story2Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-    
     // tests
     public function testInsertTopicSuccess(AcceptanceTester $I)
     {

@@ -13,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fields = explode("_", $_POST['class_sID_ssn']);
         $class = mySanitizeString($fields[0]);
         $subjectID = mySanitizeString($fields[1]);
-        //$teacher = mySanitizeString($fields[2]);        
 
         //Get the temporary filename
         $userfile_tmp = mySanitizeString($_FILES['userfile']['tmp_name']);

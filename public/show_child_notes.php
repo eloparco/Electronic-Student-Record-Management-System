@@ -8,10 +8,8 @@ if (!userLoggedIn() || !userTypeLoggedIn('PARENT')) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if (isset($_SESSION[MSG])) {
-  if (!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK)) {
-    $_SESSION[MSG] = '';
-  }
+if (isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_PARENT_OK) {
+  $_SESSION[MSG] = '';
 }
 ?>
 

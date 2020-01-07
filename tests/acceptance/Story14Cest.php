@@ -3,10 +3,6 @@ require_once('public/utility.php');
 
 class Story14Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     public function testFileUploadSuccess(AcceptanceTester $I)
     {
         // login as secretary officer

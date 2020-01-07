@@ -2,10 +2,6 @@
 
 class Story8Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     // tests
     public function testCalendarVisualization(AcceptanceTester $I)
     {
@@ -31,7 +27,7 @@ class Story8Cest
         
         // move back to the right month (11/2019)
         for($i = 0; $i < $diff; ++$i)
-            $I->click('.cal-button'); // $I->click('.cal-button:nth-child(1)');
+            $I->click('.cal-button'); 
         
         // check entries in table
         $entries = array("1 HOUR LATE", "ABSENT", "EARLY EXIT", "10 MINUTES LATE");

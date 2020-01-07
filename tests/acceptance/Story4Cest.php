@@ -2,10 +2,6 @@
 
 class Story4Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-    
     // tests
     public function testInsertStudentSuccess(AcceptanceTester $I)
     {
@@ -98,7 +94,6 @@ class Story4Cest
         $I->click('Submit');           
 
         // che if it is showing an error
-        //$I->seeInCurrentUrl('/parent_form.php');
         $I->wait(1);
         $I->see("This SSN it's already registered. Please insert a new one.");
         $I->click('Logout');        

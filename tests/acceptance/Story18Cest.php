@@ -70,7 +70,6 @@ class Story18Cest{
         $I->waitForJS("return $.active === 0;", 10);
         $I->waitForElementClickable('#studentSelection');
         $I->selectOption('#studentSelection', 'Giuseppe Mandini');
-        $today = date('d/m/Y');
         $today_db = date('Y-m-d');
         if(date('l') === 'Saturday' || date('l') === 'Sunday'){
             $today = date('d/m/Y', time()-2*24*60*60);

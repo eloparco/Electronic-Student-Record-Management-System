@@ -21,6 +21,8 @@
       case 'SYS_ADMIN':
         header('Location: user_admin.php');
         break;
+      default:
+        break;
     }
   }
 ?>

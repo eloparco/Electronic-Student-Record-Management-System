@@ -27,13 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $count = $row['Count'];  
     
     // Create a new class
-    if($count == 0){
-        if(!$result = mysqli_query($con,'INSERT INTO CLASS(Name) VALUES ("'.$class.'");')){
-            echo '{"state" : "error",
-                "result" : Error, please retry..}';
-            exit();
-        }
-    }
+    if($count == 0 && !$result = mysqli_query($con,'INSERT INTO CLASS(Name) VALUES ("'.$class.'");')) {
+        echo '{"state" : "error",
+            "result" : Error, please retry..}';
+        exit();
+    }   
 
 
     foreach ($students as $student){

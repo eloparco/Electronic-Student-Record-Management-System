@@ -2,10 +2,6 @@
 
 class Story3Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-    
     // tests
     public function testLoginSecretary(AcceptanceTester $I)
     {
@@ -97,7 +93,6 @@ class Story3Cest
         $I->wait(1);    
         $I->click('Record parent');
                
-        //$I->waitForElement('#myParentForm', 1);
         $I->wait(1);
         // insert duplicate parent    
         $I->fillField('ssn', 'DKDVHF36L48G407J');
@@ -106,8 +101,7 @@ class Story3Cest
         $I->fillField('username', 'giorgio@giorgio.it');        
         $I->click('Submit');  
 
-        // che if it is showing an error
-        //$I->seeInCurrentUrl('/parent_form.php');
+        // check if it is showing an error
         $I->wait(1);
         $I->see('SSN already exists.');  
 
@@ -125,7 +119,6 @@ class Story3Cest
         $I->wait(1);    
         $I->click('Record parent');
                
-        //$I->waitForElement('#myParentForm', 1);
         $I->wait(1);
         // insert duplicate parent    
         $I->fillField('ssn', 'ZQVQSF92R30D832R');
@@ -134,10 +127,9 @@ class Story3Cest
         $I->fillField('username', 'test@test.it');        
         $I->click('Submit');  
 
-        // che if it is showing an error in the form
+        // check if it is showing an error in the form
         $I->wait(1);
         $I->cantSeeInField('surname', 'Padovani');
-        //$I->see('Please fill out this field.'); 
 
         $I->click('Logout');  
     }

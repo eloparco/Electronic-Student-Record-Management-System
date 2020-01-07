@@ -30,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $parents = array();
 
     while (mysqli_stmt_fetch($prep_query)) {
-        //echo $Class.$Name.$ID.$SSN;
         $fields = array("SSN" => $SSN);
         $parents[] = $fields;
 

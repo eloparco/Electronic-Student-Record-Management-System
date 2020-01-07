@@ -2,10 +2,6 @@
 
 class Story10Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     // tests
     public function testRadioCheckedStudent(AcceptanceTester $I)
     {   
@@ -18,7 +14,6 @@ class Story10Cest
         $I->seeInCurrentUrl('/user_teacher.php');
         $I->see('Record attendance');
         $I->wait(1);
-        //$I->waitForElementClickable('#recordAttendance', 10);
         $I->click('Record attendance');        
         
         // Select the class
@@ -40,7 +35,6 @@ class Story10Cest
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_teacher.php');
         $I->see('Record attendance');
-        //$I->waitForElementClickable('#recordAttendance', 10);
         $I->wait(1);
         $I->click('Record attendance');        
         
@@ -49,7 +43,6 @@ class Story10Cest
         $I->wait(1);
         //check if Early Leaving button is checked
         $I->seeCheckboxIsChecked('input[for="MNDGPP04E14L219UabsentRadio"]');
-        //$I->click('Logout');
     }
     public function testInsertEarlyLeavingStudent(AcceptanceTester $I)
     {        
@@ -60,7 +53,6 @@ class Story10Cest
         $I->click('Sign in');
         $I->seeInCurrentUrl('/user_teacher.php');
         $I->see('Record attendance');
-        //$I->waitForElementClickable('#recordAttendance', 10);
         $I->wait(1);
         $I->click('Record attendance');        
         

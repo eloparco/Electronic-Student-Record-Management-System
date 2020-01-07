@@ -3,13 +3,11 @@ include("includes/config.php");
 require_once('utility.php');
 https_redirect();
 
-if(isset($_SESSION[MSG])) {
-  if(!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_TEACHER_OK ||
+if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_TEACHER_OK ||
     $_SESSION[MSG] == LOGIN_PARENT_OK || $_SESSION[MSG] == LOGIN_SECRETARY_OK ||
     $_SESSION[MSG] == LOGIN_PRINCIPAL_OK || $_SESSION[MSG] == LOGIN_ADMIN_OK)) { 
       $_SESSION[MSG] = '';
   }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,13 +43,15 @@ if(isset($_SESSION[MSG])) {
           if(!empty($_SESSION[MSG])) { ?>
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo $_SESSION[MSG];?></strong></span></div></strong></span></div>
           <?php }
-          $_SESSION[MSG] = "";} ?>
+          $_SESSION[MSG] = "";
+          } ?>
       <?php 
         if(isset($_GET['msg'])) {
           if(!empty($_GET['msg'])) { ?>
             <div class="w3-padding-small w3-small w3-round w3-margin-bottom error-back-color w3-text-red"><span><strong><?php echo 'Session expired: try to login again.';?></strong></span></div></strong></span></div>
           <?php }
-          $_GET['msg'] = "";} ?>
+          $_GET['msg'] = "";
+          } ?>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
 

@@ -8,10 +8,8 @@ if (!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if (isset($_SESSION[MSG])) {
-  if (!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_SECRETARY_OK)) {
-    $_SESSION[MSG] = '';
-  }
+if (isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_SECRETARY_OK)) {
+  $_SESSION[MSG] = '';
 }
 
 if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
@@ -42,7 +40,6 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
         $_SESSION[MSG] = WRONG_FILE_FORMAT;
       } else {
         $_SESSION[MSG] = insert_timetable($class, $timetable);
-        // print_r($timetable);
       }
     }
   }

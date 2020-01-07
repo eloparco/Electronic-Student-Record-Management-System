@@ -2,10 +2,6 @@
 
 class Story30Cest
 {
-    public function _before(AcceptanceTester $I)
-    {
-    }
-
     // tests
     public function testInsertAccountAutocompletion(AcceptanceTester $I)
     {
