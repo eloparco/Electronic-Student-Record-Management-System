@@ -12,7 +12,7 @@ if(!userLoggedIn() || !userTypeLoggedIn('SYS_ADMIN')) {
 if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK ||
         $_SESSION[MSG] == LOGIN_SECRETARY_OK || $_SESSION[MSG] == LOGIN_TEACHER_OK ||
         $_SESSION[MSG] == LOGIN_PRINCIPAL_OK || $_SESSION[MSG] == LOGIN_ADMIN_OK)) { 
-        $_SESSION[MSG] = '';
+        $_SESSION[MSG] = ''; 
 }
 ?>
 <!DOCTYPE html> 
