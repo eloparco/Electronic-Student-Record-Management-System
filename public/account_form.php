@@ -12,13 +12,13 @@ if(!userLoggedIn() || !userTypeLoggedIn('SYS_ADMIN')) {
 if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_PARENT_OK ||
         $_SESSION[MSG] == LOGIN_SECRETARY_OK || $_SESSION[MSG] == LOGIN_TEACHER_OK ||
         $_SESSION[MSG] == LOGIN_PRINCIPAL_OK || $_SESSION[MSG] == LOGIN_ADMIN_OK)) { 
-        $_SESSION[MSG] = '';
+        $_SESSION[MSG] = ''; 
 }
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 
-<head>
+<head> 
   <?php include("includes/head.php"); ?>
   <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
   <link href="css/dashboard.css" rel="stylesheet" type="text/css">
@@ -31,7 +31,7 @@ if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_P
   <?php include("includes/user_header.php"); ?> 
   <script>
     $(document).ready(function() {
-      $('[data-toggle=offcanvas]').click(function() {
+      $('[data-toggle=offcanvas]').click(function() { 
         $('.row-offcanvas').toggleClass('active');
       });
     });
