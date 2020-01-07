@@ -2,6 +2,20 @@
 require_once('public/utility.php');
 
 class Story12Cest{
+    const SECRETARY_PAGE = "/user_secretary.php";
+    const COMMUNICATION_BUTTON_ID = "#publish_communication_dashboard";
+    const COMMUNICATION_BUTTON = "Publish official communication";
+    const TITLE_AREA = "#topicTitleTextArea";
+    const COMMUNICATION_AREA = "#lectureTextArea";
+    const TITLE_EXAMPLE = "First school communication to parents";
+    const COMMUNICATION_EXAMPLE = "A very simple and short communication to parents to tell them nothing";
+    const CONFIRM_ID = "#confirm";
+    const RESULT_MESSAGE = "#msg-result";
+    const COMMUNICATION_TABLE = 'COMMUNICATION';
+    const TITLE = "Title";
+    const DESCRIPTION = "Description";
+    const DATE_FORMAT = "Y-m-d";
+
     public function _before(\AcceptanceTester $I){
         $I->maximizeWindow();
         $I->login('milo@milo.it', 'Milo1');
@@ -13,68 +27,68 @@ class Story12Cest{
 
     // tests
     public function testInsertCorrectCommunication(\AcceptanceTester $I){
-        $I->seeInCurrentUrl('/user_secretary.php');
+        $I->seeInCurrentUrl(self::SECRETARY_PAGE);
         // go to the correct menu
-        $I->waitForElementClickable('#publish_communication_dashboard', 10);
-        $I->click('Publish official communication');
+        $I->waitForElementClickable(self::COMMUNICATION_BUTTON_ID, 10);
+        $I->click(self::COMMUNICATION_BUTTON);
 
         // fill the form fields
-        $I->waitForElementClickable('#topicTitleTextArea', 10);
-        $I->click('#topicTitleTextArea');
-        $I->fillField('#topicTitleTextArea', 'First school communication to parents');
-        $I->waitForElementClickable('#lectureTextArea', 10);
-        $I->click('#lectureTextArea');
-        $I->fillField('#lectureTextArea', 'A very simple and short communication to parents to tell them nothing');
-        $I->waitForElementClickable('#confirm', 10);
-        $I->click('#confirm');
-        $I->waitForElement('#msg-result', 10);
+        $I->waitForElementClickable(self::TITLE_AREA, 10);
+        $I->click(self::TITLE_AREA);
+        $I->fillField(self::TITLE_AREA, self::TITLE_EXAMPLE);
+        $I->waitForElementClickable(self::COMMUNICATION_AREA, 10);
+        $I->click(self::COMMUNICATION_AREA);
+        $I->fillField(self::COMMUNICATION_AREA, self::COMMUNICATION_EXAMPLE);
+        $I->waitForElementClickable(self::CONFIRM_ID, 10);
+        $I->click(self::CONFIRM_ID);
+        $I->waitForElement(self::RESULT_MESSAGE, 10);
         $I->see(COMMUNICATION_RECORDING_OK);
-        $I->seeInDatabase("COMMUNICATION", [
-            'Title' => 'First school communication to parents',
-            'Description' => 'A very simple and short communication to parents to tell them nothing',
-            'Date' => date('Y-m-d')
+        $I->seeInDatabase(self::COMMUNICATION_TABLE, [
+            self::TITLE => self::TITLE_EXAMPLE,
+            self::DESCRIPTION => self::COMMUNICATION_EXAMPLE,
+            'Date' => date(self::DATE_FORMAT)
         ]);
     }
 
     public function testInsertCommunicationNoTitle(\AcceptanceTester $I){
-        $I->seeInCurrentUrl('/user_secretary.php');
+        $I->seeInCurrentUrl(self::SECRETARY_PAGE);
         // go to the correct menu
-        $I->waitForElementClickable('#publish_communication_dashboard', 10);
-        $I->click('Publish official communication');
+        $I->waitForElementClickable(self::COMMUNICATION_BUTTON_ID, 10);
+        $I->click(self::COMMUNICATION_BUTTON);
 
         // fill the form fields
-        $I->waitForElementClickable('#lectureTextArea', 10);
-        $I->click('#lectureTextArea');
-        $I->fillField('#lectureTextArea', 'A very simple and short communication to parents to tell them nothing');
-        $I->waitForElementClickable('#confirm', 10);
-        $I->click('#confirm');
-        $I->waitForElement('#msg-result', 10);
+        $I->waitForElementClickable(self::COMMUNICATION_AREA, 10);
+        $I->click(self::COMMUNICATION_AREA);
+        $I->fillField(self::COMMUNICATION_AREA, self::COMMUNICATION_EXAMPLE);
+        $I->waitForElementClickable(self::CONFIRM_ID, 10);
+        $I->click(self::CONFIRM_ID);
+        $I->waitForElement(self::RESULT_MESSAGE, 10);
         $I->see("Please fill all the fields.");
-        $I->dontSeeInDatabase("COMMUNICATION", [
-            'Title' => '',
-            'Description' => 'A very simple and short communication to parents to tell them nothing',
-            'Date' => date('Y-m-d')
+        $I->dontSeeInDatabase(self::COMMUNICATION_TABLE, [
+            self::TITLE => '',
+            self::DESCRIPTION => self::COMMUNICATION_EXAMPLE,
+            'Date' => date(self::DATE_FORMAT)
         ]);
     }
 
     public function testInsertCommunicationNoDescription(\AcceptanceTester $I){
-        $I->seeInCurrentUrl('/user_secretary.php');
+        $I->seeInCurrentUrl(self::SECRETARY_PAGE);
         // go to the correct menu
-        $I->waitForElementClickable('#publish_communication_dashboard', 10);
-        $I->click('Publish official communication');
+        $I->waitForElementClickable(self::COMMUNICATION_BUTTON_ID, 10);
+        $I->click(self::COMMUNICATION_BUTTON);
 
         // fill the form fields
-        $I->waitForElementClickable('#topicTitleTextArea', 10);
-        $I->click('#topicTitleTextArea');
-        $I->fillField('#topicTitleTextArea', 'First school communication to parents');
-        $I->waitForElementClickable('#confirm', 10);
-        $I->click('#confirm');
-        $I->waitForElement('#msg-result', 10);
+        $I->waitForElementClickable(self::TITLE_AREA, 10);
+        $I->click(self::TITLE_AREA);
+        $I->fillField(self::TITLE_AREA, self::TITLE_EXAMPLE);
+        $I->waitForElementClickable(self::CONFIRM_ID, 10);
+        $I->click(self::CONFIRM_ID);
+        $I->waitForElement(self::RESULT_MESSAGE, 10);
         $I->see("Please fill all the fields.");
-        $I->dontSeeInDatabase("COMMUNICATION", [
-            'Title' => 'First school communication to parents',
-            'Description' => '',
-            'Date' => date('Y-m-d')
+        $I->dontSeeInDatabase(self::COMMUNICATION_TABLE, [
+            self::TITLE => self::TITLE_EXAMPLE,
+            self::DESCRIPTION => '',
+            'Date' => date(self::DATE_FORMAT)
         ]);
     }
 }

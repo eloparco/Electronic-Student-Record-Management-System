@@ -2,133 +2,136 @@
 
 class Story4Cest
 {
+    const USER = "milo@milo.it";
+    const PASSWORD = "Milo1";
+    const SECRETARY_PAGE = "/user_secretary.php";
+    const BUTTON_RECORD_STUDENT = "Record student";
+    const SSN_EXAMPLE = "CNVZPR41L20G324K";
+    const NAME_EXAMPLE = "Mirco";
+    const SURNAME = "surname";
+    const SURNAME_EXAMPLE = "Rossi";
+    const PARENT1_FORM = 'form select[name="parent1"]';
+    const PARENT2_FORM = 'form select[name="parent2"]';
+    const CLASS_FORM = 'form select[name="class"]';
+    const PARENT1_SSN = 'RSSMRA70A01F205V';
+    const PARENT2_SSN = 'FLCRRT77B43L219Q';
+    const BUTTON_SUBMIT = "Submit";
+    const BUTTON_LOGOUT = "Logout";
     // tests
     public function testInsertStudentSuccess(AcceptanceTester $I)
     {
         // login as secretary
-        $I->amOnPage('/login.php');
-        $I->fillField('username', 'milo@milo.it');
-        $I->fillField('password', 'Milo1');
-        $I->click('Sign in');
-        $I->seeInCurrentUrl('/user_secretary.php');
+        $I->login(self::USER, self::PASSWORD);
+        $I->seeInCurrentUrl(self::SECRETARY_PAGE);
         $I->wait(1);
-        $I->click('Record student');   
+        $I->click(self::BUTTON_RECORD_STUDENT);   
         $I->wait(1);
 
         // insert new child    
-        $I->fillField('SSN', 'CNVZPR41L20G324K');
-        $I->fillField('name', 'Mirco');
-        $I->fillField('surname', 'Rossi');             
+        $I->fillField('SSN', self::SSN_EXAMPLE);
+        $I->fillField('name', self::NAME_EXAMPLE);
+        $I->fillField(self::SURNAME, self::SURNAME_EXAMPLE);             
             
-        $I->selectOption("form select[name='parent1']", "RSSMRA70A01F205V");  
-        $I->selectOption("form select[name='parent2']", "FLCRRT77B43L219Q");  
-        $I->selectOption("form select[name='class']", "1A");
+        $I->selectOption(self::PARENT1_FORM, self::PARENT1_SSN);  
+        $I->selectOption(self::PARENT2_FORM, self::PARENT2_SSN);  
+        $I->selectOption(self::CLASS_FORM, "1A");
 
         $I->wait(1);
 
-        $I->click('Submit');           
+        $I->click(self::BUTTON_SUBMIT);           
 
         // check if CHILD is inserted in Db
         $I->seeInDatabase('CHILD', [
-            'SSN' => 'CNVZPR41L20G324K',
-            'Name' => 'Mirco',
-            'Surname' => 'Rossi',
+            'SSN' => self::SSN_EXAMPLE,
+            'Name' => self::NAME_EXAMPLE,
+            self::SURNAME => self::SURNAME_EXAMPLE,
             'SSNParent1' => 'RSSMRA70A01F205V',
             'SSNParent2' => 'FLCRRT77B43L219Q',
             'Class' => '1A',            
         ]);      
-        $I->click('Logout');  
+        $I->click(self::BUTTON_LOGOUT);  
     }    
 
     public function testInsertStudentDuplicate(AcceptanceTester $I)
     {
         // login as secretary
-        $I->amOnPage('/login.php');
-        $I->fillField('username', 'milo@milo.it');
-        $I->fillField('password', 'Milo1');
-        $I->click('Sign in');
-        $I->seeInCurrentUrl('/user_secretary.php');
+        $I->login(self::USER, self::PASSWORD);
+        $I->seeInCurrentUrl(self::SECRETARY_PAGE);
         $I->wait(1);
-        $I->click('Record student');   
+        $I->click(self::BUTTON_RECORD_STUDENT);   
         $I->wait(1);
 
         // insert new child    
-        $I->fillField('SSN', 'CNVZPR41L20G324K');
-        $I->fillField('name', 'Mirco');
-        $I->fillField('surname', 'Rossi');             
+        $I->fillField('SSN', self::SSN_EXAMPLE);
+        $I->fillField('name', self::NAME_EXAMPLE);
+        $I->fillField(self::SURNAME, self::SURNAME_EXAMPLE);             
             
-        $I->selectOption("form select[name='parent1']", "RSSMRA70A01F205V");  
-        $I->selectOption("form select[name='parent2']", "FLCRRT77B43L219Q");  
-        $I->selectOption("form select[name='class']", "1A");
+        $I->selectOption(self::PARENT1_FORM, self::PARENT1_SSN);  
+        $I->selectOption(self::PARENT2_FORM, self::PARENT2_SSN);  
+        $I->selectOption(self::CLASS_FORM, "1A");
 
         $I->wait(1);
 
-        $I->click('Submit');     
+        $I->click(self::BUTTON_SUBMIT);     
 
     
-        $I->click('Logout');  
+        $I->click(self::BUTTON_LOGOUT);  
 
         $I->wait(1);
         // login as secretary
-        $I->amOnPage('/login.php');
-        $I->fillField('username', 'milo@milo.it');
-        $I->fillField('password', 'Milo1');
-        $I->click('Sign in');
-        $I->seeInCurrentUrl('/user_secretary.php');
+        $I->login(self::USER, self::PASSWORD);
+        $I->seeInCurrentUrl(self::SECRETARY_PAGE);
 
         $I->wait(1);
-        $I->click('Record student');   
+        $I->click(self::BUTTON_RECORD_STUDENT);   
         $I->wait(1);
 
         // insert new child    
-        $I->fillField('SSN', 'CNVZPR41L20G324K');
-        $I->fillField('name', 'Mirco');
-        $I->fillField('surname', 'Rossi');             
+        $I->fillField('SSN', self::SSN_EXAMPLE);
+        $I->fillField('name', self::NAME_EXAMPLE);
+        $I->fillField(self::SURNAME, self::SURNAME_EXAMPLE);             
             
-        $I->selectOption("form select[name='parent1']", "RSSMRA70A01F205V");  
-        $I->selectOption("form select[name='parent2']", "FLCRRT77B43L219Q");  
-        $I->selectOption("form select[name='class']", "1A");
+        $I->selectOption(self::PARENT1_FORM, self::PARENT1_SSN);  
+        $I->selectOption(self::PARENT2_FORM, self::PARENT2_SSN);  
+        $I->selectOption(self::CLASS_FORM, "1A");
 
         $I->wait(1);
 
-        $I->click('Submit');           
+        $I->click(self::BUTTON_SUBMIT);           
 
         // che if it is showing an error
         $I->wait(1);
         $I->see("This SSN it's already registered. Please insert a new one.");
-        $I->click('Logout');        
+        $I->click(self::BUTTON_LOGOUT);        
         
     }
 
     public function testInsertStudentWrongForm(AcceptanceTester $I)
     {
         // login as secretary
-        $I->amOnPage('/login.php');
-        $I->fillField('username', 'milo@milo.it');
-        $I->fillField('password', 'Milo1');
-        $I->click('Sign in');
-        $I->seeInCurrentUrl('/user_secretary.php');
+        $I->login(self::USER, self::PASSWORD);
+        $I->seeInCurrentUrl(self::SECRETARY_PAGE);
         
-        $I->click('Record student');   
+        $I->click(self::BUTTON_RECORD_STUDENT);   
         $I->wait(1);
 
         // insert new child    
-        $I->fillField('SSN', 'CNVZPR41L20G324K');
-        $I->fillField('name', 'Mirco');
+        $I->fillField('SSN', self::SSN_EXAMPLE);
+        $I->fillField('name', self::NAME_EXAMPLE);
         //surname is missing            
             
-        $I->selectOption("form select[name='parent1']", "RSSMRA70A01F205V");  
-        $I->selectOption("form select[name='parent2']", "FLCRRT77B43L219Q");  
-        $I->selectOption("form select[name='class']", "1A");
+        $I->selectOption(self::PARENT1_FORM, self::PARENT1_SSN);  
+        $I->selectOption(self::PARENT2_FORM, self::PARENT2_SSN);  
+        $I->selectOption(self::CLASS_FORM, "1A");
 
         $I->wait(1);
 
-        $I->click('Submit');           
+        $I->click(self::BUTTON_SUBMIT);           
 
         //check if surname is missing
-        $I->cantSeeInField('surname', 'Rossi');
+        $I->cantSeeInField(self::SURNAME, self::SURNAME_EXAMPLE);
 
-        $I->click('Logout');  
+        $I->click(self::BUTTON_LOGOUT);  
     }
 
    
