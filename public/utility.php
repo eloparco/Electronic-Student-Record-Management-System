@@ -1310,7 +1310,7 @@ function recordNote($student, $subject, $date, $description, $ini_path='') {
     }
 }
 
-function https_redirect() {
+function https_redirect() { 
     session_start();
 
     if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off') {
