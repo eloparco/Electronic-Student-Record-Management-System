@@ -29,7 +29,7 @@ define("LOGIN_NOT_MATCH", "Invalid username or password.");
 define("SESSION_EXPIRED", "session-expired");
 define("TOPIC_RECORDING_FAILED", "Topic recording failed.");
 define("TOPIC_RECORDING_OK", "Topics correctly recorded.");
-define("TOPIC_RECORDING_INCORRECT", "Please fill all the fields.");
+define("TOPIC_RECORDING_INCORRECT", "Failure: please fill all the fields.");
 define("MARK_RECORDING_OK", "Mark correctly recorded.");
 define("MARK_RECORDING_FAILED", "Mark recording failed.");
 define("STUDENT_RECORDING_OK", "Student correctly recorded.");
@@ -42,15 +42,15 @@ define("STUDENT_ABSENT", "The selected student is absent.");
 define("PUBLISH_TIMETABLE_OK", "Timetable correclty uploaded.");
 define("PUBLISH_TIMETABLE_FAILED", "Invalid file.");
 define("WRONG_FILE_FORMAT", "The file format is not correct.");
-define("MISSING_INPUT", "Please fill all inputs.");
+define("MISSING_INPUT", "Please fill all the inputs.");
 define("SUBJECT_INCORRECT", "Unknown subject in the uploaded file.");
 define("TOPIC_RECORDING_WRONG_DATE", "Date entered is wrong.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
-define("COMMUNICATION_RECORDING_INCORRECT", "Please fill all the fields.");
+define("COMMUNICATION_RECORDING_INCORRECT", "Recording failed: please fill all the fields.");
 define("COMMUNICATION_RECORDING_FAILED", "Communication recording failed.");
 define("COMMUNICATION_RECORDING_OK","Communication correctly recorded.");
-define("ASSIGNMENT_RECORDING_INCORRECT", "Please fill all the fields.");
+define("ASSIGNMENT_RECORDING_INCORRECT", "Error: please fill all the fields.");
 define("ASSIGNMENT_RECORDING_FAILED", "Assignment recording failed.");
 define("ASSIGNMENT_RECORDING_OK", "Assignment correctly recorded.");
 define("WRONG_FILE_EXTENSION","File type not supported");
@@ -58,9 +58,28 @@ define("FILE_TOO_BIG","The file size is too big. Max size: 2MB");
 define("FILE_ALREADY_EXISTS", "The file already exists.");
 define("FILE_UPLOAD_ERROR","Error during file uploading.");
 define("MSG", "msg_result");
+define("SESSION_USER_TYPE", "myUserType");
+define("HTTP_TEMP_REDIRECT", "HTTP/1.1 307 temporary redirect");
+define("LOCATION_STRING", "Location: ");
+define("TEACHER", "TEACHER");
+define("SECRETARY_OFFICER", "SECRETARY_OFFICER");
+define("PARENT", "PARENT");
+define("SYS_ADMIN", "SYS_ADMIN");
+define("PRINCIPAL", "PRINCIPAL");
+define("ERROR_IN_PREPARING_QUERY", "Error in preparing query: ");
+define("CHECK_DB_ERROR", "Check database error:<br>");
+define("INSERT_INTO_USERTYPE_QUERY", "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)");
+define("ERROR_IN_BINDING_PARAMS_FOR_ROLES_PREP", "Error in binding parameters for roles_prep.");
+define("ERROR_IN_BINDING_PARAMS_FOR_MARKS_PREP", "Error in binding paramters to marks_prep.");
+define("ERROR_IN_EXECUTING_MARKS_QUERY", "Error in executing marks query. Database error:<br>");
+define("ERROR_IN_RETRIEVING_SUBJECTS", "Error in connection to database. [Retrieving subjects of student]");
+define("SUNDAY_LAST_WEEK","sunday last week");
+define("SUNDAY_THIS_WEEK","sunday this week");
+define("D_M_Y", "d/m/Y");
+define("RETRY_LATER_MSG","Please retry later.");
 // Note: Give the following directory R/W rights for "other" group
 define("UPLOAD_PATH", "uploads/");
-define("NOTE_RECORDING_INCORRECT", "Please fill all the fields.");
+define("NOTE_RECORDING_INCORRECT", "Error in recording notes: please fill all the fields.");
 define("NOTE_RECORDING_FAILED", "Note recording failed.");
 define("NOTE_RECORDING_OK", "Note correctly recorded.");
 
@@ -103,8 +122,8 @@ function userLoggedIn() {
 }
 
 function userTypeLoggedIn($type) {
-    if(isset($_SESSION['myUserType']) && $_SESSION['myUserType'] == $type) {
-        return $_SESSION['myUserType'];
+    if(isset($_SESSION[SESSION_USER_TYPE]) && $_SESSION[SESSION_USER_TYPE] == $type) {
+        return $_SESSION[SESSION_USER_TYPE];
     }
     else {
         return false;
@@ -112,14 +131,14 @@ function userTypeLoggedIn($type) {
 }
 
 function myRedirectHome($msg="") {
-    header('HTTP/1.1 307 temporary redirect');
+    header(HTTP_TEMP_REDIRECT);
     header("Location: index.php?msg=".urlencode($msg));
     exit;
 }
 
 function myRedirectTo($toRedirect, $msg="") {
-    header('HTTP/1.1 307 temporary redirect');
-    header('Location: '.$toRedirect.'?msg='.urlencode($msg));
+    header(HTTP_TEMP_REDIRECT);
+    header(LOCATION_STRING.$toRedirect.'?msg='.urlencode($msg));
     exit;
 }
 
@@ -128,13 +147,13 @@ function redirect($new_location, $msg=''){
         $_SESSION[MSG] = $msg;
     }    
     header("HTTP/1.1 303 See Other");
-    header('Location: '.$new_location);
+    header(LOCATION_STRING.$new_location);
     exit;
 }
 
 function myRedirectToHTTPS($toRedirect) {
     header('HTTP/1.1 301 Moved Permanently');
-    header('Location: '.$toRedirect);
+    header(LOCATION_STRING.$toRedirect);
 }
 
 function checkPassword($pwd) {
@@ -158,8 +177,8 @@ function checkNormalText($input) {
 }
 
 function checkUserType($type) {
-    return $type === 'TEACHER' || $type === 'SECRETARY_OFFICER' || $type === 'PARENT' 
-        || $type === 'PRINCIPAL' || $type === 'SYS_ADMIN';
+    return $type === TEACHER || $type === SECRETARY_OFFICER || $type === PARENT 
+        || $type === PRINCIPAL || $type === SYS_ADMIN;
 }
 
 function generatePass() {
@@ -195,11 +214,11 @@ function get_roles_per_user($username, $ini_path=''){
     }
     $roles_prep = mysqli_prepare($db_con, $roles_query);
     if(!$roles_prep){
-        print('Error in preparing query: '.$roles_query);
-        die("Check database error:<br>".mysqli_error($db_con));
+        print(ERROR_IN_PREPARING_QUERY.$roles_query);
+        die(CHECK_DB_ERROR.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
-        die('Error in binding parameters for roles_prep.'."\n");
+        die(ERROR_IN_BINDING_PARAMS_FOR_ROLES_PREP."\n");
     }
     if(!mysqli_stmt_execute($roles_prep)){
         die('Error in executing roles query. Check database error:<br>'.mysqli_error($db_con));
@@ -249,19 +268,19 @@ function tryLogin($username, $password, $ini_path='') {
                     mysqli_close($con);
 
                     $dbUserType = get_roles_per_user($username, $ini_path)[0];
-                    if($dbUserType == 'TEACHER') {
+                    if($dbUserType == TEACHER) {
                         return LOGIN_TEACHER_OK;
                     }
-                    else if($dbUserType == 'PARENT'){
+                    else if($dbUserType == PARENT){
                         return LOGIN_PARENT_OK;
                     }
-                    else if($dbUserType == 'SECRETARY_OFFICER') {
+                    else if($dbUserType == SECRETARY_OFFICER) {
                         return LOGIN_SECRETARY_OK;
                     }
-                    else if($dbUserType == 'PRINCIPAL') {
+                    else if($dbUserType == PRINCIPAL) {
                         return LOGIN_PRINCIPAL_OK;
                     }
-                    else if($dbUserType == 'SYS_ADMIN') {
+                    else if($dbUserType == SYS_ADMIN) {
                         return LOGIN_ADMIN_OK;
                     }
                     else {
@@ -296,11 +315,11 @@ function check_change_role($username, $role, $ini_path=''){
     }
     $roles_prep = mysqli_prepare($db_con, $roles_query);
     if(!$roles_prep){
-        print('Error in preparing query: '.$roles_query);
-        die("Check database error:<br>".mysqli_error($db_con));
+        print(ERROR_IN_PREPARING_QUERY.$roles_query);
+        die(CHECK_DB_ERROR.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
-        die('Error in binding parameters for roles_prep.'."\n");
+        die(ERROR_IN_BINDING_PARAMS_FOR_ROLES_PREP."\n");
     }
     if(!mysqli_stmt_execute($roles_prep)){
         die('Error in executing roles query. Check database error:<br>'.mysqli_error($db_con));
@@ -382,7 +401,7 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
                     else { 
                         mysqli_stmt_close($prep2);
                         /* Insert parent data into db */
-                        if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)")) {
+                        if(!$prep3 = mysqli_prepare($con, INSERT_INTO_USERTYPE_QUERY)) {
                             throw new UnexpectedValueException();
                         }
                         if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) {
@@ -475,7 +494,7 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                 else { 
                     /* Insert account type into user_type table */
                     mysqli_stmt_close($prep2);
-                    if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)")) {
+                    if(!$prep3 = mysqli_prepare($con, INSERT_INTO_USERTYPE_QUERY)) {
                         throw new UnexpectedValueException();
                     }
                     if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) {
@@ -520,46 +539,46 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                     return ROLE_ALREADY_TAKEN;
                 }
                 else if(count($types) == 2) { //this account has already two roles.
-                    if(in_array("SECRETARY_OFFICER", $types)) {
-                        if(in_array("PARENT", $types)) {
+                    if(in_array(SECRETARY_OFFICER, $types)) {
+                        if(in_array(PARENT, $types)) {
                             mysqli_rollback($con);
                             mysqli_autocommit($con, TRUE);
                             mysqli_close($con);
                             return MAX_ROLES_ALLOWED;
                         } else {
-                            $validUserTypes = array("PARENT"); //we can add a parent only in this case.
+                            $validUserTypes = array(PARENT); //we can add a parent only in this case.
                         }
                     }
-                    else if(in_array("TEACHER", $types)) {
-                        if(in_array("PRINCIPAL", $types)) {
-                            $validUserTypes = array("PARENT"); 
+                    else if(in_array(TEACHER, $types)) {
+                        if(in_array(PRINCIPAL, $types)) {
+                            $validUserTypes = array(PARENT); 
                         }
                         else {
-                            $validUserTypes = array("PRINCIPAL");
+                            $validUserTypes = array(PRINCIPAL);
                         }
                     }
-                    else if(in_array("SYS_ADMIN", $types)) {
-                        $validUserTypes = array("SECRETARY_OFFICER");
+                    else if(in_array(SYS_ADMIN, $types)) {
+                        $validUserTypes = array(SECRETARY_OFFICER);
                     }
                     else {
-                        $validUserTypes = array("TEACHER");
+                        $validUserTypes = array(TEACHER);
                     }
                 }
                 else if(count($types) == 1) {
-                    if($types[0] == "SYS_ADMIN") {
-                        $validUserTypes = array("SECRETARY_OFFICER", "PARENT"); 
+                    if($types[0] == SYS_ADMIN) {
+                        $validUserTypes = array(SECRETARY_OFFICER, PARENT); 
                     }
-                    else if($types[0] == "SECRETARY_OFFICER") {
-                        $validUserTypes = array("SYS_ADMIN", "PARENT");   
+                    else if($types[0] == SECRETARY_OFFICER) {
+                        $validUserTypes = array(SYS_ADMIN, PARENT);   
                     }
-                    else if($types[0] == "PARENT") {
-                        $validUserTypes = array("SYS_ADMIN", "PRINCIPAL", "SECRETARY_OFFICER", "TEACHER"); 
+                    else if($types[0] == PARENT) {
+                        $validUserTypes = array(SYS_ADMIN, PRINCIPAL, SECRETARY_OFFICER, TEACHER); 
                     }
-                    else if($types[0] == "TEACHER") {
-                        $validUserTypes = array("PRINCIPAL", "PARENT");  
+                    else if($types[0] == TEACHER) {
+                        $validUserTypes = array(PRINCIPAL, PARENT);  
                     }
-                    else if($types[0] == "PRINCIPAL") {
-                        $validUserTypes = array("TEACHER", "PARENT"); 
+                    else if($types[0] == PRINCIPAL) {
+                        $validUserTypes = array(TEACHER, PARENT); 
                     }
                 }
             }
@@ -573,7 +592,7 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
             } 
             else {
                 /* Insert account type into user_type table */
-                if(!$prep4 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)")) {
+                if(!$prep4 = mysqli_prepare($con, INSERT_INTO_USERTYPE_QUERY)) {
                     throw new UnexpectedValueException();
                 }
                 if(!mysqli_stmt_bind_param($prep4, "ss", $ssn, $usertype)) {
@@ -630,7 +649,7 @@ function check_inactivity () {
         //By using the above mechanism, the next session does NOT see the cookie, and so it will give a new ID for the session :)
         session_destroy(); 
 		if ($new) { 
-			header('HTTP/1.1 307 temporary redirect');
+			header(HTTP_TEMP_REDIRECT);
 			header('Location: index.php');
 		}
         else { //Redirect client to login page
@@ -655,8 +674,8 @@ function get_children_of_parent($parentUsername, $ini_path=''){
     }
     $children_prep = mysqli_prepare($con, $children_query);
     if(!$children_prep){
-        print('Error in preparing query: '.$children_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_IN_PREPARING_QUERY.$children_query);
+        die(CHECK_DB_ERROR.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($children_prep, "s", $parentUsername)){
         die('Error in binding parameters to children_prep.'."\n");
@@ -688,14 +707,14 @@ function get_scores_per_child_and_date($childSSN, $startDate, $endDate, $ini_pat
     }
     $marks_prep = mysqli_prepare($con, $marks_query);
     if(!$marks_prep){
-        print('Error in preparing query: '.$marks_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_IN_PREPARING_QUERY.$marks_query);
+        die(CHECK_DB_ERROR.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($marks_prep, "sss", $childSSN, $startDate, $endDate)){
-        die('Error in binding paramters to marks_prep.'."\n");
+        die(ERROR_IN_BINDING_PARAMS_FOR_MARKS_PREP."\n");
     }
     if(!mysqli_stmt_execute($marks_prep)){
-        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
+        die(ERROR_IN_EXECUTING_MARKS_QUERY.mysqli_error($con));
     }
     $marks_res = mysqli_stmt_get_result($marks_prep);
     $scores = array();
@@ -715,18 +734,18 @@ function get_list_of_subjects($childSSN, $ini_path=''){
                       "WHERE M.SubjectID=S.ID AND StudentSSN=?\n" . 
                       "ORDER BY Name";
     if(!$con){
-        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+        die(ERROR_IN_RETRIEVING_SUBJECTS."\n");
     }
     $subjects_prep = mysqli_prepare($con, $subjects_query);
     if(!$subjects_prep){
-        print('Error in preparing query: '.$subjects_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_IN_PREPARING_QUERY.$subjects_query);
+        die(CHECK_DB_ERROR.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($subjects_prep, "s", $childSSN)){
-        die('Error in binding paramters to marks_prep.'."\n");
+        die(ERROR_IN_BINDING_PARAMS_FOR_MARKS_PREP."\n");
     }
     if(!mysqli_stmt_execute($subjects_prep)){
-        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
+        die(ERROR_IN_EXECUTING_MARKS_QUERY.mysqli_error($con));
     }
     $subjects_res = mysqli_stmt_get_result($subjects_prep);
     $subjects = array();
@@ -744,15 +763,15 @@ function isInThisWeek($date) {
     $date = str_replace("/", ".", $date);
     $date = strtotime($date);
     
-    $FirstDay = strtotime('sunday last week');
-    $LastDay =  strtotime('sunday this week');
+    $FirstDay = strtotime(SUNDAY_LAST_WEEK);
+    $LastDay =  strtotime(SUNDAY_THIS_WEEK);
     
     return $date > $FirstDay && $date < $LastDay;
 }
 
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
-    $FirstDay = date('d/m/Y', strtotime('sunday last week'));
-    $LastDay = date('d/m/Y', strtotime('sunday this week'));
+    $FirstDay = date(D_M_Y, strtotime(SUNDAY_LAST_WEEK));
+    $LastDay = date(D_M_Y, strtotime(SUNDAY_THIS_WEEK));
 
     if(!isInThisWeek($date) || $date === "") {
         return TOPIC_RECORDING_WRONG_DATE." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;
@@ -814,8 +833,8 @@ function recordCommunication($title, $subtitle, $ini_path=''){
 }
 
 function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
-    $FirstDay = date('d/m/Y', strtotime('sunday last week'));
-    $LastDay = date('d/m/Y', strtotime('sunday this week'));
+    $FirstDay = date(D_M_Y, strtotime(SUNDAY_LAST_WEEK));
+    $LastDay = date(D_M_Y, strtotime(SUNDAY_THIS_WEEK));
 
     if(!isInThisWeek($date)) {
         return MARK_RECORDING_FAILED." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;
@@ -905,18 +924,18 @@ function get_attendance($childSSN, $ini_path=''){
                       "FROM ATTENDANCE\n" . 
                       "WHERE StudentSSN=?\n";             
     if(!$con){
-        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+        die(ERROR_IN_RETRIEVING_SUBJECTS."\n");
     }
     $attendance_prep = mysqli_prepare($con, $attendance_query);
     if(!$attendance_prep){
-        print('Error in preparing query: '.$attendance_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_IN_PREPARING_QUERY.$attendance_query);
+        die(CHECK_DB_ERROR.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($attendance_prep, "s", $childSSN)){
-        die('Error in binding paramters to marks_prep.'."\n");
+        die(ERROR_IN_BINDING_PARAMS_FOR_MARKS_PREP."\n");
     }
     if(!mysqli_stmt_execute($attendance_prep)){
-        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
+        die(ERROR_IN_EXECUTING_MARKS_QUERY.mysqli_error($con));
     }
     $attendance_res = mysqli_stmt_get_result($attendance_prep);
     $attendance = array();
@@ -940,8 +959,8 @@ function get_classes_of_teacher($teacherUsername, $ini_path=''){
     }
     $classes_prep = mysqli_prepare($db_con, $class_query);
     if(!$classes_prep){
-        print('Error in preparing query: '.$class_query);
-        die('Check database error:<br>'.mysqli_error($db_con));
+        print(ERROR_IN_PREPARING_QUERY.$class_query);
+        die(CHECK_DB_ERROR.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($classes_prep, "s", $teacherUsername)){
         die('Error in binding paramters to classes_prep.'."\n");
@@ -970,8 +989,8 @@ function get_students_of_class($class, $ini_path=''){
     }
     $student_class_prep = mysqli_prepare($db_con, $student_class_query);
     if(!$student_class_prep){
-        print('Error in preparing query: '.$student_class_query);
-        die('Check database error:<br>'.mysqli_error($db_con));
+        print(ERROR_IN_PREPARING_QUERY.$student_class_query);
+        die(CHECK_DB_ERROR.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($student_class_prep, "s", $class)){
         die('Error in binding parameters to student_class_prep.'."\n");
@@ -1001,8 +1020,8 @@ function get_list_presences_class_per_date($class, $date, $ini_path=''){
     }
     $presences_class_prep = mysqli_prepare($db_con, $query_presences);
     if(!$presences_class_prep){
-        print('Error in preparing query: '.$query_presences);
-        die('Check database error:<br>'.mysqli_error($db_con));
+        print(ERROR_IN_PREPARING_QUERY.$query_presences);
+        die(CHECK_DB_ERROR.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($presences_class_prep, "ss", $class, $date)){
         die('Error in binding parameters to presences_class_prep.'."\n");
@@ -1039,7 +1058,7 @@ function register_early_exit($childSSN, $today_date, $hour_leaving, $ini_path=''
     $leaving_prep = mysqli_prepare($db_con, $leaving_query);
     if(!$leaving_prep){
         print('Error in preparting query '.$leaving_query);
-        return 'Check database error:<br>'.mysqli_error($db_con);
+        return CHECK_DB_ERROR.mysqli_error($db_con);
     }
     if(!mysqli_stmt_bind_param($leaving_prep, "ssii", $childSSN, $today_date, $hour_leaving, $hour_leaving)){
         return 'Error in binding parameters to leaving_prep.'."\n";
@@ -1067,8 +1086,8 @@ function get_assignment_of_child($childSSN, $ini_path=''){
     }
     $assignments_prep = mysqli_prepare($db_con, $assignments_query);
     if(!$assignments_prep){
-        print('Error in preparing query: '.$assignments_query);
-        return 'Check database error:<br>'.mysqli_error($db_con);
+        print(ERROR_IN_PREPARING_QUERY.$assignments_query);
+        return CHECK_DB_ERROR.mysqli_error($db_con);
     }
     if(!mysqli_stmt_bind_param($assignments_prep, "s", $childSSN)){
         return 'Error in binding parameters to assignments_prep.'."\n";
@@ -1186,15 +1205,15 @@ function get_list_of_classes($ini_path='') {
 
     $classes_query = "SELECT DISTINCT(Name) FROM CLASS ORDER BY Name;";
     if(!$con){
-        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+        die(ERROR_IN_RETRIEVING_SUBJECTS."\n");
     }
     $classes_prep = mysqli_prepare($con, $classes_query);
     if(!$classes_prep){
-        print('Error in preparing query: '.$classes_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_IN_PREPARING_QUERY.$classes_query);
+        die(CHECK_DB_ERROR.mysqli_error($con));
     }
     if(!mysqli_stmt_execute($classes_prep)){
-        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
+        die(ERROR_IN_EXECUTING_MARKS_QUERY.mysqli_error($con));
     }
     $classes_res = mysqli_stmt_get_result($classes_prep);
     $classes = array();
@@ -1266,7 +1285,7 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
             //table support_material locked
             //check if filename for specific class and subjectId already exists
             if(!$result = mysqli_query($db_con, 'SELECT COUNT(*) as cnt FROM SUPPORT_MATERIAL WHERE SubjectID='.$subjectID.' AND Class="'.$class.'" AND Filename="'.$userfile_name.'" FOR UPDATE;')) {
-                throw new UnexpectedValueException('Please retry later.');            
+                throw new UnexpectedValueException(RETRY_LATER_MSG);            
             }
             
             $row = mysqli_fetch_array($result); 
@@ -1276,11 +1295,11 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
             }
 
             if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");')) {
-                throw new UnexpectedValueException('Please retry later.');
+                throw new UnexpectedValueException(RETRY_LATER_MSG);
             }
             
             if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;')) {
-                throw new UnexpectedValueException('Please retry later.');
+                throw new UnexpectedValueException(RETRY_LATER_MSG);
             }
             
             $row = mysqli_fetch_array($result); 
@@ -1313,18 +1332,18 @@ function get_list_of_student_notes($studentSSN, $ini_path='') {
                       "WHERE N.SubjectID=S.ID AND StudentSSN=?\n" . 
                       "ORDER BY Date DESC";
     if(!$con){
-        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+        die(ERROR_IN_RETRIEVING_SUBJECTS."\n");
     }
     $notes_prep = mysqli_prepare($con, $notes_query);
     if(!$notes_prep){
-        print('Error in preparing query: '.$notes_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_IN_PREPARING_QUERY.$notes_query);
+        die(CHECK_DB_ERROR.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($notes_prep, "s", $studentSSN)){
-        die('Error in binding paramters to marks_prep.'."\n");
+        die(ERROR_IN_BINDING_PARAMS_FOR_MARKS_PREP."\n");
     }
     if(!mysqli_stmt_execute($notes_prep)){
-        die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
+        die(ERROR_IN_EXECUTING_MARKS_QUERY.mysqli_error($con));
     }
     $notes_res = mysqli_stmt_get_result($notes_prep);
     $notes = array();
@@ -1409,7 +1428,7 @@ function https_redirect() {
         $location = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         if (ctype_alnum($location)) {
             header('HTTP/1.1 301 Moved Permanently');
-            header('Location: '.$location);
+            header(LOCATION_STRING.$location);
             exit;
         }  
     }
@@ -1423,7 +1442,7 @@ function https_redirect() {
             }
             session_destroy();
 
-            header('HTTP/1.1 307 temporary redirect');
+            header(HTTP_TEMP_REDIRECT);
             header('Location: login.php');
             die();
         }
@@ -1460,7 +1479,7 @@ function getCoordinatorSubject($teacher, $ini_path=''){
 
     $prep_query = mysqli_prepare($db_con, $query);
     if(!$prep_query){
-        print('Error in preparing query: '.$prep_query);
+        print(ERROR_IN_PREPARING_QUERY.$prep_query);
         echo '{"state" : "error",
         "result" : "Database error." }';
     }
