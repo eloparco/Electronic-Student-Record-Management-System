@@ -15,7 +15,7 @@ if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_P
         $_SESSION[MSG] = '';
 }
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 
 <head> 
@@ -31,7 +31,7 @@ if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_P
   <?php include("includes/user_header.php"); ?> 
   <script>
     $(document).ready(function() {
-      $('[data-toggle=offcanvas]').click(function() {
+      $('[data-toggle=offcanvas]').click(function() { 
         $('.row-offcanvas').toggleClass('active');
       });
     });
