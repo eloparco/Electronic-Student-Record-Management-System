@@ -3,7 +3,7 @@
 class Story4Cest
 {
     const USER = "milo@milo.it";
-    const PASSWORD = "Milo1";
+    const AUTHENTICATION = "Milo1";
     const SECRETARY_PAGE = "/user_secretary.php";
     const BUTTON_RECORD_STUDENT = "Record student";
     const SSN_EXAMPLE = "CNVZPR41L20G324K";
@@ -21,7 +21,7 @@ class Story4Cest
     public function testInsertStudentSuccess(AcceptanceTester $I)
     {
         // login as secretary
-        $I->login(self::USER, self::PASSWORD);
+        $I->login(self::USER, self::AUTHENTICATION);
         $I->seeInCurrentUrl(self::SECRETARY_PAGE);
         $I->wait(1);
         $I->click(self::BUTTON_RECORD_STUDENT);   
@@ -55,7 +55,7 @@ class Story4Cest
     public function testInsertStudentDuplicate(AcceptanceTester $I)
     {
         // login as secretary
-        $I->login(self::USER, self::PASSWORD);
+        $I->login(self::USER, self::AUTHENTICATION);
         $I->seeInCurrentUrl(self::SECRETARY_PAGE);
         $I->wait(1);
         $I->click(self::BUTTON_RECORD_STUDENT);   
@@ -79,7 +79,7 @@ class Story4Cest
 
         $I->wait(1);
         // login as secretary
-        $I->login(self::USER, self::PASSWORD);
+        $I->login(self::USER, self::AUTHENTICATION);
         $I->seeInCurrentUrl(self::SECRETARY_PAGE);
 
         $I->wait(1);
@@ -109,7 +109,7 @@ class Story4Cest
     public function testInsertStudentWrongForm(AcceptanceTester $I)
     {
         // login as secretary
-        $I->login(self::USER, self::PASSWORD);
+        $I->login(self::USER, self::AUTHENTICATION);
         $I->seeInCurrentUrl(self::SECRETARY_PAGE);
         
         $I->click(self::BUTTON_RECORD_STUDENT);   

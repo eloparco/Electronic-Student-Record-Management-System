@@ -202,7 +202,7 @@ if(isset($_SESSION[MSG])) {
               if (f) {
                 var r = new FileReader();
                 r.onload = function(e) { 
-                  if(f.type != "text/csv"){
+                  if(f.type != "text/csv" && f.type != "text/x-csv" && f.type != "application/x-csv" && f.type != "application/csv" && f.type != "application/vnd.ms-excel"){
                     //alert("Type: "+ f.type);
                     alert("The file must be in a CSV format.");
                     return;

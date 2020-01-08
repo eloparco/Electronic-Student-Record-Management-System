@@ -5,7 +5,7 @@ $db_con = connect_to_db();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(!isset($_POST['student']) || !isset($_POST['score']) || !isset($_POST['subject']) ||
-    empty($_POST['student']) || empty($_POST['score']) || empty($_POST['subject'])) {
+    empty($_POST['student']) || empty(intval(urldecode($_POST['score']))) || empty(intval(urldecode($_POST['subject'])))) {
         echo '{"state" : "error",
         "result" : "Incomplete request."}';
 
