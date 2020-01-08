@@ -1,4 +1,5 @@
 <?php
+require_once('public/utility.php');
 
 class Story6Cest{
     const MARK_PAGE = "Record a student's mark";
@@ -123,7 +124,7 @@ class Story6Cest{
         $I->see('0.5');
         $I->click(self::CONFIRM);
         $I->wait(2); // wait for ajax and mark registered
-        $I->see("Mark recording failed.");
+        $I->see(MARK_RECORDING_FAILED);
         $I->dontSeeInDatabase('MARK', [
             self::STUDENT_SSN => self::STUDENT_EXAMPLE,
             self::SUBJECT_ID => 4,
@@ -149,7 +150,7 @@ class Story6Cest{
         $I->see('0.25');
         $I->click(self::CONFIRM);
         $I->wait(2); // wait for ajax and mark registered
-        $I->see("Mark recording failed.");
+        $I->see(MARK_RECORDING_FAILED);
     }
 
     public function testMissingSubject(AcceptanceTester $I){
@@ -170,7 +171,7 @@ class Story6Cest{
         $I->selectOption(self::SCORE_FORM, "8");
         $I->click(self::CONFIRM);
         $I->wait(2); // wait for ajax and mark registered
-        $I->see("Mark recording failed.");
+        $I->see(MARK_RECORDING_FAILED);
     }
 }
 
