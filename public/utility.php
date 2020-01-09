@@ -80,6 +80,15 @@ define("CLASS_SCHOOL", "Class");
 define("TITLE", "Title");
 define("DESCRIPTION", "Description");
 
+class UtilityException extends Exception {
+    public function errorMessage() {
+      //error message
+      $errorMsg = 'Error on line '.$this->getLine().' in '.$this->getFile()
+      .': <b>'.$this->getMessage().'</b>';
+      return $errorMsg;
+    }
+  }
+
 function connect_to_db($ini_path_test='') {
     $ini_path = '../config/database/database.ini';
 
@@ -234,19 +243,19 @@ function tryLogin($username, $password, $ini_path='') {
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "SELECT Password, AccountActivated FROM `USER` WHERE Email = ?")){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_bind_param($prep, "s", $username)) {
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_execute($prep)) {
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_bind_result($prep, $dbPass, $isActive)){
-                throw new Exception();  
+                throw new UtilityException();  
             }
             if(!mysqli_stmt_store_result($prep)){
-                throw new Exception();
+                throw new UtilityException();
             }
 
             $count = mysqli_stmt_num_rows($prep);
@@ -256,7 +265,7 @@ function tryLogin($username, $password, $ini_path='') {
                 return LOGIN_NOT_MATCH;
             } else {
                 if(!mysqli_stmt_fetch($prep)){
-                    throw new Exception(); 
+                    throw new UtilityException(); 
                 }
                 if($password == $dbPass && $isActive == 1) {
                     mysqli_stmt_close($prep);
@@ -334,16 +343,16 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
         try {
             /* Check if is a student */
             if(!$prep = mysqli_prepare($con, "SELECT * FROM `CHILD` WHERE SSN = ? FOR UPDATE")){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_bind_param($prep, "s", $ssn)){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_execute($prep)){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_store_result($prep)){
-                throw new Exception();
+                throw new UtilityException();
             }
             $count = mysqli_stmt_num_rows($prep);
             mysqli_stmt_free_result($prep);
@@ -357,16 +366,16 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
             else {
                 /* Check if user already exists */
                 if(!$prep4 = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE")){
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 if(!mysqli_stmt_bind_param($prep4, "s", $ssn)) {
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 if(!mysqli_stmt_execute($prep4)){
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 if(!mysqli_stmt_store_result($prep4)){
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 $count2 = mysqli_stmt_num_rows($prep4);
                 mysqli_stmt_free_result($prep4);
@@ -380,28 +389,28 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
                 else {
                     /* Insert parent data into db */
                     if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)")){
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) {
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     if(!mysqli_stmt_execute($prep2)) {
-                        throw new Exception();
+                        throw new UtilityException();
                     }else { 
                         mysqli_stmt_close($prep2);
                         /* Insert parent data into db */
                         if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)")){
-                            throw new Exception();
+                            throw new UtilityException();
                         }
                         if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) {
-                            throw new Exception();
+                            throw new UtilityException();
                         }
                         if(!mysqli_stmt_execute($prep3)) {
-                            throw new Exception();
+                            throw new UtilityException();
                         }else {
                             mysqli_stmt_close($prep3);
                             if(!mysqli_commit($con)) // do the final commit
-                                throw new Exception();
+                                throw new UtilityException();
                             sendMail($username, $password);//to send real e-mail
                             mysqli_autocommit($con, TRUE);
                             mysqli_close($con);
@@ -429,16 +438,16 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
         try {
             /* Check if is an SSN of one child -> error */
             if(!$prep5 = mysqli_prepare($con, "SELECT * FROM CHILD WHERE SSN = ? LIMIT 1")){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_bind_param($prep5, "s", $ssn)) {
-                throw new Exception();
+                throw new UtilityException();
             }   
             if(!mysqli_stmt_execute($prep5)){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_store_result($prep5)){
-                throw new Exception();
+                throw new UtilityException();
             }
             $count = mysqli_stmt_num_rows($prep5);
             if($count == 1) { //it is an SSN of a child!
@@ -452,16 +461,16 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
             else {
             /* Check if user already exists */
             if(!$prep = mysqli_prepare($con, "SELECT UserType FROM USER, USER_TYPE WHERE USER.SSN = USER_TYPE.SSN AND USER.SSN = ? FOR UPDATE")){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_bind_param($prep, "s", $ssn)) {
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_execute($prep)){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_store_result($prep)){
-                throw new Exception();
+                throw new UtilityException();
             }
             $count = mysqli_stmt_num_rows($prep);
             if($count == 0) { //new account!
@@ -470,28 +479,28 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
 
                 /* Insert account data into user table */
                 if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)")){
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) {
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 if(!mysqli_stmt_execute($prep2)) {
-                    throw new Exception();
+                    throw new UtilityException();
                 }else { 
                     /* Insert account type into user_type table */
                     mysqli_stmt_close($prep2);
                     if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)")){
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) {
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     if(!mysqli_stmt_execute($prep3)) {
-                        throw new Exception();
+                        throw new UtilityException();
                     } else { 
                         mysqli_stmt_close($prep3);
                         if(!mysqli_commit($con)){ //do the final commit
-                            throw new Exception();
+                            throw new UtilityException();
                         }
                         //sendMail($username, $password); //to send real e-mail
                         mysqli_autocommit($con, TRUE);
@@ -574,16 +583,16 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
             else {
                 /* Insert account type into user_type table */
                 if(!$prep4 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)")){
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 if(!mysqli_stmt_bind_param($prep4, "ss", $ssn, $usertype)) {
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 if(!mysqli_stmt_execute($prep4)) {
-                    throw new Exception();
+                    throw new UtilityException();
                 } else { 
                     if(!mysqli_commit($con)) //do the final commit
-                        throw new Exception();
+                        throw new UtilityException();
                     //sendMail($username, $password); //to send real e-mail
                     mysqli_stmt_close($prep4);
                     mysqli_autocommit($con, TRUE);
@@ -592,7 +601,7 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                 }
             }
         }
-        } catch (Exception $e) {
+        } catch (UtilityException $e) {
             mysqli_rollback($con);
             mysqli_autocommit($con, TRUE);
             mysqli_close($con);
@@ -760,11 +769,11 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO TOPIC VALUES(?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?, ?);")) 
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_bind_param($prep, "ssiisss", $class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description)) 
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_execute($prep)) 
-                throw new Exception();
+                throw new UtilityException();
             else{
                 return TOPIC_RECORDING_OK;
             }
@@ -787,11 +796,11 @@ function recordCommunication($title, $subtitle, $ini_path=''){
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO COMMUNICATION (Title, Description, Date) VALUES (?, ?, CURRENT_DATE);")) 
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_bind_param($prep, "ss", $title, $subtitle)) 
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_execute($prep)) 
-                throw new Exception();
+                throw new UtilityException();
             else{
                 return COMMUNICATION_RECORDING_OK;
             }
@@ -817,11 +826,11 @@ function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO MARK VALUES(?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?);")) 
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_bind_param($prep, "sissd", $student, $subject, $date, $class, $score)) 
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_execute($prep)) 
-                throw new Exception();
+                throw new UtilityException();
             else{
                 return MARK_RECORDING_OK;
             }
@@ -841,16 +850,16 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_p
         try {
             /* Check if user already exists */
             if(!$prep2 = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE")){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_bind_param($prep2, "s", $SSN)) {
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_execute($prep2)){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_store_result($prep2)){
-                throw new Exception();
+                throw new UtilityException();
             }
             $count = mysqli_stmt_num_rows($prep2);
             mysqli_stmt_free_result($prep2);
@@ -863,13 +872,13 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_p
             } else {
                 /* Insert student into db */
                 if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) {
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 if(!mysqli_stmt_bind_param($prep, "ssssss", $SSN, $Name, $Surname, $Parent1, $Parent2, $Class)) {
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 if(!mysqli_stmt_execute($prep)) {
-                    throw new Exception();
+                    throw new UtilityException();
                 }
                 else{
                     return STUDENT_RECORDING_OK;
@@ -1120,13 +1129,13 @@ function insert_timetable($class, $timetable, $ini_path=''){
                 foreach($row as $subject) {                      
                     // select subject id starting from subject name
                     if(!$prep = mysqli_prepare($con, "SELECT ID FROM SUBJECT WHERE Name=? LIMIT 1;")){
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     if(!mysqli_stmt_bind_param($prep, "s", $subject)) {
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     if(!mysqli_stmt_execute($prep)) {
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     $result = mysqli_stmt_get_result($prep);
                     $subject_id = mysqli_fetch_assoc($result)["ID"];
@@ -1141,13 +1150,13 @@ function insert_timetable($class, $timetable, $ini_path=''){
                                                         VALUES(?, ?, ?, ?) 
                                                         ON DUPLICATE KEY UPDATE SubjectID=?;")) {
 
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     if(!mysqli_stmt_bind_param($prep, "ssiii", $class, $days_of_week[$day_counter], $start_hour, $subject_id, $subject_id)) {
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     if(!mysqli_stmt_execute($prep)) {
-                        throw new Exception();
+                        throw new UtilityException();
                     }
                     mysqli_stmt_free_result($prep);
                     mysqli_stmt_close($prep);
@@ -1202,13 +1211,13 @@ function recordAssignment($class, $subject, $date, $title, $description, $attach
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO ASSIGNMENT(Class, SubjectID, DateOfAssignment, DeadlineDate, Title, Description, Attachment) VALUES (?, ?, CURRENT_DATE, ?, ?, ?, ?);")){
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_bind_param($prep, "ssssss", $class, $subject, $date, $title, $description, $attachment)) {
-                throw new Exception();
+                throw new UtilityException();
             }
             if(!mysqli_stmt_execute($prep)) {
-                throw new Exception();
+                throw new UtilityException();
             }
             else{
                 return ASSIGNMENT_RECORDING_OK;
@@ -1252,20 +1261,20 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
             //table support_material locked
             //check if filename for specific class and subjectId already exists
             if(!$result = mysqli_query($db_con, 'SELECT COUNT(*) as cnt FROM SUPPORT_MATERIAL WHERE SubjectID='.$subjectID.' AND Class="'.$class.'" AND Filename="'.$userfile_name.'" FOR UPDATE;')){
-                throw new Exception('Please retry later.');            
+                throw new UtilityException();            
             }
             
             $row = mysqli_fetch_array($result); 
             $cnt = $row['cnt'];
             if($cnt>0){
-                throw new Exception('File already exists, please select another one.'); 
+                throw new UtilityException('File already exists, please select another one.'); 
             }
             if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");')){
-                throw new Exception('Please retry later.');
+                throw new UtilityException();
             }
             
             if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;')){
-                throw new Exception('Please retry later.');
+                throw new UtilityException();
             }
             
             $row = mysqli_fetch_array($result); 
@@ -1277,7 +1286,7 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
                 mysqli_close($db_con);            
                 return  'File correctly uploaded.';
             } else{   
-                throw new Exception('Please retry.');                
+                throw new UtilityException();                
             }  
 
         } catch (Exception $e) {         
@@ -1329,8 +1338,9 @@ function get_list_of_support_material($studentSSN, $ini_path='') {
         if(!$result = mysqli_query($db_con, 'SELECT S.ID as "Id", SJ.Name as "Subject", S.Date as "Date", S.Filename as "Filename"  FROM SUPPORT_MATERIAL S, SUBJECT SJ, CHILD C 
                 WHERE C.Class = S.Class AND
                       SJ.ID = S.SubjectID AND
-                      C.SSN="'.$studentSSN.'" ORDER BY S.Date;'))
-            throw new Exception('Error on SELECT support material.');            
+                      C.SSN="'.$studentSSN.'" ORDER BY S.Date;')){
+            throw new UtilityException();
+        }            
                
         $files = mysqli_fetch_all($result, MYSQLI_ASSOC);
         mysqli_close($db_con);
@@ -1366,11 +1376,11 @@ function recordNote($student, $subject, $date, $description, $ini_path='') {
         try {
             // INSERT INTO `NOTE`(`StudentSSN`, `SubjectID`, `Description`, `Date`) VALUES ([value-1],[value-2],[value-3],[value-4])
             if(!$prep = mysqli_prepare($con, "INSERT INTO NOTE VALUES(?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'));")) 
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_bind_param($prep, "ssss", $student, $subject, $description, $date)) 
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_execute($prep)) 
-                throw new Exception();
+                throw new UtilityException();
             else{
                 return NOTE_RECORDING_OK;
             }
@@ -1472,11 +1482,11 @@ function recordFinalMark($student, $subjectID, $score, $ini_path=''){
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO FINAL_MARK VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE Mark = ?;"))
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_bind_param($prep, "siii", $student, $subjectID, $score, $score)) 
-                throw new Exception();
+                throw new UtilityException();
             if(!mysqli_stmt_execute($prep)) 
-                throw new Exception();
+                throw new UtilityException();
             else{
                 return MARK_RECORDING_OK;
             }
