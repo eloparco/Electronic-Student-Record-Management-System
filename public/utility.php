@@ -29,7 +29,7 @@ define("LOGIN_NOT_MATCH", "Invalid username or password.");
 define("SESSION_EXPIRED", "session-expired");
 define("TOPIC_RECORDING_FAILED", "Topic recording failed.");
 define("TOPIC_RECORDING_OK", "Topics correctly recorded.");
-define("TOPIC_RECORDING_INCORRECT", "Please fill all the fields.");
+define("TOPIC_RECORDING_INCORRECT", "Please fill all the fields during topic recording.");
 define("MARK_RECORDING_OK", "Mark correctly recorded.");
 define("MARK_RECORDING_FAILED", "Mark recording failed.");
 define("STUDENT_RECORDING_OK", "Student correctly recorded.");
@@ -47,10 +47,10 @@ define("SUBJECT_INCORRECT", "Unknown subject in the uploaded file.");
 define("TOPIC_RECORDING_WRONG_DATE", "Date entered is wrong.");
 define("MAX_INACTIVITY", 99999999);
 define("DEFAULT_PASSWORD_LENGTH", 8);
-define("COMMUNICATION_RECORDING_INCORRECT", "Please fill all the fields.");
+define("COMMUNICATION_RECORDING_INCORRECT", "Please fill all the fields during communication recording.");
 define("COMMUNICATION_RECORDING_FAILED", "Communication recording failed.");
 define("COMMUNICATION_RECORDING_OK","Communication correctly recorded.");
-define("ASSIGNMENT_RECORDING_INCORRECT", "Please fill all the fields.");
+define("ASSIGNMENT_RECORDING_INCORRECT", "Please fill all the fields during assignment recording.");
 define("ASSIGNMENT_RECORDING_FAILED", "Assignment recording failed.");
 define("ASSIGNMENT_RECORDING_OK", "Assignment correctly recorded.");
 define("WRONG_FILE_EXTENSION","File type not supported");
@@ -60,15 +60,16 @@ define("FILE_UPLOAD_ERROR","Error during file uploading.");
 define("MSG", "msg_result");
 // Note: Give the following directory R/W rights for "other" group
 define("UPLOAD_PATH", "uploads/");
-define("NOTE_RECORDING_INCORRECT", "Please fill all the fields.");
+define("NOTE_RECORDING_INCORRECT", "Please fill all the fields during note recording.");
 define("NOTE_RECORDING_FAILED", "Note recording failed.");
 define("NOTE_RECORDING_OK", "Note correctly recorded.");
 
 function connect_to_db($ini_path_test='') {
     $ini_path = '../config/database/database.ini';
 
-    if ($ini_path_test !== '')
+    if ($ini_path_test !== ''){
         $ini_path = $ini_path_test;
+    }
     $db = parse_ini_file($ini_path);
 
     $user = $db['user'];
@@ -93,17 +94,19 @@ function myDestroySession() {
 }
 
 function userLoggedIn() {
-    if(isset($_SESSION['mySession']))
+    if(isset($_SESSION['mySession'])){
         return $_SESSION['mySession'];
-    else 
+    } else{ 
         return false;
+    }
 }
 
 function userTypeLoggedIn($type) {
-    if(isset($_SESSION['myUserType']) && $_SESSION['myUserType'] == $type) 
+    if(isset($_SESSION['myUserType']) && $_SESSION['myUserType'] == $type){
         return $_SESSION['myUserType'];
-    else 
+    }else{ 
         return false;
+    }
 }
 
 function myRedirectHome($msg="") {
@@ -141,8 +144,9 @@ function checkEmail($email) {
 }
 
 function checkSSN($ssn) {
-    if($ssn == '' || strlen($ssn) != 16)
+    if($ssn == '' || strlen($ssn) != 16){
         return false;
+    }
     $ssn = strtoupper($ssn);
     return preg_match("/[A-Z0-9]+$/", $ssn);
 }
@@ -171,8 +175,9 @@ function generatePass() {
 function mySanitizeString($var) {
 	$var = strip_tags($var); //remove all HTML and PHP tag, and also NULL characters
     $var = htmlentities($var); //convert all special characters in HTML entities
-    if(get_magic_quotes_gpc()) 
+    if(get_magic_quotes_gpc()){
         $var = stripslashes($var); //remove backslashes
+    }
     return $var;
 }
 
@@ -212,16 +217,21 @@ function tryLogin($username, $password, $ini_path='') {
 
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "SELECT Password, AccountActivated FROM `USER` WHERE Email = ?")) 
+            if(!$prep = mysqli_prepare($con, "SELECT Password, AccountActivated FROM `USER` WHERE Email = ?")){
                 throw new Exception();
-            if(!mysqli_stmt_bind_param($prep, "s", $username)) 
+            }
+            if(!mysqli_stmt_bind_param($prep, "s", $username)) {
                 throw new Exception();
-            if(!mysqli_stmt_execute($prep)) 
+            }
+            if(!mysqli_stmt_execute($prep)) {
                 throw new Exception();
-            if(!mysqli_stmt_bind_result($prep, $dbPass, $isActive))
+            }
+            if(!mysqli_stmt_bind_result($prep, $dbPass, $isActive)){
                 throw new Exception();  
-            if(!mysqli_stmt_store_result($prep))
+            }
+            if(!mysqli_stmt_store_result($prep)){
                 throw new Exception();
+            }
 
             $count = mysqli_stmt_num_rows($prep);
             if($count == 0) { //email not found in db
@@ -229,25 +239,27 @@ function tryLogin($username, $password, $ini_path='') {
                 mysqli_close($con);
                 return LOGIN_NOT_MATCH;
             } else {
-                if(!mysqli_stmt_fetch($prep))
+                if(!mysqli_stmt_fetch($prep)){
                     throw new Exception(); 
+                }
                 if($password == $dbPass && $isActive == 1) {
                     mysqli_stmt_close($prep);
                     mysqli_close($con);
 
                     $dbUserType = get_roles_per_user($username, $ini_path)[0];
-                    if($dbUserType == 'TEACHER')
+                    if($dbUserType == 'TEACHER'){
                         return LOGIN_TEACHER_OK;
-                    else if($dbUserType == 'PARENT')
+                    } else if($dbUserType == 'PARENT'){
                         return LOGIN_PARENT_OK;
-                    else if($dbUserType == 'SECRETARY_OFFICER')
+                    } else if($dbUserType == 'SECRETARY_OFFICER'){
                         return LOGIN_SECRETARY_OK;
-                    else if($dbUserType == 'PRINCIPAL')
+                    } else if($dbUserType == 'PRINCIPAL'){
                         return LOGIN_PRINCIPAL_OK;
-                    else if($dbUserType == 'SYS_ADMIN')
+                    } else if($dbUserType == 'SYS_ADMIN'){
                         return LOGIN_ADMIN_OK;
-                    else 
+                    } else {
                         return LOGIN_USER_NOT_DEFINED;
+                    }
                 } else if($password == $dbPass && $isActive == 0) { //password needs to be changed
                     mysqli_stmt_close($prep);
                     mysqli_close($con);
