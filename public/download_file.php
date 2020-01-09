@@ -1,7 +1,9 @@
 <?php
+define("fileID", "file_id");
+
 // Downloads files
-if (isset($_GET['file_id'])) {
-    $id = $_GET['file_id'];
+if (isset($_GET[fileID])) {
+    $id = $_GET[fileID];
     
     $file = get_file($id);
     
@@ -24,7 +26,7 @@ if (isset($_GET['file_id'])) {
         header('Content-Length: '.filesize('../support_material/'.$file['ID']));
         readfile('../support_material/' . $file['ID']); 
         
-        unset($_GET['file_id']);
+        unset($_GET[fileID]);
         exit;          
     }
 }
