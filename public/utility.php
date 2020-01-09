@@ -63,6 +63,14 @@ define("UPLOAD_PATH", "uploads/");
 define("NOTE_RECORDING_INCORRECT", "Please fill all the fields during note recording.");
 define("NOTE_RECORDING_FAILED", "Note recording failed.");
 define("NOTE_RECORDING_OK", "Note correctly recorded.");
+define("USER_TYPE", "myUserType");
+define("HTTP_REDIRECT_MSG", "HTTP/1.1 307 temporary redirect");
+define("LOCATION_LABEL", "Location: ");
+define("TEACHER_TYPE", "TEACHER");
+define("SECRETARY_OFFICER_TYPE", "SECRETARY_OFFICER");
+define("SYS_ADMIN_TYPE", "SYS_ADMIN");
+define("PARENT_TYPE", "PARENT");
+define("PRINCIPAL_TYPE", "PRINCIPAL");
 
 function connect_to_db($ini_path_test='') {
     $ini_path = '../config/database/database.ini';
@@ -102,22 +110,22 @@ function userLoggedIn() {
 }
 
 function userTypeLoggedIn($type) {
-    if(isset($_SESSION['myUserType']) && $_SESSION['myUserType'] == $type){
-        return $_SESSION['myUserType'];
+    if(isset($_SESSION[USER_TYPE]) && $_SESSION[USER_TYPE] == $type){
+        return $_SESSION[USER_TYPE];
     }else{ 
         return false;
     }
 }
 
 function myRedirectHome($msg="") {
-    header('HTTP/1.1 307 temporary redirect');
+    header(HTTP_REDIRECT_MSG);
     header("Location: index.php?msg=".urlencode($msg));
     exit;
 }
 
 function myRedirectTo($toRedirect, $msg="") {
-    header('HTTP/1.1 307 temporary redirect');
-    header('Location: '.$toRedirect.'?msg='.urlencode($msg));
+    header(HTTP_REDIRECT_MSG);
+    header(LOCATION_LABEL.$toRedirect.'?msg='.urlencode($msg));
     exit;
 }
 
@@ -126,13 +134,13 @@ function redirect($new_location, $msg=''){
         $_SESSION[MSG] = $msg;
     }    
     header("HTTP/1.1 303 See Other");
-    header('Location: '.$new_location);
+    header(LOCATION_LABEL.$new_location);
     exit;
 }
 
 function myRedirectToHTTPS($toRedirect) {
     header('HTTP/1.1 301 Moved Permanently');
-    header('Location: '.$toRedirect);
+    header(LOCATION_LABEL.$toRedirect);
 }
 
 function checkPassword($pwd) {
@@ -156,8 +164,8 @@ function checkNormalText($input) {
 }
 
 function checkUserType($type) {
-    return $type === 'TEACHER' || $type === 'SECRETARY_OFFICER' || $type === 'PARENT' 
-        || $type === 'PRINCIPAL' || $type === 'SYS_ADMIN';
+    return $type === TEACHER_TYPE || $type === SECRETARY_OFFICER_TYPE || $type === PARENT_TYPE
+        || $type === PRINCIPAL_TYPE || $type === SYS_ADMIN_TYPE;
 }
 
 function generatePass() {
@@ -247,15 +255,15 @@ function tryLogin($username, $password, $ini_path='') {
                     mysqli_close($con);
 
                     $dbUserType = get_roles_per_user($username, $ini_path)[0];
-                    if($dbUserType == 'TEACHER'){
+                    if($dbUserType == TEACHER_TYPE){
                         return LOGIN_TEACHER_OK;
-                    } else if($dbUserType == 'PARENT'){
+                    } else if($dbUserType == PARENT_TYPE){
                         return LOGIN_PARENT_OK;
-                    } else if($dbUserType == 'SECRETARY_OFFICER'){
+                    } else if($dbUserType == SECRETARY_OFFICER_TYPE){
                         return LOGIN_SECRETARY_OK;
-                    } else if($dbUserType == 'PRINCIPAL'){
+                    } else if($dbUserType == PRINCIPAL_TYPE){
                         return LOGIN_PRINCIPAL_OK;
-                    } else if($dbUserType == 'SYS_ADMIN'){
+                    } else if($dbUserType == SYS_ADMIN_TYPE){
                         return LOGIN_ADMIN_OK;
                     } else {
                         return LOGIN_USER_NOT_DEFINED;
@@ -482,34 +490,34 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                     return ROLE_ALREADY_TAKEN;
                 }
                 else if(count($types) == 2) //this account has already two roles.
-                    if(in_array("SECRETARY_OFFICER", $types))
-                        if(in_array("PARENT", $types)) {
+                    if(in_array(SECRETARY_OFFICER_TYPE, $types))
+                        if(in_array(PARENT_TYPE, $types)) {
                             mysqli_rollback($con);
                             mysqli_autocommit($con, TRUE);
                             mysqli_close($con);
                             return MAX_ROLES_ALLOWED;
                         } else
-                            $validUserTypes = array("PARENT"); //we can add a parent only in this case.
-                    else if(in_array("TEACHER", $types))
-                        if(in_array("PRINCIPAL", $types))
-                            $validUserTypes = array("PARENT"); 
+                            $validUserTypes = array(PARENT_TYPE); //we can add a parent only in this case.
+                    else if(in_array(TEACHER_TYPE, $types))
+                        if(in_array(PRINCIPAL_TYPE, $types))
+                            $validUserTypes = array(PARENT_TYPE); 
                         else
-                            $validUserTypes = array("PRINCIPAL");
-                    else if(in_array("SYS_ADMIN", $types))
-                        $validUserTypes = array("SECRETARY_OFFICER");
+                            $validUserTypes = array(PRINCIPAL_TYPE);
+                    else if(in_array(SYS_ADMIN_TYPE, $types))
+                        $validUserTypes = array(SECRETARY_OFFICER_TYPE);
                     else
-                        $validUserTypes = array("TEACHER");
+                        $validUserTypes = array(TEACHER_TYPE);
                 else if(count($types) == 1)
-                    if($types[0] == "SYS_ADMIN")
-                        $validUserTypes = array("SECRETARY_OFFICER", "PARENT"); 
-                    else if($types[0] == "SECRETARY_OFFICER")
-                        $validUserTypes = array("SYS_ADMIN", "PARENT");   
-                    else if($types[0] == "PARENT")
-                        $validUserTypes = array("SYS_ADMIN", "PRINCIPAL", "SECRETARY_OFFICER", "TEACHER"); 
-                    else if($types[0] == "TEACHER")
-                        $validUserTypes = array("PRINCIPAL", "PARENT");  
-                    else if($types[0] == "PRINCIPAL")
-                        $validUserTypes = array("TEACHER", "PARENT"); 
+                    if($types[0] == SYS_ADMIN_TYPE)
+                        $validUserTypes = array(SECRETARY_OFFICER_TYPE, PARENT_TYPE); 
+                    else if($types[0] == SECRETARY_OFFICER_TYPE)
+                        $validUserTypes = array(SYS_ADMIN_TYPE, PARENT_TYPE);   
+                    else if($types[0] == PARENT_TYPE)
+                        $validUserTypes = array(SYS_ADMIN_TYPE, PRINCIPAL_TYPE, SECRETARY_OFFICER_TYPE, TEACHER_TYPE); 
+                    else if($types[0] == TEACHER_TYPE)
+                        $validUserTypes = array(PRINCIPAL_TYPE, PARENT_TYPE);  
+                    else if($types[0] == PRINCIPAL_TYPE)
+                        $validUserTypes = array(TEACHER_TYPE, PARENT_TYPE); 
             }
             
             /* Update role of this account */
@@ -574,7 +582,7 @@ function check_inactivity () {
         //By using the above mechanism, the next session does NOT see the cookie, and so it will give a new ID for the session :)
         session_destroy(); 
 		if ($new) { 
-			header('HTTP/1.1 307 temporary redirect');
+			header(HTTP_REDIRECT_MSG);
 			header('Location: index.php');
 		}
         else { //Redirect client to login page
@@ -1315,7 +1323,7 @@ function https_redirect() {
         $location = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         if (ctype_alnum($location)) {
             header('HTTP/1.1 301 Moved Permanently');
-            header('Location: '.$location);
+            header(LOCATION_LABEL.$location);
             exit;
         }  
     }
@@ -1328,7 +1336,7 @@ function https_redirect() {
                 setcookie(session_name(), '', time()-2592000, '/');
             session_destroy();
 
-            header('HTTP/1.1 307 temporary redirect');
+            header(HTTP_REDIRECT_MSG);
             header('Location: login.php');
             die();
         }
