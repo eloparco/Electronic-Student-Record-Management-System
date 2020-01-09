@@ -840,14 +840,18 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_p
     if($con && mysqli_connect_error() == NULL) {
         try {
             /* Check if user already exists */
-            if(!$prep2 = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE"))
+            if(!$prep2 = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE")){
                 throw new Exception();
-            if(!mysqli_stmt_bind_param($prep2, "s", $SSN)) 
+            }
+            if(!mysqli_stmt_bind_param($prep2, "s", $SSN)) {
                 throw new Exception();
-            if(!mysqli_stmt_execute($prep2))
+            }
+            if(!mysqli_stmt_execute($prep2)){
                 throw new Exception();
-            if(!mysqli_stmt_store_result($prep2))
+            }
+            if(!mysqli_stmt_store_result($prep2)){
                 throw new Exception();
+            }
             $count = mysqli_stmt_num_rows($prep2);
             mysqli_stmt_free_result($prep2);
             mysqli_stmt_close($prep2);
@@ -858,12 +862,15 @@ function insertStudent($SSN, $Name, $Surname, $Parent1, $Parent2, $Class, $ini_p
                 return USER_ALREADY_EXIST;
             } else {
                 /* Insert student into db */
-                if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) 
+                if(!$prep = mysqli_prepare($con, "INSERT INTO CHILD VALUES(?, ?, ?, ?, ?, ?);")) {
                     throw new Exception();
-                if(!mysqli_stmt_bind_param($prep, "ssssss", $SSN, $Name, $Surname, $Parent1, $Parent2, $Class)) 
+                }
+                if(!mysqli_stmt_bind_param($prep, "ssssss", $SSN, $Name, $Surname, $Parent1, $Parent2, $Class)) {
                     throw new Exception();
-                if(!mysqli_stmt_execute($prep)) 
+                }
+                if(!mysqli_stmt_execute($prep)) {
                     throw new Exception();
+                }
                 else{
                     return STUDENT_RECORDING_OK;
                 }
@@ -1112,28 +1119,36 @@ function insert_timetable($class, $timetable, $ini_path=''){
                 $day_counter = 0;
                 foreach($row as $subject) {                      
                     // select subject id starting from subject name
-                    if(!$prep = mysqli_prepare($con, "SELECT ID FROM SUBJECT WHERE Name=? LIMIT 1;")) 
+                    if(!$prep = mysqli_prepare($con, "SELECT ID FROM SUBJECT WHERE Name=? LIMIT 1;")){
                         throw new Exception();
-                    if(!mysqli_stmt_bind_param($prep, "s", $subject)) 
+                    }
+                    if(!mysqli_stmt_bind_param($prep, "s", $subject)) {
                         throw new Exception();
-                    if(!mysqli_stmt_execute($prep)) 
+                    }
+                    if(!mysqli_stmt_execute($prep)) {
                         throw new Exception();
+                    }
                     $result = mysqli_stmt_get_result($prep);
                     $subject_id = mysqli_fetch_assoc($result)["ID"];
                     mysqli_stmt_free_result($prep);
                     mysqli_stmt_close($prep);
 
-                    if ($subject_id === NULL && $subject !== "-")
+                    if ($subject_id === NULL && $subject !== "-"){
                         return SUBJECT_INCORRECT;
+                    }
 
                     if(!$prep = mysqli_prepare($con, "INSERT INTO CLASS_TIMETABLE(Class, DayOfWeek, Hour, SubjectID) 
                                                         VALUES(?, ?, ?, ?) 
-                                                        ON DUPLICATE KEY UPDATE SubjectID=?;")) 
+                                                        ON DUPLICATE KEY UPDATE SubjectID=?;")) {
+
                         throw new Exception();
-                    if(!mysqli_stmt_bind_param($prep, "ssiii", $class, $days_of_week[$day_counter], $start_hour, $subject_id, $subject_id)) 
+                    }
+                    if(!mysqli_stmt_bind_param($prep, "ssiii", $class, $days_of_week[$day_counter], $start_hour, $subject_id, $subject_id)) {
                         throw new Exception();
-                    if(!mysqli_stmt_execute($prep)) 
+                    }
+                    if(!mysqli_stmt_execute($prep)) {
                         throw new Exception();
+                    }
                     mysqli_stmt_free_result($prep);
                     mysqli_stmt_close($prep);
                     $day_counter++;
@@ -1186,12 +1201,15 @@ function recordAssignment($class, $subject, $date, $title, $description, $attach
 
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "INSERT INTO ASSIGNMENT(Class, SubjectID, DateOfAssignment, DeadlineDate, Title, Description, Attachment) VALUES (?, ?, CURRENT_DATE, ?, ?, ?, ?);")) 
+            if(!$prep = mysqli_prepare($con, "INSERT INTO ASSIGNMENT(Class, SubjectID, DateOfAssignment, DeadlineDate, Title, Description, Attachment) VALUES (?, ?, CURRENT_DATE, ?, ?, ?, ?);")){
                 throw new Exception();
-            if(!mysqli_stmt_bind_param($prep, "ssssss", $class, $subject, $date, $title, $description, $attachment)) 
+            }
+            if(!mysqli_stmt_bind_param($prep, "ssssss", $class, $subject, $date, $title, $description, $attachment)) {
                 throw new Exception();
-            if(!mysqli_stmt_execute($prep)) 
+            }
+            if(!mysqli_stmt_execute($prep)) {
                 throw new Exception();
+            }
             else{
                 return ASSIGNMENT_RECORDING_OK;
             }
@@ -1233,19 +1251,22 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
             mysqli_autocommit($db_con, false);
             //table support_material locked
             //check if filename for specific class and subjectId already exists
-            if(!$result = mysqli_query($db_con, 'SELECT COUNT(*) as cnt FROM SUPPORT_MATERIAL WHERE SubjectID='.$subjectID.' AND Class="'.$class.'" AND Filename="'.$userfile_name.'" FOR UPDATE;'))
+            if(!$result = mysqli_query($db_con, 'SELECT COUNT(*) as cnt FROM SUPPORT_MATERIAL WHERE SubjectID='.$subjectID.' AND Class="'.$class.'" AND Filename="'.$userfile_name.'" FOR UPDATE;')){
                 throw new Exception('Please retry later.');            
+            }
             
             $row = mysqli_fetch_array($result); 
             $cnt = $row['cnt'];
-            if($cnt>0)
+            if($cnt>0){
                 throw new Exception('File already exists, please select another one.'); 
-
-            if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");'))
+            }
+            if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");')){
                 throw new Exception('Please retry later.');
+            }
             
-            if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;'))
+            if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;')){
                 throw new Exception('Please retry later.');
+            }
             
             $row = mysqli_fetch_array($result); 
             $fileid = $row['id'];
