@@ -76,6 +76,9 @@ define("HINT_ERROR_MSG", "Check database error:<br>");
 define("SURNAME", "Surname");
 define("NAME", "Name");
 define("ERROR_BINDING_MARK_PREP", "Error in binding paramters to marks_prep.");
+define("CLASS_SCHOOL", "Class");
+define("TITLE", "Title");
+define("DESCRIPTION", "Description");
 
 function connect_to_db($ini_path_test='') {
     $ini_path = '../config/database/database.ini';
@@ -487,8 +490,9 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                         throw new Exception();
                     } else { 
                         mysqli_stmt_close($prep3);
-                        if(!mysqli_commit($con)) //do the final commit
+                        if(!mysqli_commit($con)){ //do the final commit
                             throw new Exception();
+                        }
                         //sendMail($username, $password); //to send real e-mail
                         mysqli_autocommit($con, TRUE);
                         mysqli_close($con);
@@ -500,8 +504,9 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                 /* Get user types from user_type table and save result into local array */
                 $types = array();
                 mysqli_stmt_bind_result($prep, $dbUserType);
-                while (mysqli_stmt_fetch($prep)) 
+                while (mysqli_stmt_fetch($prep)) {
                     $types[] = $dbUserType;
+                }
                 mysqli_stmt_free_result($prep);
                 mysqli_stmt_close($prep);
 
@@ -518,35 +523,45 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                     mysqli_close($con);
                     return ROLE_ALREADY_TAKEN;
                 }
-                else if(count($types) == 2) //this account has already two roles.
-                    if(in_array(SECRETARY_OFFICER_TYPE, $types))
+                else if(count($types) == 2){ //this account has already two roles.
+                    if(in_array(SECRETARY_OFFICER_TYPE, $types)){
                         if(in_array(PARENT_TYPE, $types)) {
                             mysqli_rollback($con);
                             mysqli_autocommit($con, TRUE);
                             mysqli_close($con);
                             return MAX_ROLES_ALLOWED;
-                        } else
+                        } else{
                             $validUserTypes = array(PARENT_TYPE); //we can add a parent only in this case.
-                    else if(in_array(TEACHER_TYPE, $types))
-                        if(in_array(PRINCIPAL_TYPE, $types))
-                            $validUserTypes = array(PARENT_TYPE); 
-                        else
+                        }
+                    }else if(in_array(TEACHER_TYPE, $types)){
+                        if(in_array(PRINCIPAL_TYPE, $types)){
+                            $validUserTypes = array(PARENT_TYPE);
+                        } else {
                             $validUserTypes = array(PRINCIPAL_TYPE);
-                    else if(in_array(SYS_ADMIN_TYPE, $types))
+                        }
+                    }else if(in_array(SYS_ADMIN_TYPE, $types)){
                         $validUserTypes = array(SECRETARY_OFFICER_TYPE);
-                    else
+                    }
+                    else{
                         $validUserTypes = array(TEACHER_TYPE);
-                else if(count($types) == 1)
-                    if($types[0] == SYS_ADMIN_TYPE)
+                    }
+                }else if(count($types) == 1){
+                    if($types[0] == SYS_ADMIN_TYPE){
                         $validUserTypes = array(SECRETARY_OFFICER_TYPE, PARENT_TYPE); 
-                    else if($types[0] == SECRETARY_OFFICER_TYPE)
+                    }
+                    else if($types[0] == SECRETARY_OFFICER_TYPE){
                         $validUserTypes = array(SYS_ADMIN_TYPE, PARENT_TYPE);   
-                    else if($types[0] == PARENT_TYPE)
+                    }
+                    else if($types[0] == PARENT_TYPE){
                         $validUserTypes = array(SYS_ADMIN_TYPE, PRINCIPAL_TYPE, SECRETARY_OFFICER_TYPE, TEACHER_TYPE); 
-                    else if($types[0] == TEACHER_TYPE)
+                    }
+                    else if($types[0] == TEACHER_TYPE){
                         $validUserTypes = array(PRINCIPAL_TYPE, PARENT_TYPE);  
-                    else if($types[0] == PRINCIPAL_TYPE)
+                    }
+                    else if($types[0] == PRINCIPAL_TYPE){
                         $validUserTypes = array(TEACHER_TYPE, PARENT_TYPE); 
+                    }
+                }
             }
             
             /* Update role of this account */
@@ -916,7 +931,7 @@ function get_classes_of_teacher($teacherUsername, $ini_path=''){
     $classes_res = mysqli_stmt_get_result($classes_prep);
     $classes = array();
     while($row = mysqli_fetch_array($classes_res, MYSQLI_ASSOC)){
-        $classes[] = array("Class" => $row['Class']);
+        $classes[] = array(CLASS_SCHOOL => $row[CLASS_SCHOOL]);
     }
     mysqli_stmt_close($classes_prep);
     return $classes;
@@ -1043,7 +1058,7 @@ function get_assignment_of_child($childSSN, $ini_path=''){
     $assignments_res = mysqli_stmt_get_result($assignments_prep);
     $assignments = array();
     while($row = mysqli_fetch_array($assignments_res, MYSQLI_ASSOC)){
-        $fields = array("Subject" => $row[NAME], "Date" => $row['DateOfAssignment'], "Deadline" => $row['DeadlineDate'], "Title" => $row['Title'], "Description" => $row['Description'], "Attachment" => $row['Attachment']);
+        $fields = array("Subject" => $row[NAME], "Date" => $row['DateOfAssignment'], "Deadline" => $row['DeadlineDate'], TITLE => $row[TITLE], DESCRIPTION => $row[DESCRIPTION], "Attachment" => $row['Attachment']);
         $assignments[] = $fields;
     }
     mysqli_stmt_close($assignments_prep);
@@ -1067,7 +1082,7 @@ function get_communications($ini_path='') {
     $res = mysqli_stmt_get_result($prep);
     $communications = array();
     while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
-        $fields = array("id" => $row['id'], "Title" => $row['Title'], "Description" => $row['Description'], "Date" => $row['Date']);
+        $fields = array("id" => $row['id'], TITLE => $row[TITLE], DESCRIPTION => $row[DESCRIPTION], "Date" => $row['Date']);
         $communications[] = $fields;
     }
     mysqli_stmt_close($prep);
@@ -1420,7 +1435,7 @@ function getCoordinatorSubject($teacher, $ini_path=''){
     mysqli_stmt_bind_result($prep_query, $Class, $Name, $ID, $SSN);
 
     while (mysqli_stmt_fetch($prep_query)) {
-        $fields = array("Class" => $Class, NAME => $Name, "ID" => $ID, "SSN" => $SSN);
+        $fields = array(CLASS_SCHOOL => $Class, NAME => $Name, "ID" => $ID, "SSN" => $SSN);
         $subjects[] = $fields;
 
     }
