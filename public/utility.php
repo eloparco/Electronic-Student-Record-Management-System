@@ -71,6 +71,8 @@ define("SECRETARY_OFFICER_TYPE", "SECRETARY_OFFICER");
 define("SYS_ADMIN_TYPE", "SYS_ADMIN");
 define("PARENT_TYPE", "PARENT");
 define("PRINCIPAL_TYPE", "PRINCIPAL");
+define("ERROR_QUERY_MSG","Error in preparing query: ");
+define("HINT_ERROR_MSG", "Check database error:<br>");
 
 function connect_to_db($ini_path_test='') {
     $ini_path = '../config/database/database.ini';
@@ -201,8 +203,8 @@ function get_roles_per_user($username, $ini_path=''){
     }
     $roles_prep = mysqli_prepare($db_con, $roles_query);
     if(!$roles_prep){
-        print('Error in preparing query: '.$roles_query);
-        die("Check database error:<br>".mysqli_error($db_con));
+        print(ERROR_QUERY_MSG.$roles_query);
+        die(HINT_ERROR_MSG.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
         die('Error in binding parameters for roles_prep.'."\n");
@@ -297,8 +299,8 @@ function check_change_role($username, $role, $ini_path=''){
     }
     $roles_prep = mysqli_prepare($db_con, $roles_query);
     if(!$roles_prep){
-        print('Error in preparing query: '.$roles_query);
-        die("Check database error:<br>".mysqli_error($db_con));
+        print(ERROR_QUERY_MSG.$roles_query);
+        die(HINT_ERROR_MSG.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($roles_prep, "s", $username)){
         die('Error in binding parameters for roles_prep.'."\n");
@@ -325,14 +327,18 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
         mysqli_autocommit($con, FALSE);
         try {
             /* Check if is a student */
-            if(!$prep = mysqli_prepare($con, "SELECT * FROM `CHILD` WHERE SSN = ? FOR UPDATE"))
+            if(!$prep = mysqli_prepare($con, "SELECT * FROM `CHILD` WHERE SSN = ? FOR UPDATE")){
                 throw new Exception();
-            if(!mysqli_stmt_bind_param($prep, "s", $ssn)) 
+            }
+            if(!mysqli_stmt_bind_param($prep, "s", $ssn)){
                 throw new Exception();
-            if(!mysqli_stmt_execute($prep))
+            }
+            if(!mysqli_stmt_execute($prep)){
                 throw new Exception();
-            if(!mysqli_stmt_store_result($prep))
+            }
+            if(!mysqli_stmt_store_result($prep)){
                 throw new Exception();
+            }
             $count = mysqli_stmt_num_rows($prep);
             mysqli_stmt_free_result($prep);
             mysqli_stmt_close($prep);
@@ -344,14 +350,18 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
             }
             else {
                 /* Check if user already exists */
-                if(!$prep4 = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE"))
+                if(!$prep4 = mysqli_prepare($con, "SELECT * FROM `USER` WHERE SSN = ? FOR UPDATE")){
                     throw new Exception();
-                if(!mysqli_stmt_bind_param($prep4, "s", $ssn)) 
+                }
+                if(!mysqli_stmt_bind_param($prep4, "s", $ssn)) {
                     throw new Exception();
-                if(!mysqli_stmt_execute($prep4))
+                }
+                if(!mysqli_stmt_execute($prep4)){
                     throw new Exception();
-                if(!mysqli_stmt_store_result($prep4))
+                }
+                if(!mysqli_stmt_store_result($prep4)){
                     throw new Exception();
+                }
                 $count2 = mysqli_stmt_num_rows($prep4);
                 mysqli_stmt_free_result($prep4);
                 mysqli_stmt_close($prep4);
@@ -363,22 +373,26 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
                 } 
                 else {
                     /* Insert parent data into db */
-                    if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)"))
+                    if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)")){
                         throw new Exception();
-                    if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) 
+                    }
+                    if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) {
                         throw new Exception();
-                    if(!mysqli_stmt_execute($prep2)) 
+                    }
+                    if(!mysqli_stmt_execute($prep2)) {
                         throw new Exception();
-                    else { 
+                    }else { 
                         mysqli_stmt_close($prep2);
                         /* Insert parent data into db */
-                        if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)"))
+                        if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)")){
                             throw new Exception();
-                        if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) 
+                        }
+                        if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) {
                             throw new Exception();
-                        if(!mysqli_stmt_execute($prep3)) 
+                        }
+                        if(!mysqli_stmt_execute($prep3)) {
                             throw new Exception();
-                        else {
+                        }else {
                             mysqli_stmt_close($prep3);
                             if(!mysqli_commit($con)) // do the final commit
                                 throw new Exception();
@@ -408,14 +422,18 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
         mysqli_autocommit($con, FALSE);
         try {
             /* Check if is an SSN of one child -> error */
-            if(!$prep5 = mysqli_prepare($con, "SELECT * FROM CHILD WHERE SSN = ? LIMIT 1"))
+            if(!$prep5 = mysqli_prepare($con, "SELECT * FROM CHILD WHERE SSN = ? LIMIT 1")){
                 throw new Exception();
-            if(!mysqli_stmt_bind_param($prep5, "s", $ssn)) 
+            }
+            if(!mysqli_stmt_bind_param($prep5, "s", $ssn)) {
                 throw new Exception();
-            if(!mysqli_stmt_execute($prep5))
+            }   
+            if(!mysqli_stmt_execute($prep5)){
                 throw new Exception();
-            if(!mysqli_stmt_store_result($prep5))
+            }
+            if(!mysqli_stmt_store_result($prep5)){
                 throw new Exception();
+            }
             $count = mysqli_stmt_num_rows($prep5);
             if($count == 1) { //it is an SSN of a child!
                 mysqli_stmt_free_result($prep5);
@@ -427,36 +445,44 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
             } 
             else {
             /* Check if user already exists */
-            if(!$prep = mysqli_prepare($con, "SELECT UserType FROM USER, USER_TYPE WHERE USER.SSN = USER_TYPE.SSN AND USER.SSN = ? FOR UPDATE"))
+            if(!$prep = mysqli_prepare($con, "SELECT UserType FROM USER, USER_TYPE WHERE USER.SSN = USER_TYPE.SSN AND USER.SSN = ? FOR UPDATE")){
                 throw new Exception();
-            if(!mysqli_stmt_bind_param($prep, "s", $ssn)) 
+            }
+            if(!mysqli_stmt_bind_param($prep, "s", $ssn)) {
                 throw new Exception();
-            if(!mysqli_stmt_execute($prep))
+            }
+            if(!mysqli_stmt_execute($prep)){
                 throw new Exception();
-            if(!mysqli_stmt_store_result($prep))
+            }
+            if(!mysqli_stmt_store_result($prep)){
                 throw new Exception();
+            }
             $count = mysqli_stmt_num_rows($prep);
             if($count == 0) { //new account!
                 mysqli_stmt_free_result($prep);
                 mysqli_stmt_close($prep);
 
                 /* Insert account data into user table */
-                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)"))
+                if(!$prep2 = mysqli_prepare($con, "INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES (?, ?, ?, ?, ?, ?)")){
                     throw new Exception();
-                if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) 
+                }
+                if(!mysqli_stmt_bind_param($prep2, "sssssi", $ssn, $name, $surname, $username, $password, $accountactivated)) {
                     throw new Exception();
-                if(!mysqli_stmt_execute($prep2)) 
+                }
+                if(!mysqli_stmt_execute($prep2)) {
                     throw new Exception();
-                else { 
+                }else { 
                     /* Insert account type into user_type table */
                     mysqli_stmt_close($prep2);
-                    if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)"))
+                    if(!$prep3 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)")){
                         throw new Exception();
-                    if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) 
+                    }
+                    if(!mysqli_stmt_bind_param($prep3, "ss", $ssn, $usertype)) {
                         throw new Exception();
-                    if(!mysqli_stmt_execute($prep3)) 
+                    }
+                    if(!mysqli_stmt_execute($prep3)) {
                         throw new Exception();
-                    else { 
+                    } else { 
                         mysqli_stmt_close($prep3);
                         if(!mysqli_commit($con)) //do the final commit
                             throw new Exception();
@@ -529,13 +555,15 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
             } 
             else {
                 /* Insert account type into user_type table */
-                if(!$prep4 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)"))
+                if(!$prep4 = mysqli_prepare($con, "INSERT INTO `USER_TYPE` (`SSN`, `UserType`) VALUES (?, ?)")){
                     throw new Exception();
-                if(!mysqli_stmt_bind_param($prep4, "ss", $ssn, $usertype)) 
+                }
+                if(!mysqli_stmt_bind_param($prep4, "ss", $ssn, $usertype)) {
                     throw new Exception();
-                if(!mysqli_stmt_execute($prep4)) 
+                }
+                if(!mysqli_stmt_execute($prep4)) {
                     throw new Exception();
-                else { 
+                } else { 
                     if(!mysqli_commit($con)) //do the final commit
                         throw new Exception();
                     //sendMail($username, $password); //to send real e-mail
@@ -607,8 +635,8 @@ function get_children_of_parent($parentUsername, $ini_path=''){
     }
     $children_prep = mysqli_prepare($con, $children_query);
     if(!$children_prep){
-        print('Error in preparing query: '.$children_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_QUERY_MSG.$children_query);
+        die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($children_prep, "s", $parentUsername)){
         die('Error in binding parameters to children_prep.'."\n");
@@ -640,8 +668,8 @@ function get_scores_per_child_and_date($childSSN, $startDate, $endDate, $ini_pat
     }
     $marks_prep = mysqli_prepare($con, $marks_query);
     if(!$marks_prep){
-        print('Error in preparing query: '.$marks_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_QUERY_MSG.$marks_query);
+        die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($marks_prep, "sss", $childSSN, $startDate, $endDate)){
         die('Error in binding paramters to marks_prep.'."\n");
@@ -671,8 +699,8 @@ function get_list_of_subjects($childSSN, $ini_path=''){
     }
     $subjects_prep = mysqli_prepare($con, $subjects_query);
     if(!$subjects_prep){
-        print('Error in preparing query: '.$subjects_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_QUERY_MSG.$subjects_query);
+        die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($subjects_prep, "s", $childSSN)){
         die('Error in binding paramters to marks_prep.'."\n");
@@ -842,8 +870,8 @@ function get_attendance($childSSN, $ini_path=''){
     }
     $attendance_prep = mysqli_prepare($con, $attendance_query);
     if(!$attendance_prep){
-        print('Error in preparing query: '.$attendance_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_QUERY_MSG.$attendance_query);
+        die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($attendance_prep, "s", $childSSN)){
         die('Error in binding paramters to marks_prep.'."\n");
@@ -873,8 +901,8 @@ function get_classes_of_teacher($teacherUsername, $ini_path=''){
     }
     $classes_prep = mysqli_prepare($db_con, $class_query);
     if(!$classes_prep){
-        print('Error in preparing query: '.$class_query);
-        die('Check database error:<br>'.mysqli_error($db_con));
+        print(ERROR_QUERY_MSG.$class_query);
+        die(HINT_ERROR_MSG.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($classes_prep, "s", $teacherUsername)){
         die('Error in binding paramters to classes_prep.'."\n");
@@ -903,8 +931,8 @@ function get_students_of_class($class, $ini_path=''){
     }
     $student_class_prep = mysqli_prepare($db_con, $student_class_query);
     if(!$student_class_prep){
-        print('Error in preparing query: '.$student_class_query);
-        die('Check database error:<br>'.mysqli_error($db_con));
+        print(ERROR_QUERY_MSG.$student_class_query);
+        die(HINT_ERROR_MSG.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($student_class_prep, "s", $class)){
         die('Error in binding parameters to student_class_prep.'."\n");
@@ -934,8 +962,8 @@ function get_list_presences_class_per_date($class, $date, $ini_path=''){
     }
     $presences_class_prep = mysqli_prepare($db_con, $query_presences);
     if(!$presences_class_prep){
-        print('Error in preparing query: '.$query_presences);
-        die('Check database error:<br>'.mysqli_error($db_con));
+        print(ERROR_QUERY_MSG.$query_presences);
+        die(HINT_ERROR_MSG.mysqli_error($db_con));
     }
     if(!mysqli_stmt_bind_param($presences_class_prep, "ss", $class, $date)){
         die('Error in binding parameters to presences_class_prep.'."\n");
@@ -972,7 +1000,7 @@ function register_early_exit($childSSN, $today_date, $hour_leaving, $ini_path=''
     $leaving_prep = mysqli_prepare($db_con, $leaving_query);
     if(!$leaving_prep){
         print('Error in preparting query '.$leaving_query);
-        return 'Check database error:<br>'.mysqli_error($db_con);
+        return HINT_ERROR_MSG.mysqli_error($db_con);
     }
     if(!mysqli_stmt_bind_param($leaving_prep, "ssii", $childSSN, $today_date, $hour_leaving, $hour_leaving)){
         return 'Error in binding parameters to leaving_prep.'."\n";
@@ -1000,8 +1028,8 @@ function get_assignment_of_child($childSSN, $ini_path=''){
     }
     $assignments_prep = mysqli_prepare($db_con, $assignments_query);
     if(!$assignments_prep){
-        print('Error in preparing query: '.$assignments_query);
-        return 'Check database error:<br>'.mysqli_error($db_con);
+        print(ERROR_QUERY_MSG.$assignments_query);
+        return HINT_ERROR_MSG.mysqli_error($db_con);
     }
     if(!mysqli_stmt_bind_param($assignments_prep, "s", $childSSN)){
         return 'Error in binding parameters to assignments_prep.'."\n";
@@ -1116,8 +1144,8 @@ function get_list_of_classes($ini_path='') {
     }
     $classes_prep = mysqli_prepare($con, $classes_query);
     if(!$classes_prep){
-        print('Error in preparing query: '.$classes_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_QUERY_MSG.$classes_query);
+        die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_execute($classes_prep)){
         die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
@@ -1235,8 +1263,8 @@ function get_list_of_student_notes($studentSSN, $ini_path='') {
     }
     $notes_prep = mysqli_prepare($con, $notes_query);
     if(!$notes_prep){
-        print('Error in preparing query: '.$notes_query);
-        die('Check database error:<br>'.mysqli_error($con));
+        print(ERROR_QUERY_MSG.$notes_query);
+        die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($notes_prep, "s", $studentSSN)){
         die('Error in binding paramters to marks_prep.'."\n");
@@ -1373,7 +1401,7 @@ function getCoordinatorSubject($teacher, $ini_path=''){
 
     $prep_query = mysqli_prepare($db_con, $query);
     if(!$prep_query){
-        print('Error in preparing query: '.$prep_query);
+        print(ERROR_QUERY_MSG.$prep_query);
         echo '{"state" : "error",
         "result" : "Database error." }';
     }
