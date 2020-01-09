@@ -73,6 +73,9 @@ define("PARENT_TYPE", "PARENT");
 define("PRINCIPAL_TYPE", "PRINCIPAL");
 define("ERROR_QUERY_MSG","Error in preparing query: ");
 define("HINT_ERROR_MSG", "Check database error:<br>");
+define("SURNAME", "Surname");
+define("NAME", "Name");
+define("ERROR_BINDING_MARK_PREP", "Error in binding paramters to marks_prep.");
 
 function connect_to_db($ini_path_test='') {
     $ini_path = '../config/database/database.ini';
@@ -647,7 +650,7 @@ function get_children_of_parent($parentUsername, $ini_path=''){
     $children_res = mysqli_stmt_get_result($children_prep);
     $children_data = array();
     while($row = mysqli_fetch_array($children_res, MYSQLI_ASSOC)){
-        $fields = array("SSN" => $row['SSN'], "Name" => $row['Name'], "Surname" => $row['Surname']);
+        $fields = array("SSN" => $row['SSN'], NAME => $row[NAME], SURNAME => $row[SURNAME]);
         $children_data[] = $fields;
     }
     mysqli_stmt_close($children_prep);
@@ -672,7 +675,7 @@ function get_scores_per_child_and_date($childSSN, $startDate, $endDate, $ini_pat
         die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($marks_prep, "sss", $childSSN, $startDate, $endDate)){
-        die('Error in binding paramters to marks_prep.'."\n");
+        die(ERROR_BINDING_MARK_PREP."\n");
     }
     if(!mysqli_stmt_execute($marks_prep)){
         die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
@@ -680,7 +683,7 @@ function get_scores_per_child_and_date($childSSN, $startDate, $endDate, $ini_pat
     $marks_res = mysqli_stmt_get_result($marks_prep);
     $scores = array();
     while($row = mysqli_fetch_array($marks_res, MYSQLI_ASSOC)){
-        $fields = array("Subject" => $row['Name'], "Date" => $row['Date'], "Score" => $row['Score']);
+        $fields = array("Subject" => $row[NAME], "Date" => $row['Date'], "Score" => $row['Score']);
         $scores[] = $fields;
     }
     mysqli_stmt_close($marks_prep);
@@ -703,7 +706,7 @@ function get_list_of_subjects($childSSN, $ini_path=''){
         die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($subjects_prep, "s", $childSSN)){
-        die('Error in binding paramters to marks_prep.'."\n");
+        die(ERROR_BINDING_MARK_PREP."\n");
     }
     if(!mysqli_stmt_execute($subjects_prep)){
         die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
@@ -711,7 +714,7 @@ function get_list_of_subjects($childSSN, $ini_path=''){
     $subjects_res = mysqli_stmt_get_result($subjects_prep);
     $subjects = array();
     while($row = mysqli_fetch_array($subjects_res, MYSQLI_ASSOC)){
-        $subjects[] = $row['Name'];
+        $subjects[] = $row[NAME];
     }
     mysqli_stmt_close($subjects_prep);
     return $subjects;
@@ -874,7 +877,7 @@ function get_attendance($childSSN, $ini_path=''){
         die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($attendance_prep, "s", $childSSN)){
-        die('Error in binding paramters to marks_prep.'."\n");
+        die(ERROR_BINDING_MARK_PREP."\n");
     }
     if(!mysqli_stmt_execute($attendance_prep)){
         die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
@@ -943,7 +946,7 @@ function get_students_of_class($class, $ini_path=''){
     $student_class_res = mysqli_stmt_get_result($student_class_prep);
     $students = array();
     while($row = mysqli_fetch_array($student_class_res, MYSQLI_ASSOC)){
-        $fields = array("SSN" => $row['SSN'], "Name" => $row['Name'], "Surname" => $row['Surname']);
+        $fields = array("SSN" => $row['SSN'], NAME => $row[NAME], SURNAME => $row[SURNAME]);
         $students[] = $fields;
     }
     mysqli_stmt_close($student_class_prep);
@@ -1040,7 +1043,7 @@ function get_assignment_of_child($childSSN, $ini_path=''){
     $assignments_res = mysqli_stmt_get_result($assignments_prep);
     $assignments = array();
     while($row = mysqli_fetch_array($assignments_res, MYSQLI_ASSOC)){
-        $fields = array("Subject" => $row['Name'], "Date" => $row['DateOfAssignment'], "Deadline" => $row['DeadlineDate'], "Title" => $row['Title'], "Description" => $row['Description'], "Attachment" => $row['Attachment']);
+        $fields = array("Subject" => $row[NAME], "Date" => $row['DateOfAssignment'], "Deadline" => $row['DeadlineDate'], "Title" => $row['Title'], "Description" => $row['Description'], "Attachment" => $row['Attachment']);
         $assignments[] = $fields;
     }
     mysqli_stmt_close($assignments_prep);
@@ -1267,7 +1270,7 @@ function get_list_of_student_notes($studentSSN, $ini_path='') {
         die(HINT_ERROR_MSG.mysqli_error($con));
     }
     if(!mysqli_stmt_bind_param($notes_prep, "s", $studentSSN)){
-        die('Error in binding paramters to marks_prep.'."\n");
+        die(ERROR_BINDING_MARK_PREP."\n");
     }
     if(!mysqli_stmt_execute($notes_prep)){
         die('Error in executing marks query. Database error:<br>'.mysqli_error($con));
@@ -1417,7 +1420,7 @@ function getCoordinatorSubject($teacher, $ini_path=''){
     mysqli_stmt_bind_result($prep_query, $Class, $Name, $ID, $SSN);
 
     while (mysqli_stmt_fetch($prep_query)) {
-        $fields = array("Class" => $Class, "Name" => $Name, "ID" => $ID, "SSN" => $SSN);
+        $fields = array("Class" => $Class, NAME => $Name, "ID" => $ID, "SSN" => $SSN);
         $subjects[] = $fields;
 
     }
