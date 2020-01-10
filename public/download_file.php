@@ -1,7 +1,10 @@
 <?php
+define("FILE_ID", 'file_id');
+define("DIRECTORY_PATH", '../support_material/');
+
 // Downloads files
-if (isset($_GET['file_id'])) {
-    $id = $_GET['file_id'];
+if (isset($_GET[FILE_ID])) {
+    $id = $_GET[FILE_ID];
     
     $file = get_file($id);
     
@@ -10,7 +13,7 @@ if (isset($_GET['file_id'])) {
         exit;
     }
     // needed to know where is the file in the server
-    $filepath = '../support_material/'.$file['ID'];
+    $filepath = DIRECTORY_PATH.$file['ID'];
 
     if (file_exists($filepath)) {
         header('Content-Description: File Transfer');
@@ -21,10 +24,10 @@ if (isset($_GET['file_id'])) {
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: '.filesize('../support_material/'.$file['ID']));
-        readfile('../support_material/' . $file['ID']); 
+        header('Content-Length: '.filesize(DIRECTORY_PATH.$file['ID']));
+        readfile(DIRECTORY_PATH . $file['ID']); 
         
-        unset($_GET['file_id']);
+        unset($_GET[FILE_ID]);
         exit;          
     }
 }

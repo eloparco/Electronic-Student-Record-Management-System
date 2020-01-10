@@ -17,7 +17,6 @@ if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_TE
 
   <head>
     <?php include("includes/head.php"); ?>
-  <title></title> <!-- already set in head.php, here only to remove sonarcloud error -->
     <link href="css/dashboard.css" rel="stylesheet" type="text/css">
     <link href="css/responsive.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" 
@@ -29,11 +28,6 @@ if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_TE
     <!-- Bootstrap Date-Picker Plugin -->
     <script type="text/javascript" src="./css/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
-    <?php  
-      if(isset($_GET[MSG]) && !empty($_GET[MSG])) {
-        $_GET[MSG] = "";
-      }
-    ?>
  </head>
 
   <body>
