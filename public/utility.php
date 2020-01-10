@@ -502,7 +502,7 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                         if(!mysqli_commit($con)){ //do the final commit
                             throw new UtilityException();
                         }
-                        //sendMail($username, $password); //to send real e-mail
+                        sendMail($username, $password); //to send real e-mail
                         mysqli_autocommit($con, TRUE);
                         mysqli_close($con);
                         return INSERT_ACCOUNT_OK;
@@ -593,7 +593,7 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                 } else { 
                     if(!mysqli_commit($con)) //do the final commit
                         throw new UtilityException();
-                    //sendMail($username, $password); //to send real e-mail
+                    sendMail($username, $password); //to send real e-mail
                     mysqli_stmt_close($prep4);
                     mysqli_autocommit($con, TRUE);
                     mysqli_close($con);
@@ -1270,11 +1270,11 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
                 throw new UtilityException('File already exists, please select another one.'); 
             }
             if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");')){
-                throw new UtilityException();
+                throw new UtilityException('Please retry.');
             }
             
             if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;')){
-                throw new UtilityException();
+                throw new UtilityException('Please retry.');
             }
             
             $row = mysqli_fetch_array($result); 
@@ -1286,7 +1286,7 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
                 mysqli_close($db_con);            
                 return  'File correctly uploaded.';
             } else{   
-                throw new UtilityException();                
+                throw new UtilityException('Please retry.');                
             }  
 
         } catch (Exception $e) {         
