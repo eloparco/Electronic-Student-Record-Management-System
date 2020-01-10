@@ -63,7 +63,7 @@ class Story12Cest{
         $I->waitForElementClickable(self::CONFIRM_ID, 10);
         $I->click(self::CONFIRM_ID);
         $I->waitForElement(self::RESULT_MESSAGE, 10);
-        $I->see("Please fill all the fields.");
+        $I->see("Please fill all the fields");
         $I->dontSeeInDatabase(self::COMMUNICATION_TABLE, [
             self::TITLE => '',
             self::DESCRIPTION => self::COMMUNICATION_EXAMPLE,
@@ -84,7 +84,7 @@ class Story12Cest{
         $I->waitForElementClickable(self::CONFIRM_ID, 10);
         $I->click(self::CONFIRM_ID);
         $I->waitForElement(self::RESULT_MESSAGE, 10);
-        $I->see("Please fill all the fields.");
+        $I->see("Please fill all the fields");
         $I->dontSeeInDatabase(self::COMMUNICATION_TABLE, [
             self::TITLE => self::TITLE_EXAMPLE,
             self::DESCRIPTION => '',

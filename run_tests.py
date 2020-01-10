@@ -17,6 +17,7 @@ bg_service = subprocess.Popen(bg_proc, creationflags=subprocess.DETACHED_PROCESS
 time.sleep(2) # be sure selenium is running
 subprocess.call(cmd, env=os.environ)
 bg_service.kill()
+subprocess.call("taskkill /im chromedriver.exe /f", env=os.environ)
 
 with open('config/database/database.ini', 'w') as f:
 	f.write('host = localhost\n'

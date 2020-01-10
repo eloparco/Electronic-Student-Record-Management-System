@@ -194,7 +194,7 @@ if(isset($_SESSION[MSG])) {
           
           <label for="fileinput">Upload a CSV file with marks</label>
           
-          <input type="file" id="fileinput" />
+          <input type="file" id="fileinput" accept=".csv" />
           <script>
             function readSingleFile(evt) {
               var f = evt.target.files[0]; 

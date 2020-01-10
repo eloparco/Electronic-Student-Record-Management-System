@@ -6,6 +6,8 @@ class Story20Cest{
     const ATTACHMENT_ID = "#fileinput";
     const MARK_TABLE = "FINAL_MARK";
     const SSN = "Student";
+    const CLASS_ID = "#classSelection";
+    const SCORE_ID = "#scoreSelection";
     const SUBJECT = "Subject";
     const MARK_SCORE = "Mark";
     const WAIT_FOR_AJAX = "return $.active == 0;";
@@ -23,15 +25,15 @@ class Story20Cest{
     }
 
     public function testSingleFinalMarkCorrect(\AcceptanceTester $I){
-        $I->waitForElementClickable('#classSelection', 10);
-        $I->selectOption('#classSelection', '1A Mathematics');
-        $I->waitForJS("return $.active == 0;", 10);
+        $I->waitForElementClickable(self::CLASS_ID, 10);
+        $I->selectOption(self::CLASS_ID, '1A Mathematics');
+        $I->waitForJS(self::WAIT_FOR_AJAX, 10);
         $I->waitForElementClickable('#studentSelection', 10);
         $I->selectOption('#studentSelection', 'Alberto Mandini');
-        $I->waitForElementClickable('#scoreSelection', 10);
-        $I->selectOption('#scoreSelection', 7);
+        $I->waitForElementClickable(self::SCORE_ID, 10);
+        $I->selectOption(self::SCORE_ID, 7);
         $I->click('Confirm');
-        $I->seeInDatabase('FINAL_MARK', [
+        $I->seeInDatabase(self::MARK_TABLE, [
             "Student" => self::STUDENT_SSN,
             "Subject" => 4,
             "Mark" => 7
@@ -40,12 +42,12 @@ class Story20Cest{
     }
 
     public function testSingleFinalMarkEmptySubject(\AcceptanceTester $I){
-        $I->waitForElementClickable('#classSelection', 10);
-        $I->selectOption('#classSelection', '');
-        $I->waitForElementClickable('#scoreSelection', 10);
-        $I->selectOption('#scoreSelection', 8);
+        $I->waitForElementClickable(self::CLASS_ID, 10);
+        $I->selectOption(self::CLASS_ID, '');
+        $I->waitForElementClickable(self::SCORE_ID, 10);
+        $I->selectOption(self::SCORE_ID, 8);
         $I->click('Confirm');
-        $I->dontSeeInDatabase('FINAL_MARK', [
+        $I->dontSeeInDatabase(self::MARK_TABLE, [
             "Student" => "",
             "Subject" => "",
             "Mark" => 8

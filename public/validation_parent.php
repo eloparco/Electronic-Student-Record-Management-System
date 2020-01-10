@@ -6,7 +6,7 @@ if(!userTypeLoggedIn('SECRETARY_OFFICER')) {
     myRedirectTo('login.php', 'SessionTimeOut');
     exit;
 }
-header('Location: parent_form.php');
+//header('Location: parent_form.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['ssn']) && isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['username']) 
