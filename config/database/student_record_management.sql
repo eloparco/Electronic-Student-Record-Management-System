@@ -485,16 +485,16 @@ CREATE TABLE IF NOT EXISTS `USER` (
 --
 
 INSERT INTO `USER` (`SSN`, `Name`, `Surname`, `Email`, `Password`, `AccountActivated`) VALUES
-('BLLDRD66S07L219N', 'Edoardo', 'Bello', 'e.bello@esrmsystem.com', 'Edoardo66', 1),
-('BRBGPP57M04L219W', 'Giuseppe', 'Barbero', 'g.barbero@esrmsystem.com', 'Giuseppe57', 1),
-('FLCGNN62R19L219X', 'Giovanni', 'Felice', 'sec@sec.it', 'Password1', 1),
-('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'parent@parent.it', 'parent1', 1),
-('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrmsystem.com', 'Teresa72', 1),
-('LNGMRN58M51L219R', 'Marina', 'Longobardi', 'm.longobardi@esrmsystem.com', 'Marina58', 0),
-('MNDFPP68C16L219N', 'Filippo', 'Mandini', 'f.mandini@parent.esrmsystem.com', 'Filippo68', 1),
-('PLLMRT70E68L219Q', 'Marta', 'Pellegrino', 'm.pellegrino@parent.esrmsystem.com', 'Marta70', 1),
-('PNCMSM75D20L219X', 'Massimiliano', 'Ponci', 'm.ponci@parent.esrmsystem.com', 'Massi75', 1),
-('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@parent.esrmsystem.com', 'Roberto66', 1);
+('BLLDRD66S07L219N', 'Edoardo', 'Bello', 'e.bello@esrms.com', 'Edoardo66', 1),
+('BRBGPP57M04L219W', 'Giuseppe', 'Barbero', 'g.barbero@esrms.com', 'Giuseppe57', 1),
+('FLCGNN62R19L219X', 'Giovanni', 'Felice', 'g.felice@esrms.com', 'Giovanni62', 1),
+('FLCRRT77B43L219Q', 'Roberta', 'Filicaro', 'r.filicaro@esrms.com', 'Roberta77', 1),
+('FNLTRS72H50L219Z', 'Teresa', 'Fanelli', 't.fanelli@esrms.com', 'Teresa72', 1),
+('LNGMRN58M51L219R', 'Marina', 'Longobardi', 'm.longobardi@esrms.com', 'Marina58', 0),
+('MNDFPP68C16L219N', 'Filippo', 'Mandini', 'f.mandini@esrms.com', 'Filippo68', 1),
+('PLLMRT70E68L219Q', 'Marta', 'Pellegrino', 'm.pellegrino@esrms.com', 'Marta70', 1),
+('PNCMSM75D20L219X', 'Massimiliano', 'Ponci', 'm.ponci@esrms.com', 'Massi75', 1),
+('STLRRT66T06L219L', 'Roberto', 'Stelluti', 'r.stelluti@esrms.com', 'Roberto66', 1);
 
 -- --------------------------------------------------------
 
