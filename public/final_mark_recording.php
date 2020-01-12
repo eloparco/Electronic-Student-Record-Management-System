@@ -8,10 +8,8 @@ if(!userLoggedIn() || !userTypeLoggedIn('TEACHER')) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if(isset($_SESSION[MSG])) {
-  if(!empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_TEACHER_OK)) { 
-      $_SESSION[MSG] = '';
-  }
+if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_TEACHER_OK) { 
+  $_SESSION[MSG] = '';
 }
 ?>
 <!DOCTYPE html>
@@ -31,10 +29,8 @@ if(isset($_SESSION[MSG])) {
     <script type="text/javascript" src="./css/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css">
     <?php  
-      if(isset($_GET[MSG])) {
-        if(!empty($_GET[MSG])) {
+      if(isset($_GET[MSG]) && !empty($_GET[MSG])) {
           $_GET[MSG] = "";
-        }
       }
     ?>
 </head>
