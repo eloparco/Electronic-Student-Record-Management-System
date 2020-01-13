@@ -1,6 +1,9 @@
 <?php
   include("includes/config.php");
   require_once('utility.php');
+  define("TITLE", "Title");
+  define("DESCRIPTION", "Description");
+
   https_redirect();
   /* LOGGED IN CHECK */
   if(userLoggedIn()) { //stay in 'user page' until you do logout
@@ -82,8 +85,8 @@
               <img class="first-slide" src="images/slider/slider1.jpg" alt="First slide">
               <div class="container">
                 <div class="carousel-caption text-left">
-                  <h2 class="h2-responsive"><?php echo $communications[0]['Title']; ?></h2>
-                  <p><?php echo $communications[0]['Description']; ?></p>
+                  <h2 class="h2-responsive"><?php echo $communications[0][TITLE]; ?></h2>
+                  <p><?php echo $communications[0][DESCRIPTION]; ?></p>
                   <p><?php echo $communications[0]['Date']; ?></p>
                 </div>
               </div>
@@ -103,8 +106,8 @@
             <img class="first-slide" src="images/slider/slider1.jpg" alt="First slide">
             <div class="container">
               <div class="carousel-caption text-left">
-                <h2 class="h2-responsive"><?php echo $communications[0]['Title']; ?></h2>
-                <p><?php echo $communications[0]['Description']; ?></p>
+                <h2 class="h2-responsive"><?php echo $communications[0][TITLE]; ?></h2>
+                <p><?php echo $communications[0][DESCRIPTION]; ?></p>
                 <p><?php echo $communications[0]['Date']; ?></p>
               </div>
             </div>
@@ -113,8 +116,8 @@
             <img class="second-slide" src="images/slider/slider3.jpg" alt="Second slide">
             <div class="container">
               <div class="carousel-caption text-right">
-                <h2 class="h2-responsive"><?php echo $communications[1]['Title']; ?></h2>
-                <p><?php echo $communications[1]['Description']; ?></p>
+                <h2 class="h2-responsive"><?php echo $communications[1][TITLE]; ?></h2>
+                <p><?php echo $communications[1][DESCRIPTION]; ?></p>
                 <p><?php echo $communications[1]['Date']; ?></p>
               </div>
             </div>
@@ -143,8 +146,8 @@
             <img class="first-slide" src="images/slider/slider1.jpg" alt="First slide">
             <div class="container">
               <div class="carousel-caption text-left">
-                <h2 class="h2-responsive"><?php echo $communications[0]['Title']; ?></h2>
-                <p><?php echo $communications[0]['Description']; ?></p>
+                <h2 class="h2-responsive"><?php echo $communications[0][TITLE]; ?></h2>
+                <p><?php echo $communications[0][DESCRIPTION]; ?></p>
                 <p><?php echo $communications[0]['Date']; ?></p>
               </div>
             </div>
@@ -153,8 +156,8 @@
             <img class="second-slide" src="images/slider/slider2.jpg" alt="Second slide">
             <div class="container">
               <div class="carousel-caption">
-                <h2 class="h2-responsive"><?php echo $communications[1]['Title']; ?></h2>
-                <p><?php echo $communications[1]['Description']; ?></p>
+                <h2 class="h2-responsive"><?php echo $communications[1][TITLE]; ?></h2>
+                <p><?php echo $communications[1][DESCRIPTION]; ?></p>
                 <p><?php echo $communications[1]['Date']; ?></p>
               </div>
             </div>
@@ -163,8 +166,8 @@
             <img class="third-slide" src="images/slider/slider3.jpg" alt="Third slide">
             <div class="container">
               <div class="carousel-caption text-right">
-                <h2 class="h2-responsive"><?php echo $communications[2]['Title']; ?></h2>
-                <p><?php echo $communications[2]['Description']; ?></p>
+                <h2 class="h2-responsive"><?php echo $communications[2][TITLE]; ?></h2>
+                <p><?php echo $communications[2][DESCRIPTION]; ?></p>
                 <p><?php echo $communications[2]['Date']; ?></p>
               </div>
             </div>

@@ -2,6 +2,7 @@
 include("includes/config.php");
 require_once('utility.php');
 https_redirect();
+define("CLASS_SELECTION", "classSelection");
 
 /* LOGGED IN CHECK */
 if (!userLoggedIn() || !userTypeLoggedIn('SECRETARY_OFFICER')) {
@@ -12,7 +13,7 @@ if (isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && ($_SESSION[MSG] == LOGIN_
   $_SESSION[MSG] = '';
 }
 
-if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
+if (isset($_FILES["file"]["type"]) && isset($_REQUEST[CLASS_SELECTION])) {
   // error
   $extension = end(explode('.', $_FILES["file"]["name"]));
   if ($_FILES["file"]["error"] > 0 || $extension !== "csv") {
@@ -25,7 +26,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST['classSelection'])) {
     }
 
     // check if class is empty
-    $class = htmlspecialchars($_REQUEST['classSelection']);
+    $class = htmlspecialchars($_REQUEST[CLASS_SELECTION]);
     if ($class === '') {
       $_SESSION[MSG] = MISSING_INPUT;
     } else {

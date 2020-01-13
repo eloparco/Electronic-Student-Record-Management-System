@@ -2,6 +2,7 @@
 require_once('utility.php');
 session_start();
 header('Location: note_recording.php');
+
 $db_con = connect_to_db();
 
 

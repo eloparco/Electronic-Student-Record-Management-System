@@ -1,10 +1,13 @@
 <?php 
+    define("CHILD", "child");
+    define("ACTIVE_CHILD", "ACTIVE_CHILD");
+
     if(session_status() == PHP_SESSION_NONE) {
         session_start();
     }
     $children = get_children_of_parent($_SESSION['mySession']);
-    if(!empty($children) && !isset($_SESSION['child'])){
-        $_SESSION['child'] = $children[0]['SSN'];
+    if(!empty($children) && !isset($_SESSION[CHILD])){
+        $_SESSION[CHILD] = $children[0]['SSN'];
         $_SESSION['childFullName'] = $children[0]['Name'].' '.$children[0]['Surname'].' - '.$children[0]['SSN'];
     }
 ?>
@@ -25,7 +28,7 @@
     </ul>
 
 <?php
-if(isset($_SESSION['child'])){
+if(isset($_SESSION[CHILD])){
 ?>
     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
         <span>Child selection</span>
@@ -39,13 +42,13 @@ if(isset($_SESSION['child'])){
             </a>    
             <ul class="collapse list-unstyled" id="pageSubmenu">
                 <?php   
-                $_SESSION['ACTIVE_CHILD'] = "";
+                $_SESSION[ACTIVE_CHILD] = "";
                 foreach($children as $child) {
                     $ssn = $child['SSN'];
                     $nameAndsurname = $child['Name'].' '.$child['Surname'];
-                    $isActive = $ssn == $_SESSION['child'];
+                    $isActive = $ssn == $_SESSION[CHILD];
                     if($isActive){
-                        $_SESSION['ACTIVE_CHILD'] = $nameAndsurname;
+                        $_SESSION[ACTIVE_CHILD] = $nameAndsurname;
                         echo "<li class='nav-item'>
                             <a href='user_parent.php' class='nav-link active sidebar-dropdown-nav-link ajaxLink'>
                                 <span data-feather='user'></span>
@@ -103,7 +106,7 @@ if(isset($_SESSION['child'])){
         </li>
     </ul>
     <div class="col-md3" style="position: relative; top: 300px">
-        <div id="selectedChild" class="btn btn-static"><?php echo $_SESSION['ACTIVE_CHILD']; ?></div>
+        <div id="selectedChild" class="btn btn-static"><?php echo $_SESSION[ACTIVE_CHILD]; ?></div>
     </div>
 <?php
 }

@@ -2,23 +2,30 @@
 require_once('utility.php');
 session_start();
 header('Location: mark_recording.php');
+define("CLASS_SUBID_SSN", "class_sID_ssn");
+define("FINAL_SCORE", "score");
+define("SUBJECT_MARK", "subject");
+define("STUDENT_MARK", "student");
+define("MARK_DECIMAL", "decimalMarkValue");
+
 $db_con = connect_to_db();
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['class_sID_ssn']) && isset($_POST['date']) && isset($_POST['hour']) && isset($_POST['student']) 
-        && isset($_POST['score']) && isset($_POST['decimalMarkValue']) && !empty($_POST['class_sID_ssn']) && 
-        !empty($_POST['date']) && !empty($_POST['hour']) && !empty($_POST['student']) && !empty($_POST['score'])){
 
-        $fields = explode("_", $_POST['class_sID_ssn']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(isset($_POST[CLASS_SUBID_SSN]) && isset($_POST['date']) && isset($_POST['hour']) && isset($_POST[STUDENT_MARK]) 
+        && isset($_POST[FINAL_SCORE]) && isset($_POST[MARK_DECIMAL]) && !empty($_POST[CLASS_SUBID_SSN]) && 
+        !empty($_POST['date']) && !empty($_POST['hour']) && !empty($_POST[STUDENT_MARK]) && !empty($_POST[FINAL_SCORE])){
+
+        $fields = explode("_", $_POST[CLASS_SUBID_SSN]);
         $class = $fields[0];
         $subjectID = $fields[1];
 
         $date =$_POST['date']; 
         $hour = $_POST['hour'];
 
-        $student = $_POST['student'];
-        $score = $_POST['score'];
+        $student = $_POST[STUDENT_MARK];
+        $score = $_POST[FINAL_SCORE];
 
         // Check if the student is present
         $queryCheck = "SELECT COUNT(*) FROM ATTENDANCE WHERE StudentSSN = ? AND DATE = CURRENT_DATE AND PRESENCE = 'ABSENT';";
@@ -61,10 +68,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // end check
 
         //add decimal value to score
-        if(empty($_POST['decimalMarkValue'])) {
+        if(empty($_POST[MARK_DECIMAL])) {
             $decimalMark = "0";
         }
-        $decimalMark = $_POST['decimalMarkValue'];
+        $decimalMark = $_POST[MARK_DECIMAL];
         $score = $score.substr($decimalMark, 1); //remove '0' from '0.25' -> .25
 
         $retval = recordMark($student, $subjectID, $date, $class, $score);

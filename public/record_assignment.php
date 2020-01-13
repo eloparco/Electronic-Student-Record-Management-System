@@ -2,10 +2,13 @@
 require_once('utility.php');
 session_start();
 header('Location: assignment_recording.php');
+define("CLASS_SID_SSN", "class_sID_ssn");
+define("SUBTITLE", "subtitle");
+define("TITLE", "title");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['class_sID_ssn']) && isset($_POST['date']) && isset($_POST['title']) && isset($_POST['subtitle']) && 
-    !empty($_POST['class_sID_ssn']) && !empty($_POST['date'])  && !empty($_POST['title']) && !empty($_POST['subtitle'])){
+    if(isset($_POST[CLASS_SID_SSN]) && isset($_POST['date']) && isset($_POST['title']) && isset($_POST[SUBTITLE]) && 
+    !empty($_POST[CLASS_SID_SSN]) && !empty($_POST['date'])  && !empty($_POST['title']) && !empty($_POST[SUBTITLE])){
 
         if(isset($_FILES['file']) && !empty(strtolower(end(explode('.',$_FILES['file']['name']))))){
             // Get file data
@@ -14,10 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $file_tmp = mySanitizeString($_FILES['file']['tmp_name']);
             $file_type = mySanitizeString($_FILES['file']['type']);
             $file_ext=strtolower(end(explode('.',mySanitizeString($_FILES['file']['name']))));
-
-            // Uncomment for debug
-            // $_SESSION[MSG] = "DEBUG: filename: ".$file_name." File size: ".$file_size." file tmp: ".file_tmp." file type: ".$file_type." file ext: ".$file_ext;
-            // die();
 
             // Supported extension
             $extensions= array("jpeg","jpg","png", "pdf", "md", "txt", "ods");
@@ -45,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die();
             }
 
-            $fields = explode("_", $_POST['class_sID_ssn']);
+            $fields = explode("_", $_POST[CLASS_SID_SSN]);
             
             $class = $fields[0];
             $subjectID = $fields[1];
@@ -53,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $date =$_POST['date'];
             $title = $_POST['title'];
-            $subtitle = $_POST['subtitle'];
+            $subtitle = $_POST[SUBTITLE];
             $attachment = "uploads/".$_FILES["file"]["name"];
 
             $retval = recordAssignment($class, $subjectID, $date, $title, $subtitle, $attachment);
@@ -62,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             die();
         } else {
-            $fields = explode("_", $_POST['class_sID_ssn']);
+            $fields = explode("_", $_POST[CLASS_SID_SSN]);
             
             $class = $fields[0];
             $subjectID = $fields[1];
@@ -70,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $date =$_POST['date'];
             $title = $_POST['title'];
-            $subtitle = $_POST['subtitle'];
+            $subtitle = $_POST[SUBTITLE];
             $attachment = "NULL";
 
             $retval = recordAssignment($class, $subjectID, $date, $title, $subtitle, $attachment);

@@ -1,38 +1,40 @@
 <?php
     include('role_pages.php');
+    define("CURR_USER_TYPE", "myUserType");
+    define("SESSION_VAR", "mySession");
 ?>
 <header>    
     <nav class="navbar navbar-dark fixed-top bg-dark flex-nowrap p-0"> <!-- flex-md-nowrap -> flex-nowrap -->
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href=<?php 
-        if(isset($_SESSION['myUserType'])) {
-            if($_SESSION['myUserType'] == 'PARENT') {
+        if(isset($_SESSION[CURR_USER_TYPE])) {
+            if($_SESSION[CURR_USER_TYPE] == 'PARENT') {
                 echo 'user_parent.php';
             }
-            else if($_SESSION['myUserType'] == 'SECRETARY_OFFICER') {
+            else if($_SESSION[CURR_USER_TYPE] == 'SECRETARY_OFFICER') {
                 echo 'user_secretary.php';
             }
-            else if($_SESSION['myUserType'] == 'TEACHER') {
+            else if($_SESSION[CURR_USER_TYPE] == 'TEACHER') {
                 echo 'user_teacher.php';
             }
-            else if($_SESSION['myUserType'] == 'PRINCIPAL') {
+            else if($_SESSION[CURR_USER_TYPE] == 'PRINCIPAL') {
                 echo 'user_principal.php';
             }
-            else if($_SESSION['myUserType'] == 'SYS_ADMIN') {
+            else if($_SESSION[CURR_USER_TYPE] == 'SYS_ADMIN') {
                 echo 'user_admin.php';
             }
         }?>>
             <?php 
-                echo $_SESSION['myUserType']; 
+                echo $_SESSION[CURR_USER_TYPE]; 
             ?>
         </a>
         <?php
-            $roles = get_roles_per_user($_SESSION['mySession']);
+            $roles = get_roles_per_user($_SESSION[SESSION_VAR]);
             if(count($roles) > 1){
         ?>
         <div class="dropdown ml-auto">
 			<a id="dRoles" role="button" data-toggle="dropdown" href="#">
-			<button type="button" class="btn btn-warning dropdown-toggle" id="username" value="<?php echo $_SESSION['mySession']; ?>">
-            <?php echo $_SESSION['mySession']; ?>
+			<button type="button" class="btn btn-warning dropdown-toggle" id="username" value="<?php echo $_SESSION[SESSION_VAR]; ?>">
+            <?php echo $_SESSION[SESSION_VAR]; ?>
             </button>
 			<span class="caret"></span>
 			</a>

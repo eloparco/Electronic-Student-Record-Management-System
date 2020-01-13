@@ -2,13 +2,15 @@
 require_once('utility.php');
 session_start();
 header('Location: communication_recording.php');
+define("TITLE", "title");
+define("SUBTITLE", "subtitle");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['title']) && isset($_POST['subtitle']) && 
-    !empty($_POST['title']) && !empty($_POST['subtitle'])){
+    if(isset($_POST[TITLE]) && isset($_POST[SUBTITLE]) && 
+    !empty($_POST[TITLE]) && !empty($_POST[SUBTITLE])){
 
-        $title = $_POST['title'];
-        $subtitle = $_POST['subtitle'];
+        $title = $_POST[TITLE];
+        $subtitle = $_POST[SUBTITLE];
 
         $retval = recordCommunication($title, $subtitle);
         $_SESSION[MSG] = $retval;

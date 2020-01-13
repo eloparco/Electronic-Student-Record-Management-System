@@ -2,10 +2,12 @@
 include('includes/config.php');
 require_once('utility.php');
 https_redirect();
- 
+define("CHILD", "child");
+define("TABLE_CELL", "</td>\n");
+
 $children = get_children_of_parent($_SESSION['mySession']);
-if(!empty($children) && !isset($_SESSION['child'])){
-  $_SESSION['child'] = $children[0]['SSN'];
+if(!empty($children) && !isset($_SESSION[CHILD])){
+  $_SESSION[CHILD] = $children[0]['SSN'];
   $_SESSION['childFullName'] = $children[0]['Name'].' '.$children[0]['Surname'].' - '.$children[0]['SSN'];
 }
 
@@ -71,7 +73,7 @@ if(!empty($children) && !isset($_SESSION['child'])){
             <select class="form-control" id="subjectSelection" name="subjectSelection">
             <option></option>
             <?php
-                $subjects = get_list_of_subjects($_SESSION['child']);
+                $subjects = get_list_of_subjects($_SESSION[CHILD]);
                 foreach($subjects as $subject){
                     echo "<option>" . $subject . "</option>\n";
                 }
@@ -101,8 +103,8 @@ if(!empty($children) && !isset($_SESSION['child'])){
         </thead>
         <tbody>
         <?php
-            if(isset($_SESSION['child'])){
-                $scores = get_scores_per_child_and_date($_SESSION['child'], date('Y-m-d', time()-365*24*60*60), date('Y-m-d'));
+            if(isset($_SESSION[CHILD])){
+                $scores = get_scores_per_child_and_date($_SESSION[CHILD], date('Y-m-d', time()-365*24*60*60), date('Y-m-d'));
                 foreach($scores as $score){
                     $date = date('jS M Y', strtotime($score['Date']));
                     $date_js = date('d/m/Y', strtotime($date));

@@ -2,17 +2,20 @@
     require_once('utility.php');
     session_start();
     header('Location: final_mark_recording.php');
+    define("SCORE", "score");
+    define("STUDENT", "student");
+    define("CLASS_SUBID_SSN", "class_sID_ssn");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-       if(isset($_POST['class_sID_ssn']) && isset($_POST['student']) && isset($_POST['score']) 
-       && !empty($_POST['class_sID_ssn']) && !empty($_POST['student']) && !empty($_POST['score'])){
+       if(isset($_POST[CLASS_SUBID_SSN]) && isset($_POST[STUDENT]) && isset($_POST[SCORE]) 
+       && !empty($_POST[CLASS_SUBID_SSN]) && !empty($_POST[STUDENT]) && !empty($_POST[SCORE])){
 
-            $fields = explode("_", $_POST['class_sID_ssn']);
+            $fields = explode("_", $_POST[CLASS_SUBID_SSN]);
             $class = $fields[0];
             $subjectID = $fields[1];
 
-            $student = $_POST['student'];
-            $score = $_POST['score'];
+            $student = $_POST[STUDENT];
+            $score = $_POST[SCORE];
 
             $retval = recordFinalMark($student, $subjectID, $score);
             $_SESSION[MSG] = $retval;
