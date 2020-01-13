@@ -109,9 +109,9 @@ if(!empty($children) && !isset($_SESSION[CHILD])){
                     $date = date('jS M Y', strtotime($score['Date']));
                     $date_js = date('d/m/Y', strtotime($date));
                     echo '<tr data-subject="' . $score['Subject'] . '" data-date="' . $date_js . '">'."\n";
-                    echo "<td>" . $score['Subject'] . "</td>\n";
-                    echo '<td>' . $date . "</td>\n";
-                    echo "<td>" . $score['Score'] . "</td>\n";
+                    echo "<td>" . $score['Subject'] . TABLE_CELL;
+                    echo '<td>' . $date . TABLE_CELL;
+                    echo "<td>" . $score['Score'] . TABLE_CELL;
                     echo "</tr>\n";
                 }
             }
