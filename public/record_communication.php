@@ -2,7 +2,6 @@
 require_once('utility.php');
 session_start();
 header('Location: communication_recording.php');
-define("TITLE", "title");
 define("SUBTITLE", "subtitle");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

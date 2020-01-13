@@ -4,7 +4,6 @@ session_start();
 header('Location: assignment_recording.php');
 define("CLASS_SID_SSN", "class_sID_ssn");
 define("SUBTITLE", "subtitle");
-define("TITLE", "title");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST[CLASS_SID_SSN]) && isset($_POST['date']) && isset($_POST[TITLE]) && isset($_POST[SUBTITLE]) && 

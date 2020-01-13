@@ -1,8 +1,7 @@
 <?php
   include("includes/config.php");
   require_once('utility.php');
-  define("TITLE", "Title");
-  define("DESCRIPTION", "Description");
+
 
   https_redirect();
   /* LOGGED IN CHECK */
