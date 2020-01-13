@@ -79,6 +79,11 @@ define("ERROR_BINDING_MARK_PREP", "Error in binding paramters to marks_prep.");
 define("CLASS_SCHOOL", "Class");
 define("TITLE", "Title");
 define("DESCRIPTION", "Description");
+define("ERROR_MSG_DB_CONN", "Error in connection to database. [Retrieving subjects of student]");
+define("SUNDAY_LAST_WK", "sunday last week");
+define("SUNDAY_THIS_WK", "sunday this week");
+define("CUSTOM_DATE_FORMAT", "d/m/Y");
+define("HINT_RETRY", "Please retry.");
 
 class UtilityException extends Exception {
     public function errorMessage() {
@@ -723,7 +728,7 @@ function get_list_of_subjects($childSSN, $ini_path=''){
                       "WHERE M.SubjectID=S.ID AND StudentSSN=?\n" . 
                       "ORDER BY Name";
     if(!$con){
-        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+        die(ERROR_MSG_DB_CONN."\n");
     }
     $subjects_prep = mysqli_prepare($con, $subjects_query);
     if(!$subjects_prep){
@@ -752,15 +757,15 @@ function isInThisWeek($date) {
     $date = str_replace("/", ".", $date);
     $date = strtotime($date);
     
-    $FirstDay = strtotime('sunday last week');
-    $LastDay =  strtotime('sunday this week');
+    $FirstDay = strtotime(SUNDAY_LAST_WK);
+    $LastDay =  strtotime(SUNDAY_THIS_WK);
     
     return $date > $FirstDay && $date < $LastDay;
 }
 
 function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description, $ini_path='') {
-    $FirstDay = date('d/m/Y', strtotime('sunday last week'));
-    $LastDay = date('d/m/Y', strtotime('sunday this week'));
+    $FirstDay = date(CUSTOM_DATE_FORMAT, strtotime(SUNDAY_LAST_WK));
+    $LastDay = date(CUSTOM_DATE_FORMAT, strtotime(SUNDAY_THIS_WK));
 
     if(!isInThisWeek($date) || $date === "") {
         return TOPIC_RECORDING_WRONG_DATE." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;
@@ -782,7 +787,6 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
                 return TOPIC_RECORDING_OK;
             }
         } catch (Exception $e) {
-            // $err = mysqli_error($con);
             mysqli_close($con);
             return TOPIC_RECORDING_FAILED;
         }
@@ -820,8 +824,8 @@ function recordCommunication($title, $subtitle, $ini_path=''){
 }
 
 function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
-    $FirstDay = date('d/m/Y', strtotime('sunday last week'));
-    $LastDay = date('d/m/Y', strtotime('sunday this week'));
+    $FirstDay = date(CUSTOM_DATE_FORMAT, strtotime(SUNDAY_LAST_WK));
+    $LastDay = date(CUSTOM_DATE_FORMAT, strtotime(SUNDAY_THIS_WK));
 
     if(!isInThisWeek($date)) {
         return MARK_RECORDING_FAILED." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;
@@ -910,7 +914,7 @@ function get_attendance($childSSN, $ini_path=''){
                       "FROM ATTENDANCE\n" . 
                       "WHERE StudentSSN=?\n";             
     if(!$con){
-        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+        die(ERROR_MSG_DB_CONN."\n");
     }
     $attendance_prep = mysqli_prepare($con, $attendance_query);
     if(!$attendance_prep){
@@ -1192,7 +1196,7 @@ function get_list_of_classes($ini_path='') {
 
     $classes_query = "SELECT DISTINCT(Name) FROM CLASS ORDER BY Name;";
     if(!$con){
-        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+        die(ERROR_MSG_DB_CONN."\n");
     }
     $classes_prep = mysqli_prepare($con, $classes_query);
     if(!$classes_prep){
@@ -1281,11 +1285,11 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
                 throw new UtilityException('File already exists, please select another one.'); 
             }
             if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");')){
-                throw new UtilityException('Please retry.');
+                throw new UtilityException(HINT_RETRY);
             }
             
             if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;')){
-                throw new UtilityException('Please retry.');
+                throw new UtilityException(HINT_RETRY);
             }
             
             $row = mysqli_fetch_array($result); 
@@ -1297,7 +1301,7 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
                 mysqli_close($db_con);            
                 return  'File correctly uploaded.';
             } else{   
-                throw new UtilityException('Please retry.');                
+                throw new UtilityException(HINT_RETRY);                
             }  
 
         } catch (Exception $e) {         
@@ -1318,7 +1322,7 @@ function get_list_of_student_notes($studentSSN, $ini_path='') {
                       "WHERE N.SubjectID=S.ID AND StudentSSN=?\n" . 
                       "ORDER BY Date DESC";
     if(!$con){
-        die('Error in connection to database. [Retrieving subjects of student]'."\n");
+        die(ERROR_MSG_DB_CONN."\n");
     }
     $notes_prep = mysqli_prepare($con, $notes_query);
     if(!$notes_prep){
@@ -1422,8 +1426,9 @@ function https_redirect() {
         $diff = time() - $_SESSION['time'];
         if ($diff > MAX_INACTIVITY) {
             $_SESSION=array();
-            if (session_id() != "" || isset($_COOKIE[session_name()]))
+            if (session_id() != "" || isset($_COOKIE[session_name()])){
                 setcookie(session_name(), '', time()-2592000, '/');
+            }
             session_destroy();
 
             header(HTTP_REDIRECT_MSG);

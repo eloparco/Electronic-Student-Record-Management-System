@@ -1,6 +1,10 @@
 <?php
 require_once('utility.php');
 session_start();
+define("USR_NAME", "username");
+define("USR_SURNME", "surname");
+define("TYPE_ACCOUNT","account_type");
+
 /* TYPE LOGGED IN CHECK */
 if(!userTypeLoggedIn('SYS_ADMIN')) {   
     myRedirectTo('login.php', 'SessionTimeOut');
@@ -9,15 +13,15 @@ if(!userTypeLoggedIn('SYS_ADMIN')) {
 header('Location: account_form.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['ssn']) && isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['username']) && isset($_POST['account_type']) 
-        && !empty($_POST['ssn']) && !empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['username']) && !empty($_POST['account_type'])) {
+    if(isset($_POST['ssn']) && isset($_POST['name']) && isset($_POST[USR_SURNME]) && isset($_POST[USR_NAME]) && isset($_POST[TYPE_ACCOUNT]) 
+        && !empty($_POST['ssn']) && !empty($_POST['name']) && !empty($_POST[USR_SURNME]) && !empty($_POST[USR_NAME]) && !empty($_POST[TYPE_ACCOUNT])) {
 
         /* get values from POST */
         $ssn = $_POST['ssn'];
         $name = $_POST['name'];
-        $surname = $_POST['surname'];
-        $username = $_POST['username'];
-        $accountType = $_POST['account_type'];
+        $surname = $_POST[USR_SURNME];
+        $username = $_POST[USR_NAME];
+        $accountType = $_POST[TYPE_ACCOUNT];
 
         /* check value format */
         $isEmailCorrect = checkEmail($username);

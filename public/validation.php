@@ -3,12 +3,18 @@ require_once('utility.php');
 session_start();
 header('Location: login.php');
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['username']) && isset($_POST['password']) && 
-        !empty($_POST['username']) && !empty($_POST['password'])) {
+define("PWD", "password");
+define("USR", "username");
+define("CONST_TIME", "time");
+define("SESSION_LBL", "mySession");
+define8("USR_TYPE", "myUserType");
 
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(isset($_POST[USR]) && isset($_POST[PWD]) && 
+        !empty($_POST[USR]) && !empty($_POST[PWD])) {
+
+        $username = $_POST[USR];
+        $password = $_POST[PWD];
 
         $isPasswordCorrect = checkPassword($password);
         $isEmailCorrect = checkEmail($username);
@@ -23,29 +29,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = mySanitizeString($username);
             $retVal = tryLogin($username, $password);
             if($retVal == LOGIN_TEACHER_OK) {
-                $_SESSION['time'] = time(); 
-                $_SESSION['mySession'] = $username;
-                $_SESSION['myUserType'] = 'TEACHER';
+                $_SESSION[CONST_TIME] = time(); 
+                $_SESSION[SESSION_LBL] = $username;
+                $_SESSION[USR_TYPE] = 'TEACHER';
                 header('Location: user_teacher.php');
             } else if($retVal == LOGIN_PARENT_OK) {
-                $_SESSION['time'] = time(); 
-                $_SESSION['mySession'] = $username;
-                $_SESSION['myUserType'] = 'PARENT';
+                $_SESSION[CONST_TIME] = time(); 
+                $_SESSION[SESSION_LBL] = $username;
+                $_SESSION[USR_TYPE] = 'PARENT';
                 header('Location: user_parent.php');
             } else if($retVal == LOGIN_SECRETARY_OK) {
-                $_SESSION['time'] = time(); 
-                $_SESSION['mySession'] = $username;
-                $_SESSION['myUserType'] = 'SECRETARY_OFFICER';
+                $_SESSION[CONST_TIME] = time(); 
+                $_SESSION[SESSION_LBL] = $username;
+                $_SESSION[USR_TYPE] = 'SECRETARY_OFFICER';
                 header('Location: user_secretary.php');
             } else if($retVal == LOGIN_PRINCIPAL_OK) {
-                $_SESSION['time'] = time(); 
-                $_SESSION['mySession'] = $username;
-                $_SESSION['myUserType'] = 'PRINCIPAL';
+                $_SESSION[CONST_TIME] = time(); 
+                $_SESSION[SESSION_LBL] = $username;
+                $_SESSION[USR_TYPE] = 'PRINCIPAL';
                 header('Location: user_principal.php');
             } else if($retVal == LOGIN_ADMIN_OK) {
-                $_SESSION['time'] = time(); 
-                $_SESSION['mySession'] = $username;
-                $_SESSION['myUserType'] = 'SYS_ADMIN';
+                $_SESSION[CONST_TIME] = time(); 
+                $_SESSION[SESSION_LBL] = $username;
+                $_SESSION[USR_TYPE] = 'SYS_ADMIN';
                 header('Location: user_admin.php');
             } else if($retVal == CHANGE_PASSWORD) {                
                 header('Location: update_password.php');

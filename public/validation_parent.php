@@ -1,6 +1,9 @@
 <?php
 require_once('utility.php');
 session_start();
+define("PARENT_NAME", "username");
+define("PARENT_SURNME", "surname");
+
 /* TYPE LOGGED IN CHECK */
 if(!userTypeLoggedIn('SECRETARY_OFFICER')) {   
     myRedirectTo('login.php', 'SessionTimeOut');
@@ -9,14 +12,14 @@ if(!userTypeLoggedIn('SECRETARY_OFFICER')) {
 header('Location: parent_form.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['ssn']) && isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['username']) 
-        && !empty($_POST['ssn']) && !empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['username'])) {
+    if(isset($_POST['ssn']) && isset($_POST['name']) && isset($_POST[PARENT_SURNME]) && isset($_POST[PARENT_NAME]) 
+        && !empty($_POST['ssn']) && !empty($_POST['name']) && !empty($_POST[PARENT_SURNME]) && !empty($_POST[PARENT_NAME])) {
 
         /* get values from POST */
         $ssn = $_POST['ssn'];
         $name = $_POST['name'];
-        $surname = $_POST['surname'];
-        $username = $_POST['username'];
+        $surname = $_POST[PARENT_SURNME];
+        $username = $_POST[PARENT_NAME];
 
         /* check value format */
         $isEmailCorrect = checkEmail($username);
