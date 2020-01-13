@@ -2,11 +2,7 @@
 include('includes/config.php');
 require_once('utility.php');
 https_redirect();
-<<<<<<< HEAD
 define("TABLE_CELL_MARKS", "</td>\n");
-=======
-define("TABLE_CELL", "</td>\n");
->>>>>>> ae5a58f0f59d09b876b48908367f381bbb40e669
 
 $children = get_children_of_parent($_SESSION['mySession']);
 if(!empty($children) && !isset($_SESSION[CHILD])){
