@@ -7,7 +7,7 @@ define("PWD", "password");
 define("USR", "username");
 define("CONST_TIME", "time");
 define("SESSION_LBL", "mySession");
-define8("USR_TYPE", "myUserType");
+define("USR_TYPE", "myUserType");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST[USR]) && isset($_POST[PWD]) && 

@@ -1,5 +1,5 @@
 <?php 
-    define("CHILD", "child");
+    define("CHILD_DASHBOARD", "child");
     define("ACTIVE_CHILD", "ACTIVE_CHILD");
 
     if(session_status() == PHP_SESSION_NONE) {

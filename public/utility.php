@@ -78,6 +78,8 @@ define("NAME", "Name");
 define("ERROR_BINDING_MARK_PREP", "Error in binding paramters to marks_prep.");
 define("CLASS_SCHOOL", "Class");
 define("TITLE", "Title");
+
+define("CHILD", "child");
 define("DESCRIPTION", "Description");
 define("ERROR_MSG_DB_CONN", "Error in connection to database. [Retrieving subjects of student]");
 define("SUNDAY_LAST_WK", "sunday last week");
