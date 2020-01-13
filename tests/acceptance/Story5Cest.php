@@ -73,7 +73,7 @@ class Story5Cest{
         $I->click('Setup class composition');
         // check correct number of elements inside lists
         $I->wait(1);
-        $I->seeNumberOfElements(['css' => '#student_list > li'], 3);
+        $I->seeNumberOfElements(['css' => '#student_list > li'], 5);
         // control the numbers of elements in each list of students to match the correct number of related students
         $I->wait(5);
         $I->click('Logout');

@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `ASSIGNMENT` (
 --
 
 INSERT INTO `ASSIGNMENT` (`Class`, `SubjectID`, `DateOfAssignment`, `DeadlineDate`, `Title`, `Description`, `Attachment`) VALUES
-('1A', 4, '2019-12-15', '2019-12-16', 'Prova', 'Prova con file', 'uploads/ciao.txt');
+('1A', 4, CURDATE()-1, CURDATE(), 'Prova', 'Prova con file', 'uploads/ciao.txt');
 
 -- --------------------------------------------------------
 
@@ -100,8 +100,8 @@ CREATE TABLE IF NOT EXISTS `CHILD` (
 INSERT INTO `CHILD` (`SSN`, `Name`, `Surname`, `SSNParent1`, `SSNParent2`, `Class`) VALUES
 ('AAABBBCCC1234567', 'Giuseppe', 'Ponci', 'PNCMSM75D20L219X', NULL, '1A'),
 ('MNDGPP04E14L219U', 'Giuseppe', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
-('BRBSMN04A24L219R', 'Simone', 'Barbero', 'BRBGPP57M04L219W', NULL, '1O'),
-('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', NULL, '1A'),
+('BRBSMN04A24L219R', 'Simone', 'Barbero', 'BRBGPP57M04L219W', 'RSSMRA70A01F205V', '1O'),
+('MNDLRT04E14L219I', 'Alberto', 'Mandini', 'MNDFPP68C16L219N', 'PLLMRT70E68L219Q', '1A'),
 ('PNCRCR02C13L219K', 'Riccardo', 'Ponci', 'PNCMSM75D20L219X', 'FLCRRT77B43L219Q', '1A');
 
 -- --------------------------------------------------------

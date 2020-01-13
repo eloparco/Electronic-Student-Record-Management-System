@@ -119,6 +119,7 @@ if (isset($_FILES["file"]["type"]) && isset($_REQUEST[CLASS_SELECTION])) {
           }
         }
         $_SESSION[MSG] = "";
+        unset($_REQUEST['classSelection']);
       } ?>
 
       <button class="btn btn-lg btn-primary btn-block mt-2" type="submit" id="submit">Submit</button>

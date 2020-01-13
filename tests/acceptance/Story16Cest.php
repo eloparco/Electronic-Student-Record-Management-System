@@ -2,6 +2,8 @@
 
 class Story16Cest
 {
+    const PARENT_USER = "r.filicaro@parent.esrmsystem.com";
+    const PARENT_PSW = "Roberta77";
     // tests
     public function testDownloadFileNotAvailable(AcceptanceTester $I)
     {
@@ -9,10 +11,7 @@ class Story16Cest
         $I->maximizeWindow();
 
         // login as a parent
-        $I->amOnPage('/login.php');
-        $I->fillField('username', 'r.filicaro@parent.esrmsystem.com');
-        $I->fillField('password', 'Roberta77');
-        $I->click('Sign in');
+        $I->login(self::PARENT_USER, self::PARENT_PSW);
         
         // click on the option to download support material
         $I->waitForElementClickable('#support_material_dashboard', 10);
@@ -26,10 +25,7 @@ class Story16Cest
         $I->maximizeWindow();
 
         // login as teacher
-        $I->amOnPage('/login.php');
-        $I->fillField('username', 'aaa@bbb.com');
-        $I->fillField('password', 'a1a1a1a1');
-        $I->click('Sign in');      
+        $I->login(self::PARENT_USER, self::PARENT_PSW);
 
         // click on the option to publish timetable in the dashboard
         $I->waitForElementClickable('#publishMaterial', 10);
@@ -55,10 +51,7 @@ class Story16Cest
         $I->click('Logout');
 
         // login as a parent
-        $I->amOnPage('/login.php');
-        $I->fillField('username', 'r.filicaro@parent.esrmsystem.com');
-        $I->fillField('password', 'Roberta77');
-        $I->click('Sign in');
+        $I->login(self::PARENT_USER, self::PARENT_PSW);
         
         // click on the option to download support material
         $I->waitForElementClickable('#support_material_dashboard', 10);

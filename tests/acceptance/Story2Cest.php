@@ -45,10 +45,10 @@ class Story2Cest
 
         // check if database updated
         $I->seeInDatabase('TOPIC', [
-            'Class' => '1A',
-            'Date' => date('Y/m/d'),
+            'Class' => '1B',
+            'Date' => date('Y-m-d'),
             'StartHour' => 3,
-            'SubjectID' => 1,
+            'SubjectID' => 2,
             'TeacherSSN' => 'aaa111',
             'Title' => 'Mock topic',
             'Description' => 'Mock description'

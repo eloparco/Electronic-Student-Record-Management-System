@@ -1,7 +1,7 @@
 <?php
 
 use PHPMailer\PHPMailer\PHPMailer;
-require '../vendor/autoload.php';
+require dirname(__FILE__) . '/../vendor/autoload.php';
 
 //DEBUG //inser destinatio email here
 //sendMail('', '09127312');

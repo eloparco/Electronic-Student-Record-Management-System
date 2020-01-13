@@ -83,9 +83,8 @@ define("DESCRIPTION", "Description");
 class UtilityException extends Exception {
     public function errorMessage() {
       //error message
-      $errorMsg = 'Error on line '.$this->getLine().' in '.$this->getFile()
+      return 'Error on line '.$this->getLine().' in '.$this->getFile()
       .': <b>'.$this->getMessage().'</b>';
-      return $errorMsg;
     }
   }
 
@@ -409,8 +408,9 @@ function tryInsertParent($ssn, $name, $surname, $username, $password, $usertype,
                             throw new UtilityException();
                         }else {
                             mysqli_stmt_close($prep3);
-                            if(!mysqli_commit($con)) // do the final commit
+                            if(!mysqli_commit($con)) {// do the final commit
                                 throw new UtilityException();
+                            }
                             sendMail($username, $password);//to send real e-mail
                             mysqli_autocommit($con, TRUE);
                             mysqli_close($con);
@@ -502,7 +502,7 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                         if(!mysqli_commit($con)){ //do the final commit
                             throw new UtilityException();
                         }
-                        //sendMail($username, $password); //to send real e-mail
+                        sendMail($username, $password); //to send real e-mail
                         mysqli_autocommit($con, TRUE);
                         mysqli_close($con);
                         return INSERT_ACCOUNT_OK;
@@ -591,9 +591,10 @@ function tryInsertAccount($ssn, $name, $surname, $username, $password, $usertype
                 if(!mysqli_stmt_execute($prep4)) {
                     throw new UtilityException();
                 } else { 
-                    if(!mysqli_commit($con)) //do the final commit
+                    if(!mysqli_commit($con)) {//do the final commit
                         throw new UtilityException();
-                    //sendMail($username, $password); //to send real e-mail
+                    }
+                    sendMail($username, $password); //to send real e-mail
                     mysqli_stmt_close($prep4);
                     mysqli_autocommit($con, TRUE);
                     mysqli_close($con);
@@ -761,26 +762,29 @@ function recordTopic($class, $date, $startHour, $SubjectID, $teacherSSN, $Title,
     $FirstDay = date('d/m/Y', strtotime('sunday last week'));
     $LastDay = date('d/m/Y', strtotime('sunday this week'));
 
-    if(!isInThisWeek($date) || $date === "")
+    if(!isInThisWeek($date) || $date === "") {
         return TOPIC_RECORDING_WRONG_DATE." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;
+    }
 
     $con = connect_to_db($ini_path);
     
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "INSERT INTO TOPIC VALUES(?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?, ?);")) 
+            if(!$prep = mysqli_prepare($con, "INSERT INTO TOPIC VALUES(?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?, ?);")) {
                 throw new UtilityException();
-            if(!mysqli_stmt_bind_param($prep, "ssiisss", $class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description)) 
+            }
+            if(!mysqli_stmt_bind_param($prep, "ssiisss", $class, $date, $startHour, $SubjectID, $teacherSSN, $Title, $Description)) {
                 throw new UtilityException();
-            if(!mysqli_stmt_execute($prep)) 
+            }
+            if(!mysqli_stmt_execute($prep)) {
                 throw new UtilityException();
-            else{
+            } else {
                 return TOPIC_RECORDING_OK;
             }
         } catch (Exception $e) {
-            $err = mysqli_error($con);
+            // $err = mysqli_error($con);
             mysqli_close($con);
-            return $err;
+            return TOPIC_RECORDING_FAILED;
         }
     } else {
         return DB_ERROR;
@@ -795,13 +799,15 @@ function recordCommunication($title, $subtitle, $ini_path=''){
 
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "INSERT INTO COMMUNICATION (Title, Description, Date) VALUES (?, ?, CURRENT_DATE);")) 
+            if(!$prep = mysqli_prepare($con, "INSERT INTO COMMUNICATION (Title, Description, Date) VALUES (?, ?, CURRENT_DATE);")) {
                 throw new UtilityException();
-            if(!mysqli_stmt_bind_param($prep, "ss", $title, $subtitle)) 
+            }
+            if(!mysqli_stmt_bind_param($prep, "ss", $title, $subtitle)) {
                 throw new UtilityException();
-            if(!mysqli_stmt_execute($prep)) 
+            }
+            if(!mysqli_stmt_execute($prep)) {
                 throw new UtilityException();
-            else{
+            } else {
                 return COMMUNICATION_RECORDING_OK;
             }
         } catch (Exception $e) {
@@ -817,21 +823,25 @@ function recordMark($student, $subject, $date, $class, $score, $ini_path='') {
     $FirstDay = date('d/m/Y', strtotime('sunday last week'));
     $LastDay = date('d/m/Y', strtotime('sunday this week'));
 
-    if(!isInThisWeek($date))
+    if(!isInThisWeek($date)) {
         return MARK_RECORDING_FAILED." Date ".$date." not valid. Please insert a date between ".$FirstDay." and ".$LastDay;
-    if($score <= 0 || $score > 10)
+    }
+    if($score <= 0 || $score > 10) {
         return MARK_RECORDING_FAILED." Score value not valid.";
+    }
 
     $con = connect_to_db($ini_path);
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "INSERT INTO MARK VALUES(?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?);")) 
+            if(!$prep = mysqli_prepare($con, "INSERT INTO MARK VALUES(?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?);")) {
                 throw new UtilityException();
-            if(!mysqli_stmt_bind_param($prep, "sissd", $student, $subject, $date, $class, $score)) 
+            }
+            if(!mysqli_stmt_bind_param($prep, "sissd", $student, $subject, $date, $class, $score)) {
                 throw new UtilityException();
-            if(!mysqli_stmt_execute($prep)) 
+            }
+            if(!mysqli_stmt_execute($prep)) {
                 throw new UtilityException();
-            else{
+            } else {
                 return MARK_RECORDING_OK;
             }
         } catch (Exception $e) {
@@ -1235,8 +1245,9 @@ function recordAssignment($class, $subject, $date, $title, $description, $attach
 function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_name, $file_size, $ini_path=''){    
 
         //Limit max dimension file (20MB)
-        if ($file_size > 20971520) 
+        if ($file_size > 20971520) {
             return 'File size is higher than 20MB.';
+        }
 
         //check valid extension
         $ext_ok = array('doc', 'docx', 'pdf', 'ppt', 'pptx', 'txt');
@@ -1270,11 +1281,11 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
                 throw new UtilityException('File already exists, please select another one.'); 
             }
             if(!$result = mysqli_query($db_con, 'INSERT INTO SUPPORT_MATERIAL(SubjectID, Class, Date, Filename) VALUES("'.$subjectID.'","'.$class.'", CURRENT_DATE,"'.$userfile_name.'");')){
-                throw new UtilityException();
+                throw new UtilityException('Please retry.');
             }
             
             if(!$result = mysqli_query($db_con, 'SELECT LAST_INSERT_ID() as id;')){
-                throw new UtilityException();
+                throw new UtilityException('Please retry.');
             }
             
             $row = mysqli_fetch_array($result); 
@@ -1286,7 +1297,7 @@ function uploadSupportMaterialFile($class, $subjectID, $userfile_tmp, $userfile_
                 mysqli_close($db_con);            
                 return  'File correctly uploaded.';
             } else{   
-                throw new UtilityException();                
+                throw new UtilityException('Please retry.');                
             }  
 
         } catch (Exception $e) {         
@@ -1375,13 +1386,15 @@ function recordNote($student, $subject, $date, $description, $ini_path='') {
     if($con && mysqli_connect_error() == NULL) {
         try {
             // INSERT INTO `NOTE`(`StudentSSN`, `SubjectID`, `Description`, `Date`) VALUES ([value-1],[value-2],[value-3],[value-4])
-            if(!$prep = mysqli_prepare($con, "INSERT INTO NOTE VALUES(?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'));")) 
+            if(!$prep = mysqli_prepare($con, "INSERT INTO NOTE VALUES(?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'));")) {
                 throw new UtilityException();
-            if(!mysqli_stmt_bind_param($prep, "ssss", $student, $subject, $description, $date)) 
+            }
+            if(!mysqli_stmt_bind_param($prep, "ssss", $student, $subject, $description, $date)) {
                 throw new UtilityException();
-            if(!mysqli_stmt_execute($prep)) 
+            }
+            if(!mysqli_stmt_execute($prep)) {
                 throw new UtilityException();
-            else{
+            } else {
                 return NOTE_RECORDING_OK;
             }
         } catch (Exception $e) {
@@ -1465,6 +1478,8 @@ function getCoordinatorSubject($teacher, $ini_path=''){
 
     mysqli_stmt_bind_result($prep_query, $Class, $Name, $ID, $SSN);
 
+    $subjects = array();
+
     while (mysqli_stmt_fetch($prep_query)) {
         $fields = array(CLASS_SCHOOL => $Class, NAME => $Name, "ID" => $ID, "SSN" => $SSN);
         $subjects[] = $fields;
@@ -1477,17 +1492,22 @@ function getCoordinatorSubject($teacher, $ini_path=''){
 }
 
 function recordFinalMark($student, $subjectID, $score, $ini_path=''){
+    if(!is_int($score) || $score < 1 || $score > 10){
+        return MARK_RECORDING_FAILED;
+    }
 
     $con = connect_to_db($ini_path);
     if($con && mysqli_connect_error() == NULL) {
         try {
-            if(!$prep = mysqli_prepare($con, "INSERT INTO FINAL_MARK VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE Mark = ?;"))
+            if(!$prep = mysqli_prepare($con, "INSERT INTO FINAL_MARK VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE Mark = ?;")) {
                 throw new UtilityException();
-            if(!mysqli_stmt_bind_param($prep, "siii", $student, $subjectID, $score, $score)) 
+            }
+            if(!mysqli_stmt_bind_param($prep, "siii", $student, $subjectID, $score, $score)) {
                 throw new UtilityException();
-            if(!mysqli_stmt_execute($prep)) 
+            }
+            if(!mysqli_stmt_execute($prep)) {
                 throw new UtilityException();
-            else{
+            } else{
                 return MARK_RECORDING_OK;
             }
         } catch (Exception $e) {
