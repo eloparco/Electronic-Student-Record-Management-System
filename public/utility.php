@@ -1417,11 +1417,9 @@ function https_redirect() {
 
     if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off') {
         $location = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        if (ctype_alnum($location)) {
-            header('HTTP/1.1 301 Moved Permanently');
-            header(LOCATION_LABEL.$location);
-            exit;
-        }  
+        header('HTTP/1.1 301 Moved Permanently');
+        header(LOCATION_LABEL.$location);
+        exit;
     }
     
     if (isset($_SESSION['time'])) {
