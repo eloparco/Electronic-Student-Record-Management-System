@@ -3,9 +3,6 @@
 use PHPMailer\PHPMailer\PHPMailer;
 require dirname(__FILE__) . '/../vendor/autoload.php';
 
-//DEBUG //inser destinatio email here
-//sendMail('', '09127312');
-
 function sendMail($email, $password){    
 
     $mail = new PHPMailer();

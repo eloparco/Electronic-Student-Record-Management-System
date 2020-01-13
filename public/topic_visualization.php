@@ -2,7 +2,8 @@
   include("includes/config.php"); 
   require_once('utility.php');
   https_redirect();
-  
+  define("WEEK_IDX", "weekIndex");
+
   /* LOGGED IN CHECK */
   if(!userLoggedIn() || !userTypeLoggedIn('PARENT')) {   
     myRedirectTo('login.php', 'SessionTimeOut');
@@ -34,9 +35,9 @@
       }
       
       // Delete cookie used for weekIndex
-      if (isset($_COOKIE['weekIndex'])) {
-        unset($_COOKIE['weekIndex']);
-        setcookie('weekIndex', '', time() - 3600, '/'); // Empty value and old timestamp
+      if (isset($_COOKIE[WEEK_IDX])) {
+        unset($_COOKIE[WEEK_IDX]);
+        setcookie(WEEK_IDX, '', time() - 3600, '/'); // Empty value and old timestamp
       }
     ?>
 </head>

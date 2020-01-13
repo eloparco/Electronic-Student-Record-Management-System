@@ -2,6 +2,9 @@
 include("includes/config.php");
 require_once('utility.php');
 include("download_file.php");//needed to download file
+define("MSG_RES", "msg_result");
+define("TABLE_ELMNT", " </td>");
+
 https_redirect();
 
 /* LOGGED IN CHECK */
@@ -9,8 +12,8 @@ if (!userLoggedIn() || !userTypeLoggedIn('PARENT')) {
   myRedirectTo('login.php', 'SessionTimeOut');
   exit;
 }
-if (isset($_SESSION['msg_result']) && !empty($_SESSION['msg_result']) && ($_SESSION['msg_result'] == LOGIN_PARENT_OK)) {
-  $_SESSION['msg_result'] = '';
+if (isset($_SESSION[MSG_RES]) && !empty($_SESSION[MSG_RES]) && ($_SESSION[MSG_RES] == LOGIN_PARENT_OK)) {
+  $_SESSION[MSG_RES] = '';
 }
 ?>
 
@@ -111,9 +114,9 @@ if (isset($_SESSION['msg_result']) && !empty($_SESSION['msg_result']) && ($_SESS
                 <?php                  
                 foreach ($files as $file) {
                     echo '<tr>';
-                        echo '<td>'.$file['Date'].' </td>';
-                        echo '<td>'.$file['Subject'].' </td>';
-                        echo '<td>'.$file['Filename'].' </td>';                        
+                        echo '<td>'.$file['Date'].TABLE_ELMNT;
+                        echo '<td>'.$file['Subject'].TABLE_ELMNT;
+                        echo '<td>'.$file['Filename'].TABLE_ELMNT;                        
                         echo '<td><a href="show_support_material.php?file_id='.$file['Id'].'" id="download'.$file['Id'].'">Download</a></td>';
                     echo '</tr>';                    
                 }                            

@@ -1,6 +1,10 @@
 <?php
 include("includes/config.php");
 require_once('utility.php');
+define("ABSENT", "ABSENT");
+define("EARLY_EXIT", "EARLY_EXIT");
+
+
 https_redirect();
 
 /* LOGGED IN CHECK */
@@ -87,7 +91,7 @@ if (isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_P
         'EARLY_EXIT' => 'lightSalmon '
       );
       $titles = array(
-        'ABSENT' => 'ABSENT',
+        'ABSENT' => ABSENT,
         '10_MIN_LATE' => '10 MINUTES LATE',
         '1_HOUR_LATE' => '1 HOUR LATE',
         'EARLY_EXIT' => 'EARLY EXIT: HOUR '
@@ -107,8 +111,8 @@ if (isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_P
         }
 
         if ($attendance['ExitHour'] !== 6) {
-          $title = $titles['EARLY_EXIT'] . $attendance['ExitHour'];
-          $color = $colors['EARLY_EXIT'];
+          $title = $titles[EARLY_EXIT] . $attendance['ExitHour'];
+          $color = $colors[EARLY_EXIT];
           $events[] = array('title' => $title, 'color' => $color, 'start' => $start);
         }
       }

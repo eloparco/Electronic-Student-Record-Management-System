@@ -7,8 +7,8 @@ define("SUBTITLE", "subtitle");
 define("TITLE", "title");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST[CLASS_SID_SSN]) && isset($_POST['date']) && isset($_POST['title']) && isset($_POST[SUBTITLE]) && 
-    !empty($_POST[CLASS_SID_SSN]) && !empty($_POST['date'])  && !empty($_POST['title']) && !empty($_POST[SUBTITLE])){
+    if(isset($_POST[CLASS_SID_SSN]) && isset($_POST['date']) && isset($_POST[TITLE]) && isset($_POST[SUBTITLE]) && 
+    !empty($_POST[CLASS_SID_SSN]) && !empty($_POST['date'])  && !empty($_POST[TITLE]) && !empty($_POST[SUBTITLE])){
 
         if(isset($_FILES['file']) && !empty(strtolower(end(explode('.',$_FILES['file']['name']))))){
             // Get file data
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $teacher = $fields[2];
 
             $date =$_POST['date'];
-            $title = $_POST['title'];
+            $title = $_POST[TITLE];
             $subtitle = $_POST[SUBTITLE];
             $attachment = "uploads/".$_FILES["file"]["name"];
 
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $teacher = $fields[2];
 
             $date =$_POST['date'];
-            $title = $_POST['title'];
+            $title = $_POST[TITLE];
             $subtitle = $_POST[SUBTITLE];
             $attachment = "NULL";
 

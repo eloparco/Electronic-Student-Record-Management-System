@@ -2,22 +2,25 @@
 require_once('utility.php');
 session_start();
 header('Location: note_recording.php');
+define("NOTE_DESCRIPTION", "description");
+define("NOTE_STUDENT", "student");
+define("CLASS_SUBJECT_ID_SSN_NOTE", "class_sID_ssn");
 
 $db_con = connect_to_db();
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if( isset($_POST['class_sID_ssn']) && isset($_POST['date']) && isset($_POST['student']) && isset($_POST['description']) 
-    && !empty($_POST['class_sID_ssn']) && !empty($_POST['date']) && !empty($_POST['student']) && !empty($_POST['description'])) {
+    if( isset($_POST[CLASS_SUBJECT_ID_SSN_NOTE]) && isset($_POST['date']) && isset($_POST[NOTE_STUDENT]) && isset($_POST[NOTE_DESCRIPTION]) 
+    && !empty($_POST[CLASS_SUBJECT_ID_SSN_NOTE]) && !empty($_POST['date']) && !empty($_POST[NOTE_STUDENT]) && !empty($_POST[NOTE_DESCRIPTION])) {
 
-        $fields = explode("_", $_POST['class_sID_ssn']);
+        $fields = explode("_", $_POST[CLASS_SUBJECT_ID_SSN_NOTE]);
         $class = $fields[0];
         $subjectID = $fields[1];
 
         $date =$_POST['date']; 
 
-        $student = $_POST['student'];
-        $description = $_POST['description'];
+        $student = $_POST[NOTE_STUDENT];
+        $description = $_POST[NOTE_DESCRIPTION];
 
         // Check if the student is present
         $queryCheck = "SELECT COUNT(*) FROM ATTENDANCE WHERE StudentSSN = ? AND DATE = CURRENT_DATE AND PRESENCE = 'ABSENT';";
