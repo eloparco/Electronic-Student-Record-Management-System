@@ -122,7 +122,7 @@ if(isset($_SESSION[MSG]) && !empty($_SESSION[MSG]) && $_SESSION[MSG] == LOGIN_TE
          <!-- Date picker -->
       <div class="form-group-class">
         <label for="dataSelection" class="col-form-label">Select a deadline</label>
-        <input type="text" class="form-control" id="dataSelection" name="date">
+        <input type="text" class="form-control" id="dataSelection" name="date" readonly="readonly">
       </div>
 
       <!-- Setup datepicker -->

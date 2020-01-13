@@ -224,10 +224,9 @@ CREATE TABLE IF NOT EXISTS `COMMUNICATION` (
 --
 
 INSERT INTO `COMMUNICATION` (`id`, `Title`, `Description`, `Date`) VALUES
-(1, '
-Maintenance stop', 'Service stop notice for maintenance on Sunday, January 4 ', '2019-12-05'),
-(2, 'Call for scholarship for students born in 2005', 'The deadline for the scholarship application is open until January 31', '2019-12-11'),
-(3, 'School trip to Milano', 'Students who wish to attend must submit the corresponding authorization signed by their parents before December 18', '2019-12-08'),
+(1, 'Maintenance stop', 'Service stop notice for maintenance on Sunday, January 19', '2020-01-05'),
+(2, 'Call for scholarship (students born in 2005)', 'The deadline for the scholarship application is open until January 31', '2020-01-08'),
+(3, 'School trip to Milan', 'Students who wish to attend must submit the corresponding authorization signed by their parents before February 8', '2020-01-09'),
 (4, 'Opening of the 2019-2020 Course', 'Dear user, we proceeded to the opening of the virtual campus.', '2019-09-08');
 
 -- --------------------------------------------------------

@@ -2,7 +2,11 @@
 include('includes/config.php');
 require_once('utility.php');
 https_redirect();
+<<<<<<< HEAD
 define("TABLE_CELL_MARKS", "</td>\n");
+=======
+define("TABLE_CELL", "</td>\n");
+>>>>>>> ae5a58f0f59d09b876b48908367f381bbb40e669
 
 $children = get_children_of_parent($_SESSION['mySession']);
 if(!empty($children) && !isset($_SESSION[CHILD])){
@@ -82,12 +86,12 @@ if(!empty($children) && !isset($_SESSION[CHILD])){
         <!-- Start date seletion -->
         <div class="form-group mb-2">
             <label class="filterLabel" for="startDateSelection">From</label>
-            <input type="text" class="form-control date-selection" id='startDateSelection' name='startDateSelection'>
+            <input type="text" class="form-control date-selection" id='startDateSelection' name='startDateSelection' readonly="readonly">
         </div>
         <!-- End date seletion -->
         <div class="form-group mb-2">
             <label class="filterLabel" for="endDateSelection">To</label>
-            <input type="text" class="container form-control date-selection" id='endDateSelection'>
+            <input type="text" class="container form-control date-selection" id='endDateSelection' readonly="readonly">
         </div>
     </div>
     <div>
