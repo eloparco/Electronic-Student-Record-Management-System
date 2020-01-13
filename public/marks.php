@@ -2,8 +2,7 @@
 include('includes/config.php');
 require_once('utility.php');
 https_redirect();
-define("CHILD", "child");
-define("TABLE_CELL", "</td>\n");
+define("TABLE_CELL_MARKS", "</td>\n");
 
 $children = get_children_of_parent($_SESSION['mySession']);
 if(!empty($children) && !isset($_SESSION[CHILD])){
@@ -109,9 +108,9 @@ if(!empty($children) && !isset($_SESSION[CHILD])){
                     $date = date('jS M Y', strtotime($score['Date']));
                     $date_js = date('d/m/Y', strtotime($date));
                     echo '<tr data-subject="' . $score['Subject'] . '" data-date="' . $date_js . '">'."\n";
-                    echo "<td>" . $score['Subject'] . TABLE_CELL;
-                    echo '<td>' . $date . TABLE_CELL;
-                    echo "<td>" . $score['Score'] . TABLE_CELL;
+                    echo "<td>" . $score['Subject'] . TABLE_CELL_MARKS;
+                    echo '<td>' . $date . TABLE_CELL_MARKS;
+                    echo "<td>" . $score['Score'] . TABLE_CELL_MARKS;
                     echo "</tr>\n";
                 }
             }

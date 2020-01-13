@@ -78,7 +78,6 @@ define("NAME", "Name");
 define("ERROR_BINDING_MARK_PREP", "Error in binding paramters to marks_prep.");
 define("CLASS_SCHOOL", "Class");
 define("TITLE", "Title");
-
 define("CHILD", "child");
 define("DESCRIPTION", "Description");
 define("ERROR_MSG_DB_CONN", "Error in connection to database. [Retrieving subjects of student]");
@@ -1499,7 +1498,7 @@ function getCoordinatorSubject($teacher, $ini_path=''){
 }
 
 function recordFinalMark($student, $subjectID, $score, $ini_path=''){
-    if(!is_int($score) || $score < 1 || $score > 10){
+    if($score < 1 || $score > 10){
         return MARK_RECORDING_FAILED;
     }
 
@@ -1507,13 +1506,13 @@ function recordFinalMark($student, $subjectID, $score, $ini_path=''){
     if($con && mysqli_connect_error() == NULL) {
         try {
             if(!$prep = mysqli_prepare($con, "INSERT INTO FINAL_MARK VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE Mark = ?;")) {
-                throw new UtilityException();
+                throw new UtilityException("Error in prepare");
             }
             if(!mysqli_stmt_bind_param($prep, "siii", $student, $subjectID, $score, $score)) {
-                throw new UtilityException();
+                throw new UtilityException("Error in bind");
             }
             if(!mysqli_stmt_execute($prep)) {
-                throw new UtilityException();
+                throw new UtilityException("Error in execute");
             } else{
                 return MARK_RECORDING_OK;
             }
