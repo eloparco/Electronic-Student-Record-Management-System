@@ -100,7 +100,7 @@ if (isset($_SESSION[MSG_RES]) && !empty($_SESSION[MSG_RES]) && ($_SESSION[MSG_RE
           ?> 
             <div class="row">
             <table class="col table" id="materialTable">
-                <caption>Show support material</caption>
+                <caption></caption>
                 <thead>
                     <tr>
                         <th id="date_show_support_mat" onclick="sortTableDate()">Date</th>
