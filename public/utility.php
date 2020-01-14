@@ -800,6 +800,7 @@ function recordCommunication($title, $subtitle, $ini_path=''){
     if($title === "" || $subtitle === ""){
         return COMMUNICATION_RECORDING_FAILED;
     }
+
     $con = connect_to_db($ini_path);
 
     if($con && mysqli_connect_error() == NULL) {
